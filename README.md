@@ -16,4 +16,17 @@ il est fabrique avec la wordnet fracais, (WOLF)[http://alpage.inria.fr/~sagot/wo
 * 2k adverbes
 * 70k noms
 
+###Des suffixes
+* que$ -> k (banque -> bank, casque -> cask, disque -> disk)
+* aire$ -> ary (tertiaire -> tertiairy)
+* eur$ -> or (chercheur -> chearchor)
+* ie$ -> y (cajolerie -> cajolery)
+* té$ -> ty (extremité -> extremity)
+* re$ -> er (ordre -> order, tigre -> tiger)
+* ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
+* ant$ -> ing (changeant -> changeing)
+* er$ -> "" (documenter -> document)
+* osis$ -> ose (osmose -> osmose)
+* ment$ -> ly (confortablement -> confortably)
+
 On va apprendre les regles. BADDA BING BADA BOOM!
