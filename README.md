@@ -3,11 +3,12 @@
 
 ##Traitement automatique du langage naturel en client font
 
-Salut: Ce projet a commencer par (spencermountain)[https://twitter.com/spencermountain], un debutant francais. Donx, on a besoin beacoup d'aide francais, sinon programmatique.
+Salut: Ce projet a été commencé par (spencermountain)[https://twitter.com/spencermountain], un debutant en français. 
+Donc, nous avons besoin de beaucoup d'aide en francais ou en développement.
 
-Nous avons committer de fait un projet TALN responsable, avec un API francais.
+Nous avons committé de fait un projet NLP (traitement du langage), avec une API française.
 
-Il y a beacoup des problems pour resoudre, et des differences grammatique entre les versions anglais et francais.
+Il y a beacoup de problèmes / de differences grammaticales entre la version anglaise et la version française.
 
 ##Donc,
 il est fabrique avec la wordnet fracais, (WOLF)[http://alpage.inria.fr/~sagot/wolf-en.html]:
