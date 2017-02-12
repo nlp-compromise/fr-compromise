@@ -3,8 +3,12 @@
 
 ##Traitement automatique du langage naturel en client font
 
-Salut: Ce projet a été commencé par (spencermountain)[https://twitter.com/spencermountain], un debutant en français. 
+Salut: Ce projet a été commencé par (spencermountain)[https://twitter.com/spencermountain], un debutant en français.
 Donc, nous avons besoin de beaucoup d'aide en francais ou en développement.
+
+
+Veuillez rejoindre [le groupe Slack](slack.compromise.cool) pour discuter des détails.
+
 
 Nous avons committé de fait un projet NLP (traitement du langage), avec une API française.
 
@@ -31,3 +35,8 @@ il est fabrique avec la wordnet fracais, (WOLF)[http://alpage.inria.fr/~sagot/wo
 * ment$ -> ly (confortablement -> confortably)
 
 On va apprendre les regles. BADDA BING BADA BOOM!
+
+##Des sources
+* [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
+
+* [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
