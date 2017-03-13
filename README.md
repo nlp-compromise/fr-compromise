@@ -40,3 +40,5 @@ On va apprendre les regles. BADDA BING BADA BOOM!
 * [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
 
 * [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
+
+* [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
