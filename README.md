@@ -14,14 +14,14 @@ Nous avons committé de fait un projet NLP (traitement du langage), avec une API
 
 Il y a beacoup de problèmes / de differences grammaticales entre la version anglaise et la version française.
 
-##Donc,
+## Donc,
 il est fabrique avec la wordnet fracais, (WOLF)[http://alpage.inria.fr/~sagot/wolf-en.html]:
 * 10k adjectifs
 * 12k verbes
 * 2k adverbes
 * 70k noms
 
-###Des suffixes
+### Des suffixes
 * que$ -> k (banque -> bank, casque -> cask, disque -> disk)
 * aire$ -> ary (tertiaire -> tertiairy)
 * eur$ -> or (chercheur -> chearchor)
@@ -36,9 +36,11 @@ il est fabrique avec la wordnet fracais, (WOLF)[http://alpage.inria.fr/~sagot/wo
 
 On va apprendre les regles. BADDA BING BADA BOOM!
 
-##Des sources
+## Des sources
 * [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
 
 * [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
 
 * [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
+
+* [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
