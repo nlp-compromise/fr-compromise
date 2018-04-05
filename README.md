@@ -1,7 +1,7 @@
 
 :boom: C'est [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise) en francais! :boom:
 
-##Traitement automatique du langage naturel en client font
+## Traitement automatique du langage naturel en client font
 
 Salut: Ce projet a été commencé par (spencermountain)[https://twitter.com/spencermountain], un debutant en français.
 Donc, nous avons besoin de beaucoup d'aide en francais ou en développement.
