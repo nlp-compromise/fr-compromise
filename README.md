@@ -1,46 +1,95 @@
+:boom: This repository is the french version of [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise)! :boom:
 
-:boom: C'est [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise) en francais! :boom:
+# NLP tool adapted to French
 
-## Traitement automatique du langage naturel en client font
+Hi! This project was started by [spencermountain](https://twitter.com/spencermountain), a beginner in French. We therefore need some help about french or development.
 
-Salut: Ce projet a été commencé par (spencermountain)[https://twitter.com/spencermountain], un debutant en français.
-Donc, nous avons besoin de beaucoup d'aide en francais ou en développement.
+You can join [the Slack group](slack.compromise.cool) to discuss the details.
+You will find here a project of Natural Language Processing adapted to French.
 
+Grammar differences between the English and the French version are quite huge, which leads to great challenges.
 
-Veuillez rejoindre [le groupe Slack](slack.compromise.cool) pour discuter des détails.
+## What material is being used?
 
+The project is built upon the French WordNet ([WOLF](http://alpage.inria.fr/~sagot/wolf-en.html)), which contains:
 
-Nous avons committé de fait un projet NLP (traitement du langage), avec une API française.
+- 10k adjectives
+- 12k verbs
+- 2k adverbs
+- 70k nouns
 
-Il y a beacoup de problèmes / de differences grammaticales entre la version anglaise et la version française.
+### A few suffixes
 
-## Donc,
-il est fabrique avec la wordnet fracais, (WOLF)[http://alpage.inria.fr/~sagot/wolf-en.html]:
-* 10k adjectifs
-* 12k verbes
-* 2k adverbes
-* 70k noms
+- que$ -> k (banque -> bank, casque -> cask, disque -> disk)
+- aire$ -> ary (tertiaire -> tertiairy)
+- eur$ -> or (chercheur -> chearchor)
+- ie$ -> y (cajolerie -> cajolery)
+- té$ -> ty (extremité -> extremity)
+- re$ -> er (ordre -> order, tigre -> tiger)
+- ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
+- ant$ -> ing (changeant -> changeing)
+- er$ -> "" (documenter -> document)
+- osis$ -> ose (osmose -> osmose)
+- ment$ -> ly (confortablement -> confortably)
 
-### Des suffixes
-* que$ -> k (banque -> bank, casque -> cask, disque -> disk)
-* aire$ -> ary (tertiaire -> tertiairy)
-* eur$ -> or (chercheur -> chearchor)
-* ie$ -> y (cajolerie -> cajolery)
-* té$ -> ty (extremité -> extremity)
-* re$ -> er (ordre -> order, tigre -> tiger)
-* ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
-* ant$ -> ing (changeant -> changeing)
-* er$ -> "" (documenter -> document)
-* osis$ -> ose (osmose -> osmose)
-* ment$ -> ly (confortablement -> confortably)
+We're gonna learn the rules. BADDA BING BADA BOOM!
+
+## External Resources
+
+- [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
+
+- [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
+
+- [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
+
+- [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
+
+----
+
+# French version
+
+:boom: Ce dépôt est la version française de [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise) ! :boom:
+
+# Outil de Natural Language Processing en français
+
+Bonjour ! Ce projet a été démarré par [spencermountain](https://twitter.com/spencermountain), un débutant en français. Nous avons donc besoin de toute aide disponible, que ce soit en français ou en développement.
+
+Vous êtes invités à rejoindre [le groupe Slack](slack.compromise.cool) pour discuter des détails.
+Vous trouverez ici un projet de traitement du langage naturel adapté à la langue française.
+
+Les différences grammaticales entre la version anglaise et la version française ne sont pas négligeables, ce qui pose de grands défis.
+
+## Quel est le matériel utilisé ?
+
+Le projet est réalisé grâce au WordNet français (>WOLF](http://alpage.inria.fr/~sagot/wolf-en.html)), qui contient :
+
+- 10 000 adjectifs
+- 12 000 verbes
+- 2 000 adverbes
+- 70 000 noms
+
+### Quelques suffixes
+
+- que$ -> k (banque -> bank, casque -> cask, disque -> disk)
+- aire$ -> ary (tertiaire -> tertiairy)
+- eur$ -> or (chercheur -> chearchor)
+- ie$ -> y (cajolerie -> cajolery)
+- té$ -> ty (extremité -> extremity)
+- re$ -> er (ordre -> order, tigre -> tiger)
+- ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
+- ant$ -> ing (changeant -> changeing)
+- er$ -> "" (documenter -> document)
+- osis$ -> ose (osmose -> osmose)
+- ment$ -> ly (confortablement -> confortably)
 
 On va apprendre les regles. BADDA BING BADA BOOM!
 
-## Des sources
-* [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
+## Ressources externes
 
-* [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
+- [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
 
-* [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
+- [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
 
-* [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
+- [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
+
+- [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
