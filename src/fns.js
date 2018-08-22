@@ -18,7 +18,7 @@ exports.sameArr = function(arr, arrB) {
   if (typeof arr !== typeof arrB || arr.length !== arrB.length) {
     return null;
   }
-  for(let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (arr[i] !== arrB[i]) {
       return false;
     }
@@ -36,8 +36,8 @@ exports.compact = function(arr) {
 };
 
 //shallow-combine two objects
-exports.extend = function (objA, objB) {
-  Object.keys(objB).forEach(function (k) {
+exports.extend = function(objA, objB) {
+  Object.keys(objB).forEach(function(k) {
     objA[k] = objB[k];
   });
   return objA;

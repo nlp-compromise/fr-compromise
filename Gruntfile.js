@@ -1,30 +1,33 @@
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   grunt.initConfig({
-
     watch: {
       files: ['./src/*', './src/**'],
-      tasks: ['run:index'],
+      tasks: ['run:index']
     },
 
     run: {
       index: {
-        exec: 'node ./src/index.js',
+        exec: 'node ./src/index.js'
       },
       build: {
-        exec: 'browserify ./src/index.js -o ./build/nlp-compromise.es5.js -t [ babelify --presets [ es2015 ] ]'
+        exec:
+          'browserify ./src/index.js -o ./build/nlp-compromise.es5.js -t [ babelify --presets [ es2015 ] ]'
       }
     },
 
     filesize: {
       base: {
-        files: [{
-          src: ['./build/nlp-compromise.es5.js']
-        }],
+        files: [
+          {
+            src: ['./build/nlp-compromise.es5.js']
+          }
+        ],
         options: {
-          ouput: [{
-            stdout: true
-          }]
+          ouput: [
+            {
+              stdout: true
+            }
+          ]
         }
       }
     },
@@ -48,11 +51,10 @@ module.exports = function (grunt) {
         options: {
           reportFormats: ['html'],
           quiet: true,
-          coverageFolder: './tests/coverage',
+          coverageFolder: './tests/coverage'
         }
       }
     }
-
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');

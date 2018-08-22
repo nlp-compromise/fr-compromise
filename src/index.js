@@ -1,19 +1,19 @@
 'use strict';
 
 let models = {
-  Term : require('./term/term.js'),
-  Text : require('./text/text.js'),
-  Sentence : require('./sentence/sentence.js'),
-// Verb : require('./term/verb/verb.js'),
-// Adjective : require('./term/adjective/adjective.js'),
-// Adverb : require('./term/adverb/adverb.js'),
-// Noun : require('./term/noun/noun.js'),
-// Value : require('./term/noun/value/value.js'),
-// Person : require('./term/noun/person/person.js'),
-// Place : require('./term/noun/place/place.js'),
-// Date : require('./term/noun/date/date.js'),
-// Organisation : require('./term/noun/organisation/organisation.js'),
-// Lexicon : require('./lexicon.js'),
+  Term: require('./term/term.js'),
+  Text: require('./text/text.js'),
+  Sentence: require('./sentence/sentence.js')
+  // Verb : require('./term/verb/verb.js'),
+  // Adjective : require('./term/adjective/adjective.js'),
+  // Adverb : require('./term/adverb/adverb.js'),
+  // Noun : require('./term/noun/noun.js'),
+  // Value : require('./term/noun/value/value.js'),
+  // Person : require('./term/noun/person/person.js'),
+  // Place : require('./term/noun/place/place.js'),
+  // Date : require('./term/noun/date/date.js'),
+  // Organisation : require('./term/noun/organisation/organisation.js'),
+  // Lexicon : require('./lexicon.js'),
 };
 
 const extend = function(m, context) {
@@ -22,7 +22,6 @@ const extend = function(m, context) {
 };
 
 function NLP() {
-
   this.plugin = function(obj) {
     obj = obj || {};
     Object.keys(obj).forEach(function(k) {
@@ -75,7 +74,10 @@ function NLP() {
 let nlp = new NLP();
 
 //export to window or webworker
-if (typeof window === 'object' || typeof DedicatedWorkerGlobalScope === 'function') {
+if (
+  typeof window === 'object' ||
+  typeof DedicatedWorkerGlobalScope === 'function'
+) {
   self.nlp_compromise = nlp;
 }
 //export to commonjs

@@ -4,7 +4,6 @@ const Term = require('../term/term.js');
 
 //a sentence is an array of Term objects, along with their various methods
 class Sentence {
-
   constructor(str) {
     const the = this;
     this.str = str || '';
@@ -13,7 +12,6 @@ class Sentence {
     this.terms = terms.map(function(s) {
       return new Term(s);
     });
-
   }
 
   //the ending punctuation
@@ -32,7 +30,7 @@ class Sentence {
     const types = {
       '?': 'interrogative',
       '!': 'exclamative',
-      '.': 'declarative',
+      '.': 'declarative'
     };
     return types[char] || 'declarative';
   }

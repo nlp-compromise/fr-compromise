@@ -11,7 +11,7 @@ var json = JSON.parse(parser.toJson(xml));
 let words = [];
 
 let len = json.WN.SYNSET.length;
-for(var i = 0; i < len; i++) {
+for (var i = 0; i < len; i++) {
   if (json.WN.SYNSET[i].SYNONYM.LITERAL !== '_EMPTY_') {
     if (json.WN.SYNSET[i].POS !== 'n') {
       continue;

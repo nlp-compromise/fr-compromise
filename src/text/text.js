@@ -29,7 +29,6 @@ class Text {
     };
   }
 
-
   //map over sentence methods
   text() {
     const arr = this.sentences.map(function(s) {
@@ -83,35 +82,35 @@ class Text {
   //mining
   people() {
     let arr = [];
-    for(let i = 0; i < this.sentences.length; i++) {
+    for (let i = 0; i < this.sentences.length; i++) {
       arr = arr.concat(this.sentences[i].people());
     }
     return arr;
   }
   places() {
     let arr = [];
-    for(let i = 0; i < this.sentences.length; i++) {
+    for (let i = 0; i < this.sentences.length; i++) {
       arr = arr.concat(this.sentences[i].places());
     }
     return arr;
   }
   organisations() {
     let arr = [];
-    for(let i = 0; i < this.sentences.length; i++) {
+    for (let i = 0; i < this.sentences.length; i++) {
       arr = arr.concat(this.sentences[i].organisations());
     }
     return arr;
   }
   dates() {
     let arr = [];
-    for(let i = 0; i < this.sentences.length; i++) {
+    for (let i = 0; i < this.sentences.length; i++) {
       arr = arr.concat(this.sentences[i].dates());
     }
     return arr;
   }
   values() {
     let arr = [];
-    for(let i = 0; i < this.sentences.length; i++) {
+    for (let i = 0; i < this.sentences.length; i++) {
       arr = arr.concat(this.sentences[i].values());
     }
     return arr;

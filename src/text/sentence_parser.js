@@ -10,8 +10,11 @@ const sentence_parser = function(text) {
   const chunks = text.split(/(\S.+?[.\?!])(?=\s+|$|")/g);
 
   //detection of non-sentence chunks
-  const abbrev_reg = new RegExp('\\b(' + abbreviations.join('|') + ')[.!?] ?$', 'i');
-  const acronym_reg = new RegExp('[ |\.][A-Z]\.?$', 'i');
+  const abbrev_reg = new RegExp(
+    '\\b(' + abbreviations.join('|') + ')[.!?] ?$',
+    'i'
+  );
+  const acronym_reg = new RegExp('[ |.][A-Z].?$', 'i');
   const elipses_reg = new RegExp('\\.\\.\\.*$');
 
   //loop through these chunks, and join the non-sentence chunks back together..
@@ -21,9 +24,19 @@ const sentence_parser = function(text) {
       //trim whitespace
       chunks[i] = chunks[i].replace(/^\s+|\s+$/g, '');
       //should this chunk be combined with the next one?
-      if (chunks[i + 1] && (chunks[i].match(abbrev_reg) || chunks[i].match(acronym_reg) || chunks[i].match(elipses_reg))) {
-        chunks[i + 1] = ((chunks[i] || '') + ' ' + (chunks[i + 1] || '')).replace(/ +/g, ' ');
-      } else if (chunks[i] && chunks[i].length > 0) { //this chunk is a proper sentence..
+      if (
+        chunks[i + 1] &&
+        (chunks[i].match(abbrev_reg) ||
+          chunks[i].match(acronym_reg) ||
+          chunks[i].match(elipses_reg))
+      ) {
+        chunks[i + 1] = (
+          (chunks[i] || '') +
+          ' ' +
+          (chunks[i + 1] || '')
+        ).replace(/ +/g, ' ');
+      } else if (chunks[i] && chunks[i].length > 0) {
+        //this chunk is a proper sentence..
         sentences.push(chunks[i]);
         chunks[i] = '';
       }

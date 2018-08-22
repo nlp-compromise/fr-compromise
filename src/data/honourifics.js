@@ -50,5 +50,5 @@ module.exports = [
   'res',
   'sens',
   'sfc',
-  'surg',
+  'surg'
 ];
