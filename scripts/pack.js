@@ -4,26 +4,25 @@ const efrt = require('efrt')
 // const nlpPlugin = require('compromise-plugin')
 
 console.log('\n 🕑  - packing lexicon..')
-const outFile = path.join(__dirname, '../../src/World/_data.js')
-
-const lexicon = require('../../data')
+const outFile = path.join(__dirname, '../src/World/_data.js')
+const lexicon = require('../data')
 
 //turn them into a series of flat-arrays
 let words = Object.keys(lexicon)
 let packed = {}
-words.forEach(word => {
+words.forEach((word) => {
   let tags = lexicon[word]
   if (typeof tags === 'string') {
     tags = [tags]
   }
-  tags.forEach(tag => {
+  tags.forEach((tag) => {
     packed[tag] = packed[tag] || []
     packed[tag].push(word)
   })
 })
 
 //pack each array into a tiny string
-Object.keys(packed).forEach(tag => {
+Object.keys(packed).forEach((tag) => {
   packed[tag] = efrt.pack(packed[tag])
 })
 
