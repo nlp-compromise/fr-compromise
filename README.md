@@ -1,3 +1,31 @@
+### Tasks
+
+for lexicon:
+
+- conjugate verbs (from infinitive)
+- inflect nouns (from singular)
+
+for tagger:
+
+- build a lexicon
+- suffix/regex lookups
+- noun fallback
+- grammar-based corrections
+
+gender:
+
+- tag male/female nouns
+- tag male/female adjectives
+- tag male/female verbs?
+
+### Notes
+
+- currently using english tag names, and API.
+- en-compromise normalizes accented characters like `è` to `e`
+-
+
+---
+
 :boom: This repository is the french version of [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise)! :boom:
 
 # NLP tool adapted to French
@@ -20,17 +48,17 @@ The project is built upon the French WordNet ([WOLF](http://alpage.inria.fr/~sag
 
 ### A few suffixes
 
-- que$ -> k (banque -> bank, casque -> cask, disque -> disk)
-- aire$ -> ary (tertiaire -> tertiairy)
-- eur$ -> or (chercheur -> chearchor)
-- ie$ -> y (cajolerie -> cajolery)
-- té$ -> ty (extremité -> extremity)
-- re$ -> er (ordre -> order, tigre -> tiger)
+- que\$ -> k (banque -> bank, casque -> cask, disque -> disk)
+- aire\$ -> ary (tertiaire -> tertiairy)
+- eur\$ -> or (chercheur -> chearchor)
+- ie\$ -> y (cajolerie -> cajolery)
+- té\$ -> ty (extremité -> extremity)
+- re\$ -> er (ordre -> order, tigre -> tiger)
 - ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
-- ant$ -> ing (changeant -> changeing)
-- er$ -> "" (documenter -> document)
-- osis$ -> ose (osmose -> osmose)
-- ment$ -> ly (confortablement -> confortably)
+- ant\$ -> ing (changeant -> changeing)
+- er\$ -> "" (documenter -> document)
+- osis\$ -> ose (osmose -> osmose)
+- ment\$ -> ly (confortablement -> confortably)
 
 We're gonna learn the rules. BADDA BING BADA BOOM!
 
@@ -44,7 +72,7 @@ We're gonna learn the rules. BADDA BING BADA BOOM!
 
 - [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
 
-----
+---
 
 # French version
 
@@ -70,17 +98,17 @@ Le projet est réalisé grâce au WordNet français (>WOLF](http://alpage.inria.
 
 ### Quelques suffixes
 
-- que$ -> k (banque -> bank, casque -> cask, disque -> disk)
-- aire$ -> ary (tertiaire -> tertiairy)
-- eur$ -> or (chercheur -> chearchor)
-- ie$ -> y (cajolerie -> cajolery)
-- té$ -> ty (extremité -> extremity)
-- re$ -> er (ordre -> order, tigre -> tiger)
+- que\$ -> k (banque -> bank, casque -> cask, disque -> disk)
+- aire\$ -> ary (tertiaire -> tertiairy)
+- eur\$ -> or (chercheur -> chearchor)
+- ie\$ -> y (cajolerie -> cajolery)
+- té\$ -> ty (extremité -> extremity)
+- re\$ -> er (ordre -> order, tigre -> tiger)
 - ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
-- ant$ -> ing (changeant -> changeing)
-- er$ -> "" (documenter -> document)
-- osis$ -> ose (osmose -> osmose)
-- ment$ -> ly (confortablement -> confortably)
+- ant\$ -> ing (changeant -> changeing)
+- er\$ -> "" (documenter -> document)
+- osis\$ -> ose (osmose -> osmose)
+- ment\$ -> ly (confortablement -> confortably)
 
 On va apprendre les regles. BADDA BING BADA BOOM!
 

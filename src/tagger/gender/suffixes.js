@@ -1,0 +1,208 @@
+// thank you https://frenchtogether.com/french-nouns-gender/
+
+// Typically masculine noun endings (+90%)
+const masc = [
+  '-an',
+  '-and',
+  '-ant',
+  '-ent',
+  '-in',
+  '-int',
+  '-om',
+  '-ond',
+  '-ont',
+  '-on', //(but not after s/c¸)
+  '-eau',
+  '-au',
+  '-aud',
+  '-aut',
+  '-o',
+  '-os',
+  '-ot',
+
+  '-ai',
+  '-ais',
+  '-ait',
+  '-es',
+  '-et',
+
+  '-ou',
+  '-out',
+  '-out',
+  '-oux',
+
+  '-i',
+  '-il',
+  '-it',
+  '-is',
+  '-y',
+
+  '-at',
+  '-as',
+  '-ois',
+  '-oit',
+
+  '-u',
+  '-us',
+  '-ut',
+  '-eu',
+
+  '-er',
+  '-é', // after C (C=t)
+  '-age',
+  '-ege',
+  '-ème',
+  '-ome',
+  '-aume',
+  '-isme',
+
+  '-as',
+  '-is',
+  '-os',
+  '-us',
+  '-ex',
+
+  '-it',
+  '-est',
+
+  '-al',
+  '-el',
+  '-il',
+  '-ol',
+  '-eul',
+  '-all',
+
+  '-if',
+  '-ef',
+
+  '-ac',
+  '-ic',
+  '-oc',
+  '-uc',
+
+  '-am',
+  '-um',
+  '-en',
+
+  '-air',
+  '-er',
+  '-erf',
+  '-ert',
+  '-ar',
+  '-arc',
+  '-ars',
+  '-art',
+  '-our',
+  '-ours',
+  '-or',
+  '-ord',
+  '-ors',
+  '-ort',
+  '-ir',
+  '-oir',
+  '-eur',
+
+  // (if animate)
+  '-ail',
+  '-eil',
+  '-euil',
+  '-ueil',
+
+  '-ing',
+]
+
+// Typically feminine noun endings (+90%)
+const fem = [
+  '-aie',
+  '-oue',
+  '-eue',
+  '-ion',
+  '-te',
+  '–ée',
+  '-ie',
+  '-ue',
+
+  '-asse',
+  '-ace',
+  '-esse',
+  '-ece',
+  '-aisse',
+  '-isse',
+  '-ice',
+  '-ousse',
+  '-ance',
+  '-anse',
+  '-ence',
+  '-once',
+
+  '-enne',
+  '-onne',
+  '-une',
+  '-ine',
+  '-aine',
+  '-eine',
+  '-erne',
+
+  '-ande',
+  '-ende',
+  '-onde',
+  '-ade',
+  '-ude',
+  '-arde',
+  '-orde',
+  '-euse',
+  '-ouse',
+  '-ase',
+  '-aise',
+  '-ese',
+  '-oise',
+  '-ise',
+  '-yse',
+  '-ose',
+  '-use',
+
+  '-ache',
+  '-iche',
+  '-eche',
+  '-oche',
+  '-uche',
+  '-ouche',
+  '-anche',
+
+  '-ave',
+  '-eve',
+  '-ive',
+
+  '-iere',
+  '-ure',
+  '-eure',
+
+  '-ette',
+  '-ete',
+  '–ête',
+  '-atte',
+  '-otte',
+  '-oute',
+  '-orte',
+  '-ante',
+  '-ente',
+  '-inte',
+  '-onte',
+
+  '-alle',
+  '-elle',
+  '-ille',
+  '-olle',
+
+  '-aille',
+  '-eille',
+  '-ouille',
+
+  '-appe',
+  '-ampe',
+  '-ombe',
+
+  '-igue',
+]
+
+module.exports = { masc: masc, fem: fem }

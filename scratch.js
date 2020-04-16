@@ -1,5 +1,5 @@
 const nlp = require('./src/index')
 
-let doc = nlp(`je l'amour`)
+let doc = nlp(`je suis jeneuse`)
 
 doc.debug()

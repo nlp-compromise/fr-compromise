@@ -1,6 +1,7 @@
 const steps = {
   lexicon: require('./01-lexicon'),
   emoji: require('./05-emoji'),
+  suffix: require('./04-suffixes'),
   contractions: require('./contractions'),
 }
 const tagger = function () {
@@ -14,6 +15,9 @@ const tagger = function () {
 
   for (let i = 0; i < terms.length; i += 1) {
     let term = terms[i]
+    //guess by suffix
+    steps.suffix(term, world)
+    //emoji and emoticons
     steps.emoji(term, world)
   }
 
