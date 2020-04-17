@@ -34,7 +34,7 @@ const buildWorld = function (world) {
   lexicon = expandLex(lexicon, world)
   // add em in
   Object.assign(world.words, lexicon)
-  console.log(world.stats())
+  // console.log(world.stats())
 
   // add our french tags
   world.addTags(tagset)

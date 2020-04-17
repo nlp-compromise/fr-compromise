@@ -10,9 +10,11 @@ module.exports = {
   MascNoun: {
     isA: 'Noun',
     notA: 'FemmeNoun',
+    color: 'blue',
   },
   FemmeNoun: {
     isA: 'Noun',
     notA: 'MascNoun',
+    color: 'blue',
   },
 }

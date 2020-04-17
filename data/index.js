@@ -36,6 +36,7 @@ const data = [
   [require('./misc/conjunctions'), 'Conjunction'],
   [require('./misc/currencies'), 'Currency'],
   [require('./misc/expressions'), 'Expression'],
+  [require('./misc/determiners'), 'Determiner'],
 ]
 for (let i = 0; i < data.length; i++) {
   const list = data[i][0]

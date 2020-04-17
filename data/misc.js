@@ -1,6 +1,7 @@
 module.exports = {
   n: 'Negative',
   ne: 'Negative',
+  ni: 'Negative',
 
   // copulas (incomplete)
   es: ['Copula', 'PresentTense'],

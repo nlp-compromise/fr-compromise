@@ -1,10 +1,12 @@
 const steps = {
   lexicon: require('./01-lexicon'),
   emoji: require('./05-emoji'),
+  case: require('./02-case'),
   suffix: require('./04-suffixes'),
   contractions: require('./contractions'),
   gender: require('./gender'),
   fallback: require('./fallback'),
+  corrections: require('./corrections'),
 }
 const tagger = function () {
   // replace l'amour with 'le amour'
@@ -24,7 +26,11 @@ const tagger = function () {
     // assume noun, if unknown
     steps.fallback(term, world)
   }
+  // titlecase to proper noun
+  steps.case(this)
   // tag masc or femme
   steps.gender(terms, world)
+  // sentence-based corrections
+  steps.corrections(this)
 }
 module.exports = tagger
