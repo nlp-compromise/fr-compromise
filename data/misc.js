@@ -23,6 +23,9 @@ module.exports = {
   ou: 'QuestionWord',
   qui: 'QuestionWord',
   quelle: 'QuestionWord',
+  que: 'QuestionWord',
+  qu: 'QuestionWord',
+  quand: 'QuestionWord',
 
   '&': 'Conjunction',
 

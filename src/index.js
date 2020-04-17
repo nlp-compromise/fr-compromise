@@ -19,4 +19,9 @@ const nlp = function (text = '', lexicon) {
 
 /** current version of the library */
 nlp.version = version
+
+/** print-out for tagger */
+nlp.verbose = function (bool) {
+  tokenize.verbose(bool)
+}
 module.exports = nlp

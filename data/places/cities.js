@@ -1,4 +1,9 @@
 module.exports = [
+  // french versions
+  'moscou',
+  'londres',
+  'genève',
+
   'aalborg',
   'aarhus',
   'abidjan',

@@ -28,6 +28,7 @@ module.exports = [
   {
     //4-letter
     euse: Adj,
+    ment: Avb,
   },
   {
     //5-letter

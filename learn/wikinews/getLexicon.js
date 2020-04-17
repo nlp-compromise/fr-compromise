@@ -21,6 +21,8 @@ lines.forEach((s) => {
 // CS: 90,
 // DET: 1353,
 // ET: 136,
+
+// nouns:
 // NC: 1877,
 // NPP: 493,
 // P: 1242,
@@ -51,8 +53,4 @@ const top = function (obj) {
   return arr
 }
 
-let lexicon = {
-  // adverbs: Object.keys(tags['ADV']),
-  // conjunctions: Object.keys(tags['CC']),
-}
-console.log(JSON.stringify(top(tags['ADV']), null, 2))
+console.log(JSON.stringify(top(tags['PROREL']), null, 2))

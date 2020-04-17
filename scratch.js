@@ -1,5 +1,6 @@
 const nlp = require('./src/index')
+nlp.verbose(true)
 
-let doc = nlp(`John al Foobar`)
+let doc = nlp(`doucement`)
 
 doc.debug()

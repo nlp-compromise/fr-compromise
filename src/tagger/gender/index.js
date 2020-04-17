@@ -2,7 +2,7 @@ const sufixes = require('./suffixes')
 
 const bySuffix = function (term, world) {
   const len = term.clean.length
-  let max = 7
+  let max = 6
   if (len <= max) {
     max = len - 1
   }

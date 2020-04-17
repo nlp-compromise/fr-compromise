@@ -1,7 +1,1 @@
-module.exports = [
-  'le',
-  'la',
-  'les',
-  // '',
-  // '',
-]
+module.exports = ['le', 'la', 'les', 'de', 'du', 'des', 'au', 'aux', 'ol']

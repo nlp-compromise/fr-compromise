@@ -1,4 +1,23 @@
 module.exports = [
+  // some french versions
+  'etats unis',
+  'russie',
+  'suisse',
+  'chine',
+  'georgie',
+  'allemagne',
+  'israel',
+  'espagne',
+  'italie',
+  'angleterre',
+  'bretagne',
+  'japon',
+  'amerique',
+  'australie',
+  'belgique',
+  'brésil',
+
+  // english versions
   'afghanistan',
   'albania',
   'algeria',

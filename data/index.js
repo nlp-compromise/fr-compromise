@@ -24,6 +24,10 @@ const data = [
   [require('./places/regions'), 'Region'],
   [require('./places/places'), 'Place'],
   [require('./places/cities'), 'City'],
+  // numbers
+  [require('./numbers/cardinals'), ['TextValue', 'Cardinal']],
+  [require('./numbers/ordinals'), ['TextValue', 'Ordinal']],
+  [require('./numbers/units'), 'Unit'],
   // verbs
   [require('./verbs/infinitives'), 'Infinitive'],
   // nouns
@@ -31,12 +35,17 @@ const data = [
   [require('./nouns/feminine'), 'FemmeNoun'],
   [require('./nouns/sportsTeams'), 'SportsTeam'],
   [require('./nouns/organizations'), 'Organization'],
+  [require('./nouns/possessives'), 'Possessive'],
+  [require('./nouns/pronouns'), 'Pronoun'],
   // misc
   [require('./misc/adverbs'), 'Adverb'],
   [require('./misc/conjunctions'), 'Conjunction'],
   [require('./misc/currencies'), 'Currency'],
   [require('./misc/expressions'), 'Expression'],
   [require('./misc/determiners'), 'Determiner'],
+  [require('./misc/conjunctions'), 'Conjunction'],
+  [require('./misc/determiners'), 'Determiner'],
+  [require('./misc/prepositions'), 'Preposition'],
 ]
 for (let i = 0; i < data.length; i++) {
   const list = data[i][0]
