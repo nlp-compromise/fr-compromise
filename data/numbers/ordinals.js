@@ -1,5 +1,5 @@
 module.exports = [
-  'zéroieme',
+  'zeroieme',
   'premier',
   'unieme',
   'deuxieme',

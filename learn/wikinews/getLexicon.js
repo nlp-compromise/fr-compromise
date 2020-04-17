@@ -53,4 +53,4 @@ const top = function (obj) {
   return arr
 }
 
-console.log(JSON.stringify(top(tags['PROREL']), null, 2))
+console.log(JSON.stringify(top(tags['U']), null, 2))

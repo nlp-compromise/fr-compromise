@@ -1,5 +1,5 @@
-// const tokenize = require('compromise/builds/compromise-tokenize')
-const tokenize = require('/Users/spencer/mountain/compromise/builds/compromise-tokenize.js')
+const tokenize = require('compromise/builds/compromise-tokenize')
+// const tokenize = require('/Users/spencer/mountain/compromise/builds/compromise-tokenize.js')
 const version = require('./_version')
 const tagger = require('./tagger')
 const makeWorld = require('./World')

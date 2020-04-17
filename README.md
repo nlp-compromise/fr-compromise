@@ -1,8 +1,36 @@
+Work in progress!!
+
+
+to run, `npm install`
+then `npm run watch`. This will re-run ./scratch.js
+
+if you change any of the data in `./data`, you'll need to run `npm run pack` to see changes.
+
+if you want to run the ML scripts, you'll need to download [the fr-wikinews dataset](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos) (23mb) by nicolas hernandez,
+and put it somewhere in `./learn`.
+
+**fr-compromise** uses the [tokenize-only build](https://observablehq.com/@spencermountain/compromise-tokenization#sentences) of the english compromise as the core functionality.
+It adds its own tagger, lexicon, conjugation scripts, and some new gender tags.
+
+This is unreleased and not ready for production.
+
+
 ## Tasks
 
 for lexicon:
 
-- french country/city names
+-[] french country/city names
+-[] (way) more infinitive verbs 
+-[] (way) more singular nouns 
+
+for conjugation:
+-[] past/present/future tenses
+-[] conjugate gender of adjectives
+-[] conjugate noun gender `professeur / professeure`
+-[] proper noun plural/inflections
+
+for tagger:
+-[] adjective gender
 
 ### Transformations
 
