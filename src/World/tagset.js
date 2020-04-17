@@ -7,4 +7,12 @@ module.exports = {
     isA: 'Adjective',
     notA: 'MascAdjective',
   },
+  MascNoun: {
+    isA: 'Noun',
+    notA: 'FemmeNoun',
+  },
+  FemmeNoun: {
+    isA: 'Noun',
+    notA: 'MascNoun',
+  },
 }

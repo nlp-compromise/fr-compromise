@@ -3,6 +3,8 @@ const steps = {
   emoji: require('./05-emoji'),
   suffix: require('./04-suffixes'),
   contractions: require('./contractions'),
+  gender: require('./gender'),
+  fallback: require('./fallback'),
 }
 const tagger = function () {
   // replace l'amour with 'le amour'
@@ -19,8 +21,10 @@ const tagger = function () {
     steps.suffix(term, world)
     //emoji and emoticons
     steps.emoji(term, world)
+    // assume noun, if unknown
+    steps.fallback(term, world)
   }
-
-  console.log('hello ')
+  // tag masc or femme
+  steps.gender(terms, world)
 }
 module.exports = tagger
