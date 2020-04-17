@@ -1,6 +1,7 @@
 const unpack = require('efrt-unpack')
 const lexData = require('./_data')
 const tagset = require('./tagset')
+const expandLex = require('./expand')
 
 const transforms = {
   adjectives: require('../transforms/adjectives'),
@@ -24,13 +25,17 @@ const unpackWords = function (data) {
 
 // basically, turn our english context into french
 const buildWorld = function (world) {
-  // supply our french lexicon
-  let lexicon = unpackWords(lexData)
-  world.addWords(lexicon)
-  // console.log(world.stats())
-
   // add our conjugators
   world.transforms = transforms
+
+  // supply our french lexicon
+  let lexicon = unpackWords(lexData)
+  // grow it out
+  lexicon = expandLex(lexicon, world)
+  // add em in
+  Object.assign(world.words, lexicon)
+  console.log(world.stats())
+
   // add our french tags
   world.addTags(tagset)
   return world

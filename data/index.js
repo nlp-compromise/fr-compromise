@@ -1,6 +1,6 @@
 //directory of files to pack with `node scripts/pack.js`
 //they are stored in compressed form
-const lex = {}
+const lex = require('./misc')
 
 //add-in the generic, flat word-lists
 const data = [
@@ -24,6 +24,18 @@ const data = [
   [require('./places/regions'), 'Region'],
   [require('./places/places'), 'Place'],
   [require('./places/cities'), 'City'],
+  // verbs
+  [require('./verbs/infinitives'), 'Infinitive'],
+  // nouns
+  [require('./nouns/masculine'), 'MascNoun'],
+  [require('./nouns/feminine'), 'FemmeNoun'],
+  [require('./nouns/sportsTeams'), 'SportsTeam'],
+  [require('./nouns/organizations'), 'Organization'],
+  // misc
+  [require('./misc/adverbs'), 'Adverb'],
+  [require('./misc/conjunctions'), 'Conjunction'],
+  [require('./misc/currencies'), 'Currency'],
+  [require('./misc/expressions'), 'Expression'],
 ]
 for (let i = 0; i < data.length; i++) {
   const list = data[i][0]

@@ -52,7 +52,7 @@ const top = function (obj) {
 }
 
 let lexicon = {
-  adverbs: Object.keys(tags['ADV']),
-  conjunctions: Object.keys(tags['CC']),
+  // adverbs: Object.keys(tags['ADV']),
+  // conjunctions: Object.keys(tags['CC']),
 }
-console.log(JSON.stringify(top(tags['ADJ']), null, 2))
+console.log(JSON.stringify(top(tags['ADV']), null, 2))

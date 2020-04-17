@@ -15,7 +15,8 @@
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
     "testb": "TESTENV=prod tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
     "watch": "amble ./scratch.js",
-    "build": "node scripts/build.js && rollup -c --silent"
+    "build": "node scripts/build.js && rollup -c --silent",
+    "pack": "node scripts/pack.js"
   },
   "prettier": {
     "trailingComma": "es5",
