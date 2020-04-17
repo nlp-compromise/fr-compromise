@@ -1,9 +1,35 @@
-### Tasks
+## Tasks
 
 for lexicon:
 
-- conjugate verbs (from infinitive)
+- french country/city names
+
+### Transformations
+
+#### Adjectives
+
+masc - femme - plurMasc - plurFemme
+
+`présidentiel` - `présidentielle` - `présidentiels` - `présidentielles`
+
+`républicain` - `républicaine` - `républicain` - `républicaines`
+
+#### Verbs
+
+- conjugate je/tu/il/nous/vous/ils
+  `parle` - `parles` - `parle` - `parlons` - `parlez` - `parlent`
+
+- conjugate tenses
+  imparfait/future/simple/compose/anterieur [oh dear](https://conjugator.reverso.net/conjugation-french-verb-parler.html)
+  `parle` - `parlais` - `parlerai` - `parlas` - `parlé`
+
+#### Nouns
+
 - inflect nouns (from singular)
+
+`cheval` →‎ `chevaux`
+
+- tag noun as either Masc or Femme
 
 for tagger:
 
@@ -31,9 +57,6 @@ gender:
 # NLP tool adapted to French
 
 Hi! This project was started by [spencermountain](https://twitter.com/spencermountain), a beginner in French. We therefore need some help about french or development.
-
-You can join [the Slack group](slack.compromise.cool) to discuss the details.
-You will find here a project of Natural Language Processing adapted to French.
 
 Grammar differences between the English and the French version are quite huge, which leads to great challenges.
 

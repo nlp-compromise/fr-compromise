@@ -16,7 +16,11 @@ const Place = 'Place'
 module.exports = [
   null, //0
   null, //1
-  {},
+  {
+    er: Inf,
+    ir: Inf,
+    re: Inf,
+  },
   {
     //3-letter
     // eux: Adj,

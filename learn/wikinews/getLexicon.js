@@ -1,5 +1,5 @@
 let lines = require('./parse')
-lines = lines.slice(0, 300)
+// lines = lines.slice(0, 300)
 
 let tags = {}
 lines.forEach((s) => {
@@ -20,9 +20,7 @@ lines.forEach((s) => {
 // CLS: 88,
 // CS: 90,
 // DET: 1353,
-// DETWH: 1,
 // ET: 136,
-// html: 1,
 // NC: 1877,
 // NPP: 493,
 // P: 1242,
@@ -38,8 +36,23 @@ lines.forEach((s) => {
 // VPR: 61,
 // VS: 10,
 
+const top = function (obj) {
+  let keys = Object.keys(obj).sort((a, b) => {
+    if (obj[a] > obj[b]) {
+      return -1
+    } else if (obj[a] < obj[b]) {
+      return 1
+    }
+    return 0
+  })
+  let arr = keys.filter((k) => {
+    return obj[k] > 1
+  })
+  return arr
+}
+
 let lexicon = {
   adverbs: Object.keys(tags['ADV']),
   conjunctions: Object.keys(tags['CC']),
 }
-console.log(tags['V'])
+console.log(JSON.stringify(top(tags['ADJ']), null, 2))
