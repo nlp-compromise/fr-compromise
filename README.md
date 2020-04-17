@@ -48,7 +48,7 @@ gender:
 
 - currently using english tag names, and API.
 - en-compromise normalizes accented characters like `è` to `e`
--
+- en-compromise adds 'FutureTense' to our conjugations
 
 ---
 
