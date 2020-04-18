@@ -1,24 +1,25 @@
 const irregulars = {
-  beau: 'belle',
-  bénin: 'bénigne',
-  bêta: 'bêtasse',
-  coi: 'coite',
-  dû: 'due',
-  enchanteur: 'enchanteresse',
-  favori: 'favorite',
-  fou: 'folle',
-  grec: 'grecque',
-  malin: 'maligne',
-  naïf: 'naïve',
-  nègre: 'négresse',
-  puceau: 'pucelle',
-  pécheur: 'pécheresse',
-  rigolo: 'rigolote',
-  sec: 'sèche',
-  tourangeau: 'tourangelle',
-  'tout-puissant': 'toute-puissante',
-  vengeur: 'vengeresse',
+  belle: 'beau',
+  bénigne: 'bénin',
+  bêtasse: 'bêta',
+  coite: 'coi',
+  due: 'dû',
+  enchanteresse: 'enchanteur',
+  favorite: 'favori',
+  folle: 'fou',
+  grecque: 'grec',
+  maligne: 'malin',
+  naïve: 'naïf',
+  négresse: 'nègre',
+  pucelle: 'puceau',
+  pécheresse: 'pécheur',
+  rigolote: 'rigolo',
+  sèche: 'sec',
+  tourangelle: 'tourangeau',
+  vengeresse: 'vengeur',
+  'toute-puissante': 'tout-puissant',
 }
+
 // order matters
 const regs = [
   [/resse$/, 're'],
@@ -49,8 +50,14 @@ const regs = [
   [/ève$/, 'ef'],
   [/guë$/, 'gu'],
   [/che$/, 'ch'],
+  // don't change these
+  [/tre$/, 'tre'],
 ]
+
 const toMasc = function (str) {
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str]
+  }
   // try each replacement
   for (let i = 0; i < regs.length; i += 1) {
     let reg = regs[i][0]

@@ -1917,7 +1917,6 @@ module.exports = [
   ['numéroté', 'numérotée', 'numérotés', 'numérotées'],
   ['nuptial', 'nuptiale', 'nuptiaux', 'nuptiales'],
   ['nutritif', 'nutritive', 'nutritifs', 'nutritives'],
-  ['nègre', 'négresse', 'nègres', 'négresses'],
   ['né', 'née', 'nés', 'nées'],
   ['négatif', 'négative', 'négatifs', 'négatives'],
   ['négligé', 'négligée', 'négligés', 'négligées'],

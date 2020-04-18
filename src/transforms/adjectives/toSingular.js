@@ -5,13 +5,17 @@ const irregulars = {
 }
 
 const toSingular = function (str) {
-  if (irregulars.hasOwnPropert(str)) {
+  if (irregulars.hasOwnProperty(str)) {
     return irregulars[str]
   }
   // order matters
   const regs = [
+    // tourangeaux ➔ tourangeau
+    [/eaux$/, 'eau'],
     //végétaux -> végétal
     [/aux$/, 'al'],
+    //enchanteresses ➔ enchanteresse
+    [/esses$/, 'esse'],
   ]
   // try each replacement
   for (let i = 0; i < regs.length; i += 1) {
