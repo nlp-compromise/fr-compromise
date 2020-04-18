@@ -1,13 +1,37 @@
 const data = require('./data')
 // const suffixes = require('/Users/spencer/mountain/fr-compromise/src/tagger/data/suffixMap.js')
 
-const toPlural = function (str) {
+const toMasc = function (str) {
   // order matters
   const regs = [
-    //structural ➔ structuraux
-    [/al$/, 'aux'],
-    // puceau ➔ puceaux
-    [/eau$/, 'eaux'],
+    [/resse$/, 're'],
+    [/auve$/, 'auf'],
+    [/rice$/, 'eur'],
+    [/anne$/, 'an'],
+    [/otte$/, 'ot'],
+    [/ille$/, 'il'],
+    [/elle$/, 'el'],
+    [/ette$/, 'et'],
+    [/esse$/, 're'],
+    [/enne$/, 'en'],
+    [/onne$/, 'on'],
+    [/ique$/, 'ic'],
+    [/rque$/, 'rc'],
+    [/que$/, 'c'],
+    [/euse$/, 'eur'],
+    [/euve$/, 'euf'],
+    [/ouse$/, 'ou'],
+    [/aïve$/, 'aif'],
+    [/èche$/, 'èc'],
+    [/ive$/, 'if'],
+    [/ite$/, 'it'],
+    [/ère$/, 'er'],
+    [/che$/, 'c'],
+    [/gue$/, 'g'],
+    [/ète$/, 'et'],
+    [/ève$/, 'ef'],
+    [/guë$/, 'gu'],
+    [/che$/, 'ch'],
   ]
   // try each replacement
   for (let i = 0; i < regs.length; i += 1) {
@@ -17,19 +41,19 @@ const toPlural = function (str) {
     }
   }
   // otherwise...
-  return str + 's'
+  return str.replace(/e$/, '')
 }
+
 const irregs = {}
 let count = 0
 data.forEach((a) => {
-  // console.log(a[2])
-  let plur = toPlural(a[0])
-  if (a[2] === plur) {
+  let plur = toMasc(a[1])
+  if (a[0] === plur) {
     count += 1
   } else {
     irregs[a[0]] = a[1]
     // if (a[0].endsWith('t')) {
-    console.log(a[0] + '   - ' + plur, a[2])
+    console.log(a[1] + '   - ' + plur, a[0])
     // }
   }
 })
