@@ -1,9 +1,5 @@
 const toFemme = require('./toFemme')
-
-const toPlural = function (str) {
-  str = str + 's'
-  return str
-}
+const toPlural = require('./toPlural')
 
 // conjugate a masculine-form adjective to all its other forms
 const conjugate = function (str) {

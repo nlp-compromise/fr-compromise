@@ -1,3 +1,4 @@
+const irregs = require('./data/toFemme')
 // order matters
 const regs = [
   // résiduele ➔ résiduelle
@@ -68,6 +69,10 @@ const regs = [
 ]
 
 const toFemme = function (str) {
+  // check irregular forms
+  if (irregs.hasOwnProperty(str)) {
+    return irregs[str]
+  }
   // try each replacement
   for (let i = 0; i < regs.length; i += 1) {
     let reg = regs[i][0]

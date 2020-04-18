@@ -1,4 +1,4 @@
-const toFemme = {
+module.exports = {
   blanc: 'blanche',
   bref: 'brève',
   brouteur: 'brouteuse',
@@ -45,7 +45,4 @@ const toFemme = {
   turc: 'turque',
   vaudou: 'vaudoue',
   vengeur: 'vengeresse',
-}
-module.exports = {
-  toFemme: toFemme,
 }
