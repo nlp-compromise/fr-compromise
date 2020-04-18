@@ -37,6 +37,8 @@ const data = [
   [require('./nouns/organizations'), 'Organization'],
   [require('./nouns/possessives'), 'Possessive'],
   [require('./nouns/pronouns'), 'Pronoun'],
+  // adjectives
+  [require('./adjectives/masc'), 'MascAdjective'],
   // misc
   [require('./misc/adverbs'), 'Adverb'],
   [require('./misc/conjunctions'), 'Conjunction'],
