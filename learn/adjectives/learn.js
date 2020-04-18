@@ -22,6 +22,8 @@ const toFem = function (str) {
     [/ien$/, 'ienne'],
     // saxone ➔ saxonne
     [/on$/, 'onne'],
+    //herculéen ➔ herculéenne
+    [/éen$/, 'éenne'],
 
     // secret ➔ secrète
     [/ret$/, 'rète'],
@@ -33,6 +35,8 @@ const toFem = function (str) {
     [/gu$/, 'guë'],
     // puceau ➔ pucelle
     [/eau$/, 'elle'],
+    // andalou ➔ andalouse
+    [/ou$/, 'ouse'],
 
     // grec ➔ grecque
     [/rec$/, 'recque'],
@@ -86,12 +90,14 @@ const toFem = function (str) {
 // }
 
 // console.log('total: ', data.length)
+const irregs = {}
 let count = 0
 data.forEach((a) => {
   let fem = toFem(a[0])
   if (a[1] === fem) {
     count += 1
   } else {
+    irregs[a[0]] = a[1]
     // if (a[0].endsWith('t')) {
     console.log(a[0] + '   - ' + fem, a[1])
     // }
@@ -100,4 +106,5 @@ data.forEach((a) => {
 console.log(count)
 console.log(count / data.length)
 
+console.log(irregs)
 // console.log(toFem('virtuele'))

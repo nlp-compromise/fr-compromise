@@ -1,7 +1,5 @@
-const toFemme = function (str) {
-  str = str + 'e'
-  return str
-}
+const toFemme = require('./toFemme')
+
 const toPlural = function (str) {
   str = str + 's'
   return str
