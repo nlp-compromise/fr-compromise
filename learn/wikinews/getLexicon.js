@@ -34,9 +34,13 @@ lines.forEach((s) => {
 
 // V: 509,
 // VINF: 140,
-// VPP: 402,
-// VPR: 61,
-// VS: 10,
+// VPP: 402, //PastTense
+// VPR: 61, //Gerund
+// VS: 10, //presentTense
+
+// VPP: 'PastTense',
+// VPR: 'Gerund',
+// VS: 'V',
 
 const top = function (obj) {
   let keys = Object.keys(obj).sort((a, b) => {
@@ -53,4 +57,4 @@ const top = function (obj) {
   return arr
 }
 
-console.log(JSON.stringify(top(tags['U']), null, 2))
+console.log(JSON.stringify(top(tags['ET']), null, 2))
