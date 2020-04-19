@@ -87,6 +87,8 @@ const regs = [
   [/rc$/, 'rque'],
   [/bé$/, 'bésse'],
 ]
+
+// assumes singular masculine input
 const toFemme = function (str) {
   // check irregular forms
   if (irregulars.hasOwnProperty(str)) {
