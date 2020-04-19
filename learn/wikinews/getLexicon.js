@@ -57,4 +57,4 @@ const top = function (obj) {
   return arr
 }
 
-console.log(JSON.stringify(top(tags['ET']), null, 2))
+console.log(JSON.stringify(top(tags['ADJ']), null, 2))
