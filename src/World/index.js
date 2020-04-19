@@ -7,8 +7,8 @@ const transforms = {
   adjectives: require('../transforms/adjectives'),
   conjugate: require('../transforms/conjugate'),
   toInfinitive: require('../transforms/toInfinitive'),
-  toPlural: require('../transforms/toPlural'),
-  toSingular: require('../transforms/toSingular'),
+  toPlural: require('../transforms/nouns/toPlural'),
+  toSingular: require('../transforms/nouns/toSingular'),
 }
 
 const unpackWords = function (data) {
