@@ -13,6 +13,5 @@ module.exports = [
   'vous',
   'tu',
   't',
-  'la',
   'moi',
 ]

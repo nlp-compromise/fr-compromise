@@ -37,7 +37,6 @@ module.exports = [
   'enfin',
   'tard',
   'desormais',
-  'la',
   'maintenant',
   'trop',
   'autant',
