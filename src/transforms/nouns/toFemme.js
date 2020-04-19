@@ -1,5 +1,49 @@
-const data = require('./data')
+const irregulars = {
+  auvergnat: 'auvergnate',
+  avocat: 'avocate',
+  candidat: 'candidate',
+  ingrat: 'ingrate',
 
+  copain: 'copine',
+  courtisan: 'courtisane',
+  démon: 'démone',
+  persan: 'persane',
+
+  cadet: 'cadette',
+  minet: 'minette',
+  dévot: 'dévote',
+
+  speaker: 'speakerine',
+  écuyer: 'écuyère',
+
+  ambassadeur: 'ambassadrice',
+  chanteur: 'chanteuse',
+  enquêteur: 'enquêteuse',
+  menteur: 'menteuse',
+  inférieur: 'inférieure',
+  meilleur: 'meilleure',
+  supérieur: 'supérieure',
+  mineur: 'mineure',
+  pécheur: 'pécheresse',
+  sauteur: 'sauteuse',
+  visiteur: 'visiteuse',
+
+  abbé: 'abbesse',
+  cane: 'canard',
+  chameau: 'chamelle',
+  chou: 'choute',
+  conseiller: 'conseillère',
+  fou: 'folle',
+  prince: 'princesse',
+  rideau: 'ridelle',
+  suisse: 'suissesse',
+
+  bigot: 'bigote',
+  idiot: 'idiote',
+  manchot: 'manchote',
+  parigot: 'parigote',
+  poivrot: 'poivrote',
+}
 // order matters
 const regs = [
   [/tteur$/, 'tteuse'],
@@ -18,6 +62,7 @@ const regs = [
   [/jeur$/, 'jeure'],
   [/être$/, 'êtresse'],
   [/gre$/, 'gresse'],
+  [/mte$/, 'mtesse'],
   [/ger$/, 'gère'],
   [/éen$/, 'éenne'],
   [/eur$/, 'euse'],
@@ -30,7 +75,6 @@ const regs = [
   [/oup$/, 'ouve'],
   [/ète$/, 'étesse'],
   [/dou$/, 'doue'],
-  [/mte$/, 'mtesse'],
   [/if$/, 'ive'],
   [/ot$/, 'otte'],
   [/at$/, 'atte'],
@@ -44,6 +88,10 @@ const regs = [
   [/bé$/, 'bésse'],
 ]
 const toFemme = function (str) {
+  // check irregular forms
+  if (irregulars.hasOwnProperty(str)) {
+    return irregulars[str]
+  }
   // try each replacement
   for (let i = 0; i < regs.length; i += 1) {
     let reg = regs[i][0]
@@ -55,22 +103,4 @@ const toFemme = function (str) {
   str += 'e'
   return str
 }
-
-const irregs = {}
-let count = 0
-data.forEach((a) => {
-  let from = a[0]
-  let want = a[1]
-  let w = toFemme(from)
-  if (w === want) {
-    count += 1
-  } else {
-    // if (from.endsWith('eur')) {
-    irregs[from] = want
-    console.log(from + ' ➔ ' + w + '  (' + want + ')')
-    // }
-  }
-})
-console.log(count)
-console.log(count / data.length)
-console.log(JSON.stringify(irregs, null, 2))
+module.exports = toFemme
