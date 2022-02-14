@@ -1,6 +1,10 @@
-const nlp = require('./src/index')
-nlp.verbose(true)
+import nlp from './src/index.js'
 
-let doc = nlp(`asdfuë`)
 
-doc.debug()
+let text = 'je suis dans la rue'
+var dok = nlp(text)
+dok.debug()
+
+
+// proof-of-concept verb-conjugation
+let conjugate = dok.methods.one.transform.conjugate

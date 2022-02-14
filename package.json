@@ -1,53 +1,47 @@
 {
-  "name": "fr-compromise",
-  "description": "nlp-compromise en francais",
-  "version": "0.0.1",
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
-  "main": "./builds/fr-compromise.js",
-  "unpkg": "./builds/fr-compromise.min.js",
-  "module": "./builds/fr-compromise.mjs",
-  "types": "types/index.d.ts",
+  "name": "fr-compromise",
+  "description": "Computerlinguistik im browser",
+  "version": "0.1.0",
+  "main": "./src/index.js",
+  "unpkg": "./builds/compromise.js",
+  "type": "module",
+  "types": "builds/types.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./builds/fr-compromise.cjs"
+    }
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/spencermountain/fr-compromise.git"
+    "url": "git://github.com/nlp-compromise/fr-compromise.git"
   },
   "scripts": {
-    "test": "tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
-    "testb": "TESTENV=prod tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
-    "watch": "amble ./scratch.js",
-    "build": "node scripts/build.js && rollup -c --silent",
-    "pack": "node scripts/pack.js"
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true,
-    "printWidth": 100
+    "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
+    "build": "rollup -c --silent",
+    "pack": "node ./scripts/pack.js",
+    "watch": "amble ./scratch.js"
   },
   "files": [
     "builds/",
-    "types/index.d.ts"
-  ],
-  "eslintIgnore": [
-    "builds/*.js"
+    "docs/"
   ],
   "dependencies": {
-    "compromise": "^13.1.0",
-    "efrt-unpack": "2.2.0"
+    "compromise": "13.11.4-rc5",
+    "efrt": "2.5.0",
+    "suffix-thumb": "3.1.5"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "11.1.0",
-    "@rollup/plugin-json": "4.0.2",
-    "@rollup/plugin-node-resolve": "7.1.3",
-    "amble": "1.0.0",
-    "efrt": "2.2.2",
-    "rollup": "2.6.1",
-    "rollup-plugin-babel": "4.4.0",
-    "rollup-plugin-filesize-check": "0.0.1",
-    "rollup-plugin-terser": "5.3.0",
-    "tap-dancer": "0.2.0",
-    "tape": "4.13.2"
+    "@rollup/plugin-alias": "3.1.9",
+    "@rollup/plugin-node-resolve": "13.1.3",
+    "amble": "1.3.0",
+    "rollup": "2.66.1",
+    "rollup-plugin-terser": "7.0.2",
+    "tap-dancer": "0.3.4",
+    "tape": "5.5.0",
+    "xml-stream": "^0.4.5"
   },
   "license": "MIT"
 }
