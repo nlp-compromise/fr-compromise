@@ -11,6 +11,7 @@ Object.keys(lexData).forEach(tag => {
 
   })
 })
-// console.log(lexicon)
+
+console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
 
 export default lexicon

@@ -1881,5 +1881,4 @@ export default [
   'vouloir',
   'voyager',
   'vrombir',
-  "entr'apercevoir",
 ]

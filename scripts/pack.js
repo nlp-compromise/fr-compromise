@@ -2,7 +2,10 @@
 import fs from 'fs'
 import { pack } from 'efrt'
 import { compress } from 'suffix-thumb'
-import lexicon from '../lexicon/index.js'
+import lexicon from '../data/lexicon/index.js'
+import models from '../data/models/index.js'
+// import switches from '../lib/switches/index.js'
+// import senses from '../lib/senses/index.js'
 
 const steps = [
   {
@@ -26,6 +29,16 @@ const steps = [
         packed[tag] = pack(packed[tag])
       })
       return packed
+    },
+  },
+  {
+    label: 'models',
+    path: './src/tagger/methods/_data.js',
+    compress: function () {
+      Object.keys(models).forEach(k => {
+        models[k] = compress(models[k])
+      })
+      return models
     },
   }
 ]

@@ -49,4 +49,26 @@ export default {
     is: 'Verb',
     not: ['PastTense', 'PresentTense', 'Gerund', 'Conjunction'],
   },
+
+  // french verb forms
+  PresentParticiple: {
+    is: 'PresentTense',
+    not: ['PastTense','FutureTense'],
+  },
+  PastParticiple: {
+    is: 'PastTense',
+    not: ['PresentTense','FutureTense'],
+  },
+  // [only formal]  parlai, parlâmes
+  PastSimple: {
+    is: 'PastTense',
+    not: ['PresentTense','FutureTense'],
+  },
+  ConditionalVerb: {
+    is: 'Verb',
+  },
+  FutureTense: {
+    is: 'Verb',
+    not: ['PresentTense', 'PastTense','Gerund'],
+  },
 }

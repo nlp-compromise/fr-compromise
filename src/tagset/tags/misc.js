@@ -14,6 +14,14 @@ export default {
     is: 'Adjective',
     not: ['Comparative'],
   },
+  MaleAdjective: {
+    is: 'Adjective',
+    not: ['FemaleAdjective'],
+  },
+  FemaleAdjective: {
+    is: 'Adjective',
+    not: ['MaleAdjective'],
+  },
   NumberRange: {},
   Adverb: {
     not: ['Noun', 'Verb', 'Adjective', 'Value'],
