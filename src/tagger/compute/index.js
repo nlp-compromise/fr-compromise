@@ -7,7 +7,7 @@ const tagger = function (view) {
   // add noun to anything titlecased
   titleCase(view, world)
   nounFallback(view, world)
-  neighbours(neighbours, world)
+  neighbours(view, world)
   return view
 }
 export default tagger

@@ -1,1 +1,1 @@
-export default ['confiture', 'géologie', 'librairie', 'ambulance', 'poule']
+export default ['confiture', 'géologie', 'librairie', 'ambulance', 'poule', 'rue']

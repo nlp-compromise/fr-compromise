@@ -1,4 +1,5 @@
-import nlp from 'compromise/one'
+// import nlp from 'compromise/one'
+import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import lexicon from './lexicon/plugin.js'
 import tagger from './tagger/plugin.js'
 import tagset from './tagset/plugin.js'
