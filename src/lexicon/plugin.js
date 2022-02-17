@@ -1,5 +1,5 @@
 import conjugate from './methods/conjugate.js'
-import lexicon from './lexicon.js'
+import lexicon from './model/lexicon.js'
 
 export default {
   methods: {
