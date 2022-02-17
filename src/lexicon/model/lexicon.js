@@ -17,7 +17,14 @@ Object.keys(lexData).forEach(tag => {
       lexicon[res.MalePlural] = 'MaleAdjective'
       lexicon[res.FemalePlural] = 'FemaleAdjective'
     }
-
+    if (tag === 'Infinitive') {
+      // do future-tense
+      let res = conjugate.toFutureTense(w)
+      Object.keys(res).forEach(k => lexicon[res[k]] = 'FutureTense')
+      // do present-tense
+      res = conjugate.toPresentTense(w)
+      Object.keys(res).forEach(k => lexicon[res[k]] = 'PresentTense')
+    }
   })
 })
 

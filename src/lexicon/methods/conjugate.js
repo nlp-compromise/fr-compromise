@@ -1,5 +1,7 @@
 import models from './models.js'
 import { convert } from 'suffix-thumb'
+import verbs from './verb-models/index.js'
+
 
 const adjectives = function (str) {
   return {
@@ -24,13 +26,23 @@ const adjToRoot = function (str, form) {
 }
 
 
+const toPresentTense = function (str) {
+  return Object.keys(verbs.toPresent).reduce((h, k) => {
+    h[k] = convert(str, verbs.toPresent[k])
+    return h
+  }, {})
+}
 
+const toFutureTense = function (str) {
+  return Object.keys(verbs.toFuture).reduce((h, k) => {
+    h[k] = convert(str, verbs.toFuture[k])
+    return h
+  }, {})
+}
 
-
-
-
-
-export default { adjectives, adjToRoot }
+export default { adjectives, adjToRoot, toPresentTense, toFutureTense }
 
 // console.log(adjectives('superficiel'))
 // console.log(adjToRoot('superficielles'))
+console.log(toPresentTense('marcher'))
+// console.log(toFutureTense('marcher'))

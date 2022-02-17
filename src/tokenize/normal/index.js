@@ -13,7 +13,6 @@ const normalize = function (term) {
 }
 
 const normal = function (view) {
-  console.log('=-=-=-= fr-normal -=-=-=-')
   view.docs.forEach(terms => {
     terms.forEach(normalize)
   })
