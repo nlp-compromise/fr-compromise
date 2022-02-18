@@ -4965,12 +4965,12 @@ export default {
   },
   "marcher": {
     "Présent": [
-      "porte",
-      "portes",
-      "porte",
-      "portons",
-      "portez",
-      "portent",
+      "marche",
+      "marches",
+      "marche",
+      "marchons",
+      "marchez",
+      "marchent",
     ],
     "Futur Simple": [
       "marcherai",
