@@ -1,48 +1,51 @@
-import models from './models.js'
-import { convert } from 'suffix-thumb'
-import verbs from './verb-models/index.js'
+import { convert, uncompress } from 'suffix-thumb'
+import model from './_data.js'
 
+// uncompress them
+Object.keys(model).forEach(k => {
+  Object.keys(model[k]).forEach(form => {
+    model[k][form] = uncompress(model[k][form])
+  })
+})
 
-const adjectives = function (str) {
+const doVerb = function (str, m) {
   return {
-    Male: str,
-    Female: convert(str, models.adjToF),
-    MalePlural: convert(str, models.adjToMp),
-    FemalePlural: convert(str, models.adjToFp),
+    first: convert(str, m.je),
+    second: convert(str, m.tu),
+    third: convert(str, m.il),
+    firstPlural: convert(str, m.nous),
+    secondPlural: convert(str, m.vous),
+    thirdPlural: convert(str, m.ils),
   }
 }
 
-const adjToRoot = function (str, form) {
-  if (form === 'Female') {
-    return convert(str, models.adjFromF)
+const presentTense = (str) => doVerb(str, model.presentTense)
+const futureTense = (str) => doVerb(str, model.futureTense)
+const imperfect = (str) => doVerb(str, model.imperfect)
+const pastParticiple = (str) => convert(str, model.pastParticiple.prt)
+
+const noun = function (str) {
+  return {
+    male: str,
+    female: convert(str, model.noun.female),
+    plural: convert(str, model.noun.plural),
+    femalePlural: convert(str, model.noun.femalePlural),
   }
-  if (form === 'MalePlural') {
-    return convert(str, models.adjFromMp)
-  }
-  if (form === 'FemalePlural') {
-    return convert(str, models.adjFromFp)
-  }
-  return str
 }
 
-
-const toPresentTense = function (str) {
-  return Object.keys(verbs.toPresent).reduce((h, k) => {
-    h[k] = convert(str, verbs.toPresent[k])
-    return h
-  }, {})
+const adjective = function (str) {
+  return {
+    male: str,
+    female: convert(str, model.adjective.female),
+    plural: convert(str, model.adjective.plural),
+    femalePlural: convert(str, model.adjective.femalePlural),
+  }
 }
+export default { presentTense, futureTense, imperfect, noun, adjective, pastParticiple }
 
-const toFutureTense = function (str) {
-  return Object.keys(verbs.toFuture).reduce((h, k) => {
-    h[k] = convert(str, verbs.toFuture[k])
-    return h
-  }, {})
-}
-
-export default { adjectives, adjToRoot, toPresentTense, toFutureTense }
-
-// console.log(adjectives('superficiel'))
-// console.log(adjToRoot('superficielles'))
-console.log(toPresentTense('marcher'))
-// console.log(toFutureTense('marcher'))
+// console.log(presentTense('marcher'))
+// console.log(futureTense('marcher'))
+// console.log(imperfect('marcher'))
+// console.log(pastParticiple('marcher'))
+// console.log(noun('roche'))
+// console.log(adjective('gentil'))

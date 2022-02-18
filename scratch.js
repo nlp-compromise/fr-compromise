@@ -10,3 +10,4 @@ doc.debug()
 
 // proof-of-concept verb-conjugation
 // let conjugate = doc.methods.one.transform.conjugate
+// console.log(conjugate('farmer'))
