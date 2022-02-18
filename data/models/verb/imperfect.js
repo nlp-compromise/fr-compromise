@@ -1,3 +1,4 @@
+// inf: [je, tu, il, nous, vous, ils]
 export default {
   "acheter": ["achetais", "achetais", "achetait", "achetions", "achetiez", "achetaient"],
   "geler": ["gelais", "gelais", "gelait", "gelions", "geliez", "gelaient"],

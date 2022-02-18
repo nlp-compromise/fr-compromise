@@ -1,15 +1,17 @@
 import data from './data.js'
+// import data from '../nouns/data.js'
+
 import { learn, compress, test } from 'suffix-thumb'
 
 
-const pairs = []
+const pairs = {}
 data.forEach(a => {
   let [m, f, mp, fp] = a
-  pairs.push([m, f])
-  // pairs.push(m)
+  pairs[m] = [f, mp, fp]
 })
 
-let model = learn(pairs)
+console.log(JSON.stringify(pairs, null, 2))
+// let model = learn(pairs)
 // model = compress(model)
-console.log(JSON.stringify(model, null, 2))
+// console.log(JSON.stringify(model, null, 2))
 // test(pairs)
