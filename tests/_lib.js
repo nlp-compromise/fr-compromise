@@ -1,11 +1,9 @@
-if (typeof process !== undefined && typeof module !== undefined) {
-  let nlp
-  if (process.env.TESTENV === 'prod') {
-    console.warn('== production build test 🚀 ==')
-    nlp = require('../')
-  } else {
-    nlp = require('../src')
-  }
-
-  module.exports = nlp
+/* eslint-disable no-console */
+import build from '../builds/fr-compromise.mjs'
+import src from '../src/index.js'
+let nlp = src
+if (process.env.TESTENV === 'prod') {
+  console.warn('== production build test 🚀 ==')
+  nlp = build
 }
+export default nlp

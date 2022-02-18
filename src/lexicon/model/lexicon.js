@@ -38,8 +38,6 @@ Object.keys(lexData).forEach(tag => {
   })
 })
 
-console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-
+// console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
 // console.log(lexicon['éthérés'])
-
 export default lexicon
