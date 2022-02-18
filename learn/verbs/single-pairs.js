@@ -17,26 +17,26 @@ const getPairs = function (tense) {
   let byWord = {}
   Object.keys(verbs).forEach(inf => {
     let words = verbs[inf][tense] || []
-    if (words.some(str => str === '' || str.length === 1)) {
+    if (words.length === 0 || words.some(str => str === '' || str.length === 1)) {
       return
     }
-    byWord[inf] = verbs[inf][tense]
+    byWord[inf] = words[0]
   })
   return byWord
 }
 
 
 
-const res = getPairs("Imparfait")
+const res = getPairs("Participe Passé")
 Object.keys(scraped).forEach(inf => {
   if (res[inf]) {
     return
   }
-  let vals = Object.values(scraped[inf]["Imperfect"])
+  let vals = Object.values(scraped[inf]["Present Perfect"])
   if (vals.length < 5 || vals.some(str => str === '' || str.length === 1 || str === 'le')) {
     return
   }
-  res[inf] = vals
+  res[inf] = vals[0].replace(/^(a|ai) /, '')
 })
 
 // let model = doModel("Présent", 'je')

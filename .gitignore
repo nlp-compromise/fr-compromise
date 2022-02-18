@@ -5,3 +5,4 @@ coverage
 wolf-1.0b4.xml
 wikinews.txt
 /learn/giga/results/*.js
+learn/scrape/*
