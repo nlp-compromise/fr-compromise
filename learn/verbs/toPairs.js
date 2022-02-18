@@ -26,6 +26,17 @@ const doModel = function (tense, form) {
   return model
 }
 
-let model = doModel("Futur Simple", 'ils')
-model = compress(model)
-console.log(JSON.stringify(model, null, 2))
+
+let tense = "Présent"
+const models = {
+  je: doModel(tense, 'je'),
+  tu: doModel(tense, 'tu'),
+  il: doModel(tense, 'il'),
+  nous: doModel(tense, 'nous'),
+  vous: doModel(tense, 'vous'),
+  ils: doModel(tense, 'ils'),
+}
+
+// let model = doModel("Présent", 'je')
+// model = compress(model)
+console.log(JSON.stringify(models, null, 2))

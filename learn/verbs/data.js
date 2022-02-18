@@ -4963,6 +4963,474 @@ export default {
       "mangé"
     ]
   },
+  "marcher": {
+    "Présent": [
+      "porte",
+      "portes",
+      "porte",
+      "portons",
+      "portez",
+      "portent",
+    ],
+    "Futur Simple": [
+      "marcherai",
+      "marcheras",
+      "marchera",
+      "marcherons",
+      "marcherez",
+      "marcheront",
+    ]
+  },
+  "montrer": {
+    "Présent": [
+      "monte",
+      "montes",
+      "monte",
+      "montons",
+      "montez",
+      "montent",
+    ],
+    "Futur Simple": [
+      "monterai",
+      "monteras",
+      "montera",
+      "monterons",
+      "monterez",
+      "monteront",
+    ]
+  },
+  "porter": {
+    "Présent": [
+      "porte",
+      "portes",
+      "porte",
+      "portons",
+      "portez",
+      "portent",
+    ],
+    "Futur Simple": [
+      "porterai",
+      "porteras",
+      "portera",
+      "porterons",
+      "porterez",
+      "porteront",
+    ]
+  },
+  "regarder": {
+    "Présent": [
+      "regarde",
+      "regardes",
+      "regarde",
+      "regardons",
+      "regardez",
+      "regardent",
+    ],
+    "Futur Simple": [
+      "regarderai",
+      "regarderas",
+      "regardera",
+      "regarderons",
+      "regarderez",
+      "regarderont",
+    ]
+  },
+  "cerner": {
+    "Présent": [
+      "cerne",
+      "cernes",
+      "cerne",
+      "cernons",
+      "cernez",
+      "cernent",
+    ],
+    "Futur Simple": [
+      "cernerai",
+      "cerneras",
+      "cernera",
+      "cernerons",
+      "cernerez",
+      "cerneront",
+    ]
+  },
+  "caresser": {
+    "Présent": [
+      "caresse",
+      "caresses",
+      "caresse",
+      "caressons",
+      "caressez",
+      "caressent",
+    ],
+    "Futur Simple": [
+      "caresserai",
+      "caresseras",
+      "caressera",
+      "caresserons",
+      "caresserez",
+      "caresseront",
+    ]
+  },
+  "choyer": {
+    "Présent": [
+      "choie",
+      "choies",
+      "choie",
+      "choyons",
+      "choyez",
+      "choient",
+    ],
+    "Futur Simple": [
+      "choierai",
+      "choieras",
+      "choiera",
+      "choierons",
+      "choierez",
+      "choieront",
+    ]
+  },
+  "choisir": {
+    "Présent": [
+      "choisis",
+      "choisis",
+      "choisit",
+      "choisissons",
+      "choisissez",
+      "choisissent",
+    ],
+    "Futur Simple": [
+      "choisirai",
+      "choisiras",
+      "choisira",
+      "choisirons",
+      "choisirez",
+      "choisiront",
+    ]
+  },
+  "choper": {
+    "Présent": [
+      "chope",
+      "chopes",
+      "chope",
+      "chopons",
+      "chopez",
+      "chopent",
+    ],
+    "Futur Simple": [
+      "choperai",
+      "choperas",
+      "chopera",
+      "choperons",
+      "choperez",
+      "choperont",
+    ]
+  },
+  "bricoler": {
+    "Présent": [
+      "bricole",
+      "bricoles",
+      "bricole",
+      "bricolons",
+      "bricolez",
+      "bricolent",
+    ],
+    "Futur Simple": [
+      "bricolerai",
+      "bricoleras",
+      "bricolera",
+      "bricolerons",
+      "bricolerez",
+      "bricoleront",
+    ]
+  },
+  "brouter": {
+    "Présent": [
+      "broute",
+      "broutes",
+      "broute",
+      "broutons",
+      "broutez",
+      "broutent",
+    ],
+    "Futur Simple": [
+      "brouterai",
+      "brouteras",
+      "broutera",
+      "brouterons",
+      "brouterez",
+      "brouteront",
+    ]
+  },
+  "brayer": {
+    "Présent": [
+      "braye",
+      "brayes",
+      "braye",
+      "brayons",
+      "brayez",
+      "brayent",
+    ],
+    "Futur Simple": [
+      "brayerai",
+      "brayeras",
+      "brayera",
+      "brayerons",
+      "brayerez",
+      "brayeront",
+    ]
+  },
+  "bouleverser": {
+    "Présent": [
+      "bouleverse",
+      "bouleverses",
+      "bouleverse",
+      "bouleversons",
+      "bouleversez",
+      "bouleversent",
+    ],
+    "Futur Simple": [
+      "bouleverserai",
+      "bouleverseras",
+      "bouleversera",
+      "bouleverserons",
+      "bouleverserez",
+      "bouleverseront",
+    ]
+  },
+  "botter": {
+    "Présent": [
+      "botte",
+      "bottes",
+      "botte",
+      "bottons",
+      "bottez",
+      "bottent",
+    ],
+    "Futur Simple": [
+      "botterai",
+      "botteras",
+      "bottera",
+      "botterons",
+      "botterez",
+      "botteront",
+    ]
+  },
+  "appuyer": {
+    "Présent": [
+      "appuie",
+      "appuies",
+      "appuie",
+      "appuyons",
+      "appuyez",
+      "appuient",
+    ],
+    "Futur Simple": [
+      "appuierai",
+      "appuieras",
+      "appuiera",
+      "appuierons",
+      "appuierez",
+      "appuieront",
+    ]
+  },
+  "attenter": {
+    "Présent": [
+      "attente",
+      "attentes",
+      "attente",
+      "attentons",
+      "attentez",
+      "attentent",
+    ],
+    "Futur Simple": [
+      "attenterai",
+      "attenteras",
+      "attentera",
+      "attenterons",
+      "attenterez",
+      "attenteront",
+    ]
+  },
+  "connecter": {
+    "Présent": [
+      "connecte",
+      "connectes",
+      "connecte",
+      "connectons",
+      "connectez",
+      "connectent",
+    ],
+    "Futur Simple": [
+      "connecterai",
+      "connecteras",
+      "connectera",
+      "connecterons",
+      "connecterez",
+      "connecteront",
+    ]
+  },
+  "considerer": {
+    "Présent": [
+      "considère",
+      "considères",
+      "considère",
+      "considérons",
+      "considérez",
+      "considèrent",
+    ],
+    "Futur Simple": [
+      "considérerai",
+      "considéreras",
+      "considérera",
+      "considérerons",
+      "considérerez",
+      "considéreront",
+    ]
+  },
+  "confronter": {
+    "Présent": [
+      "confronte",
+      "confrontes",
+      "confronte",
+      "confrontons",
+      "confrontez",
+      "confrontent",
+    ],
+    "Futur Simple": [
+      "confronterai",
+      "confronteras",
+      "confrontera",
+      "confronterons",
+      "confronterez",
+      "confronteront",
+    ]
+  },
+  "declencher": {
+    "Présent": [
+      "déclenche",
+      "déclenches",
+      "déclenche",
+      "déclenchons",
+      "déclenchez",
+      "déclenchent",
+    ],
+    "Futur Simple": [
+      "déclencherai",
+      "déclencheras",
+      "déclenchera",
+      "déclencherons",
+      "déclencherez",
+      "déclencheront",
+    ]
+  },
+  "deborder": {
+    "Présent": [
+      "déborde",
+      "débordes",
+      "déborde",
+      "débordons",
+      "débordez",
+      "débordent",
+    ],
+    "Futur Simple": [
+      "déborderai",
+      "déborderas",
+      "débordera",
+      "déborderons",
+      "déborderez",
+      "déborderont",
+    ]
+  },
+  "dechirer": {
+    "Présent": [
+      "déchire",
+      "déchires",
+      "déchire",
+      "déchirons",
+      "déchirez",
+      "déchirent",
+    ],
+    "Futur Simple": [
+      "déchirerai",
+      "déchireras",
+      "déchirera",
+      "déchirerons",
+      "déchirerez",
+      "déchireront",
+    ]
+  },
+  "cumuler": {
+    "Présent": [
+      "cumule",
+      "cumules",
+      "cumule",
+      "cumulons",
+      "cumulez",
+      "cumulent",
+    ],
+    "Futur Simple": [
+      "cumulerai",
+      "cumuleras",
+      "cumulera",
+      "cumulerons",
+      "cumulerez",
+      "cumuleront",
+    ]
+  },
+  "daigner": {
+    "Présent": [
+      "daigne",
+      "daignes",
+      "daigne",
+      "daignons",
+      "daignez",
+      "daignent",
+    ],
+    "Futur Simple": [
+      "daignerai",
+      "daigneras",
+      "daignera",
+      "daignerons",
+      "daignerez",
+      "daigneront",
+    ]
+  },
+  "demarrer": {
+    "Présent": [
+      "démarre",
+      "démarres",
+      "démarre",
+      "démarrons",
+      "démarrez",
+      "démarrent",
+    ],
+    "Futur Simple": [
+      "démarrerai",
+      "démarreras",
+      "démarrera",
+      "démarrerons",
+      "démarrerez",
+      "démarreront",
+    ]
+  },
+  "elancer": {
+    "Présent": [
+      "élance",
+      "élances",
+      "élance",
+      "élançons",
+      "élancez",
+      "élancent",
+    ],
+    "Futur Simple": [
+      "élancerai",
+      "élanceras",
+      "élancera",
+      "élancerons",
+      "élancerez",
+      "élanceront",
+    ]
+  },
   "parler": {
     "Présent": [
       "parle",
