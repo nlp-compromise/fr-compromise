@@ -2,6 +2,7 @@ export default {
   n: 'Negative',
   ne: 'Negative',
   ni: 'Negative',
+  aucun: 'Negative',
 
   se: 'Verb',
 

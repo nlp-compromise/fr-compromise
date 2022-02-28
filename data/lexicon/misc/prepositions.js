@@ -9,6 +9,8 @@ export default [
   'quelqu',
   'quoique',
 
+  'y',// -?
+
   'de', 'du', 'des',
   'a',
   'd',

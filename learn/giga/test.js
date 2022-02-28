@@ -47,7 +47,7 @@ let tagMap = {
   'VER:subp': 'Verb',//verb subjunctive present
 }
 
-const ignore = new Set(['au', 'aux', 'des', 'au', 'ne'])
+const ignore = new Set(['au', 'aux', 'des', 'au', 'ne', '$', '.', '(', ')', 'se'])
 
 let right = 0
 let wrong = 0

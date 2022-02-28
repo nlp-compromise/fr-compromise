@@ -17,6 +17,9 @@ text = ` l'arrivée initiale des noctuelles`
 text = `grossissent et mûrissent ; ils se traduisent `
 text = ` assez tôt pour être touché par l' arrivée`
 text = `diminuent`
+text = ` à des travaux visant`
 text = `des techniques culturales`
+text = `ils ne sont pas construits`
+text = `présenter une demande`
 var doc = nlp(text)
 doc.debug()
