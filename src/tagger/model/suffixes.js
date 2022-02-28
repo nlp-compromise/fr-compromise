@@ -1,6 +1,7 @@
 const rb = 'Adverb'
 const nn = 'Noun'
 const vb = 'Verb'
+const jj = 'Adjective'
 
 
 export default [
@@ -8,20 +9,34 @@ export default [
   null,
   {
     //2-letter
-    ce: nn,
-    ur: nn,
+    ce: nn,//connaissance
     ge: nn,
     ie: nn,
+
     er: vb,
+    ir: vb,
     ée: vb,
     és: vb,
+    sé: vb,
+    ré: vb,
+    ra: vb,//faudra
+    it: vb,//fournit
+    ez: vb,//consultez
+
     if: jj,//descriptif
   },
   {
     //3-letter
-    ité: nn,
-    ées: vb,
+    ité: nn, //qualité
+    eur: nn,//directeur
+    ces: nn,//connaissances
+
+    ées: vb,//énoncées
     ait: vb,//devrait
+    era: vb,//aidera
+    ser: vb,//utiliser
+    ter: vb,//adopter
+
     ive: jj, //
     ifs: jj, //relatifs
     ile: jj, //civile
@@ -41,10 +56,20 @@ export default [
     aire: jj,
     ives: jj,
     ntes: jj, //différentes
-    sent: vn,//produisent
+
+    sion: vb,//commission
+    sent: vb,//produisent
+
+    eurs: nn,//directeurs
+    tion: nn,//amélioration
+    ance: nn,//croissance
   },
   {
     //5-letter
+    tions: nn,//améliorations
+    ments: nn,//aliments
+    sions: vb,//commissions
+
     aient: vb,//auraient
     elles: jj,
     iques: jj,
