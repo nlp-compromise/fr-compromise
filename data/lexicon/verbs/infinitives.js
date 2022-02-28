@@ -1275,6 +1275,7 @@ export default [
   'personnaliser',
   'persuader',
   'pervertir',
+  'permettre',
   'peser',
   'péter',
   'pétrir',

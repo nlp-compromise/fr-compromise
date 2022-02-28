@@ -13,6 +13,10 @@ text = `qui sont effectuées dans des bassins hydrographiques`
 // text = `je pouvais dormir `
 // text = ` Je peux partir `
 // text = ` Tu dois finir `
-// text = `et l'Université du Nouveau-Brunswick.`
+text = ` l'arrivée initiale des noctuelles`
+text = `grossissent et mûrissent ; ils se traduisent `
+text = ` assez tôt pour être touché par l' arrivée`
+text = `diminuent`
+text = `des techniques culturales`
 var doc = nlp(text)
 doc.debug()

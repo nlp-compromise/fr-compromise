@@ -14,6 +14,7 @@ export default ['bateau', 'parapluie',
   'statistique',
   'politique',
   'musique',
+  'technique',
 
   'table',
   'ensemble',

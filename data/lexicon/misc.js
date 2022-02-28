@@ -3,6 +3,8 @@ export default {
   ne: 'Negative',
   ni: 'Negative',
 
+  se: 'Verb',
+
   // copulas (incomplete)
   es: ['Copula', 'PresentTense'],
   est: ['Copula', 'PresentTense'],
@@ -21,7 +23,7 @@ export default {
 
   // questions
   ou: 'QuestionWord',
-  qui: 'QuestionWord',
+  qui: 'Preposition',
   quelle: 'QuestionWord',
   que: 'QuestionWord',
   qu: 'QuestionWord',

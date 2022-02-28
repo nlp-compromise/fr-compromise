@@ -47,6 +47,8 @@ let tagMap = {
   'VER:subp': 'Verb',//verb subjunctive present
 }
 
+const ignore = new Set(['au', 'aux', 'des', 'au', 'ne'])
+
 let right = 0
 let wrong = 0
 const doBoth = function (both) {
@@ -64,7 +66,7 @@ const doBoth = function (both) {
   doc.terms().forEach(t => {
     let str = t.text('normal')
     let want = correct[str] || null
-    if (want) {
+    if (want && !ignore.has(str)) {
       if (t.has('#' + want)) {
         right += 1
       } else {
