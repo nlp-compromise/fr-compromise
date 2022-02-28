@@ -4,8 +4,8 @@ const hasBefore = {
   un: 'MaleNoun',
   du: 'MaleNoun',
   au: 'MaleNoun',
-  des: 'PluralNoun',
-  aux: 'PluralNoun',
+  des: 'Plural',
+  aux: 'Plural',
   de: 'Noun',
   // modals
   dois: 'Verb',

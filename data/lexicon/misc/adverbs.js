@@ -12,7 +12,6 @@ export default [
   'encore',
   'tout',
   'bien',
-  'aujourd hui',
   'moins',
   'non',
   'hier',

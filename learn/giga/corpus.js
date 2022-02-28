@@ -1,7 +1,6 @@
 import { forEachSync } from './_giga.js'
 import doSentences from './french.js'
 import fs from 'fs'
-import nlp from '../../src/index.js'
 
 
 let ids = []
@@ -9,7 +8,7 @@ for (let i = 1; i <= 10; i += 1) {
   let str = String(i).padStart(4, '0')
   ids.push(str)
 }
-ids = ['0004']
+// ids = ['0004']
 
 let tagMap = {
   'ABR': 'Abbreviation',//abbreviation
@@ -47,48 +46,48 @@ let tagMap = {
   'VER:subp': 'Verb',//verb subjunctive present
 }
 
-let right = 0
-let wrong = 0
+let byTag = {
+  Verb: {},
+  Noun: {},
+  Adjective: {},
+  Adverb: {},
+}
 const doBoth = function (both) {
-  let txt = both.fr.map(o => o['$text']).join(' ')
-  txt = txt.replace(/ ([.,?):])/g, `$1`)
-  let correct = {}
   both.fr.forEach((term, i) => {
-    let tag = tagMap[term['$'].pos] || term['$'].pos
+    let tag = tagMap[term['$'].pos]
     let str = term['$text'].toLowerCase()
-    correct[str] = tag
-  })
-  let doc = nlp(txt)
-  doc.terms().forEach(t => {
-    let str = t.text('normal')
-    let want = correct[str] || null
-    if (want) {
-      if (t.has('#' + want)) {
-        right += 1
-      } else {
-        // console.log(txt)
-        wrong += 1
-        // console.log(want)
-        // t.debug()
-      }
+    if (tag && byTag[tag]) {
+      byTag[tag][str] = byTag[tag][str] || 0
+      byTag[tag][str] += 1
     }
   })
 }
-
-const percent = (part, total) => {
-  let num = (part / total) * 100;
-  num = Math.round(num * 10) / 10;
-  return num;
-};
-
 await forEachSync(ids, async id => {
   try {
     console.log(`\ndoing ${id}:\n`)
     await doSentences(id, doBoth)
-    console.log(right, ` right  ${percent(right, right + wrong)}%`)
   } catch (e) {
     console.log(e)
   }
 })
-console.log(right, ` right  ${percent(right, right + wrong)}%`)
-console.log(wrong, ` wrong ${percent(wrong, right + wrong)}%`)
+
+const doTag = function (tag, max = 6) {
+  let all = Object.entries(byTag[tag])
+  all = all.filter(a => a[1] > max)
+  all = all.sort((a, b) => {
+    if (a[1] > b[1]) {
+      return -1
+    } else if (a[1] < b[1]) {
+      return 1
+    }
+    return 0
+  })
+  all = all.map(a => a[0])
+  fs.writeFileSync(`./${tag}.js`, 'export default ' + JSON.stringify(all, null, 2))
+  return all
+}
+doTag('Adverb')
+doTag('Verb')
+doTag('Noun')
+doTag('Adjective')
+// console.dir(byTag, { depth: 5 })
