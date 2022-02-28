@@ -31,6 +31,7 @@ export default {
 
   si: 'Condition',
   sinon: 'Condition',
+  'aujourd\'hui': 'Noun',
 
   //pronouns
   je: ['Pronoun', 'Singular'],
