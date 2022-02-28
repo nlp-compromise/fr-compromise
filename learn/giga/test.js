@@ -66,10 +66,10 @@ const doBoth = function (both) {
       if (t.has('#' + want)) {
         right += 1
       } else {
-        console.log(txt)
+        // console.log(txt)
         wrong += 1
-        console.log(want)
-        t.debug()
+        // console.log(want)
+        // t.debug()
       }
     }
   })

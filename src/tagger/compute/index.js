@@ -1,6 +1,6 @@
 // 1st pass
 import checkRegex from './1st-pass/regex.js'
-import titleCase from './1st-pass/titlecase-noun.js'
+import titleCase from './1st-pass/titlecase.js'
 import checkYear from './1st-pass/year.js'
 // 2nd pass
 import acronym from './2nd-pass/acronym.js'

@@ -9,7 +9,7 @@ export default [
   'quelqu',
   'quoique',
 
-  'de',
+  'de', 'du', 'des',
   'a',
   'd',
   'en',

@@ -7,6 +7,29 @@ const hasBefore = {
   des: 'PluralNoun',
   aux: 'PluralNoun',
   de: 'Noun',
+  // modals
+  dois: 'Verb',
+  doit: 'Verb',
+  devons: 'Verb',
+  devez: 'Verb',
+  doivent: 'Verb',
+
+  peux: 'Verb',
+  peut: 'Verb',
+  pouvons: 'Verb',
+  pouvez: 'Verb',
+  peuvent: 'Verb',
+  // (conditional)
+  pouvait: 'Verb',
+  pourrait: 'Verb',
+  pourrais: 'Verb',
+  pourrions: 'Verb',
+  pourriez: 'Verb',
+  pourraient: 'Verb',
+
+  // 
+  avoir: 'Noun',
+  pas: 'Verb' //maybe
 }
 
 const tagNeighbours = function (terms, i, world) {

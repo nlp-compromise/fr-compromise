@@ -13,7 +13,7 @@ const titleCaseNoun = function (terms, i, world) {
     return null
   }
   if (isTitleCase(term.text)) {
-    setTag([term], 'ProNoun', world, false, 'title-case')
+    setTag([term], 'ProperNoun', world, false, 'title-case')
     return true
   }
   return null
