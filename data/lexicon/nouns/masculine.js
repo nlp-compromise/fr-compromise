@@ -23,5 +23,30 @@ export default ['bateau', 'parapluie',
   'partenaire',
   'gestionnaire',
   'fonctionnaire',
-  'salaire'
+  'salaire',
+
+  'animal',
+  'taux',
+  'niveau',
+  'réseau',
+  'bureau',
+  'journal',
+  'eau',
+
+  'entente',
+  'vente',
+  'atteinte',
+  'plante',
+  'plainte',
+
+  'jeu',
+  // 'enjeux',
+  'lieu',
+
+  'perspective',
+  'initiative',
+  'élève',
+
+  'objectif',
+  'tarif',
 ]
