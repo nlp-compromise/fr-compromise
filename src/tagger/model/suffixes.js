@@ -19,14 +19,25 @@ export default [
   {
     //3-letter
     'ité': nn,
-    'ées': vb
+    'ées': vb,
+    ile: jj, //civile
+    ale: jj, //nationale
+    ble: jj, //capable
   },
   {
     //4-letter
-    ment: rb
+    ment: rb,
+    elle: jj,
+    bles: jj,
+    ales: jj,
+    ique: jj,
+    aire: jj,
   },
   {
     //5-letter
+    elles: jj,
+    iques: jj,
+    aires: jj,
   },
   {
     //6-letter
