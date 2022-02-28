@@ -10,10 +10,21 @@ nlp.plugin(lexicon)
 nlp.plugin(tagger)
 
 // enable some helpful logging
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
-const de = function (txt, lex) {
+
+const fr = function (txt, lex) {
   let dok = nlp(txt, lex)
   return dok
 }
-export default de
+
+/** log the decision-making to console */
+fr.verbose = function (set) {
+  let env = typeof process === 'undefined' ? self.env || {} : process.env //use window, in browser
+  env.DEBUG_TAGS = set === 'tagger' || set === true ? true : ''
+  env.DEBUG_MATCH = set === 'match' || set === true ? true : ''
+  env.DEBUG_CHUNKS = set === 'chunker' || set === true ? true : ''
+  return this
+}
+
+export default fr

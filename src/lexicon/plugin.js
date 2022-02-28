@@ -13,6 +13,5 @@ export default {
     one: {
       lexicon
     }
-  },
-  hooks: ['lexicon']
+  }
 }

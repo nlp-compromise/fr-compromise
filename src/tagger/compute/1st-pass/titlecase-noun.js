@@ -3,21 +3,19 @@ const isTitleCase = function (str) {
 }
 
 // add a noun to any non-0 index titlecased word, with no existing tag
-const titleCaseNoun = function (view, world) {
+const titleCaseNoun = function (terms, i, world) {
   let setTag = world.methods.one.setTag
-  view.docs.forEach((terms) => {
-    terms.forEach((term, i) => {
-      if (i === 0) {
-        return
-      }
-      if (term.tags.size > 0) {
-        return
-      }
-      if (isTitleCase(term.text)) {
-        setTag([term], 'ProNoun', world)
-      }
-    })
-  })
-
+  let term = terms[i]
+  if (i === 0) {
+    return null
+  }
+  if (term.tags.size > 0) {
+    return null
+  }
+  if (isTitleCase(term.text)) {
+    setTag([term], 'ProNoun', world, false, 'title-case')
+    return true
+  }
+  return null
 }
 export default titleCaseNoun
