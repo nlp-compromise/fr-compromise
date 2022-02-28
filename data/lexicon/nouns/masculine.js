@@ -97,5 +97,8 @@ export default ['bateau', 'parapluie',
   'remboursement',
   'segment',
   'recrutement',
-  'mouvement'
+  'mouvement',
+
+  'donnée',
+  'restaurant'
 ]

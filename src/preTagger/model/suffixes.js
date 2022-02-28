@@ -19,6 +19,7 @@ export default [
     és: vb,
     sé: vb,
     ré: vb,
+    çu: vb,//conçu
     ra: vb,//faudra
     it: vb,//fournit
     ez: vb,//consultez
@@ -49,6 +50,7 @@ export default [
   {
     //4-letter
     ment: rb,
+
     elle: jj,
     bles: jj,
     ales: jj,
@@ -57,9 +59,9 @@ export default [
     ives: jj,
     ntes: jj, //différentes
 
-    sion: vb,//commission
     sent: vb,//produisent
 
+    sion: nn,//commission
     eurs: nn,//directeurs
     tion: nn,//amélioration
     ance: nn,//croissance
@@ -68,9 +70,16 @@ export default [
     //5-letter
     tions: nn,//améliorations
     ments: nn,//aliments
-    sions: vb,//commissions
+    sions: nn,//commissions
 
     aient: vb,//auraient
+    arant: vb,//préparant
+    irant: vb,//inspirant
+    orant: vb,//élaborant
+    urant: vb,//assurant
+    trant: vb,//montrant
+    llant: vb,//détaillant
+
     elles: jj,
     iques: jj,
     aires: jj,

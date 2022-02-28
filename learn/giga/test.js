@@ -12,7 +12,7 @@ for (let i = 1; i <= 10; i += 1) {
 ids = ['0004']
 
 let tagMap = {
-  'ABR': 'Abbreviation',//abbreviation
+  'ABR': 'Acronym',//abbreviation
   'ADJ': 'Adjective',//adjective
   'ADV': 'Adverb',//adjective
   'DET:ART': 'Determiner',//article
@@ -54,9 +54,11 @@ const doBoth = function (both) {
   txt = txt.replace(/ ([.,?):])/g, `$1`)
   let correct = {}
   both.fr.forEach((term, i) => {
-    let tag = tagMap[term['$'].pos] || term['$'].pos
-    let str = term['$text'].toLowerCase()
-    correct[str] = tag
+    let tag = tagMap[term['$'].pos]
+    if (tag) {
+      let str = term['$text'].toLowerCase()
+      correct[str] = tag
+    }
   })
   let doc = nlp(txt)
   doc.terms().forEach(t => {
@@ -66,8 +68,8 @@ const doBoth = function (both) {
       if (t.has('#' + want)) {
         right += 1
       } else {
-        // console.log(txt)
         wrong += 1
+        // console.log(txt)
         // console.log(want)
         // t.debug()
       }

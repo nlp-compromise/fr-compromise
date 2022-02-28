@@ -1,7 +1,7 @@
 import normal from './normal/index.js'
 export default {
   compute: {
-    normal
+    normal // replace this
   },
   hooks: ['normal']
 }

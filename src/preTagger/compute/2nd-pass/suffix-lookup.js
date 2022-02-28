@@ -33,7 +33,7 @@ const suffixCheck = function (terms, i, world) {
     if (term.implicit) {
       tag = suffixLoop(term.implicit, suffixes)
       if (tag !== null) {
-        setTag(term, tag, world, false, '2-implicit-suffix')
+        setTag([term], tag, world, false, '2-implicit-suffix')
         term.confidence = 0.7
         return true
       }

@@ -1783,7 +1783,6 @@ export default [
   'tergiverser',
   'terminer',
   'ternir',
-  'terre',
   'terrer',
   'terrifier',
   'terrir',
