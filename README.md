@@ -69,9 +69,9 @@ Veuillez rejoindre pour aider! - please join to help!
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-<h2 align="center">
+<!-- <h2 align="center">
   <a href="https://rawgit.com/nlp-compromise/fr-compromise/master/demo/index.html">Demo</a>
-</h2>
+</h2> -->
 
 
 ### Contributing
