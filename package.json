@@ -2,15 +2,14 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "fr-compromise",
   "description": "Computerlinguistik im browser",
-  "version": "0.1.0",
-  "main": "./src/index.js",
-  "unpkg": "./builds/compromise.js",
+  "version": "0.0.1",
+  "main": "./builds/fr-compromise.mjs",
+  "unpkg": "./builds/compromise.min.js",
   "type": "module",
-  "types": "builds/types.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./src/index.js",
+      "import": "./builds/fr-compromise.mjs",
       "require": "./builds/fr-compromise.cjs"
     }
   },
@@ -20,6 +19,7 @@
   },
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
+    "testb": "TESTENV=prod npm run test",
     "build": "rollup -c --silent",
     "pack": "node ./scripts/pack.js",
     "watch": "amble ./scratch.js",
