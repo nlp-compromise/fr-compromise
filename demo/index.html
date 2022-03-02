@@ -8,7 +8,7 @@
     textarea {
       width: 50%;
       margin-top: 5%;
-      margin-left: 25%;
+      margin-bottom: 1rem;
       padding: 10px;
       font-size: 15px;
       color: grey;
@@ -25,8 +25,47 @@
       margin-top: 3rem;
     }
 
+    .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      text-align: center;
+      flex-wrap: wrap;
+      align-self: stretch;
+    }
+
+    .tags {
+      width: 50%;
+      margin-left: 25%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      flex-wrap: wrap;
+      align-self: stretch;
+
+    }
+
+    @media only screen and (max-width:600px) {
+      textarea {
+        margin-left: 5%;
+        width: 90%;
+      }
+
+      #result {
+        margin-left: 5%;
+      }
+
+      .tags {
+        margin-left: 5%;
+      }
+    }
+
+
     h3 {
-      color: grey;
+      color: steelblue
     }
 
     .nouns {
@@ -60,16 +99,21 @@
     .num {
       color: #f39c73;
     }
+
+    .tag {
+      margin-right: 1rem;
+    }
   </style>
 </head>
 
-<body style="">
-  <div id="past-verb-test">
-    <h3>Teil-of-Speech-Tagging auf Deutsch!</h3>
+<body>
+  <div class="title">
+    <h3>Étiquetage morpho-syntaxique en français</h3>
     <div style="color:cornflowerblue;">
-      (part-of-speech tagging in german)
-      <a href="https://github.com/nlp-compromise/de-compromise" style="margin-left:100px; color:steelblue;">mit
-        de-compromise</a>
+      (part-of-speech tagging in french)
+      <a href="https://github.com/nlp-compromise/fr-compromise"
+        style="margin-left:100px; color:steelblue; white-space: nowrap;">
+        fr-compromise</a>
     </div>
     <textarea type="text" id="text" onKeyPress="tagger()" onKeyUp="tagger()">
 Je m'baladais sur l'avenue le cœur ouvert à l'inconnu
@@ -99,25 +143,23 @@ Il y a tout ce que vous voulez aux Champs-Elysées
 Aux Champs-Elysées, aux Champs-Elysées
 Au soleil, sous la pluie, à midi ou à minuit
       </textarea>
-    <table style="width:50%; margin-left:25%; text-align:center;">
-      <tr>
-        <td class="nouns">Nom</td>
-        <td class="verbs">Verbe</td>
-        <td class="adj">Adjective</td>
-        <td class="adv">Adverbe</td>
-        <td class="det">Déterminant </td>
-        <td class="conj">Conjonction </td>
-        <td class="prep">Préposition </td>
-        <td class="num">Nombre</td>
-      </tr>
-    </table>
-    <pre id="result">-</pre>
+    <div class="tags">
+      <div class="tag nouns">Nom</div>
+      <div class="tag verbs">Verbe</div>
+      <div class="tag adj">Adjective</div>
+      <div class="tag adv">Adverbe</div>
+      <div class="tag det">Déterminant </div>
+      <div class="tag conj">Conjonction </div>
+      <div class="tag prep">Préposition </div>
+      <div class="tag num">Nombre</div>
+    </div>
   </div>
+  <pre id="result">-</pre>
 
   <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise"></script> -->
   <script type="text/javascript" src="../builds/fr-compromise.min.js"></script>
   <script type="text/javascript" language="javascript">
-    var nlp = window.deCompromise;
+    var nlp = window.frCompromise;
     function tagger() {
       var present = document.getElementById('text').value || '';
       var doc = nlp(present)
