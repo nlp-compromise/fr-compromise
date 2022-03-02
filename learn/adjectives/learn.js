@@ -1,23 +1,17 @@
-const data = require('./data')
-const toMasc = require('../../src/transforms/adjectives/toMasc.js')
-const toSingular = require('../../src/transforms/adjectives/toSingular.js')
+import data from './data.js'
+// import data from '../nouns/data.js'
 
-// const irregs = {}
-let count = 0
-data.forEach((a) => {
-  let from = a[3]
-  let root = toSingular(from)
-  root = toMasc(root)
-  root = toSingular(root)
-  if (a[0] === root) {
-    count += 1
-  } else {
-    // irregs[a[0]] = a[1]
-    console.log(from + '   - ' + root + '  (' + a[0] + ')')
-  }
+import { learn, compress, test } from 'suffix-thumb'
+
+
+const pairs = {}
+data.forEach(a => {
+  let [m, f, mp, fp] = a
+  pairs[m] = [f, mp, fp]
 })
-console.log(count)
-console.log(count / data.length)
 
-// console.log(irregs)
-// console.log(toFem('virtuele'))
+console.log(JSON.stringify(pairs, null, 2))
+// let model = learn(pairs)
+// model = compress(model)
+// console.log(JSON.stringify(model, null, 2))
+// test(pairs)

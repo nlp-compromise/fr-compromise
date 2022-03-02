@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   ['abaissé', 'abaissée', 'abaissés', 'abaissées'],
   ['abandonné', 'abandonnée', 'abandonnés', 'abandonnées'],
   ['abattu', 'abattue', 'abattus', 'abattues'],
@@ -2987,5 +2987,5 @@ module.exports = [
   ['évident', 'évidente', 'évidents', 'évidentes'],
   ['évocateur', 'évocatrice', 'évocateurs', 'évocatrices'],
   ['évolué', 'évoluée', 'évolués', 'évoluées'],
-  ['ôté', 'ôtée', 'ôtés', 'ôtées'],
+  ['ôté', 'ôtée', `ôtés`, 'ôtées'],
 ]

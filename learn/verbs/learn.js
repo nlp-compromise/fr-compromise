@@ -1,4 +1,4 @@
-let verbs = require('./verbs')
+let verbs = require('./data')
 
 let pairs = []
 Object.keys(verbs).forEach((inf) => {

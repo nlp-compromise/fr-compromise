@@ -19675,8 +19675,6 @@ module.exports = [
   'an',
   'dans',
   'par',
-  'une',
-  'à',
   'baccalauréat',
   'baccalauréat en arts',
   'bachelor of arts',

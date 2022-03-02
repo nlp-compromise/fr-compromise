@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   ['abbé', 'abbesse', 'abbés', 'abbesses'],
   ['abonné', 'abonnée', 'abonnés', 'abonnées'],
   ['abruti', 'abrutie', 'abrutis', 'abruties'],

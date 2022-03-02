@@ -1,174 +1,115 @@
-Work in progress!!
+<div align="center">
+  <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+  <div><b>fr-compromise</b></div>
+  <img src="https://user-images.githubusercontent.com/399657/68222691-6597f180-ffb9-11e9-8a32-a7f38aa8bded.png"/>
+  <div>linguistique computationnelle modeste </div>
+  <div><code>npm install fr-compromise</code></div>
+  <div align="center">
+    <sub>
+      work-in-progress! •  travaux en cours! 
+    </sub>
+  </div>
+  <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+</div>
+
+<div align="center">
+  <div>
+    <a href="https://npmjs.org/package/fr-compromise">
+    <img src="https://img.shields.io/npm/v/fr-compromise.svg?style=flat-square" />
+  </a>
+  <!-- <a href="https://codecov.io/gh/spencermountain/fr-compromise">
+    <img src="https://codecov.io/gh/spencermountain/fr-compromise/branch/master/graph/badge.svg" />
+  </a> -->
+  <a href="https://bundlephobia.com/result?p=fr-compromise">
+    <img src="https://badge-size.herokuapp.com/spencermountain/fr-compromise/master/builds/fr-compromise.min.js" />
+  </a>
+  </div>
+</div>
+
+<!-- spacer -->
+<img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
 
-to run, `npm install`
-then `npm run watch`. This will re-run ./scratch.js
+`fr-compromise` is a port of [compromise](https://github.com/nlp-compromise/compromise) in french.
 
-if you change any of the data in `./data`, you'll need to run `npm run pack` to see changes.
+The goal of this project is to provide a small, basic, rule-based POS-tagger.
 
-if you want to run the ML scripts, you'll need to download [the fr-wikinews dataset](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos) (23mb) by nicolas hernandez,
-and put it somewhere in `./learn`.
-
-**fr-compromise** uses the [tokenize-only build](https://observablehq.com/@spencermountain/compromise-tokenization#sentences) of the english compromise as the core functionality.
-It adds its own tagger, lexicon, conjugation scripts, and some new gender tags.
-
-This is unreleased and not ready for production.
+L'objectif de ce projet est de fournir un petit POS-tagger de base basé sur des règles. 
 
 
-## Tasks
+<!-- spacer -->
+<img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-for lexicon:
+```js
+import tal from 'fr-compromise'
 
--[] french country/city names
--[] (way) more infinitive verbs 
--[] (way) more singular nouns 
+let doc = tal(`Je m'baladais sur l'avenue le cœur ouvert à l'inconnu`)
+doc.match('#Noun').out('array')
+// [ 'wir', 'Helden', 'Tag.' ]
+```
 
-for conjugation:
--[] past/present/future tenses
--[] conjugate gender of adjectives
--[] conjugate noun gender `professeur / professeure`
--[] proper noun plural/inflections
+<!-- spacer -->
+<img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-for tagger:
--[] adjective gender
+oder im Browser:
+```html
+<script src="https://unpkg.com/fr-compromise"></script>
+<script>
+  let txt = `J'avais envie de dire bonjour à n'importe qui`
+  let doc = frCompromise(txt) // espace de noms global 
+  console.log(doc.sentences(1).json())
+  // { text:'J'avais...', terms:[ ... ] }
+</script>
+```
 
-### Transformations
+see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
 
-#### Adjectives
+Veuillez rejoindre pour aider! - please join to help!
 
-masc - femme - plurMasc - plurFemme
+<!-- spacer -->
+<img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-`présidentiel` - `présidentielle` - `présidentiels` - `présidentielles`
+<h2 align="center">
+  <a href="https://rawgit.com/nlp-compromise/fr-compromise/master/demo/index.html">Demo</a>
+</h2>
 
-`républicain` - `républicaine` - `républicain` - `républicaines`
 
-#### Verbs
+### Contributing
+```
+git clone https://github.com/nlp-compromise/fr-compromise.git
+cd fr-compromise
+npm install
+npm test
+npm watch
+```
 
-- conjugate je/tu/il/nous/vous/ils
-  `parle` - `parles` - `parle` - `parlons` - `parlez` - `parlent`
 
-- conjugate tenses
-  imparfait/future/simple/compose/anterieur [oh dear](https://conjugator.reverso.net/conjugation-french-verb-parler.html)
-  `parle` - `parlais` - `parlerai` - `parlas` - `parlé`
+<!-- spacer -->
+<img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-#### Nouns
+<table>
+  <tr align="center">
+    <td>
+      <a href="https://www.twitter.com/compromisejs">
+        <img src="https://cloud.githubusercontent.com/assets/399657/21956672/a30cf206-da53-11e6-8c6c-0995cf2aef62.jpg"/>
+        <div>&nbsp; &nbsp; &nbsp; Twitter &nbsp; &nbsp; &nbsp; </div>
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/nlp-compromise/compromise/wiki/Contributing">
+        <img src="https://cloud.githubusercontent.com/assets/399657/21956742/5985a89c-da55-11e6-87bc-4f0f1549d202.jpg"/>
+        <div>&nbsp; &nbsp; &nbsp; Pull-requests &nbsp; &nbsp; &nbsp; </div>
+      </a>
+    </td>
+  </tr>
+</table>
 
-- inflect nouns (from singular)
 
-`cheval` →‎ `chevaux`
 
-- tag noun as either Masc or Femme
-
-for tagger:
-
-- build a lexicon
-- suffix/regex lookups
-- noun fallback
-- grammar-based corrections
-
-gender:
-
-- tag male/female nouns
-- tag male/female adjectives
-- tag male/female verbs?
-
-### Notes
-
-- currently using english tag names, and API.
-- en-compromise normalizes accented characters like `è` to `e`
-- en-compromise adds 'FutureTense' to our conjugations
-
----
-
-:boom: This repository is the french version of [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise)! :boom:
-
-# NLP tool adapted to French
-
-Hi! This project was started by [spencermountain](https://twitter.com/spencermountain), a beginner in French. We therefore need some help about french or development.
-
-Grammar differences between the English and the French version are quite huge, which leads to great challenges.
-
-## What material is being used?
-
-The project is built upon the French WordNet ([WOLF](http://alpage.inria.fr/~sagot/wolf-en.html)), which contains:
-
-- 10k adjectives
-- 12k verbs
-- 2k adverbs
-- 70k nouns
-
-### A few suffixes
-
-- que\$ -> k (banque -> bank, casque -> cask, disque -> disk)
-- aire\$ -> ary (tertiaire -> tertiairy)
-- eur\$ -> or (chercheur -> chearchor)
-- ie\$ -> y (cajolerie -> cajolery)
-- té\$ -> ty (extremité -> extremity)
-- re\$ -> er (ordre -> order, tigre -> tiger)
-- ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
-- ant\$ -> ing (changeant -> changeing)
-- er\$ -> "" (documenter -> document)
-- osis\$ -> ose (osmose -> osmose)
-- ment\$ -> ly (confortablement -> confortably)
-
-We're gonna learn the rules. BADDA BING BADA BOOM!
-
-## External Resources
-
-- [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
+## Voir aussi
 
 - [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
+- [de-compromise](https://github.com/nlp-compromise/de-compromise) - german version
 
-- [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
 
-- [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
-
----
-
-# French version
-
-:boom: Ce dépôt est la version française de [nlp-compromise](https://github.com/nlp-compromise/nlp_compromise) ! :boom:
-
-# Outil de Natural Language Processing en français
-
-Bonjour ! Ce projet a été démarré par [spencermountain](https://twitter.com/spencermountain), un débutant en français. Nous avons donc besoin de toute aide disponible, que ce soit en français ou en développement.
-
-Vous êtes invités à rejoindre [le groupe Slack](slack.compromise.cool) pour discuter des détails.
-Vous trouverez ici un projet de traitement du langage naturel adapté à la langue française.
-
-Les différences grammaticales entre la version anglaise et la version française ne sont pas négligeables, ce qui pose de grands défis.
-
-## Quel est le matériel utilisé ?
-
-Le projet est réalisé grâce au WordNet français (>WOLF](http://alpage.inria.fr/~sagot/wolf-en.html)), qui contient :
-
-- 10 000 adjectifs
-- 12 000 verbes
-- 2 000 adverbes
-- 70 000 noms
-
-### Quelques suffixes
-
-- que\$ -> k (banque -> bank, casque -> cask, disque -> disk)
-- aire\$ -> ary (tertiaire -> tertiairy)
-- eur\$ -> or (chercheur -> chearchor)
-- ie\$ -> y (cajolerie -> cajolery)
-- té\$ -> ty (extremité -> extremity)
-- re\$ -> er (ordre -> order, tigre -> tiger)
-- ais$ -> ese, ois$ -> ese (libanais -> lebanese, chinois -> chinese)
-- ant\$ -> ing (changeant -> changeing)
-- er\$ -> "" (documenter -> document)
-- osis\$ -> ose (osmose -> osmose)
-- ment\$ -> ly (confortablement -> confortably)
-
-On va apprendre les regles. BADDA BING BADA BOOM!
-
-## Ressources externes
-
-- [nicolashernandez/free-french-treebank](https://raw.githubusercontent.com/nicolashernandez/free-french-treebank/master/130612/frwikinews/txt-tok-pos/frwikinews-20130110-pages-articles.txt.tok.stanford-pos)
-
-- [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
-
-- [sequoia tagset](https://raw.githubusercontent.com/turbopape/postagga/master/resources/postagga-sequoia-fr.edn#)
-
-- [fvcr verb conjugation dataset](https://sourceforge.net/projects/fvcr/?source=typ_redirect)
+MIT
