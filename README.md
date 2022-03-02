@@ -6,7 +6,7 @@
   <div><code>npm install fr-compromise</code></div>
   <div align="center">
     <sub>
-      work-in-progress! •  travaux en cours! 
+     travaux en cours! • work-in-progress!  
     </sub>
   </div>
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
@@ -45,7 +45,7 @@ import tal from 'fr-compromise'
 
 let doc = tal(`Je m'baladais sur l'avenue le cœur ouvert à l'inconnu`)
 doc.match('#Noun').out('array')
-// [ 'wir', 'Helden', 'Tag.' ]
+// [ 'je', 'avenue', 'cœur', 'inconnu' ]
 ```
 
 <!-- spacer -->

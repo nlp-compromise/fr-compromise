@@ -49,6 +49,8 @@ let tagMap = {
 
 const ignore = new Set(['au', 'aux', 'des', 'au', 'ne', '$', '.', '(', ')', 'se'])
 
+let bad = {}
+
 let right = 0
 let wrong = 0
 const doBoth = function (both) {
@@ -71,6 +73,8 @@ const doBoth = function (both) {
         right += 1
       } else {
         wrong += 1
+        bad[str] = bad[str] || 0
+        bad[str] += 1
         // console.log(txt)
         // console.log(want)
         // t.debug()
@@ -78,6 +82,20 @@ const doBoth = function (both) {
     }
   })
 }
+
+
+// setInterval(() => {
+//   let all = Object.entries(bad).sort((a, b) => {
+//     if (a[1] > b[1]) {
+//       return -1
+//     } else if (a[1] < b[1]) {
+//       return 1
+//     }
+//     return 0
+//   })
+//   all = all.slice(0, 100)
+//   console.log(all)
+// }, 10000)
 
 const percent = (part, total) => {
   let num = (part / total) * 100;

@@ -9,10 +9,17 @@ export default {
   me: 'Auxiliary',
 
   ai: 'Auxiliary',
+  ont: 'Auxiliary',
 
   // questions
-  ou: 'Preposition',
+  ou: 'Conjunction',
   qui: 'Preposition',
+  que: 'Preposition',
+  a: 'Preposition',
+  ces: 'Determiner',
+  cette: 'Determiner',
+
+
   quelle: 'QuestionWord',
   que: 'QuestionWord',
   qu: 'QuestionWord',
