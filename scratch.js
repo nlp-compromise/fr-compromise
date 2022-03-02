@@ -15,7 +15,7 @@ text = `qui sont effectuées dans des bassins hydrographiques`
 // text = ` Tu dois finir `
 text = ` l'arrivée initiale des noctuelles`
 text = `grossissent et mûrissent ; ils se traduisent `
-text = ` assez tôt pour être touché par l' arrivée`
+text = ` assez tôt pour être touché par l'arrivée`
 text = `diminuent`
 text = ` à des travaux visant`
 text = `des techniques culturales`
@@ -41,5 +41,7 @@ Et de l'Étoile à la Concorde, un orchestre à mille cordes
 Tous les oiseaux du point du jour chantent l'amour`
 text = `Au soleil, sous la pluie, à midi ou à minuit`
 text = `Au soleil merveilleuse`
+text = `Je m'baladais sur l'avenue le cœur ouvert à l'inconnu`
+text = `la rue éthérés`
 var doc = nlp(text)
 doc.debug()

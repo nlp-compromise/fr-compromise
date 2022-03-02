@@ -10,7 +10,9 @@ test('match:', function (t) {
     ['dans le gaboo', 'dans #Determiner #MaleNoun'],
     ['dans la gaboo', 'dans #Determiner #FemaleNoun'],
 
-    ['je suis dans la éthérés rue', '#Pronoun #Copula dans #Determiner #Adjective #Noun'],
+    ['je suis dans la rue éthérés', '#Pronoun #Copula dans #Determiner #Noun #Adjective'],
+    [`le homme éthéré`, '#Determiner #MaleNoun #MaleAdjective'],
+    [`la femme éthérée`, '#Determiner #FemaleNoun #FemaleAdjective'],
     ['évolueront vous achetez', 'évolueront #Pronoun #PresentTense'],
     // ['','']
   ]

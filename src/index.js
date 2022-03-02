@@ -2,12 +2,14 @@ import nlp from 'compromise/one'
 // import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import tokenize from './tokenize/plugin.js'
 import lexicon from './lexicon/plugin.js'
-import tagger from './preTagger/plugin.js'
+import preTagger from './preTagger/plugin.js'
+import postTagger from './postTagger/plugin.js'
 import tagset from './tagset/plugin.js'
 nlp.plugin(tokenize)
 nlp.plugin(tagset)
 nlp.plugin(lexicon)
-nlp.plugin(tagger)
+nlp.plugin(preTagger)
+nlp.plugin(postTagger)
 
 const fr = function (txt, lex) {
   let dok = nlp(txt, lex)

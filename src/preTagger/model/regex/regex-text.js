@@ -11,4 +11,8 @@ export default [
   // ending-apostrophes
   [/.{3}[lkmnp]in['‘’‛‵′`´]$/, 'Gerund', "chillin'"],
   [/.{4}s['‘’‛‵′`´]$/, 'Possessive', "flanders'"],
+
+  // leading contractions
+  // [/^s'[a-z]$/, 'Verb'],
+  // [/^l'[a-z]$/, 'Noun'],
 ]

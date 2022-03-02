@@ -20,13 +20,4 @@ export default {
   sinon: 'Condition',
   'aujourd\'hui': 'Noun',
 
-  //pronouns
-  je: 'Pronoun', //'Singular'
-  il: 'Pronoun', //'Singular'
-  elle: 'Pronoun', //'Singular'
-  tu: 'Pronoun', //'Singular'
-  on: 'Pronoun', //'Plural'
-  vous: 'Pronoun', //'Plural'
-  nous: 'Pronoun', //'Plural'
-  ils: 'Pronoun', //'Plural'
 }

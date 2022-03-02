@@ -56,17 +56,15 @@ const data = [
   [currencies, 'Currency'],
   [expressions, 'Expression'],
   [determiners, 'Determiner'],
-  [conjunctions, 'Conjunction'],
-  [determiners, 'Determiner'],
   [prepositions, 'Preposition'],
 ]
 for (let i = 0; i < data.length; i++) {
   const list = data[i][0]
   for (let o = 0; o < list.length; o++) {
     //log duplicates
-    // if (lex[list[o]]) {
-    //   console.log(list[o] + '  ' + lex[list[o]] + ' ' + data[i][1])
-    // }
+    if (lex[list[o]]) {
+      console.log(list[o] + '  ' + lex[list[o]] + ' ' + data[i][1])
+    }
     lex[list[o]] = data[i][1]
   }
 }
