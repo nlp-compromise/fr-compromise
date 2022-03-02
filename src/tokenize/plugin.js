@@ -1,7 +1,10 @@
-import normal from './normal/index.js'
+import unicode from './unicode.js'
+import contractions from './contractions.js'
+
 export default {
-  compute: {
-    normal // replace this
-  },
-  hooks: ['normal']
+  mutate: (world) => {
+    world.model.one.unicode = unicode
+
+    world.model.one.contractions = contractions
+  }
 }

@@ -7,6 +7,8 @@ import acronym from './2nd-pass/acronym.js'
 import neighbours from './2nd-pass/neighbours.js'
 import nounFallback from './2nd-pass/noun-fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
+// 3rd pass
+import nounGender from './3rd-pass/noun-gender.js'
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -27,6 +29,11 @@ const secondPass = function (terms, world) {
     found = found || nounFallback(terms, i, world)
   }
 }
+const thirdPass = function (terms, world) {
+  for (let i = 0; i < terms.length; i += 1) {
+    nounGender(terms, i, world)
+  }
+}
 
 
 const tagger = function (view) {
@@ -34,6 +41,7 @@ const tagger = function (view) {
   view.docs.forEach(terms => {
     firstPass(terms, world)
     secondPass(terms, world)
+    thirdPass(terms, world)
   })
   return view
 }

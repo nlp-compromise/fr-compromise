@@ -1,5 +1,5 @@
-// import nlp from 'compromise/one'
-import nlp from '/Users/spencer/mountain/compromise/src/one.js'
+import nlp from 'compromise/one'
+// import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import tokenize from './tokenize/plugin.js'
 import lexicon from './lexicon/plugin.js'
 import tagger from './preTagger/plugin.js'
@@ -8,16 +8,6 @@ nlp.plugin(tokenize)
 nlp.plugin(tagset)
 nlp.plugin(lexicon)
 nlp.plugin(tagger)
-
-let world = nlp.world()
-// make sure our 'normal' function runs before the tagger
-world.hooks = world.hooks.sort((a, b) => {
-  if (a === 'normal') {
-    return -1
-  }
-  return 1
-})
-
 
 const fr = function (txt, lex) {
   let dok = nlp(txt, lex)

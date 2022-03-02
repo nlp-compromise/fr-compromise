@@ -30,7 +30,7 @@
     "docs/"
   ],
   "dependencies": {
-    "compromise": "13.11.4-rc5",
+    "compromise": "13.11.4-rc6",
     "efrt": "2.5.0",
     "suffix-thumb": "4.0.2"
   },

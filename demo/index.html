@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>fr-compromise Demo</title>
+  <style>
+    textarea {
+      width: 50%;
+      margin-top: 5%;
+      margin-left: 25%;
+      padding: 10px;
+      font-size: 15px;
+      color: grey;
+      min-height: 200px;
+      border-radius: 5px;
+    }
+
+    #result {
+      color: steelblue;
+      font-size: 16px;
+      margin: 20px;
+      margin-left: 15%;
+      line-height: 1.2rem;
+      margin-top: 3rem;
+    }
+
+    h3 {
+      color: grey;
+    }
+
+    .nouns {
+      color: #6393b9;
+    }
+
+    .verbs {
+      color: palevioletred;
+    }
+
+    .det {
+      color: #d3c0b3;
+    }
+
+    .adj {
+      color: #b3d3c6;
+    }
+
+    .conj {
+      color: #c8c9cf;
+    }
+
+    .adv {
+      color: #9794a8;
+    }
+
+    .prep {
+      color: grey;
+    }
+
+    .num {
+      color: #f39c73;
+    }
+  </style>
+</head>
+
+<body style="">
+  <div id="past-verb-test">
+    <h3>Teil-of-Speech-Tagging auf Deutsch!</h3>
+    <div style="color:cornflowerblue;">
+      (part-of-speech tagging in german)
+      <a href="https://github.com/nlp-compromise/de-compromise" style="margin-left:100px; color:steelblue;">mit
+        de-compromise</a>
+    </div>
+    <textarea type="text" id="text" onKeyPress="tagger()" onKeyUp="tagger()">
+Je m'baladais sur l'avenue le cœur ouvert à l'inconnu
+J'avais envie de dire bonjour à n'importe qui
+N'importe qui et ce fut toi, je t'ai dit n'importe quoi
+Il suffisait de te parler, pour t'apprivoiser
+Aux Champs-Elysées, aux Champs-Elysées
+Au soleil, sous la pluie, à midi ou à minuit
+Il y a tout ce que vous voulez aux Champs-Elysées
+Tu m'as dit "J'ai rendez-vous dans un sous-sol avec des fous
+Qui vivent la guitare à la main, du soir au matin"
+Alors je t'ai accompagnée, on a chanté, on a dansé
+Et l'on n'a même pas pensé à s'embrasser
+Aux Champs-Elysées, aux Champs-Elysées
+Au soleil, sous la pluie, à midi ou à minuit
+Il y a tout ce que vous voulez aux Champs-Elysées
+Hier soir, deux inconnus et ce matin sur l'avenue
+Deux amoureux tout étourdis par la longue nuit
+Et de l'Étoile à la Concorde, un orchestre à mille cordes
+Tous les oiseaux du point du jour chantent l'amour
+Aux Champs-Elysées, aux Champs-Elysées
+Au soleil, sous la pluie, à midi ou à minuit
+Il y a tout ce que vous voulez aux Champs-Elysées
+Aux Champs-Elysées, aux Champs-Elysées
+Au soleil, sous la pluie, à midi ou à minuit
+Il y a tout ce que vous voulez aux Champs-Elysées
+Aux Champs-Elysées, aux Champs-Elysées
+Au soleil, sous la pluie, à midi ou à minuit
+      </textarea>
+    <table style="width:50%; margin-left:25%; text-align:center;">
+      <tr>
+        <td class="nouns">Nom</td>
+        <td class="verbs">Verbe</td>
+        <td class="adj">Adjective</td>
+        <td class="adv">Adverbe</td>
+        <td class="det">Déterminant </td>
+        <td class="conj">Conjonction </td>
+        <td class="prep">Préposition </td>
+        <td class="num">Nombre</td>
+      </tr>
+    </table>
+    <pre id="result">-</pre>
+  </div>
+
+  <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise"></script> -->
+  <script type="text/javascript" src="../builds/fr-compromise.min.js"></script>
+  <script type="text/javascript" language="javascript">
+    var nlp = window.deCompromise;
+    function tagger() {
+      var present = document.getElementById('text').value || '';
+      var doc = nlp(present)
+      doc.debug()
+      let highlight = {
+        nouns: doc.match('#Noun'),
+        verbs: doc.match('#Verb'),
+        adj: doc.match('#Adjective'),
+        adv: doc.match('#Adverb'),
+        det: doc.match('#Determiner'),
+        conj: doc.match('#Conjunction'),
+        prep: doc.match('#Preposition'),
+        num: doc.match('#Value'),
+      }
+      document.getElementById('result').innerHTML = doc.html(highlight)
+    }
+    tagger();//fire!
+  </script>
+
+</body>
+
+</html>

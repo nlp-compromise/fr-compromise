@@ -10,7 +10,12 @@ export default [
   // === Main ==
   {
     input: 'src/index.js',
-    output: [{ file: 'builds/fr-compromise.js', format: 'umd', name: 'nlp' }],
+    output: [{ file: 'builds/fr-compromise.cjs', format: 'umd', name: 'frCompromise' }],
+    plugins: [nodeResolve()],
+  },
+  {
+    input: 'src/index.js',
+    output: [{ file: 'builds/fr-compromise.min.js', format: 'umd', name: 'frCompromise' }],
     plugins: [nodeResolve(), terser(opts)],
   },
   {
