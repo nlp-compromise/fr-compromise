@@ -4,7 +4,11 @@ export default {
   ni: 'Negative',
   aucun: 'Negative',
 
-  se: 'Verb',
+  se: 'Auxiliary',
+  te: 'Auxiliary',
+  me: 'Auxiliary',
+
+  ai: 'Auxiliary',
 
   // questions
   ou: 'Preposition',

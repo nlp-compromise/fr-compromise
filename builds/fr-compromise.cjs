@@ -4,7 +4,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.frCompromise = factory());
 })(this, (function () { 'use strict';
 
-  let methods$n = {
+  let methods$o = {
     one: {},
     two: {},
     three: {},
@@ -19,7 +19,7 @@
   let compute$a = {};
   let hooks = [];
 
-  var tmp = { methods: methods$n, model: model$6, compute: compute$a, hooks };
+  var tmp = { methods: methods$o, model: model$6, compute: compute$a, hooks };
 
   const isArray$7 = input => Object.prototype.toString.call(input) === '[object Array]';
 
@@ -229,11 +229,11 @@
   utils.firstTerm = utils.firstTerms;
   var util = utils;
 
-  const methods$m = Object.assign({}, util, compute$9, loops);
+  const methods$n = Object.assign({}, util, compute$9, loops);
 
   // aliases
-  methods$m.get = methods$m.eq;
-  var api$9 = methods$m;
+  methods$n.get = methods$n.eq;
+  var api$9 = methods$n;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -973,7 +973,7 @@
 
 
 
-  const methods$l = {
+  const methods$m = {
     /** */
     remove: function (reg) {
       const { indexN } = this.methods.one;
@@ -1039,10 +1039,10 @@
     },
   };
   // aliases
-  methods$l.delete = methods$l.remove;
-  var remove = methods$l;
+  methods$m.delete = methods$m.remove;
+  var remove = methods$m;
 
-  const methods$k = {
+  const methods$l = {
     /** add this punctuation or whitespace before each match: */
     pre: function (str, concat) {
       if (str === undefined && this.found) {
@@ -1144,10 +1144,10 @@
       return this
     },
   };
-  methods$k.deHyphenate = methods$k.dehyphenate;
-  methods$k.toQuotation = methods$k.toQuotations;
+  methods$l.deHyphenate = methods$l.dehyphenate;
+  methods$l.toQuotation = methods$l.toQuotations;
 
-  var whitespace$1 = methods$k;
+  var whitespace$1 = methods$l;
 
   /** alphabetical order */
   const alpha = (a, b) => {
@@ -1217,7 +1217,7 @@
     return arr
   };
 
-  var methods$j = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
+  var methods$k = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
 
   // aliases
   const seqNames = new Set(['index', 'sequence', 'seq', 'sequential', 'chron', 'chronological']);
@@ -1262,12 +1262,12 @@
     }
     // sort by frequency
     if (freqNames.has(input)) {
-      arr = methods$j.byFreq(arr);
+      arr = methods$k.byFreq(arr);
       return this.update(arr.map(o => o.pointer))
     }
     // apply sort method on each phrase
-    if (typeof methods$j[input] === 'function') {
-      arr = arr.sort(methods$j[input]);
+    if (typeof methods$k[input] === 'function') {
+      arr = arr.sort(methods$k[input]);
       return this.update(arr.map(o => o.pointer))
     }
     return this
@@ -1301,7 +1301,7 @@
   const deepClone = function (obj) {
     return JSON.parse(JSON.stringify(obj))
   };
-  const methods$i = {
+  const methods$j = {
     fork: function () {
       let after = this;
       after.world.model = deepClone(after.world.model);
@@ -1314,7 +1314,7 @@
       return after
     },
   };
-  var fork = methods$i;
+  var fork = methods$j;
 
   const isArray$4 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
 
@@ -1372,7 +1372,7 @@
     },
   };
 
-  const methods$h = {
+  const methods$i = {
     // allow re-use of this view, after a mutation
     freeze: function () {
       // this.compute('id')
@@ -1402,10 +1402,10 @@
     }
   };
   // aliases
-  methods$h.unfreeze = methods$h.unFreeze;
-  var freeze = methods$h;
+  methods$i.unfreeze = methods$i.unFreeze;
+  var freeze = methods$i;
 
-  const methods$g = {
+  const methods$h = {
     // fix a potentially-broken match
     repair: function () {
       // let ptrs = []
@@ -1436,12 +1436,12 @@
       return this
     }
   };
-  var repair = methods$g;
+  var repair = methods$h;
 
-  const methods$f = Object.assign({}, caseFns, insert$1, replace, remove, whitespace$1, sort$1, fork, concat, freeze, repair);
+  const methods$g = Object.assign({}, caseFns, insert$1, replace, remove, whitespace$1, sort$1, fork, concat, freeze, repair);
 
   const addAPI$3 = function (View) {
-    Object.assign(View.prototype, methods$f);
+    Object.assign(View.prototype, methods$g);
   };
   var api$8 = addAPI$3;
 
@@ -1682,9 +1682,9 @@
     return ptr
   };
 
-  const methods$e = {};
+  const methods$f = {};
   // [before], [match], [after]
-  methods$e.splitOn = function (m, group) {
+  methods$f.splitOn = function (m, group) {
     const { splitAll } = this.methods.one;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -1701,7 +1701,7 @@
   };
 
   // [before], [match after]
-  methods$e.splitBefore = function (m, group) {
+  methods$f.splitBefore = function (m, group) {
     const { splitAll } = this.methods.one;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -1722,7 +1722,7 @@
   };
 
   // [before match], [after]
-  methods$e.splitAfter = function (m, group) {
+  methods$f.splitAfter = function (m, group) {
     const { splitAll } = this.methods.one;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -1741,21 +1741,21 @@
     res = res.map(p => addIds$1(p, this));
     return this.update(res)
   };
-  methods$e.split = methods$e.splitAfter;
+  methods$f.split = methods$f.splitAfter;
 
-  var split$1 = methods$e;
+  var split$1 = methods$f;
 
-  const methods$d = Object.assign({}, match$3, lookaround, split$1);
+  const methods$e = Object.assign({}, match$3, lookaround, split$1);
   // aliases
-  methods$d.lookBehind = methods$d.before;
-  methods$d.lookBefore = methods$d.before;
+  methods$e.lookBehind = methods$e.before;
+  methods$e.lookBefore = methods$e.before;
 
-  methods$d.lookAhead = methods$d.after;
-  methods$d.lookAfter = methods$d.after;
+  methods$e.lookAhead = methods$e.after;
+  methods$e.lookAfter = methods$e.after;
 
-  methods$d.notIf = methods$d.ifNo;
+  methods$e.notIf = methods$e.ifNo;
   const matchAPI = function (View) {
-    Object.assign(View.prototype, methods$d);
+    Object.assign(View.prototype, methods$e);
   };
   var api$7 = matchAPI;
 
@@ -2250,7 +2250,7 @@
   /** search the term's 'pre' punctuation  */
   const hasPre = (term, punct) => term.pre.indexOf(punct) !== -1;
 
-  const methods$c = {
+  const methods$d = {
     /** does it have a quotation symbol?  */
     hasQuote: term => startQuote.test(term.pre) || endQuote.test(term.post),
     /** does it have a comma?  */
@@ -2279,9 +2279,9 @@
     isTitleCase: term => /^[A-Z][a-z'\u00C0-\u00FF]/.test(term.text), //|| /^[A-Z]$/.test(term.text)
   };
   // aliases
-  methods$c.hasQuotation = methods$c.hasQuote;
+  methods$d.hasQuotation = methods$d.hasQuote;
 
-  var termMethods = methods$c;
+  var termMethods = methods$d;
 
   //declare it up here
   let wrapMatch = function () { };
@@ -2916,7 +2916,7 @@
 
   var match$1 = runMatch;
 
-  const methods$a = {
+  const methods$b = {
     one: {
       termMethods,
       parseMatch: parseMatch$1,
@@ -2924,7 +2924,7 @@
     },
   };
 
-  var methods$b = methods$a;
+  var methods$c = methods$b;
 
   /** pre-parse any match statements */
   const parseMatch = function (str) {
@@ -2937,7 +2937,7 @@
 
   var match = {
     api: api$7,
-    methods: methods$b,
+    methods: methods$c,
     lib: lib$3,
   };
 
@@ -3178,14 +3178,14 @@
     return this.text()
   };
 
-  const methods$9 = {
+  const methods$a = {
     /** */
     debug: debug$1,
     /** */
     out: out,
   };
 
-  var out$1 = methods$9;
+  var out$1 = methods$a;
 
   const trimEnd = /[,:;)\]*.?~!\u0022\uFF02\u201D\u2019\u00BB\u203A\u2032\u2033\u2034\u301E\u00B4—-]+$/;
   const trimStart =
@@ -3456,12 +3456,12 @@
   };
   var html$1 = { html };
 
-  const methods$8 = Object.assign({}, out$1, text, json, html$1);
+  const methods$9 = Object.assign({}, out$1, text, json, html$1);
   // aliases
-  methods$8.data = methods$8.json;
+  methods$9.data = methods$9.json;
 
   const addAPI$2 = function (View) {
-    Object.assign(View.prototype, methods$8);
+    Object.assign(View.prototype, methods$9);
   };
   var api$6 = addAPI$2;
 
@@ -3764,7 +3764,7 @@
     return arr
   };
 
-  var methods$7 = {
+  var methods$8 = {
     one: {
       termList,
       getDoc: getDoc$2,
@@ -3792,20 +3792,20 @@
     })
   };
 
-  const methods$6 = {};
+  const methods$7 = {};
 
   // all parts, minus duplicates
-  methods$6.union = function (m) {
+  methods$7.union = function (m) {
     const { getUnion } = this.methods.one;
     m = getDoc(m, this);
     let ptrs = getUnion(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
-  methods$6.and = methods$6.union;
+  methods$7.and = methods$7.union;
 
   // only parts they both have
-  methods$6.intersection = function (m) {
+  methods$7.intersection = function (m) {
     const { getIntersection } = this.methods.one;
     m = getDoc(m, this);
     let ptrs = getIntersection(this.fullPointer, m.fullPointer);
@@ -3814,17 +3814,17 @@
   };
 
   // only parts of a that b does not have
-  methods$6.difference = function (m) {
+  methods$7.difference = function (m) {
     const { getDifference } = this.methods.one;
     m = getDoc(m, this);
     let ptrs = getDifference(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
-  methods$6.not = methods$6.difference;
+  methods$7.not = methods$7.difference;
 
   // get opposite of a
-  methods$6.complement = function () {
+  methods$7.complement = function () {
     const { getDifference } = this.methods.one;
     let doc = this.all();
     let ptrs = getDifference(doc.fullPointer, this.fullPointer);
@@ -3833,7 +3833,7 @@
   };
 
   // remove overlaps
-  methods$6.settle = function () {
+  methods$7.settle = function () {
     const { getUnion } = this.methods.one;
     let ptrs = this.fullPointer;
     ptrs.forEach(ptr => {
@@ -3846,12 +3846,12 @@
 
   const addAPI$1 = function (View) {
     // add set/intersection/union
-    Object.assign(View.prototype, methods$6);
+    Object.assign(View.prototype, methods$7);
   };
   var api$5 = addAPI$1;
 
   var pointers = {
-    methods: methods$7,
+    methods: methods$8,
     api: api$5,
   };
 
@@ -4131,7 +4131,7 @@
   };
   var addTags$2 = addTags$1;
 
-  var methods$5 = {
+  var methods$6 = {
     one: {
       setTag: setTag$1,
       unTag: unTag$1,
@@ -4243,7 +4243,7 @@
     model: {
       one: { tagSet: {} }
     },
-    methods: methods$5,
+    methods: methods$6,
     api: api$4,
     lib: lib$2
   };
@@ -4710,7 +4710,7 @@
     return input
   };
 
-  var methods$4 = {
+  var methods$5 = {
     one: {
       splitSentences: sentence,
       splitTerms: term,
@@ -5240,7 +5240,7 @@
     }
   };
 
-  const methods$3 = {
+  const methods$4 = {
     alias: (view) => termLoop(view, alias),
     machine: (view) => termLoop(view, machine),
     normal: (view) => termLoop(view, normal),
@@ -5249,11 +5249,11 @@
     index: index$1,
     wordCount: wordCount$1,
   };
-  var compute$5 = methods$3;
+  var compute$5 = methods$4;
 
   var tokenize$2 = {
     compute: compute$5,
-    methods: methods$4,
+    methods: methods$5,
     model: model$5,
     hooks: ['alias', 'machine', 'index', 'id'],
   };
@@ -5513,14 +5513,14 @@
   };
   var cacheMatch$1 = cacheMatch;
 
-  var methods$2 = {
+  var methods$3 = {
     one: {
       cacheDoc,
       cacheMatch: cacheMatch$1,
     },
   };
 
-  const methods$1 = {
+  const methods$2 = {
     /** */
     cache: function () {
       this._cache = this.methods.one.cacheDoc(this.document);
@@ -5533,7 +5533,7 @@
     },
   };
   const addAPI = function (View) {
-    Object.assign(View.prototype, methods$1);
+    Object.assign(View.prototype, methods$2);
   };
   var api$2 = addAPI;
 
@@ -5548,7 +5548,7 @@
   var cache$1 = {
     api: api$2,
     compute: compute$4,
-    methods: methods$2,
+    methods: methods$3,
     // hooks: ['cache']
   };
 
@@ -5848,7 +5848,7 @@
   };
   var expandLexicon = expand$1;
 
-  var methods = {
+  var methods$1 = {
     one: {
       expandLexicon,
       fastTag: fastTag$1
@@ -5899,7 +5899,7 @@
 
   var lexicon$2 = {
     model: model$3,
-    methods,
+    methods: methods$1,
     compute: compute$1,
     lib,
     hooks: ['lexicon']
@@ -6515,11 +6515,15 @@
 
   var unicode$1 = unicode;
 
-  var contractions = {
-    "n'y": ['ne', 'a'],
-    aux: ['à', 'les'],
-    au: ['à', 'le']
-  };
+  var contractions = [
+    { word: "n'y", out: ['ne', 'a'] },
+    { word: 'aux', out: ['à', 'les'] },
+    { word: 'au', out: ['à', 'le'] },
+    { before: 'm', out: ['me'] },
+    { before: 's', out: ['se'] },
+    { before: 't', out: ['tu'] },
+    { before: 'n', out: ['ne'] },
+  ];
 
   var tokenize = {
     mutate: (world) => {
@@ -6842,18 +6846,17 @@
   // generated in ./lib/lexicon
   var lexData = {
     "Negative": "true¦aucun,n0;!e,i",
-    "Verb": "true¦se",
+    "Auxiliary": "true¦ai,se",
+    "Possessive": "true¦l2m1t0;e,oi;!e;eur,ui",
     "Preposition": "true¦aRbecause,cNdJeEgrace,horDjusquClorsAmalgQou9p6qu4s1v0y,à;eHia,oici;a1elFoUu0;ivaQr;ns,uf;elqu0i,oi5;!';ar1endaMour0rQuis3;!quoi;! Mmi;!tG;qu0;!e;',e;m8s;n0xcepte;!tAv0;e1ir0;on;rs;!ans,e1u0;!ra8;!pu0rrie4s,va7;is;hez,o0;mme,n0ura4;cerna3t0;re;!fin,pr5u2v0;a0ec;nt; 0pr2;dess0;us;es",
     "QuestionWord": "true¦quelle",
     "Adverb": "true¦0:12;a0Ub0Qc0Jd0De07f05g04h03i02jZlVmTnSoQpHquDr0Ls9t2ultra,vi1;s a v0Yte;a5ertio,o2r1;es,op;t,u1;jou13t1;!e0S;n1rd;d0Rt;ecu0Bi3o1urto09;i-disa0u1;da05ve0;!c,de0t0G;!a2e1;!lque;n1si;d,t;a7e5lu4o3r1;esqu1imo;',e;i0urta0;s,t07;le mePu1;!t-etP;r1s;fo0AtoT;rZu1;i,tre m04;agCeanmoiPon;a1eDieux,oiO;intena0l,tM;a2o1;in,ngDrs; 1-dedaK;b08dess05;a2us1;que 04te;dYmaY;ci,dem,ntT;aFiS;ue8;er1i,ort;me;n1tc;co4f8s2tre 1;temps;emb1uite;le;re;avantage,e1orenO;bo4ca,da3hoUja,ma2s1;ormaKs8;in;ns;ut;a,e5i3omb2resce1;ndo;ien;! dess1;oGus;penda0rt1;es;e3ien1ref;!t1;ot;aucoup,l;iDlBssez,u2vant hi1;er; de8-desso7par5ssi4t1;a0our,re1;fo1;is;!tôt;ava0;nt;us;la;i1o3;as;lleu1nsi;rs",
     "Conjunction": "true¦&,car,donc,et,ma1or,pu1s0voire;inon,oit;is",
     "Noun": "true¦aujourd'hui",
-    "Pronoun": "true¦c2elle1il,j2moi,n0on,t,v0;ous;!s;!e",
-    "MaleAdjective": "true¦0:032;1:034;2:020;3:02T;4:014;5:024;6:038;7:039;8:01V;9:02N;A:01A;B:02H;C:UA;D:02X;E:02D;F:00K;G:022;H:YT;I:031;J:Z5;K:02R;L:00A;aY2bW3cRIdNXeLFfJMgIHhHWiEYjESlE7mC8nBJoAOp7Squ7Rr5Js3Ht2Bu24v11zé10â011éMô4;b0Wc0Ld0Kg0Ihon4l0Cm08n07oYFp03qu01r00tSvM;aPeNiHAoM;ca003l9;il5ntM;ré,uGé;c9nMpo2s034;es027o014;aSeRhQinceEoOrMudi3;angMiq9oK;er,l02R;fYOi5nn3uM;fUVrYM;iopiFé2;i0rnG;b01Rgé;a01Bein4o02EudK;ar016iM;disClNRvaRY;aOerQ4iNlo2ouMrouv3uis3;stoufEvML;cé,scop1;no00Prp015ta0;amou2erv3;aOiGUoMu,écH;ti6BuM;s7va0;cJil5nciZB;aQePimOoNu,éM;ga0vaZD;ig6qSB;i6é;ct9Bvé;bo2nXF;aMrilVQypTY;l,ré;en4ifZFuc01D;aVerUhSlaRoOrNuM;lé,ma0;as3it;euIrNuM;lé,r4;cHné;boI2ir3t3;aMeN;nc2pYT;ve5;il5rtQ3;aNerl9l4LouMrécH;illLSrifXM;hi,ucH;b2lé;a0Ie09iYoRrai,u,éMê02B;cu,gétaPhéme0nNrM;ifJo5;al,iMérHZ;el,tiF;l,riFt8;cRiQlOt8uNyaMû4;geBnt;lu,é;aMeBé;nt,tHP;lé,sA;al,i9J;bIcVdé,eTf,giElSnd4SolRrQsPtNvM;a0ifYL;aMré;l,mi6;cTTsé,uGé;al,g01Qil,tuGuQI;aWDeU9;!aA;illMtnamiF;i01Fot;eULtoZ1;in0WlTnQrMspTMuf,x3;b1dOmNnFTrZLsé,tM;!-de-gNEic1ébr1;eH8ouSW;i,oWC;dNgeBtMu;i5ru;u,éF;ou4u;cQgPiNll01FntaVIrJuM;dY2t2;lEnM;!cu;aHEin1;a0haVDilE;kraiW9lQniPrOsNtM;iYOérA;aYGuGé;baAge0;!latT3versG;cé2tM;raviolYTérX7;a0Me0Gh0Fi0Co04rQuOyroVQâtUUéMê011;léMnu,t86;pho6vi7;!a0méfJniSTrMé;buPMc,gZH;aTemRiPoNuq9éM;buY3pi00O;mp004nq9pX4uM;bl3vé,é;b1cYNmestESomphaMvi1;l,nt;blMpé;a0oCé;ceBdZEhi,itVZnOpNumatiDvaillZYîM;na0tA3;u,ézoïd1;ch3quilliDsM;cVZi,pMvers1;aYQlJX;caUMléImb3nSquRrPscYNt1uM;ch3ffu,lousaArMt-puWC;ang4RbillU9mL2nM;a0oV8é;dUBrQAtuM;!r3;aUGé;du,itrR7na0;béRDg2mNntinnabuEré,ssTDtM;ré,uba0;b2o2;e71éâWY;i0mpQnPrMutWRxYB;m002ni,rM;iMoLX;en,fi3toNI;du,taPKu;or76é2;bWPil5mi7nPpOquArNs7tM;illWKo9;abisco4d8i,é;ageBé;ge0né;a17c15e0Zi0SnobiS0o0Lp0Ht0BuSyPéMûr;dMlectiURmZRpa2roposVN;at8uM;cW7i1A;mpathiDnMriF;coW1diM;c1q9;a0b01cZd-XffWggeN0iVjXFpRrNspeM;ct,nMJ;aObaDTdévelJXfaKge5huF9me6naturGpNvM;iva0ol4;eup5reU0;igu,n6;erNpMérVN;lW5o7;fMpo7;iUXlu;ciYHnCvi;iDoca0;aMc7E;fVYméVY;cMeBré;eX6uNY;conscOUit,jePUlimZ5merWIordZ9sNtEWurbaAveM;nP6rs8;tanP3éqOK;aQimuEomac1rOupéfNy5érM;iWLéotyVF;aKia0;esDiMucUT;ct,de0é;biWHliU1ndardi7;aSRecVQiriP2oOécM;iMulXK;alWMfJ;n8Art8;ci1ign3leXNmnoNKnRphistUWrCt,uM;dé,fOleXUrNs93teMveO5;nu,rO4;d,ia0;fMré;lé,ra0;geBn3;bRciTDdEMgnPmNnMt9;guV4i5V;plWDulM;ta6é;a5ifiMé;a0cX5;yMSéVV;cQigneuLWmpiOAnNrMul,xuGya0;eApeR0ré,vi;sNtiM;!meOP;atX4it8oCDuGé;!oVOrW3;andaVSel5intXHulptMélérWT;ur1é;b5cZhaVMiWlVngTouSrrasAtPuNvMxUU;a0oyaSC;greRTtM;ilEé;a6iMu2;né,sfaiM;sa0t;diFl;la0uinM;!oMP;i6Fé;gSElEnNsM;iXNonPQ;!t;caWYerdot1rM;ifJo-sai0é;a1De0Ki0Ho09u06ythX6âU4éMêvX3ôUQ;a04barbWEc02duKel,f01gZjYn1pUsRtOusP0vM;olMélNC;t3u;iNrM;ospeOAéGY;ce0f;erWMiMoOY;dMg6sC;enNHuG;aOuNétM;it8é;bliVKgRXté;nKCraTV;ouiX5;lé,ulMéIW;aTSiL;lécG9orWPrigér3ugJ;alcitIeMhaufSJonforCurVI;nt,pt8;ct8li7;bicoUKgT3iNr1sMtiE;taLQé;né,sseE;mRnQtVRuMy1;couEgNl3maAquAsOCtiM;er,niL;eMisD;aLKoRU;d,fEgeBrQT;aMpu;in,n;a0caNdé,golMngaR1sq9tuGv1;aR0o;in,na0;b0Dc06do05f04je4l01m00nZpVsRtPvMçu;enMu,êWT;dMu;icVD;arVTenMi2rous7;tSKu;caSZpOseNtM;a0rei0;mbEnTJr2;eUXlendSG;entOlUBoNrMtiR9u;odK4ésentTO;sa0usD;a0i;aSBcont2du,omVTtIvLI;pUUua0;aMeVEié,uiDâcHég9;tiMxa0;f,oV4;aKou5roiSBu7;nW3ub5;hercHoOrNuM;eilUNit,lé;oquevU7u;mmV8nNuM;rG2veKK;nMstitN0;aRYu;atW2onR9uC;b00cZdiYfXgWilQ0mVnTpRsPtOvNyM;onQGé;agV9iVP;aAXioUQé;a0sM;asJuI;ide,pM;or4rocH;cMgé;i,uNL;as7ifJolU6pa0;eBoûC;fi6raîchRK;al,c1n,oaMA;i1oPM;atVMelaiNHougTI;alNAiTCotiSG;a1Te1Kh1Ii1Gl14o0QrXuSyramid1âlD6éM;cTEda0jLYnPriUWtM;aNilErMuEé;ifJoRY;nt,raV9;aMétI;l,rd;a0bPcOdiBHisDni,rMtasNAérB1;!iMpurAuK1;ficaRQtaA;eau;iFlic;e0Ci07oUuTéMêtQJ;cQdesA6fPmOnat1oc7Epo7sNtenI3vMétabTM;eOSoPZ;e0idL1uUI;aGAédi4;abrR4é2;iMé8N;pi4té;de0sMV;ba0chaAduXfWgramUChiEWlVmUnonPKpSsRtPuTZvMémi8Q;enç1iNoM;ca0q9;dKSnR3;eMubéIéS5;cR9sC;crKt2;oMrSJ;rKQsé;etR5pt,u;i29onRZétaS2;essTFoS0;ctIPit;mPnNsM6vM;at8ilégJé;ciMtaMD;er,p1;it8ordi1é;miLna0ssM;a0enRDé;cHiXlVmp01nUrtTsPtNuM;d2rS6ssTX;agLeM;lé,nK9;it8sOtMé;al,éM;!rQE;eS5éTB;at8eBoQU;cK9dé2tifQG;iMynéM0;!cOBssQPtiRA;gOJlu,ntMv2;eBu,é;aTeQiPoOuIVéM;bMniL;éiF;mDVnS8;a0s7;in,urM;a0nichM;aNYeB;cé,iOnNq9tM;!i6;!a0q9té;nt8sa0;afL5caNTmMqu3voCétQA;en4pa0;ilippAosphorS7énM;iQSomén1;ct01inTlé,nSrNsMtKup5;a0tilJG;cuCdu,forPlé,ma7ApéJMsNtMverQGçNG;i79urDF;an,isCoS9uaFJéM;cu4véI;a0ma0é;aHXcHdu,sa0tu;aNHt;i08lpiCn07rXsRtNuSPvé,yMïF;a0sRGé;aHTeOie0rM;iMon1;arc1ciF;ntOIrnG;sNtM;or1;aOiMé;f,onnM;a0el,é;gLnt;aTcheFYeSfRiQl3oissi1tMveMMé;aOiM;al,cMel,sR3;iP5uPE;gé,nt;gAHsiF;aKuS7;il,ntLH;dox1guayFlys3noM;rm1;su,teEé;ll1Sr;b0Cc09dor07ff05is8lfaJAm04nd03pYrRsé,ttomQTuMxygé6;a4blJtOvM;eH1rM;aPViL;il5rM;aQTecuiSCé;aRbI7cheQdPgOiMné,phelA;eAEginM;al,el;ani7;on6u7E;st2;l,nPM;alApNt4UuH0érM;atR1é;oNrM;esDiRL;r4Dsé;oMZul3;b0Gniprése0;ensMiNMra0usq9;a0if,é;a0iM;féI;cMtogFH;asQQiMup3;deI9pHN;jeIJlOsMéNS;cBeMti6éd3;rQVssQM;igJGong;a01e00iZoPuOéM;!gMvro7;at8liP1;!anMBlKNméro4pLItrNJ;c8irUmSnchaErOté,uMvaO4yé;rriMé;!ciLsD;d-NmaMvéJT;l,nd;afO7cM;oréF;inaMmé;l,t8;!aFZci;cke5ppO0;stoORt,urEV;c2iTpolSrrPZsRtPuNvMzi,ïf;al,r3;fMséa7F;raOK;al,iMurG;f,on1;al,ilK4;iI9éoM7;n,sD;a12e0Ui0Mo02uVéNûrM;!isD;cSdNfNQl47nagLpriDriMtropoliI5;diEIta0;iMu7;aOcNtMév1;at8erranéF;al,in1o-lég1;n,teB;ha0onH1;et,gMPltiRnicip1rQsOtM;a0iMuG;lé,n;c5icMq9ulmOW;al,iF;al,muI;na2FplJ;biN4d04i02llOEm00nVqueBrStRuMyF;chPil5lOra0sNtKFvM;a0emB7;su,tacES;a0u,é;aKMe4;eBiPHoCA;al,dNf1i6KmN1tM;!-6el,ifN3;a0o2u;dPgolOopareGOtMuGN;aMé;gIGnt;!iF;aAi1;enMifJ;ta6;ndMré,si;re;ifJé2;gQliCnOroNtM;oyFé;boEiC;eBiMér1;er,m1sté3Z;nMraMD;aK1onM;!nNN;ilJUnPsOuMxiNY;b5rtriMsiF;!er;quAu2;aOsNtMu;al,eB;ongLtruGuG;cé,ça0;boul,chPKg02igr01jeBlXmeGZnUrQsPtNudKîtrM;e,i7;eFFin1riMutPIé3L;ciGmoni1;culAq9s8;b2chaMUgPFiOoNLqu3ra0tM;iMyr;al,en;t1é;ié2qu3uM;el,sM;crK;aNfJ1in,oMsaAveOH;doIuA;dMi7;if,roK;elMYichLS;isLXyar;aZeYiToPuOâcHéM;cHgMn16zarO7;al,er,islNP;!brGRcrNOiDminNMst2théMFxurLQ;calMQinG4mbaJ5nNrECti,uMy1;rdDHé;doK0gM;!itudOV;bOgo4mNp18tMé;tGVuaJX;i4ousA;ertAidORérM;a3Mé;nt,vé;bi1cRiQnPq9rOsNtMvé,xND;e0in,ér1;c8sa0;g9moJH;ciJ3guKI;d,tiL;rym1é2;aQePoNuM;biEif,ré;i0li,ncHuMvi1;eBffFTiMErnaKYé;té,unM7;casDillKAuniO5;di60gnor3ll2Hm1TnRrOsNtM;aJ2inéI;o5raéJ1su;aJCi7rM;atN1iCéM;el,guKQsoFL;a1Hc16d0Ye0Tf0Mg0Lh0Ki0HjustFXn0Go0Cqui0Bs02tRuQvNéM;dKg1;aincu,estiNiMé1I;o5t3;!gaKJ;si4tiLK;aNWePo87rOuJVéM;gr5ZrM;eKJieB;ansiM9i5T;llRmpeBAnQrMstinGM;allJcontineE8dKlB0mitE3nNpo7roM;gMIm07;aMé;tiBB;s8tiNU;ecDViB2;atisfaKcrKen7iSoQpir3tNuM;ffiDlC;antNinEBruM;ct8it;!a6;le0uM;cK9pçNM;gnMnEGsC;ifK7;et,siAWéC;cOffeDPnMKpMuï;porMéI;tun;cuJP;oM0é;ntMti1;erromMéresD;pu;abitCDos1Lu2WéLG;rLQéGU;aKQeRiniPlCLoMérJC;nM9rM;mMtu6;aIIel,é;!tésM;im1;ctICrn1;mploIWxM;aMTisCpM;lMreKVérim7K;iq9oM;i4ré;iPoOuNéM;ce0fi82pI9ter9S;!lA3st0T;-eurALle0;caJ6en,fféKYgOq9reMLsMviduG;cMtinMK;i9VrKG;e0né;aUeThSiRli6oMurLN;héKTmplKDnM;dLBg9Nnu,sNtMveH1;i0Brô5;cC5iMo5;dé2sC;de0s8;anJQ;ndJrDIsD;ndKYrM;cé2né;cQdPlOniLPpNrticu5ssouHMttenMvo9;du,t8;erçu,proprJ;té2;ap4éKP;heL7t8;ag08b07i4m00pM;aXerVlUoSrOuNérM;at8i1;de0isDls8r;essiFVoOuNéM;g6vu;de0;duCLmpLZvi7;ll9rtMs3te0;a0un,é;an4oI;soKNtiM;ne0;ir,rMtBFyé;faKti1;aQerJ1iPoNéM;diK8mo95ri4;biI6dé2rM;al,tG;g2ne0;cu5téM;riG;i5Hu;inK5é;imi4uMég1;mi6st2;aZeXiWoRuPydraCâOéMôteHX;bé4rMsiCtérU;is7;lé,t8;i5mMpHNrE;aAili3;llywooI5mPrNsM;pitaHQ;izoBJm8PriM;fJpiE;oseER;laIndHUtléIIvern1;rMur4xag8L;bu,culéF;biPcHgaF6lOnNrMuC5;aHKceEdi,n4R;dicaHBté;eCluc5D;lNtM;uKDé;i4lé;a0Ke0Hi0Fl0Co09rWuQâ4éMên3;a0mGPnMorD1;iNéraM;l,teB;al,t1;erQiMtGHéIM;llNnM;dé,éF;erIEoM;ti6;riL;aUeTiPoMéco-ro07;ndeBssiNuM;ilEpé;er,sD;ffDJllOmNnIHsM;a0onEVé;aIFpa0;aHNé;c,lotCnu;is7mmatGLndNssoui6TtuKvM;e,itatJ1é;!iM;loq9MsD;gueCCnNuM;aE4drK7lu,rHHverneAG;do5fl3;aNisDoMua0;usD;cé,pFX;rondMtI6v2;!in;igC4ntNrMsticuE;maA;il;gn3iQlOmAn4rMuf2;antCKdMni;iFé;a0bé,oM;n6pa0;!lCO;a14e0Zi0Ul0Ko08rXuQâcHéMê5;cOdNlAmMod1ru;inAor1;ér1L;al,oGY;gRlQm3rOsNtMya0;ur,é;e5il5;eFXiMt8;boGT;guImiDW;it8ueB;aUeTiRoOuNéMôDD;mF8quentEOtIJ;g1itDJst2;iNnMufrouC;cé,taFR;d,s7;aGKgorAXn12pé,q9sM;sD0é;la4uG1;cMgm3Rnco-aFRpp3te8Z;aFNtu2;c1et1llGUnTrOuM;!droDVisseBrMtu;bu,c79ni,ré;aAcPesBBmOtM;ifJuM;it,né;el,u5é;e6é;cOdM;aMé;ment,nt,teB;iLtHJé;aQePi9YoNuMâneBécH;et,orHAvi1;rMtCu;al,eB8isD;mmaCRuGJ;gOmMpi,tF1;aFXbM;a0oDD;eMra0;l5oE;cPer,gOli1nMsc1xé;!aMiI6;l,nciL;urFJé;e5hu,t8;i0n58rOsA9uM;illMt2;e4u;mMré,ve0;en4é;ci1go4iUlTmRnQrPsciCNtNuMvoG3;bouFJcHt8;al,igM;a0ué;ci,fe9F;farENé;iliMé;al,er;ot;nBNsH0t;ff1Wm1In0Drr0Cs07ur5QxM;a04c00eZiXorbiCpRtNuM;béIlC;erminaE9raNéM;nu3rDY;conjug1vaM;ga0;a7Ye65lPo7reFNul7éM;dDIrimeM;ntM;al,é;icG8oM;i4raE0s8;gMlé,sC;ea0u;mpt,rC3;eNit3luM;!s8;l64ptMss8;ioG6é;cMgé2lt3spéI;er19t;carDMpaPsNtM;iv1omDLudia9U;eMouff5;n75u5;cé,gnol;a0o6;c0Kd0Ef0Ag08ivIj07l06n04rZsVtOvM;a01elopp3iMoûC;rAWsaED;aF2eRiLou2rMurXêt3;'oPaOeMoP;bâF0couDBlaBLpMteAM;o7reBF;nt,vé,î6;uve5C;n3Sr2;aOeNoM;leEUmmeEUrce5;igB9veF8;b5ngl06;aPegistB1huG4icOoNuM;ban6;bé,ué;hiGE;ci6gé;eMuCI;iDVmi;eFKu3I;o9ôAI;ag84l9oM;rDRurCH;a90erFTiOlNoMuFT;nB0ui;amFRé;lé,év2;euECiOoNurM;ci;loE6mmaDKrmi;aMma1P;b5mM;an4;aQhOlNoMr44u5;mbr3uraEF;e1Kin;aMevêt2;ntFCî6;is7st2;bSmRpM;aOe7ier2loBVoNrMâ4êt2;es7isFZun4;r4ussié2;il5nMq21;acH;erd7Dito8Wu2ê5;aRouPrNuMêC;sq9é;asMouDRuF4;sé,é;cHrM;bé;l5rraC6;aPeOiNlanq9ond2rM;ay3on4é6;c56lé;ct8rvE3;cé,rM;a0oMé;ucH;a34e2Xi21o1Vr1Tu1RéMû;b1Nc19dica9Zf11g0Vha0Ul0Rm0Ln0Jp09r06sVtQvMçu;ast4YeNoM;lu,ra0t,ué,yé;lMrgonEE;opBL;aPeMo4Eraq9;nNrmM;in3;du,teBu;cHil5;aVeUhTiRoOuNéquilM;ib2;et,ni;bliDBeuv2l3piErM;dF1iM;en4;g6nMré;car6téres7;abCWonoIydra4éri4;mpa2rtA6spé2;bu7ffec4pprobaB9rE7;aNiDToMég5;bé,uC;ci6ng6D;aTeRlPoNrM;aDPeCMim3;itraCOli,r4uM;il5rvu;aMoAI;cé,iD;i0nMup5;aCJda0;rMs7;eCHte4R;aMuDJ;tu2;eOoNuM;ni;dé,n4raBT;ntMsu2;!iM;!el;aNiM;bé2cCPnq53ra0é;b2is7vé;ncH;aBEingD6ling9oPrOuNéM;né2;enC2i7;ad3os59;nf5uMût3;li8Fr9ZtC;aQenPiNoMraîcC7u0éC5;n8Irm3;c3Igu2niM;!t8;du,s8;iNvoM;ri7;lEt;aYeXhTiSla2oOrMulot4éCT;iMo9KépK;t,é;lOmpo7nNrASuM;pé,rag58su,ve21;cerCtrac4;le4o2;dé,s8;aOiMu;qMr3;ue4;r6us7î6;nt,va0;de0lé;aNorD5rMuC;aBBiCE;rq9ucH;bitBVc1rMve4;!ci;aco88es7oMu;g9it;du,le0mPn6rOté,uM;a4Xb5iMé;llAU;ma0s1é;inMp4;a2Iic1;a0Fcta0Dffér0Cg0Al08m07plôCCr06sPt,vM;erNiMor7J;n,sé;ge0t8R;cZgracJjoi0lYpWqual4KsStM;a0enQinOrM;aMib9;it,ya0;ctMg9;!if;du;iOolNéM;mi6;u,va0;de0mul26pé;aMer7o7ropor2Ju4;ru;oq9;iNoMrA8;nti62rC9;pli6;ect11ig40;ensB4in9;a4iM;ge0;eMit1;st8;e0é;toM;ri1;gMma4P;on1;mRntQr3WsM;cOsa5tM;i6rM;uc8F;enBSript8;e5é;eu2i;ctylogra6Wlto6XmMnD;as7né;a3Le3Hh2Vi2Sl2Ko07rTuOyclNâlAéréMô45;a8Abr1;opéF;baAiNltMrADta6;iAQurG;rNsMt,v2;a0i6;as7;aXiVoRuPéM;atNne5pM;iCu;eBif;!ciMel;al,fJ;cOisNq2Ct4uMya0;la0stAL;sa0é;hu;a5GminGstaM;llA;int8moi2IquM;a0e5;c1Xdé,gn71hé9Fi1Wl1Rm1Cn00opér9UquZrSsQté,uM;cHl4Ip3rNsu,tumiLveM;rt;bé,on6tMu;!aN;su,taM;ud;di1n44pPrMsé,t7BéF;eMi8Aos8;ctMsponAS;!eBio9Q;orNuM;le0;at8el;et,in;!c0Td0Rf0Kg0Hj0Gnu,quéIs05tTvMçu;aReNiMulsAB;vi1;nNrM;ge0ti;tMu;io9FuG;inc4Jl96;eTiRoQrM;aNit,ovM;er7;ctMi0ri3s4;uGé;ur6;gu,nM;e0Pge0uG;mpNnM;t,u;l8XoM;raA;ac2cVeTiSolQtOéM;cut8qM;ue0;a0ern3ituMru0S;a0t8Wé;aMi97;nt,teB;g6sC;nCrvM;a6Fé;ie0;oi0ug1;eNénM;it1;lé,sU;iPlicXond3RrM;aMon4;teM;rnG;a0dMné,r93sq9t;enM;tiG;am6iMuc62;ti9N;eNil69l0Hor9Er7CuM;pis87r7R;nt2pMr4;tuG;bZmVpMé6C;aTen7lSoPrNuls8éM;te0;es7i8RometCéheM;ns8;rteMs3;meM;nt1;aiDet,iq9;ct,r6Ds7t53;an8AeNun1VémM;or7S;n76rM;ci1ça0;atCi6lé;lNoM;ni1ré,ss1;aNeMégi1;ct8;nt,t0X;!f45n3I;ardiLh5Hu;aQiPoNéM;me0r54;is8UuMît2;té,é;gnoCma45nqNqueC;irNndestAqMs7;ua0;!on34se81;nNrconspe8Hse5tMvil6C;adAé;gl3t2;aYeViToQréPuchoCâNéM;ri,t8;taA;ta0;tiF;cola4iNqu3r1uMyé;ca2I;si;a0ffMliFrurg4M;on6ré;nu,rNveM;lu;!c63;grAm1UnSpeau4rOs7to30uM;d,fMs7;fa0;bOgé,mNnM;el,u;a0eB;onU;ceEgMta0;ea0é;nOrM;né,tMv47;ifJ;d2sé,tr1;botAch04de03l02mYnne5outchou4pWrOsMtal5ZuDva4B;aMq9s3till5Y;niL;aRcQd7OesDiPmi6nNré,téM;siF;asMé;siL;ca3Et69;ér1;ctériMmé52;el,sé;itMt8;al,on6;bNpagMé;na1K;odMré;giF;ci6ifor2Eé;n1Xt;otMé;tiL;a14e10i0Sl0Mo07rVuUyzaTâRéNêM;c53ta;aOdouAga20nMt78;iMédictA;n,t;nt,t;cHtM;a16i;ntA;cc1ri6té;aUeTiSoPuMési1Oûl3;isDnNtMya0;!al;!i;cHdé,nzé,uMyé;illMteB;on,é;dé,lEnguebaEsa0;ss4Wt3Cve4;ilNnM;cHla0;la0S;i7mbZnXr6ssWt4uMvA;cUdTffSillRlQrMs4Mt6N;d0Eguign36rOsM;iLoM;uf5;u,é;evers3ot;a0i,on0W;a0eBi,on;eBi6;hé,lé;e5u;!dMna0F;isDé;ar5Cé;aPeNin5BoM;nd,q9t34;ss3t,uM;!i,té;fa08ncMsé;!hi5T;enQgPrm47sM;corNeM;xuG;nu;ar2;-ai5AfNsMve53;éa0;aiD;auOdNlligéIrceBsMur2;ti1;on08;!cer2C;fo9gZlVnTptism1rRsQtMvaU;aNtM;a0u;ilM;leB;a6é;bMio5ré;a0e5ou3Ju;c1d3lieusaMni;rd;aOeinNlMza2M;a0on6;iLé;deBnY;arMué;reB;b4Sc43d3Qf3Cg33hu32i2Xj2Vl2Bm22n1Cp12r0Qs0Ct00uWvOzu2érMî6;iFoMé;nav1por4;aRePiOoMé2;isiMr4ué;na0;l0Zné,sé;nMr20ugE;a0tu2;c3AnMrJ;cé;d0Sr21straOtMvergn3H;oMrichiF;colEma0Bri7;liF;héWroVtM;aTePiOrMén9;aMib9;ya0;ra0t2;i0nM;dNtiM;f,on6;r0Iu;b5cHr3P;phJ;niF;cYeWo0QpVsNtrM;al,ei0;assinSerRiQoMu2y1U;cJifOm1Zr1DuM;pi,rM;di44;fé;du,mi5s4é1M;vi;!é;hyxJir3;pMx9;ti7;en3Z;chitecWdVgentUméTq9rOtiMyF;cu5fiMsan1;ciG;aOiNoMê4;ga0n01sé;vé,é2;cHn29;hé;!niF;in,é;e0u;tur1;aiDeu2la0QpNérM;it8;a1YlSrOuNétM;isD;yé;oMê4;fonNprJu2Nxim29;ié;di;iq9;al,c09dal08esthés07g01imZkylo7nWoVtM;iOéM;diluviFrM;ieB;aé0ScOdéraNsoM;ci1;pa0;iNlérM;ic1;pé;dArm1;e5onciaNuM;el,lé;teB;aMé;liL;lo-NoiM;ss3;aNsaxM;on;méM;ri11;ia0;ou;esMiFré;tr1;aig0LbSer,iRorQpPuDéM;lio2riM;caAnM;diF;ou5u4;ti;!c1nci2D;iMré,uE;a0gu;a02c00eZgéXig6lRpAsaQtNvM;éo5;ernNiLé2;er;at8é;ciF;ePié,onOuNéM;cha0;mé,s8;gé;maM;nd;riF;en;r4xandrAz0B;alAooM;li7;ngNrM;ma0;ui;ouMus4;ré,té;gMlé,m3sé;rNuM;!i7;elMi;et;ri1J;aTenRi4oniDrePuM;erNicM;heB;ri;ss8;té;ouM;il5;ça0;fPghOriM;caA;in;an;aSeRilQliPol3rNéM;re0;ancMioE;hi;gea0;ié,é;ct0S;iMmé;bMré;li;dVhéTjaSmiQoOroKéM;quM;at;lMpt0L;esO;nistrMrM;at8;ce0;re0s8;if;itM;ioM;nnG;cWhRidu5tNé2;ré;iNuG;el;f,vé;lé;aNeM;vé;lMr6;anM;dé;abl3ent9identXoTrPuM;eMsé;ilE;la0;oMu;chMupi;eBé;ur;mNrt,utuM;mé;mo00pM;ag6li;el,é;ué;a02dom00erIjeXoVrRsNusM;if,é;e0oNtraK;it;lu,rb3;a0é;acadabIuM;pt,tiM;!sD;sa0;li,nM;da0;ct;ra0;nt;in1;al;is7ndNtM;tu;on6;né;sé",
-    "Currency": "true¦$,aud,bTcRdMeurLfKgbp,hkd,iJjpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotyTł;en,uanS;af,of;h0t6;e0il6;k0q0;elN;iel,oubleMp,upeeM;e3ound0;! st0s;er0;lingI;n0soH;ceGn0;ies,y;e0i8;i,mpi7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
     "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
     "LastName": "true¦0:34;1:3B;2:39;3:2Y;4:2E;5:30;a3Bb31c2Od2Ee2Bf25g1Zh1Pi1Kj1Ek17l0Zm0Nn0Jo0Gp05rYsMtHvFwCxBy8zh6;a6ou,u;ng,o;a6eun2Uoshi1Kun;ma6ng;da,guc1Zmo27sh21zaR;iao,u;a7eb0il6o3right,u;li3Bs2;gn0lk0ng,tanabe;a6ivaldi;ssilj37zqu1;a9h8i2Go7r6sui,urn0;an,ynisJ;lst0Prr1Uth;at1Uomps2;kah0Vnaka,ylor;aEchDeChimizu,iBmiAo9t7u6zabo;ar1lliv2AzuE;a6ein0;l23rm0;sa,u3;rn4th;lva,mmo24ngh;mjon4rrano;midt,neid0ulz;ito,n7sa6to;ki;ch1dLtos,z;amBeag1Zi9o7u6;bio,iz,sD;b6dri1MgIj0Tme24osevelt,ssi,ux;erts,ins2;c6ve0F;ci,hards2;ir1os;aEeAh8ic6ow20;as6hl0;so;a6illips;m,n1T;ders5et8r7t6;e0Nr4;ez,ry;ers;h21rk0t6vl4;el,te0J;baBg0Blivei01r6;t6w1O;ega,iz;a6eils2guy5ix2owak,ym1E;gy,ka6var1K;ji6muW;ma;aEeCiBo8u6;ll0n6rr0Bssolini,ñ6;oz;lina,oKr6zart;al0Me6r0U;au,no;hhail4ll0;rci0ssi6y0;!er;eWmmad4r6tsu07;in6tin1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n0Qr6w0J;oy;bv6v6;re;mmy,rs5u;aBennedy,imuAle0Lo8u7wo6;k,n;mar,znets4;bay6vacs;asY;ra;hn,rl9to,ur,zl4;aAen9ha3imen1o6u3;h6nYu3;an6ns2;ss2;ki0Es5;cks2nsse0D;glesi9ke8noue,shik7to,vano6;u,v;awa;da;as;aBe8itchcock,o7u6;!a3b0ghNynh;a3ffmann,rvat;mingw7nde6rN;rs2;ay;ns5rrQs7y6;asDes;an4hi6;moJ;a9il,o8r7u6;o,tierr1;ayli3ub0;m1nzal1;nd6o,rcia;hi;erAis9lor8o7uj6;ita;st0urni0;es;ch0;nand1;d7insteHsposi6vaL;to;is2wards;aCeBi9omin8u6;bo6rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw7vi6;es,s;in;aFhBlarkAo6;h5l6op0rbyn,x;em7li6;ns;an;!e;an8e7iu,o6ristens5u3we;i,ng,u3w,y;!n,on6u3;!g;mpb7rt0st6;ro;ell;aBe8ha3lanco,oyko,r6yrne;ooks,yant;ng;ck7ethov5nnett;en;er,ham;ch,h8iley,rn6;es,i0;er;k,ng;dDl9nd6;ers6rA;en,on,s2;on;eks7iy8var1;ez;ej6;ev;ams",
     "MaleName": "true¦0:CD;1:BK;2:C1;3:BS;4:B4;5:BY;6:AS;7:9U;8:BC;9:AW;A:AN;aB3bA7c96d86e7Ff6Xg6Fh5Vi5Hj4Kk4Al3Qm2On2Do27p21qu1Zr1As0Qt06u05v00wNxavi3yGzB;aBor0;cBh8Hne;hCkB;!aB0;ar50eAZ;ass2i,oCuB;sDu24;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAO;lfgang,odrow;lBn1N;bDey,frBIlB;aA4iB;am,e,s;e88ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a92y;aEern1iB;cCha0nceBrg9Ava0;!nt;ente,t59;lentin48n8Xughn;lyss4Lsm0;aTeOhKiIoErCyB;!l3ro8s1;av9PeBist0oy,um0;nt9Hv53y;bDd7WmBny;!as,mBoharu;aAXie,y;i82y;mBt9;!my,othy;adDeoCia7ComB;!as;!do7L;!de9;dErB;en8GrB;an8FeBy;ll,n8E;!dy;dgh,ic9Snn3req,ts44;aRcotPeNhJiHoFpenc3tBur1Nylve8Gzym1;anDeBua7A;f0phAEvBwa79;e56ie;!islaw,l6;lom1nA2uB;leyma8ta;dBl7Im1;!n6;aDeB;lBrm0;d1t1;h6Rne,qu0Tun,wn,y8;aBbasti0k1Wl40rg3Zth,ymo9H;m9n;!tB;!ie,y;lCmBnti20q4Hul;!mAu4;ik,vato6U;aVeRhe91iNoFuCyB;an,ou;b6KdCf9pe6PssB;!elAH;ol2Ty;an,bHcGdFel,geEh0landA8meo,nDry,sCyB;!ce;coe,s;!a94nA;l3Jr;e4Qg3n6olfo,ri68;co,ky;bAe9U;cBl6;ar5Oc5NhCkBo;!ey,ie,y;a85ie;gCid,ub5x,yBza;ansh,nS;g8WiB;na8Ss;ch5Yfa4lDmCndBpha4sh6Uul,ymo70;al9Yol2By;i9Ion;f,ph;ent2inB;cy,t1;aFeDhilCier62ol,reB;st1;!ip,lip;d9Brcy,tB;ar,e2V;b3Sdra6Ft44ul;ctav2Vliv3m96rFsCtBum8Uw5;is,to;aCc8SvB;al52;ma;i,l49vJ;athJeHiDoB;aBel,l0ma0r2X;h,m;cCg4i3IkB;h6Uola;hol5XkBol5X;!ol5W;al,d,il,ls1vB;il50;anBy;!a4i4;aWeTiKoFuCyB;l21r1;hamCr5ZstaB;fa,p4G;ed,mF;dibo,e,hamDis1XntCsBussa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a78ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOrHs1tDuricCxB;!imilian8Cwe7;e,io;eo,hCi52tB;!eo,hew,ia;eBis;us,w;cDio,k86lCqu6Gsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6RrenDuBwe7;!iB;e,s;!zo;am,on4;a7Bevi,la4SnDoBst3vi;!nB;!a60el;!ny;mCnBr67ur4Twr4T;ce,d1;ar,o4N;aIeDhaled,iBrist4Vu48y3B;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5C;e0Yy;a7ri4N;r,th;na68rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Bue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4X;!ath4Wie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5JemCmai8oBry;me,ni0O;i6Uy;!e58rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4M;e4Zod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Fma4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu52;!r;nacBor;io;im;in,n;aJeFina4VoDuByd56;be25gBmber4CsD;h,o;m3ra33sBwa3X;se2;aDctCitCn4ErB;be20m0;or;th;bKlJmza,nIo,rDsCyB;a43d5;an,s0;lEo4FrDuBv6;hi40ki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h57nt;nzaBrd1;lo;!n;lbe4Qno,ovan4R;ne,oDrB;aBry;ld,rd4U;ffr6rge;bri4l5rBv2;la1Zr3Eth,y;aReNiLlJorr0IrB;anDedBitz;!dAeBri24;ri23;cDkB;!ie,lB;in,yn;esJisB;!co,zek;etch3oB;yd;d4lBonn;ip;deriDliCng,rnB;an01;pe,x;co;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;!dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;!edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
+    "MaleAdjective": "true¦0:032;1:034;2:020;3:02T;4:014;5:024;6:038;7:039;8:01V;9:02N;A:01A;B:02H;C:UA;D:02X;E:02D;F:00K;G:022;H:YT;I:031;J:Z5;K:02R;L:00A;aY2bW3cRIdNXeLFfJMgIHhHWiEYjESlE7mC8nBJoAOp7Squ7Rr5Js3Ht2Bu24v11zé10â011éMô4;b0Wc0Ld0Kg0Ihon4l0Cm08n07oYFp03qu01r00tSvM;aPeNiHAoM;ca003l9;il5ntM;ré,uGé;c9nMpo2s034;es027o014;aSeRhQinceEoOrMudi3;angMiq9oK;er,l02R;fYOi5nn3uM;fUVrYM;iopiFé2;i0rnG;b01Rgé;a01Bein4o02EudK;ar016iM;disClNRvaRY;aOerQ4iNlo2ouMrouv3uis3;stoufEvML;cé,scop1;no00Prp015ta0;amou2erv3;aOiGUoMu,écH;ti6BuM;s7va0;cJil5nciZB;aQePimOoNu,éM;ga0vaZD;ig6qSB;i6é;ct9Bvé;bo2nXF;aMrilVQypTY;l,ré;en4ifZFuc01D;aVerUhSlaRoOrNuM;lé,ma0;as3it;euIrNuM;lé,r4;cHné;boI2ir3t3;aMeN;nc2pYT;ve5;il5rtQ3;aNerl9l4LouMrécH;illLSrifXM;hi,ucH;b2lé;a0Ie09iYoRrai,u,éMê02B;cu,gétaPhéme0nNrM;ifJo5;al,iMérHZ;el,tiF;l,riFt8;cRiQlOt8uNyaMû4;geBnt;lu,é;aMeBé;nt,tHP;lé,sA;al,i9J;bIcVdé,eTf,giElSnd4SolRrQsPtNvM;a0ifYL;aMré;l,mi6;cTTsé,uGé;al,g01Qil,tuGuQI;aWDeU9;!aA;illMtnamiF;i01Fot;eULtoZ1;in0WlTnQrMspTMuf,x3;b1dOmNnFTrZLsé,tM;!-de-gNEic1ébr1;eH8ouSW;i,oWC;dNgeBtMu;i5ru;u,éF;ou4u;cQgPiNll01FntaVIrJuM;dY2t2;lEnM;!cu;aHEin1;a0haVDilE;kraiW9lQniPrOsNtM;iYOérA;aYGuGé;baAge0;!latT3versG;cé2tM;raviolYTérX7;a0Me0Gh0Fi0Co04rQuOyroVQâtUUéMê011;léMnu,t86;pho6vi7;!a0méfJniSTrMé;buPMc,gZH;aTemRiPoNuq9éM;buY3pi00O;mp004nq9pX4uM;bl3vé,é;b1cYNmestESomphaMvi1;l,nt;blMpé;a0oCé;ceBdZEhi,itVZnOpNumatiDvaillZYîM;na0tA3;u,ézoïd1;ch3quilliDsM;cVZi,pMvers1;aYQlJX;caUMléImb3nSquRrPscYNt1uM;ch3ffu,lousaArMt-puWC;ang4RbillU9mL2nM;a0oV8é;dUBrQAtuM;!r3;aUGé;du,itrR7na0;béRDg2mNntinnabuEré,ssTDtM;ré,uba0;b2o2;e71éâWY;i0mpQnPrMutWRxYB;m002ni,rM;iMoLX;en,fi3toNI;du,taPKu;or76é2;bWPil5mi7nPpOquArNs7tM;illWKo9;abisco4d8i,é;ageBé;ge0né;a17c15e0Zi0SnobiS0o0Lp0Ht0BuSyPéMûr;dMlectiURmZRpa2roposVN;at8uM;cW7i1A;mpathiDnMriF;coW1diM;c1q9;a0b01cZd-XffWggeN0iVjXFpRrNspeM;ct,nMJ;aObaDTdévelJXfaKge5huF9me6naturGpNvM;iva0ol4;eup5reU0;igu,n6;erNpMérVN;lW5o7;fMpo7;iUXlu;ciYHnCvi;iDoca0;aMc7E;fVYméVY;cMeBré;eX6uNY;conscOUit,jePUlimZ5merWIordZ9sNtEWurbaAveM;nP6rs8;tanP3éqOK;aQimuEomac1rOupéfNy5érM;iWLéotyVF;aKia0;esDiMucUT;ct,de0é;biWHliU1ndardi7;aSRecVQiriP2oOécM;iMulXK;alWMfJ;n8Art8;ci1ign3leXNmnoNKnRphistUWrCt,uM;dé,fOleXUrNs93teMveO5;nu,rO4;d,ia0;fMré;lé,ra0;geBn3;bRciTDdEMgnPmNnMt9;guV4i5V;plWDulM;ta6é;a5ifiMé;a0cX5;yMSéVV;cQigneuLWmpiOAnNrMul,xuGya0;eApeR0ré,vi;sNtiM;!meOP;atX4it8oCDuGé;!oVOrW3;andaVSel5intXHulptMélérWT;ur1é;b5cZhaVMiWlVngTouSrrasAtPuNvMxUU;a0oyaSC;greRTtM;ilEé;a6iMu2;né,sfaiM;sa0t;diFl;la0uinM;!oMP;i6Fé;gSElEnNsM;iXNonPQ;!t;caWYerdot1rM;ifJo-sai0é;a1De0Ki0Ho09u06ythX6âU4éMêvX3ôUQ;a04barbWEc02duKel,f01gZjYn1pUsRtOusP0vM;olMélNC;t3u;iNrM;ospeOAéGY;ce0f;erWMiMoOY;dMg6sC;enNHuG;aOuNétM;it8é;bliVKgRXté;nKCraTV;ouiX5;lé,ulMéIW;aTSiL;lécG9orWPrigér3ugJ;alcitIeMhaufSJonforCurVI;nt,pt8;ct8li7;bicoUKgT3iNr1sMtiE;taLQé;né,sseE;mRnQtVRuMy1;couEgNl3maAquAsOCtiM;er,niL;eMisD;aLKoRU;d,fEgeBrQT;aMpu;in,n;a0caNdé,golMngaR1sq9tuGv1;aR0o;in,na0;b0Dc06do05f04je4l01m00nZpVsRtPvMçu;enMu,êWT;dMu;icVD;arVTenMi2rous7;tSKu;caSZpOseNtM;a0rei0;mbEnTJr2;eUXlendSG;entOlUBoNrMtiR9u;odK4ésentTO;sa0usD;a0i;aSBcont2du,omVTtIvLI;pUUua0;aMeVEié,uiDâcHég9;tiMxa0;f,oV4;aKou5roiSBu7;nW3ub5;hercHoOrNuM;eilUNit,lé;oquevU7u;mmV8nNuM;rG2veKK;nMstitN0;aRYu;atW2onR9uC;b00cZdiYfXgWilQ0mVnTpRsPtOvNyM;onQGé;agV9iVP;aAXioUQé;a0sM;asJuI;ide,pM;or4rocH;cMgé;i,uNL;as7ifJolU6pa0;eBoûC;fi6raîchRK;al,c1n,oaMA;i1oPM;atVMelaiNHougTI;alNAiTCotiSG;a1Te1Kh1Ii1Gl14o0QrXuSyramid1âlD6éM;cTEda0jLYnPriUWtM;aNilErMuEé;ifJoRY;nt,raV9;aMétI;l,rd;a0bPcOdiBHisDni,rMtasNAérB1;!iMpurAuK1;ficaRQtaA;eau;iFlic;e0Ci07oUuTéMêtQJ;cQdesA6fPmOnat1oc7Epo7sNtenI3vMétabTM;eOSoPZ;e0idL1uUI;aGAédi4;abrR4é2;iMé8N;pi4té;de0sMV;ba0chaAduXfWgramUChiEWlVmUnonPKpSsRtPuTZvMémi8Q;enç1iNoM;ca0q9;dKSnR3;eMubéIéS5;cR9sC;crKt2;oMrSJ;rKQsé;etR5pt,u;i29onRZétaS2;essTFoS0;ctIPit;mPnNsM6vM;at8ilégJé;ciMtaMD;er,p1;it8ordi1é;miLna0ssM;a0enRDé;cHiXlVmp01nUrtTsPtNuM;d2rS6ssTX;agLeM;lé,nK9;it8sOtMé;al,éM;!rQE;eS5éTB;at8eBoQU;cK9dé2tifQG;iMynéM0;!cOBssQPtiRA;gOJlu,ntMv2;eBu,é;aTeQiPoOuIVéM;bMniL;éiF;mDVnS8;a0s7;in,urM;a0nichM;aNYeB;cé,iOnNq9tM;!i6;!a0q9té;nt8sa0;afL5caNTmMqu3voCétQA;en4pa0;ilippAosphorS7énM;iQSomén1;ct01inTlé,nSrNsMtKup5;a0tilJG;cuCdu,forPlé,ma7ApéJMsNtMverQGçNG;i79urDF;an,isCoS9uaFJéM;cu4véI;a0ma0é;aHXcHdu,sa0tu;aNHt;i08lpiCn07rXsRtNuSPvé,yMïF;a0sRGé;aHTeOie0rM;iMon1;arc1ciF;ntOIrnG;sNtM;or1;aOiMé;f,onnM;a0el,é;gLnt;aTcheFYeSfRiQl3oissi1tMveMMé;aOiM;al,cMel,sR3;iP5uPE;gé,nt;gAHsiF;aKuS7;il,ntLH;dox1guayFlys3noM;rm1;su,teEé;ll1Sr;b0Cc09dor07ff05is8lfaJAm04nd03pYrRsé,ttomQTuMxygé6;a4blJtOvM;eH1rM;aPViL;il5rM;aQTecuiSCé;aRbI7cheQdPgOiMné,phelA;eAEginM;al,el;ani7;on6u7E;st2;l,nPM;alApNt4UuH0érM;atR1é;oNrM;esDiRL;r4Dsé;oMZul3;b0Gniprése0;ensMiNMra0usq9;a0if,é;a0iM;féI;cMtogFH;asQQiMup3;deI9pHN;jeIJlOsMéNS;cBeMti6éd3;rQVssQM;igJGong;a01e00iZoPuOéM;!gMvro7;at8liP1;!anMBlKNméro4pLItrNJ;c8irUmSnchaErOté,uMvaO4yé;rriMé;!ciLsD;d-NmaMvéJT;l,nd;afO7cM;oréF;inaMmé;l,t8;!aFZci;cke5ppO0;stoORt,urEV;c2iTpolSrrPZsRtPuNvMzi,ïf;al,r3;fMséa7F;raOK;al,iMurG;f,on1;al,ilK4;iI9éoM7;n,sD;a12e0Ui0Mo02uVéNûrM;!isD;cSdNfNQl47nagLpriDriMtropoliI5;diEIta0;iMu7;aOcNtMév1;at8erranéF;al,in1o-lég1;n,teB;ha0onH1;et,gMPltiRnicip1rQsOtM;a0iMuG;lé,n;c5icMq9ulmOW;al,iF;al,muI;na2FplJ;biN4d04i02llOEm00nVqueBrStRuMyF;chPil5lOra0sNtKFvM;a0emB7;su,tacES;a0u,é;aKMe4;eBiPHoCA;al,dNf1i6KmN1tM;!-6el,ifN3;a0o2u;dPgolOopareGOtMuGN;aMé;gIGnt;!iF;aAi1;enMifJ;ta6;ndMré,si;re;ifJé2;gQliCnOroNtM;oyFé;boEiC;eBiMér1;er,m1sté3Z;nMraMD;aK1onM;!nNN;ilJUnPsOuMxiNY;b5rtriMsiF;!er;quAu2;aOsNtMu;al,eB;ongLtruGuG;cé,ça0;boul,chPKg02igr01jeBlXmeGZnUrQsPtNudKîtrM;e,i7;eFFin1riMutPIé3L;ciGmoni1;culAq9s8;b2chaMUgPFiOoNLqu3ra0tM;iMyr;al,en;t1é;ié2qu3uM;el,sM;crK;aNfJ1in,oMsaAveOH;doIuA;dMi7;if,roK;elMYichLS;isLXyar;aZeYiToPuOâcHéM;cHgMn16zarO7;al,er,islNP;!brGRcrNOiDminNMst2théMFxurLQ;calMQinG4mbaJ5nNrECti,uMy1;rdDHé;doK0gM;!itudOV;bOgo4mNp18tMé;tGVuaJX;i4ousA;ertAidORérM;a3Mé;nt,vé;bi1cRiQnPq9rOsNtMvé,xND;e0in,ér1;c8sa0;g9moJH;ciJ3guKI;d,tiL;rym1é2;aQePoNuM;biEif,ré;i0li,ncHuMvi1;eBffFTiMErnaKYé;té,unM7;casDillKAuniO5;di60gnor3ll2Hm1TnRrOsNtM;aJ2inéI;o5raéJ1su;aJCi7rM;atN1iCéM;el,guKQsoFL;a1Hc16d0Ye0Tf0Mg0Lh0Ki0HjustFXn0Go0Cqui0Bs02tRuQvNéM;dKg1;aincu,estiNiMé1I;o5t3;!gaKJ;si4tiLK;aNWePo87rOuJVéM;gr5ZrM;eKJieB;ansiM9i5T;llRmpeBAnQrMstinGM;allJcontineE8dKlB0mitE3nNpo7roM;gMIm07;aMé;tiBB;s8tiNU;ecDViB2;atisfaKcrKen7iSoQpir3tNuM;ffiDlC;antNinEBruM;ct8it;!a6;le0uM;cK9pçNM;gnMnEGsC;ifK7;et,siAWéC;cOffeDPnMKpMuï;porMéI;tun;cuJP;oM0é;ntMti1;erromMéresD;pu;abitCDos1Lu2WéLG;rLQéGU;aKQeRiniPlCLoMérJC;nM9rM;mMtu6;aIIel,é;!tésM;im1;ctICrn1;mploIWxM;aMTisCpM;lMreKVérim7K;iq9oM;i4ré;iPoOuNéM;ce0fi82pI9ter9S;!lA3st0T;-eurALle0;caJ6en,fféKYgOq9reMLsMviduG;cMtinMK;i9VrKG;e0né;aUeThSiRli6oMurLN;héKTmplKDnM;dLBg9Nnu,sNtMveH1;i0Brô5;cC5iMo5;dé2sC;de0s8;anJQ;ndJrDIsD;ndKYrM;cé2né;cQdPlOniLPpNrticu5ssouHMttenMvo9;du,t8;erçu,proprJ;té2;ap4éKP;heL7t8;ag08b07i4m00pM;aXerVlUoSrOuNérM;at8i1;de0isDls8r;essiFVoOuNéM;g6vu;de0;duCLmpLZvi7;ll9rtMs3te0;a0un,é;an4oI;soKNtiM;ne0;ir,rMtBFyé;faKti1;aQerJ1iPoNéM;diK8mo95ri4;biI6dé2rM;al,tG;g2ne0;cu5téM;riG;i5Hu;inK5é;imi4uMég1;mi6st2;aZeXiWoRuPydraCâOéMôteHX;bé4rMsiCtérU;is7;lé,t8;i5mMpHNrE;aAili3;llywooI5mPrNsM;pitaHQ;izoBJm8PriM;fJpiE;oseER;laIndHUtléIIvern1;rMur4xag8L;bu,culéF;biPcHgaF6lOnNrMuC5;aHKceEdi,n4R;dicaHBté;eCluc5D;lNtM;uKDé;i4lé;a0Ke0Hi0Fl0Co09rWuQâ4éMên3;a0mGPnMorD1;iNéraM;l,teB;al,t1;erQiMtGHéIM;llNnM;dé,éF;erIEoM;ti6;riL;aUeTiPoMéco-ro07;ndeBssiNuM;ilEpé;er,sD;ffDJllOmNnIHsM;a0onEVé;aIFpa0;aHNé;c,lotCnu;is7mmatGLndNssoui6TtuKvM;e,itatJ1é;!iM;loq9MsD;gueCCnNuM;aE4drK7lu,rHHverneAG;do5fl3;aNisDoMua0;usD;cé,pFX;rondMtI6v2;!in;igC4ntNrMsticuE;maA;il;gn3iQlOmAn4rMuf2;antCKdMni;iFé;a0bé,oM;n6pa0;!lCO;a14e0Zi0Ul0Ko08rXuQâcHéMê5;cOdNlAmMod1ru;inAor1;ér1L;al,oGY;gRlQm3rOsNtMya0;ur,é;e5il5;eFXiMt8;boGT;guImiDW;it8ueB;aUeTiRoOuNéMôDD;mF8quentEOtIJ;g1itDJst2;iNnMufrouC;cé,taFR;d,s7;aGKgorAXn12pé,q9sM;sD0é;la4uG1;cMgm3Rnco-aFRpp3te8Z;aFNtu2;c1et1llGUnTrOuM;!droDVisseBrMtu;bu,c79ni,ré;aAcPesBBmOtM;ifJuM;it,né;el,u5é;e6é;cOdM;aMé;ment,nt,teB;iLtHJé;aQePi9YoNuMâneBécH;et,orHAvi1;rMtCu;al,eB8isD;mmaCRuGJ;gOmMpi,tF1;aFXbM;a0oDD;eMra0;l5oE;cPer,gOli1nMsc1xé;!aMiI6;l,nciL;urFJé;e5hu,t8;i0n58rOsA9uM;illMt2;e4u;mMré,ve0;en4é;ci1go4iUlTmRnQrPsciCNtNuMvoG3;bouFJcHt8;al,igM;a0ué;ci,fe9F;farENé;iliMé;al,er;ot;nBNsH0t;ff1Wm1In0Drr0Cs07ur5QxM;a04c00eZiXorbiCpRtNuM;béIlC;erminaE9raNéM;nu3rDY;conjug1vaM;ga0;a7Ye65lPo7reFNul7éM;dDIrimeM;ntM;al,é;icG8oM;i4raE0s8;gMlé,sC;ea0u;mpt,rC3;eNit3luM;!s8;l64ptMss8;ioG6é;cMgé2lt3spéI;er19t;carDMpaPsNtM;iv1omDLudia9U;eMouff5;n75u5;cé,gnol;a0o6;c0Kd0Ef0Ag08ivIj07l06n04rZsVtOvM;a01elopp3iMoûC;rAWsaED;aF2eRiLou2rMurXêt3;'oPaOeMoP;bâF0couDBlaBLpMteAM;o7reBF;nt,vé,î6;uve5C;n3Sr2;aOeNoM;leEUmmeEUrce5;igB9veF8;b5ngl06;aPegistB1huG4icOoNuM;ban6;bé,ué;hiGE;ci6gé;eMuCI;iDVmi;eFKu3I;o9ôAI;ag84l9oM;rDRurCH;a90erFTiOlNoMuFT;nB0ui;amFRé;lé,év2;euECiOoNurM;ci;loE6mmaDKrmi;aMma1P;b5mM;an4;aQhOlNoMr44u5;mbr3uraEF;e1Kin;aMevêt2;ntFCî6;is7st2;bSmRpM;aOe7ier2loBVoNrMâ4êt2;es7isFZun4;r4ussié2;il5nMq21;acH;erd7Dito8Wu2ê5;aRouPrNuMêC;sq9é;asMouDRuF4;sé,é;cHrM;bé;l5rraC6;aPeOiNlanq9ond2rM;ay3on4é6;c56lé;ct8rvE3;cé,rM;a0oMé;ucH;a34e2Xi21o1Vr1Tu1RéMû;b1Nc19dica9Zf11g0Vha0Ul0Rm0Ln0Jp09r06sVtQvMçu;ast4YeNoM;lu,ra0t,ué,yé;lMrgonEE;opBL;aPeMo4Eraq9;nNrmM;in3;du,teBu;cHil5;aVeUhTiRoOuNéquilM;ib2;et,ni;bliDBeuv2l3piErM;dF1iM;en4;g6nMré;car6téres7;abCWonoIydra4éri4;mpa2rtA6spé2;bu7ffec4pprobaB9rE7;aNiDToMég5;bé,uC;ci6ng6D;aTeRlPoNrM;aDPeCMim3;itraCOli,r4uM;il5rvu;aMoAI;cé,iD;i0nMup5;aCJda0;rMs7;eCHte4R;aMuDJ;tu2;eOoNuM;ni;dé,n4raBT;ntMsu2;!iM;!el;aNiM;bé2cCPnq53ra0é;b2is7vé;ncH;aBEingD6ling9oPrOuNéM;né2;enC2i7;ad3os59;nf5uMût3;li8Fr9ZtC;aQenPiNoMraîcC7u0éC5;n8Irm3;c3Igu2niM;!t8;du,s8;iNvoM;ri7;lEt;aYeXhTiSla2oOrMulot4éCT;iMo9KépK;t,é;lOmpo7nNrASuM;pé,rag58su,ve21;cerCtrac4;le4o2;dé,s8;aOiMu;qMr3;ue4;r6us7î6;nt,va0;de0lé;aNorD5rMuC;aBBiCE;rq9ucH;bitBVc1rMve4;!ci;aco88es7oMu;g9it;du,le0mPn6rOté,uM;a4Xb5iMé;llAU;ma0s1é;inMp4;a2Iic1;a0Fcta0Dffér0Cg0Al08m07plôCCr06sPt,vM;erNiMor7J;n,sé;ge0t8R;cZgracJjoi0lYpWqual4KsStM;a0enQinOrM;aMib9;it,ya0;ctMg9;!if;du;iOolNéM;mi6;u,va0;de0mul26pé;aMer7o7ropor2Ju4;ru;oq9;iNoMrA8;nti62rC9;pli6;ect11ig40;ensB4in9;a4iM;ge0;eMit1;st8;e0é;toM;ri1;gMma4P;on1;mRntQr3WsM;cOsa5tM;i6rM;uc8F;enBSript8;e5é;eu2i;ctylogra6Wlto6XmMnD;as7né;a3Le3Hh2Vi2Sl2Ko07rTuOyclNâlAéréMô45;a8Abr1;opéF;baAiNltMrADta6;iAQurG;rNsMt,v2;a0i6;as7;aXiVoRuPéM;atNne5pM;iCu;eBif;!ciMel;al,fJ;cOisNq2Ct4uMya0;la0stAL;sa0é;hu;a5GminGstaM;llA;int8moi2IquM;a0e5;c1Xdé,gn71hé9Fi1Wl1Rm1Cn00opér9UquZrSsQté,uM;cHl4Ip3rNsu,tumiLveM;rt;bé,on6tMu;!aN;su,taM;ud;di1n44pPrMsé,t7BéF;eMi8Aos8;ctMsponAS;!eBio9Q;orNuM;le0;at8el;et,in;!c0Td0Rf0Kg0Hj0Gnu,quéIs05tTvMçu;aReNiMulsAB;vi1;nNrM;ge0ti;tMu;io9FuG;inc4Jl96;eTiRoQrM;aNit,ovM;er7;ctMi0ri3s4;uGé;ur6;gu,nM;e0Pge0uG;mpNnM;t,u;l8XoM;raA;ac2cVeTiSolQtOéM;cut8qM;ue0;a0ern3ituMru0S;a0t8Wé;aMi97;nt,teB;g6sC;nCrvM;a6Fé;ie0;oi0ug1;eNénM;it1;lé,sU;iPlicXond3RrM;aMon4;teM;rnG;a0dMné,r93sq9t;enM;tiG;am6iMuc62;ti9N;eNil69l0Hor9Er7CuM;pis87r7R;nt2pMr4;tuG;bZmVpMé6C;aTen7lSoPrNuls8éM;te0;es7i8RometCéheM;ns8;rteMs3;meM;nt1;aiDet,iq9;ct,r6Ds7t53;an8AeNun1VémM;or7S;n76rM;ci1ça0;atCi6lé;lNoM;ni1ré,ss1;aNeMégi1;ct8;nt,t0X;!f45n3I;ardiLh5Hu;aQiPoNéM;me0r54;is8UuMît2;té,é;gnoCma45nqNqueC;irNndestAqMs7;ua0;!on34se81;nNrconspe8Hse5tMvil6C;adAé;gl3t2;aYeViToQréPuchoCâNéM;ri,t8;taA;ta0;tiF;cola4iNqu3r1uMyé;ca2I;si;a0ffMliFrurg4M;on6ré;nu,rNveM;lu;!c63;grAm1UnSpeau4rOs7to30uM;d,fMs7;fa0;bOgé,mNnM;el,u;a0eB;onU;ceEgMta0;ea0é;nOrM;né,tMv47;ifJ;d2sé,tr1;botAch04de03l02mYnne5outchou4pWrOsMtal5ZuDva4B;aMq9s3till5Y;niL;aRcQd7OesDiPmi6nNré,téM;siF;asMé;siL;ca3Et69;ér1;ctériMmé52;el,sé;itMt8;al,on6;bNpagMé;na1K;odMré;giF;ci6ifor2Eé;n1Xt;otMé;tiL;a14e10i0Sl0Mo07rVuUyzaTâRéNêM;c53ta;aOdouAga20nMt78;iMédictA;n,t;nt,t;cHtM;a16i;ntA;cc1ri6té;aUeTiSoPuMési1Oûl3;isDnNtMya0;!al;!i;cHdé,nzé,uMyé;illMteB;on,é;dé,lEnguebaEsa0;ss4Wt3Cve4;ilNnM;cHla0;la0S;i7mbZnXr6ssWt4uMvA;cUdTffSillRlQrMs4Mt6N;d0Eguign36rOsM;iLoM;uf5;u,é;evers3ot;a0i,on0W;a0eBi,on;eBi6;hé,lé;e5u;!dMna0F;isDé;ar5Cé;aPeNin5BoM;nd,q9t34;ss3t,uM;!i,té;fa08ncMsé;!hi5T;enQgPrm47sM;corNeM;xuG;nu;ar2;-ai5AfNsMve53;éa0;aiD;auOdNlligéIrceBsMur2;ti1;on08;!cer2C;fo9gZlVnTptism1rRsQtMvaU;aNtM;a0u;ilM;leB;a6é;bMio5ré;a0e5ou3Ju;c1d3lieusaMni;rd;aOeinNlMza2M;a0on6;iLé;deBnY;arMué;reB;b4Sc43d3Qf3Cg33hu32i2Xj2Vl2Bm22n1Cp12r0Qs0Ct00uWvOzu2érMî6;iFoMé;nav1por4;aRePiOoMé2;isiMr4ué;na0;l0Zné,sé;nMr20ugE;a0tu2;c3AnMrJ;cé;d0Sr21straOtMvergn3H;oMrichiF;colEma0Bri7;liF;héWroVtM;aTePiOrMén9;aMib9;ya0;ra0t2;i0nM;dNtiM;f,on6;r0Iu;b5cHr3P;phJ;niF;cYeWo0QpVsNtrM;al,ei0;assinSerRiQoMu2y1U;cJifOm1Zr1DuM;pi,rM;di44;fé;du,mi5s4é1M;vi;!é;hyxJir3;pMx9;ti7;en3Z;chitecWdVgentUméTq9rOtiMyF;cu5fiMsan1;ciG;aOiNoMê4;ga0n01sé;vé,é2;cHn29;hé;!niF;in,é;e0u;tur1;aiDeu2la0QpNérM;it8;a1YlSrOuNétM;isD;yé;oMê4;fonNprJu2Nxim29;ié;di;iq9;al,c09dal08esthés07g01imZkylo7nWoVtM;iOéM;diluviFrM;ieB;aé0ScOdéraNsoM;ci1;pa0;iNlérM;ic1;pé;dArm1;e5onciaNuM;el,lé;teB;aMé;liL;lo-NoiM;ss3;aNsaxM;on;méM;ri11;ia0;ou;esMiFré;tr1;aig0LbSer,iRorQpPuDéM;lio2riM;caAnM;diF;ou5u4;ti;!c1nci2D;iMré,uE;a0gu;a02c00eZgéXig6lRpAsaQtNvM;éo5;ernNiLé2;er;at8é;ciF;ePié,onOuNéM;cha0;mé,s8;gé;maM;nd;riF;en;r4xandrAz0B;alAooM;li7;ngNrM;ma0;ui;ouMus4;ré,té;gMlé,m3sé;rNuM;!i7;elMi;et;ri1J;aTenRi4oniDrePuM;erNicM;heB;ri;ss8;té;ouM;il5;ça0;fPghOriM;caA;in;an;aSeRilQliPol3rNéM;re0;ancMioE;hi;gea0;ié,é;ct0S;iMmé;bMré;li;dVhéTjaSmiQoOroKéM;quM;at;lMpt0L;esO;nistrMrM;at8;ce0;re0s8;if;itM;ioM;nnG;cWhRidu5tNé2;ré;iNuG;el;f,vé;lé;aNeM;vé;lMr6;anM;dé;abl3ent9identXoTrPuM;eMsé;ilE;la0;oMu;chMupi;eBé;ur;mNrt,utuM;mé;mo00pM;ag6li;el,é;ué;a02dom00erIjeXoVrRsNusM;if,é;e0oNtraK;it;lu,rb3;a0é;acadabIuM;pt,tiM;!sD;sa0;li,nM;da0;ct;ra0;nt;in1;al;is7ndNtM;tu;on6;né;sé",
     "FemaleName": "true¦0:FW;1:G0;2:FP;3:FB;4:FA;5:FQ;6:EP;7:EN;8:EX;9:GD;A:G9;B:E3;C:G6;D:FM;E:FJ;F:EE;aE0bD2cB5dAGe9Ef8Zg8Gh82i7Rj6Tk5Zl4Nm37n2So2Pp2Equ2Dr1Ns0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7DeHol1SvG;et7onB6;le0sen3;an8endBLhiB1iG;lInG;if39niGo0;e,f38;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9VenFZ;da,l8Unus,rG;a,nGoniD1;a,iDB;leGnesEB;nDKrG;i1y;aSePhNiMoJrGu6y4;acG2iGu0E;c3na,sG;h9Lta;nHrG;a,i;i9Iya;a5IffaCFna,s5;al3eGomasi0;a,l8Fo6Xres1;g7To6WrHssG;!a,ie;eFi,ri9;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a05carlet2Ye04hUiSkye,oQtMuHyG;bFIlvi1;e,sHzG;an2Tet7ie,y;anGi9;!a,e,nG;aEe;aIeG;fGl3DphG;an2;cF7r6;f3nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBU;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;l5Yre0;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBMome;e,ie;in1ri0;a02eXhViToHuG;by,thBJ;bQcPlOnNsHwe0xG;an92ie,y;aHeGie,lC;ann9ll1marBEtB;!lGnn1;iGyn;e,nG;a,d7V;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBYki;ea,iannDWoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;cAQkaE;chGe,i0mo0n5EquCCvDy0;aCBelGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAV;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaBAtHulG;a,et7in1;ricGsy,tA7;a,e,ia;ctav3deHfAVlGphAV;a,ga,iv3;l3t7;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoB1k8AolG;a,eBG;!mh;l7Rna,risF;dIi5OnHo23taG;li1s5;cy,et7;eAiCN;a01ckenz2eViLoIrignayani,uriBFyG;a,rG;a,na,tAR;i4ll9WnG;a,iG;ca,ka,qB3;a,chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi9IlG;iGy;cent,e;red;!e6;ae6el3G;ag4JgKi,lHrG;edi60isFyl;an2iGliF;nGsAL;a,da;!an,han;b08c9Dd06e,g04i03l01nZrKtJuHv6Qx86yGz2;a,bell,ra;de,rG;a,eD;h73il8t2;a,cSgOiJjor2l6Gn2s5tIyG;!aGbe5PjaAlou;m,n9R;a,ha,i0;!aIbAKeHja,lCna,sGt52;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri7;!t;!ry;et3IiB;elGi5Zy;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBFon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9RnGsAP;!a,e9Q;a,sAN;aB0cJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi9na,rG;a6Yi9;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Jet7z2;a,et7;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8Fe;!n4E;b7Serty;!n5P;aNda,e0iLla,nKoIslAQtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4L;cNdon7Ri6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5A;a,en,iGy;!e,n46;ri,urtn99;aMerLl98mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6OiJlInHrG;a,i,ri;d4na;ey,i,l9Ps2y;ra,s5;c8Vi5WlOma6nyakumari,rMss5KtJviByG;!e,lG;a,eG;e,i77;a5DeHhGi3NlCri0y;ar5Ber5Bie,leDr9Ey;!lyn72;a,en,iGl4Tyn;!ma,n30sF;ei71i,l2;a04eVilToMuG;anKdJliGst55;aHeGsF;!nAt0W;!n8W;i2Qy;a,iB;!anLcelCd5Uel70han6HlJni,sHva0yG;a,ce;eGie;fi0lCph4W;eGie;en,n1;!a,e,n34;!i0ZlG;!i0Y;anLle0nIrHsG;i5Psi5P;i,ri;!a,el6Oif1QnG;a,et7iGy;!e,f1O;a,e71iHnG;a,e70iG;e,n1;cLd1mi,nHqueliAsmin2Svie4yAzG;min9;a9eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6T;do4;!belGdo4;!a,e,l2E;en1i0ma;a,di4es,gr5Q;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1M;ll2rten1G;aHdGlaH;a,egard;ry;ath0ViHlGnrietBrmiAst0V;en22ga;di;il74lKnJrGtt2yl74z6C;iGmo4Eri4F;etG;!te;aEnaE;ey,l2;aXeSiNlLold11rIwG;enGyne17;!dolC;acieHetGisel8;a,chD;!la;adys,enGor3yn1X;a,da,na;aJgi,lHna,ov71selG;a,e,le;da,liG;an;!n0;mYnIorgHrG;ald35i,m2Stru73;et7i0;a,eGna;s1Mvieve;briel3Fil,le,rnet,yle;aReOio0loMrG;anHe8iG;da,e8;!cG;esHiGoi0G;n1s3V;!ca;!rG;a,en43;lHrnG;!an8;ec3ic3;rHtiGy9;ma;ah,rah;d0FileDkBl00mUn4ArRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2H;geni1la,ni3R;h52ta;meral8peranJtG;eHhGrel6;er;l2Pr;za;iGma,nest29yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;a,en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aVeKiJoGul2U;lor51miniq3Yn30rGtt2;a,eDis,la,othGthy;ea,y;an08naEonAx2;anObNde,eMiLlImetr3nGsir4U;a,iG;ce,se;a,iHla,orGphiA;es,is;a,l5J;d0Grd0G;!d4Nna;!b2DoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1XyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et7iG;!ca,el1Bka;arGia;is;a0Re0Nh05i03lUoJrHynG;di,th3;istGy05;al,i0;lOnLrHurG;tn1E;aId29iGn29riA;!nG;a,e,n1;!l1T;n2sG;tanGuelo;ce,za;eGleD;en,t7;aIeoHotG;il4C;!pat4;iKrIudG;et7iG;a,ne;a,e,iG;ce,sY;re;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;i9yl;a,y;nLrG;isJlHmG;aiA;a,eGot7;n1t7;!sa;d4el1PtG;al,el1O;cHlG;es7i3F;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2GsG;a2Fie;a,iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Di0D;a,e,l1;isBl2;tlG;in,yn;arb0CeYianXlVoTrG;andRePiIoHyG;an0nn;nwCok9;an2NdgKg0ItG;n27tG;!aHnG;ey,i,y;ny;etG;!t9;an0e,nG;da,na;i9y;bbi9nG;iBn2;ancGossom,ythe;a,he;ca;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Zy9;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et7iA;!triG;ce,z;a4ie,ra;aliy29b24d1Lg1Hi19l0Sm0Nn01rWsNthe0uJvIyG;anGes5;a,na;a,r25;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi9yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t7;an19elG;le;aYdWeUgQiOja,nHtoGya;inet7n3;!aJeHiGmI;e,ka;!mGt7;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t7;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,ta,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i9y;!e;il;ah",
     "Country": "true¦0:3I;1:2Q;a31b2Hc25d21e1Tf1Ng1Ch1Ai13j10k0Yl0Tm0Fn04om3MpZqat1KrXsKtCu6v4wal3yemTz2;a28imbabwe;es,lis and futu33;a2enezue38ietnam;nuatu,tican city;.5gTkrai3Cnited 3ruXs2zbeE;a,sr;arab emirat0Jkingdom,states2;! of amer31;k.,s.2; 2Ba.;a7haBimor-les0Ao6rinidad4u2;nis0rk2valu;ey,me37s and caic1X; and 2-2;toba1N;go,kel0Znga;iw35ji2nz31;ki33;aCcotl1eBi8lov7o5pa2Gri lanka,u4w2yr0;az2ed9itzerl1;il1;d30isse,riname;lomon1Zmal0uth 2;afr2LkKsud2Y;ak0en0;erra leo2Rn2;gapo2Lt maart2;en;negJrb0ychellX;int 2moa,n marino,udi arab0;hele2Aluc0mart24;epublic of ir0Dom2Mussi27w2;an2B;a3eGhilippinSitcairn1Oo2uerto riL;l1rtugD;ki2Ll3nama,pua new0Xra2;gu5;au,esti2F;aAe8i6or2;folk1Mth3w2;ay; k2ern mariana1G;or0R;caragua,ger2ue;!ia;p2ther1Dw zeal1;al;mib0u2;ru;a6exi5icro0Co2yanm06;ldova,n2roc4zamb9;a3gol0t2;enegro,serrat;co;c9dagasc01l6r4urit3yot2;te;an0i1A;shall10tin2;iq1R;a3div2i,ta;es;wi,ys0;ao,ed05;a5e4i2uxembourg;b2echtenste16thu1P;er0ya;ban0Lsotho;os,tv0;azakh1Oe2iriba07osovo,uwait,yrgyz1O;eling0Onya;a2erH;ma19p2;an,on;c7nd6r4s3tal2vory coast;ie,y;le of m1Irael;a2el1;n,q;ia,oJ;el1;aiVon2ungary;dur0Qg kong;aBeAha0Uibralt9re7u2;a5ern4inea2ya0T;!-biss2;au;sey;deloupe,m,tema0V;e2na0R;ce,nl1;ar;orgie,rmany;bVmb0;a6i5r2;ance,ench 2;guia0Hpoly2;nes0;ji,nl1;lklandVroeV;ast tim8cu7gypt,l salv7ngl1quatorial5ritr6s3t2;ats unis,hiop0;p0Mt2;on0; guin2;ea;ad2;or;enmark,jibou4ominica3r con2;go;!n B;ti;aAentral african 9h7o4roat0u3yprRzech2; 8ia;ba,racao;c3lo2morQngo-brazzaville,okFsta r02te d'ivoi05;mb0;osD;i2ristmasG;le,nS;republic;m2naVpe verde,yman9;bod0ero2;on;aGeChut06o9r4u2;lgar0r2;kina faso,ma,undi;az5etXitish 2unei,és5;virgin2; is2;lands;il;liv0naiOsnia and herzegoviHtswaHuvet2; isl1;and;l2n8rmuH;ar3gi2ize;qLum;us;h3ngladesh,rbad2;os;am3ra2;in;as;fghaKlFmeriDn6r4ustr2zerbaijM;ali2ia;a,e;genti2men0uba;na;dorra,g5t2;arct3igua and barbu2;da;ica;leter3o2uil2;la;re;ca,q2;ue;b4ger0lem2;ag2;ne;an0;ia;ni2;st2;an",
     "Region": "true¦a20b1Sc1Id1Des1Cf19g13h10i0Xj0Vk0Tl0Qm0FnZoXpSqPrMsDtAut9v5w2y0zacatec22;o05u0;cat18kZ;a0est vir4isconsin,yomi14;rwick1Qshington0;! dc;er2i0;ctor1Sr0;gin1R;acruz,mont;ah,tar pradesh;a1e0laxca1Cusca9;nnessee,x1Q;bas0Jmaulip1PsmI;a5i3o1taf0Nu0ylh12;ffUrrZs0X;me0Zno19uth 0;cRdQ;ber1Hc0naloa;hu0Rily;n1skatchew0Qxo0;ny; luis potosi,ta catari1H;a0hode6;j0ngp01;asth0Lshahi;inghai,u0;e0intana roo;bec,ensVreta0D;ara3e1rince edward0; isT;i,nnsylv0rnambu01;an13;!na;axa0Mdisha,h0klaho1Antar0reg3x03;io;ayarit,eAo2u0;evo le0nav0K;on;r0tt0Qva scot0W;f5mandy,th0; 0ampton0P;c2d1yo0;rk0N;ako0X;aroli0U;olk;bras0Wva00w0; 1foundland0;! and labrador;brunswick,hamp0Gjers0mexiIyork state;ey;a5i1o0;nta0Mrelos;ch2dlanAn1ss0;issippi,ouri;as geraFneso0L;igPoacP;dhya,harasht03ine,ni2r0ssachusetts;anhao,y0;land;p0toba;ur;anca03e0incoln03ouis7;e0iG;ds;a0entucky,hul09;ns07rnata0Cshmir;alis0iangxi;co;daho,llino1nd0owa;ia04;is;a1ert0idalDun9;fordS;mpRwaii;ansu,eorgVlou4u0;an1erre0izhou,jarat;ro;ajuato,gdo0;ng;cesterL;lori1uji0;an;da;sex;e3o1uran0;go;rs0;et;lawaDrbyC;a7ea6hi5o0umbrG;ahui3l2nnectic1rsi0ventry;ca;ut;iLorado;la;apDhuahua;ra;l7m0;bridge2peche;a4r3uck0;ingham0;shi0;re;emen,itish columb2;h1ja cal0sque,var1;iforn0;ia;guascalientes,l3r0;izo1kans0;as;na;a1ber0;ta;ba1s0;ka;ma",
@@ -6862,6 +6865,7 @@
     "Person": "true¦ashton kutchSbRcMdKeIgastNhGinez,jEkDleCmBnettJoAp8r4s3t2v0;a0irgin maG;lentino rossi,n go3;heresa may,iger woods,yra banks;addam hussain,carlett johanssJlobodan milosevic,uB;ay romano,eese witherspoIo1ush limbau0;gh;d stewart,nald0;inho,o;a0ipJ;lmIris hiltD;prah winfrFra;essiaen,itt romnEubarek;bron james,e;anye west,iefer sutherland,obe bryant;aime,effers8k rowli0;ng;alle ber0itlBulk hogan;ry;ff0meril lagasse,zekiel;ie;a0enzel washingt2ick wolf;lt1nte;ar1lint0ruz;on;dinal wols1son0;! palm2;ey;arack obama,rock;er",
     "City": "true¦a2Yb28c1Yd1Te1Sf1Qg1Kh1Ci1Ajakar2Jk11l0Um0Gn0Co0ApZquiYrVsLtCuBv8w3y1z0;agreb,uri21;ang1Ve0okohama;katerin1Jrev36;ars3e2i0rocl3;ckl0Xn0;nipeg,terth0Y;llingt1Qxford;aw;a1i0;en2Jlni31;lenc2Wncouv0Hr2I;lan bat0Etrecht;a6bilisi,e5he4i3o2rondheim,u0;nVr0;in,ku;kyo,ronIulouC;anj25l15miso2Lra2C; haJssaloni0Z;gucigalpa,hr2Ql av0N;i0llinn,mpe2Dngi08rtu;chu24n2OpT;a3e2h1kopje,t0ydney;ockholm,uttga14;angh1Henzh1Z;o0Mv00;int peters0Wl3n0ppo1H; 0ti1D;jo0salv2;se;v0z0S;adV;eykjavik,i1o0;me,sario,t27;ga,o de janei19;to;a8e6h5i4o2r0ueb1Syongya1P;a0etor26;gue;rt0zn26; elizabe3o;ls1Irae26;iladelph21nom pe09oenix;r0tah tik1B;th;lerKr0tr12;is;dessa,s0ttawa;a1Jlo;a2ew 0;delVtaip0york;ei;goya,nt0Wpl0Wv1T;a6e5i4o1u0;mb0Nni0K;nt1sco0;u,w;evideo,real;l1Nn02skolc;dellín,lbour0T;drid,l5n3r0;ib1se0;ille;or;chest0dalXi10;er;mo;a5i2o0vBy02;nd0s angel0G;on,r0F;ege,ma0nz,sbZverpo1;!ss0;ol; pla0Iusan0F;a5hark4i3laipeda,o1rak0uala lump2;ow;be,pavog0sice;ur;ev,ng8;iv;b3mpa0Kndy,ohsiu0Hra0un03;c0j;hi;ncheMstanb0̇zmir;ul;a5e3o0; chi mi1ms,u0;stI;nh;lsin0rakliG;ki;ifa,m0noi,va0A;bu0SiltD;alw4dan3en2hent,iza,othen1raz,ua0;dalaj0Gngzhou;bu0P;eUoa,ève;sk;ay;es,rankfu0;rt;dmont4indhovU;a1ha01oha,u0;blRrb0Eshanbe;e0kar,masc0FugavpiJ;gu,je0;on;a7ebu,h2o0raioJuriti01;lo0nstanJpenhagNrk;gFmbo;enn3i1ristchur0;ch;ang m1c0ttagoL;ago;ai;i0lgary,pe town,rac4;ro;aHeBirminghWogoAr5u0;char3dap3enos air2r0sZ;g0sa;as;es;est;a2isba1usse0;ls;ne;silPtisla0;va;ta;i3lgrade,r0;g1l0n;in;en;ji0rut;ng;ku,n3r0sel;celo1ranquil0;la;na;g1ja lu0;ka;alo0kok;re;aBb9hmedabad,l7m4n2qa1sh0thens,uckland;dod,gabat;ba;k0twerp;ara;m5s0;terd0;am;exandr0maty;ia;idj0u dhabi;an;lbo1rh0;us;rg",
     "Place": "true¦aMbKcIdHeFfEgBhAi9jfk,kul,l7m5new eng4ord,p2s1the 0upJyyz;bronx,hamptons;fo,oho,under2yd;acifMek,h0;l,x;land;a0co,idDuc;libu,nhattK;a0gw,hr;s,x;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
+    "Currency": "true¦$,aud,bTcRdMeurLfKgbp,hkd,iJjpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotyTł;en,uanS;af,of;h0t6;e0il6;k0q0;elN;iel,oubleMp,upeeM;e3ound0;! st0s;er0;lingI;n0soH;ceGn0;ies,y;e0i8;i,mpi7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
     "Cardinal": "true¦cinqDdBhuit,mill9neuf,onCqu4s2tr0v8zero;e0ois;iAnD;e0ix,oixB;i8pt;a0in7;drillion,r8t0;or5re0;! v0;ingt;e,i0;ard,on;eux,ix,ou0;ze;!u0;an0;te",
     "Determiner": "true¦au3l1ol,un0;!e;a,e0;!s;!x",
     "Ordinal": "true¦biHcEd9hDmilli8nCo7qu4s2tr0unIvingtIzeroI;e0iGoisH;izGntG;e0ixFoixaD;izEptE;a0i2;raAt0;orzBrB;nzA;ard9eAon9;eux8ix0ouz8; 0ie8;h1n0sept6;euv5;uit4;e1inqu0;a0ie3;nt1;llion0;ie0;me",
@@ -6870,7 +6874,7 @@
     "Organization": "true¦0:43;a38b2Pc29d21e1Xf1Tg1Lh1Gi1Dj19k17l13m0Sn0Go0Dp07qu06rZsStFuBv8w3y1;amaha,m0Xou1w0X;gov,tu2Q;a3e1orld trade organizati3Y;lls fargo,st1;fie22inghou16;l1rner br3A;-m11gree2Zl street journ24m11;an halNeriz3Tisa,o1;dafo2Fl1;kswagLvo;bs,kip,n2ps,s1;a tod2Pps;es32i1;lev2Vted natio2S; mobi2Iaco bePd bMeAgi frida9h3im horto2Rmz,o1witt2U;shiba,y1;ota,s r Y;e 1in lizzy;b3carpen30daily ma2Uguess w2holli0rolling st1Ms1w2;mashing pumpki2Muprem0;ho;ea1lack eyed pe3Cyrds;ch bo1tl0;ys;l2s1;co,la m12;efoni07us;a6e4ieme2Enp,o2pice gir5ta1ubaru;rbucks,to2K;ny,undgard1;en;a2Ox pisto1;ls;few23insbu24msu1V;.e.m.,adiohead,b6e3oyal 1yan2U;b1dutch she4;ank;/max,aders dige1Dd 1vl2Z;bu1c1Shot chili peppe2Hlobst26;ll;c,s;ant2Sizno2C;an5bs,e3fiz22hilip morrBi2r1;emier24octer & gamb1Pudenti13;nk floyd,zza hut;psi25tro1uge08;br2Nchina,n2N; 2ason1Vda2D;ld navy,pec,range juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,tre dame,vart1;is;ke,ntendo,ss0K;l,s;c,st1Ctflix,w1; 1sweek;kids on the block,york08;a,c;nd1Rs2t1;ional aca2Co,we0P;a,cYd0N;aAcdonald9e5i3lb,o1tv,yspace;b1Knsanto,ody blu0t1;ley crue,or0N;crosoft,t1;as,subisO;dica3rcedes2talli1;ca;!-benz;id,re;'s,s;c's milk,tt11z1V;'ore08a3e1g,ittle caesa1H;novo,x1;is,mark; pres5-z-boy,bour party;atv,fc,kk,m1od1H;art;iffy lu0Jo3pmorgan1sa;! cha1;se;hnson & johns1Py d1O;bm,hop,n1tv;g,te1;l,rpol; & m,asbro,ewlett-packaSi3o1sbc,yundai;me dep1n1G;ot;tac1zbollah;hi;eneral 6hq,l5mb,o2reen d0Gu1;cci,ns n ros0;ldman sachs,o1;dye1g09;ar;axo smith kliYencore;electr0Gm1;oto0S;a3bi,da,edex,i1leetwood mac,oFrito-l08;at,nancial1restoU; tim0;cebook,nnie mae;b04sa,u3xxon1; m1m1;ob0E;!rosceptics;aiml08e5isney,o3u1;nkin donuts,po0Tran dur1;an;j,w j1;on0;a,f leppa2ll,peche mode,r spiegXstiny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eedence clearwater reviv1ossra03;al;ca c5l4m1o08st03;ca2p1;aq;st;dplLgate;ola;a,sco1tigroup;! systems;ev2i1;ck fil-a,na daily;r0Fy;dbury,pital o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,rexiteeV;ei3mbardiJston 1;glo1pizza;be;ng;ack & deckFo2ue c1;roW;ckbuster video,omingda1;le; g1g1;oodriM;cht3e ge0n & jer2rkshire hathaw1;ay;ryG;el;nana republ3s1xt5y5;f,kin robbi1;ns;ic;bWcRdidQerosmith,ig,lKmEnheuser-busDol,pple9r6s3t&t,v2y1;er;is,on;hland1sociated F; o1;il;by4g2m1;co;os; compu2bee1;'s;te1;rs;ch;c,d,erican3t1;!r1;ak; ex1;pre1;ss; 4catel2t1;air;!-luce1;nt;jazeera,qae1;da;as;/dc,a3er,t1;ivisi1;on;demy of scienc0;es;ba,c",
     "FemaleNoun": "true¦ambulance,confiture,géolog0librair0poule,rue;ie",
     "SportsTeam": "true¦0:1A;1:1H;2:1G;a1Eb16c0Td0Kfc dallas,g0Ihouston 0Hindiana0Gjacksonville jagua0k0El0Bm01newToQpJqueens parkIreal salt lake,sAt5utah jazz,vancouver whitecaps,w3yW;ashington 3est ham0Rh10;natio1Oredski2wizar0W;ampa bay 6e5o3;ronto 3ttenham hotspur;blue ja0Mrapto0;nnessee tita2xasC;buccanee0ra0K;a7eattle 5heffield0Kporting kansas0Wt3;. louis 3oke0V;c1Frams;marine0s3;eah15ounG;cramento Rn 3;antonio spu0diego 3francisco gJjose earthquak1;char08paA; ran07;a8h5ittsburgh 4ortland t3;imbe0rail blaze0;pirat1steele0;il3oenix su2;adelphia 3li1;eagl1philNunE;dr1;akland 3klahoma city thunder,rlando magic;athle0Mrai3;de0; 3castle01;england 7orleans 6york 3;city fc,g4je0FknXme0Fred bul0Yy3;anke1;ian0D;pelica2sain0C;patrio0Brevolut3;ion;anchester Be9i3ontreal impact;ami 7lwaukee b6nnesota 3;t4u0Fvi3;kings;imberwolv1wi2;rewe0uc0K;dolphi2heat,marli2;mphis grizz3ts;li1;cXu08;a4eicesterVos angeles 3;clippe0dodDla9; galaxy,ke0;ansas city 3nE;chiefs,roya0E; pace0polis colU;astr06dynamo,rockeTtexa2;olden state warrio0reen bay pac3;ke0;.c.Aallas 7e3i05od5;nver 5troit 3;lio2pisto2ti3;ge0;broncZnuggeM;cowbo4maver3;ic00;ys; uQ;arCelKh8incinnati 6leveland 5ol3;orado r3umbus crew sc;api5ocki1;brow2cavalie0india2;bengaWre3;ds;arlotte horAicago 3;b4cubs,fire,wh3;iteB;ea0ulR;diff3olina panthe0; c3;ity;altimore 9lackburn rove0oston 5rooklyn 3uffalo bilN;ne3;ts;cel4red3; sox;tics;rs;oriol1rave2;rizona Ast8tlanta 3;brav1falco2h4u3;nited;aw9;ns;es;on villa,r3;os;c5di3;amondbac3;ks;ardi3;na3;ls",
-    "Possessive": "true¦l2m1t0;e,oi;!e;eur,ui",
+    "Pronoun": "true¦c2elle1il,j2moi,n0on,t,v0;ous;!s;!e",
     "Expression": "true¦a02b01dXeVfuck,gShLlImHnGoDpBshAtsk,u7voi04w3y0;a1eLu0;ck,p;!a,hoo,y;h1ow,t0;af,f;e0oa;e,w;gh,h0;! 0h,m;huh,oh;eesh,hh,it;ff,hew,l0sst;ease,z;h1o0w,y;h,o,ps;!h;ah,ope;eh,mm;m1ol0;!s;ao,fao;a4e2i,mm,oly1urr0;ah;! mo6;e,ll0y;!o;ha0i;!ha;ah,ee,o0rr;l0odbye;ly;e0h,t cetera,ww;k,p;'oh,a0uh;m0ng;mit,n0;!it;ah,oo,ye; 1h0rgh;!em;la"
   };
 
@@ -7396,65 +7400,19 @@
   };
   var suffixCheck$1 = suffixCheck;
 
-  let masc = new Set([
-    'le',
-    'un',
-    'du',
-  ]);
-  let femme = new Set([
-    'la',
-    'une',
-  ]);
-
-  const femaleEnds = ['anse', 'ette', 'esse', 'ance', 'eine', 'ure'];
-  const maleEnds = ['age', 'isme', 'eau', 'ment', 'in', 'ou', 'et', 'ege', 'eme', 'ome', 'aume', 'age', 'isme', 'an', 'ent', 'ai', 'out', 'et', 'eu', 'ut', 'is', 'il', 'ex',
-    // 't', 'x', 'd', 'l', 'f', 'm', 's',
-  ];
-  const suffixGuess = function (term) {
-    if (femaleEnds.find(suff => term.normal.endsWith(suff))) {
-      return 'FemaleNoun'
-    }
-    if (maleEnds.find(suff => term.normal.endsWith(suff))) {
-      return 'FemaleNoun'
-    }
-    return null
-  };
-
-  const fallback = function (term) {
-    if (term.normal.endsWith('e')) {
-      return 'FemaleNoun'
-    }
-    return 'MaleNoun' //-?
-  };
-
-  const lookLeft = function (terms, i) {
-    for (let n = 1; n < 3; n += 1) {
-      if (!terms[i - n]) {
-        return null
-      }
-      let term = terms[i - n];
-      if (masc.has(term.normal)) {
-        return 'MaleNoun'
-      }
-      if (femme.has(term.normal)) {
-        return 'FemaleNoun'
-      }
-    }
-    return null
-  };
-
   // guess a gender for each noun
   const nounGender = function (terms, i, world) {
     let setTag = world.methods.one.setTag;
+    const guessGender = world.methods.one.guessGender;
     let { tags } = terms[i];
     if (tags.has('Noun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
       let term = terms[i];
       // should these have genders?
-      if (tags.has('ProperNoun')) {
+      if (tags.has('ProperNoun') || tags.has('Pronoun') || tags.has('Possessive')) {
         return null
       }
       // look for 'le', look for suffix
-      let found = lookLeft(terms, i) || suffixGuess(terms[i]) || fallback(terms[i]);
+      let found = guessGender(terms, i);
       if (found) {
         return setTag([term], found, world, false, '3-noun-gender')
       }
@@ -7491,7 +7449,7 @@
   };
 
 
-  const tagger$1 = function (view) {
+  const tagger = function (view) {
     let world = view.world;
     view.docs.forEach(terms => {
       firstPass(terms, world);
@@ -7500,7 +7458,7 @@
     });
     return view
   };
-  var tagger$2 = tagger$1;
+  var tagger$1 = tagger;
 
   const boringTags = new Set(['Auxiliary', 'Possessive']);
 
@@ -7634,6 +7592,10 @@
     // ending-apostrophes
     [/.{3}[lkmnp]in['‘’‛‵′`´]$/, 'Gerund', "chillin'"],
     [/.{4}s['‘’‛‵′`´]$/, 'Possessive', "flanders'"],
+
+    // leading contractions
+    // [/^s'[a-z]$/, 'Verb'],
+    // [/^l'[a-z]$/, 'Noun'],
   ];
 
   const rb = 'Adverb';
@@ -7737,15 +7699,120 @@
     suffixPatterns
   };
 
-  var tagger = {
+  let masc = new Set([
+    'le',
+    'un',
+    'du',
+  ]);
+  let femme = new Set([
+    'la',
+    'une',
+  ]);
+
+  const femaleEnds = ['anse', 'ette', 'esse', 'ance', 'eine', 'ure'];
+  const maleEnds = ['age', 'isme', 'eau', 'ment', 'in', 'ou', 'et', 'ege', 'eme', 'ome', 'aume', 'age', 'isme', 'an', 'ent', 'ai', 'out', 'et', 'eu', 'ut', 'is', 'il', 'ex',
+    // 't', 'x', 'd', 'l', 'f', 'm', 's',
+  ];
+
+  const suffixGuess = function (term) {
+    if (femaleEnds.find(suff => term.normal.endsWith(suff))) {
+      return 'FemaleNoun'
+    }
+    if (maleEnds.find(suff => term.normal.endsWith(suff))) {
+      return 'FemaleNoun'
+    }
+    return null
+  };
+
+  const fallback = function (term) {
+    if (term.normal.endsWith('e')) {
+      return 'FemaleNoun'
+    }
+    return 'MaleNoun' //-?
+  };
+
+  const lookLeft = function (terms, i) {
+    for (let n = 1; n < 3; n += 1) {
+      if (!terms[i - n]) {
+        return null
+      }
+      let term = terms[i - n];
+      if (masc.has(term.normal)) {
+        return 'MaleNoun'
+      }
+      if (femme.has(term.normal)) {
+        return 'FemaleNoun'
+      }
+    }
+    return null
+  };
+
+  // look for a gendered adjective
+  const lookRight = function (terms, i) {
+    for (let n = 1; n < 2; n += 1) {
+      if (!terms[i + n]) {
+        return null
+      }
+      let term = terms[i + n];
+      if (term.tags.has('MaleAdjective')) {
+        return 'MaleNoun'
+      }
+      if (term.tags.has('FemaleAdjective')) {
+        return 'FemaleAdjective'
+      }
+    }
+    return null
+  };
+
+  const guessGender = function (terms, i) {
+    let { tags } = terms[i];
+    if (!tags.has('Noun')) {
+      return null
+    }
+    if (tags.has('MaleNoun')) {
+      return 'MaleNoun'
+    }
+    if (tags.has('FemaleNoun')) {
+      return 'FemaleNoun'
+    }
+    let found = lookLeft(terms, i);
+    found = found || lookRight(terms, i);
+    found = found || suffixGuess(terms[i]);
+    found = found || fallback(terms[i]);
+    return found
+  };
+  var guessGender$1 = guessGender;
+
+  var methods = { one: { guessGender: guessGender$1 } };
+
+  var preTagger = {
     compute: {
-      tagger: tagger$2,
+      tagger: tagger$1,
       tagRank: tagRank$1
     },
+    methods,
     model: {
       two: model
     },
     hooks: ['tagger']
+  };
+
+  const postTagger$1 = function (doc) {
+    // l'inconnu
+    doc.match('le [#Adjective]', 0).tag('MaleNoun', 'le-adj');
+    doc.match('la [#Adjective]', 0).tag('FemaleNoun', 'la-adj');
+    doc.match('un [#Adjective]', 0).tag('MaleNoun', 'un-adj');
+    doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj');
+    doc.match('se [#Noun]', 0).tag('Verb', 'se-noun');
+    doc.match('me [#Noun]', 0).tag('Verb', 'me-noun');
+  };
+  var postTagger$2 = postTagger$1;
+
+  var postTagger = {
+    compute: {
+      postTagger: postTagger$2
+    },
+    hooks: ['postTagger']
   };
 
   const entity = ['Person', 'Place', 'Organization'];
@@ -8109,7 +8176,8 @@
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
   nlp$1.plugin(lexicon);
-  nlp$1.plugin(tagger);
+  nlp$1.plugin(preTagger);
+  nlp$1.plugin(postTagger);
 
   const fr = function (txt, lex) {
     let dok = nlp$1(txt, lex);

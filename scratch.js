@@ -42,6 +42,6 @@ Tous les oiseaux du point du jour chantent l'amour`
 text = `Au soleil, sous la pluie, à midi ou à minuit`
 text = `Au soleil merveilleuse`
 text = `Je m'baladais sur l'avenue le cœur ouvert à l'inconnu`
-text = `la rue éthérés`
+text = `je t'ai accompagnée`
 var doc = nlp(text)
 doc.debug()
