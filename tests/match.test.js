@@ -14,6 +14,13 @@ test('match:', function (t) {
     [`le homme éthéré`, '#Determiner #MaleNoun #MaleAdjective'],
     [`la femme éthérée`, '#Determiner #FemaleNoun #FemaleAdjective'],
     ['évolueront vous achetez', 'évolueront #Pronoun #PresentTense'],
+
+    ['janvier', '#Month'],
+    ['lundi', '#WeekDay'],
+    ['234', '#Value'],
+    ['chicago', '#City'],
+    ['Jamaica', '#Country'],
+    ['colorado', '#Place'],
     // ['','']
   ]
   arr.forEach(function (a) {
