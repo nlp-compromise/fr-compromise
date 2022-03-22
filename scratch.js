@@ -43,7 +43,8 @@ text = `Au soleil, sous la pluie, à midi ou à minuit`
 text = `Au soleil merveilleuse`
 text = `Je m'baladais sur l'avenue le cœur ouvert à l'inconnu`
 text = `je t'ai accompagnée`
-text = `Je m'baladais sur l'avenue le cœur ouvert à l'inconnu`
-var doc = nlp(text)
-doc.debug()
-console.log(doc.match('#Noun').out('array'))
+text = `Aux Champs-Elysées`
+let doc = nlp(text)
+console.log(JSON.stringify(doc.json()[0], null, 2))
+// doc.debug()
+// console.log(doc.match('#Noun').out('array'))
