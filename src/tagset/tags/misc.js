@@ -22,6 +22,9 @@ export default {
     is: 'Adjective',
     not: ['MaleAdjective'],
   },
+  PluralAdjective: {
+    is: 'Adjective',
+  },
   NumberRange: {},
   Adverb: {
     not: ['Noun', 'Verb', 'Adjective', 'Value'],
@@ -67,7 +70,7 @@ export default {
     not: ['HashTag', 'Verb', 'Adjective', 'Value', 'AtMention'],
   },
   Acronym: {
-    not: ['Plural', 'RomanNumeral'],
+    not: ['PluralNoun', 'RomanNumeral'],
   },
   Negative: {
     not: ['Noun', 'Adjective', 'Value'],

@@ -1,11 +1,15 @@
 import conjugate from './methods/conjugate.js'
+import toRoot from './methods/toRoot/index.js'
 import words from './model/lexicon.js'
+import root from './compute/root.js'
+
 
 export default {
   methods: {
-    one: {
+    two: {
       transform: {
-        conjugate
+        conjugate,
+        toRoot
       }
     }
   },
@@ -13,5 +17,8 @@ export default {
     one: {
       lexicon: words
     }
+  },
+  compute: {
+    root: root
   }
 }

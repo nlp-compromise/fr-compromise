@@ -1,12 +1,5 @@
-let masc = new Set([
-  'le',
-  'un',
-  'du',
-])
-let femme = new Set([
-  'la',
-  'une',
-])
+let masc = new Set(['le', 'un', 'du'])
+let femme = new Set(['la', 'une'])
 
 const femaleEnds = ['anse', 'ette', 'esse', 'ance', 'eine', 'ure']
 const maleEnds = ['age', 'isme', 'eau', 'ment', 'in', 'ou', 'et', 'ege', 'eme', 'ome', 'aume', 'age', 'isme', 'an', 'ent', 'ai', 'out', 'et', 'eu', 'ut', 'is', 'il', 'ex',
@@ -18,7 +11,7 @@ const suffixGuess = function (term) {
     return 'FemaleNoun'
   }
   if (maleEnds.find(suff => term.normal.endsWith(suff))) {
-    return 'FemaleNoun'
+    return 'MaleNoun'
   }
   return null
 }
@@ -57,7 +50,7 @@ const lookRight = function (terms, i) {
       return 'MaleNoun'
     }
     if (term.tags.has('FemaleAdjective')) {
-      return 'FemaleAdjective'
+      return 'FemaleNoun'
     }
   }
   return null

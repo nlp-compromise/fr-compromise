@@ -3,7 +3,14 @@ import { unpack } from 'efrt'
 import conjugate from '../methods/conjugate.js'
 import misc from './misc.js'
 
-
+const tagMap = {
+  first: 'FirstPerson',
+  second: 'SecondPerson',
+  third: 'ThirdPerson',
+  firstPlural: 'FirstPersonPlural',
+  secondPlural: 'SecondPersonPlural',
+  thirdPlural: 'ThirdPersonPlural',
+}
 
 let words = {}
 Object.keys(lexData).forEach(tag => {
@@ -20,15 +27,23 @@ Object.keys(lexData).forEach(tag => {
     }
     if (tag === 'MaleNoun') {
       let res = conjugate.noun(w)
-      words[res.plural] = 'Plural'
+      words[res.plural] = 'PluralNoun'
     }
     if (tag === 'Infinitive') {
       // do future-tense
       let res = conjugate.futureTense(w)
-      Object.keys(res).forEach(k => words[res[k]] = 'FutureTense')
+      Object.keys(res).forEach(k => {
+        if (!words[res[k]]) {
+          words[res[k]] = [tagMap[k], 'FutureTense']
+        }
+      })
       // do present-tense
       res = conjugate.presentTense(w)
-      Object.keys(res).forEach(k => words[res[k]] = words[res[k]] || 'PresentTense')
+      Object.keys(res).forEach(k => {
+        if (!words[res[k]]) {
+          words[res[k]] = [tagMap[k], 'PresentTense']
+        }
+      })
       // do imperfect mood
       res = conjugate.imperfect(w)
       Object.keys(res).forEach(k => words[res[k]] = 'Verb')

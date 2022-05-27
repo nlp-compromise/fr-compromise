@@ -1,12 +1,15 @@
 import { convert, uncompress } from 'suffix-thumb'
-import model from './_data.js'
+import packed from './_data.js'
 
 // uncompress them
-Object.keys(model).forEach(k => {
-  Object.keys(model[k]).forEach(form => {
-    model[k][form] = uncompress(model[k][form])
+let model = Object.keys(packed).reduce((h, k) => {
+  h[k] = {}
+  Object.keys(packed[k]).forEach(form => {
+    h[k][form] = uncompress(packed[k][form])
   })
-})
+  return h
+}, {})
+
 
 const doVerb = function (str, m) {
   return {

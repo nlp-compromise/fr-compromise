@@ -53,22 +53,48 @@ export default {
   // french verb forms
   PresentParticiple: {
     is: 'PresentTense',
-    not: ['PastTense','FutureTense'],
+    not: ['PastTense', 'FutureTense'],
   },
   PastParticiple: {
     is: 'PastTense',
-    not: ['PresentTense','FutureTense'],
+    not: ['PresentTense', 'FutureTense'],
   },
   // [only formal]  parlai, parlâmes
   PastSimple: {
     is: 'PastTense',
-    not: ['PresentTense','FutureTense'],
+    not: ['PresentTense', 'FutureTense'],
   },
   ConditionalVerb: {
     is: 'Verb',
   },
   FutureTense: {
     is: 'Verb',
-    not: ['PresentTense', 'PastTense','Gerund'],
+    not: ['PresentTense', 'PastTense', 'Gerund'],
+  },
+
+  // 
+  FirstPerson: {
+    is: 'Verb',
+    not: ['SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  SecondPerson: {
+    is: 'Verb',
+    not: ['FirstPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  ThirdPerson: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  FirstPersonPlural: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  SecondPersonPlural: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'ThirdPersonPlural']
+  },
+  ThirdPersonPlural: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural']
   },
 }

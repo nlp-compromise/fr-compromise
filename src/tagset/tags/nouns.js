@@ -6,7 +6,7 @@ export default {
   },
   Singular: {
     is: 'Noun',
-    not: ['Plural'],
+    not: ['PluralNoun'],
   },
   ProperNoun: {
     is: 'Noun',
@@ -69,7 +69,7 @@ export default {
   Company: {
     is: 'Organization',
   },
-  Plural: {
+  PluralNoun: {
     is: 'Noun',
     not: ['Singular'],
   },

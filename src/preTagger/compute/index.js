@@ -9,6 +9,7 @@ import nounFallback from './2nd-pass/noun-fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
 // 3rd pass
 import nounGender from './3rd-pass/noun-gender.js'
+import nounPlurals from './3rd-pass/noun-plurals.js'
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -32,6 +33,7 @@ const secondPass = function (terms, world) {
 const thirdPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     nounGender(terms, i, world)
+    nounPlurals(terms, i, world)
   }
 }
 
