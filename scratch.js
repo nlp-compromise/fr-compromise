@@ -22,7 +22,7 @@ text = `des techniques culturales`
 text = `ils ne sont pas construits`
 text = `présenter une demande`
 
-text = `'Nous jetons les chaussures actuelles dans les maisons.'`
+text = `'Nous jetons les chaussures infinitésimale'`
 let doc = nlp(text)
 doc.compute('root')
 doc.debug()

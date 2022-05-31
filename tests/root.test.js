@@ -5,7 +5,13 @@ nlp.verbose(false)
 
 test('root-match:', function (t) {
   let arr = [
-    ['Nous jetons les chaussures actuelles dans les maisons', '{jeter}'],
+    ['Nous jetons les chaussures actuelles dans les maisons', '{jeter} les {chaussure} {actuel}'],
+    ['dans les maisons actuels', 'dans les {maison} {actuel}'],
+    //   "infinitésimal": ["infinitésimale", "infinitésimaux", "infinitésimales"],
+    ['infinitésimal', '{infinitésimal}'],//masc
+    ['infinitésimale', '{infinitésimal}'],//fem
+    ['infinitésimaux', '{infinitésimal}'],//masc plural
+    ['infinitésimales', '{infinitésimal}']//fem plural
   ]
   arr.forEach(function (a) {
     let [str, match] = a
