@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
 let text = ''
 text = `qui sont effectuées dans des bassins hydrographiques`
@@ -22,12 +22,9 @@ text = `des techniques culturales`
 text = `ils ne sont pas construits`
 text = `présenter une demande`
 
-text = `'Nous jetons les chaussures infinitésimale'`
-let doc = nlp(text)
-doc.compute('root')
-doc.debug()
-doc.match('{jeter}').debug()
-console.log(doc.json()[0].terms.map(t => t.root))
-// console.log(JSON.stringify(doc.json()[0], null, 2))
-// doc.debug()
-// console.log(doc.match('#Noun').out('array'))
+text = `huit mille`
+text = `dix sept mille`
+let doc = nlp(text).debug()
+
+let num = doc.numbers()
+console.log(num.json())

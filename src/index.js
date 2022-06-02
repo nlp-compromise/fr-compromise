@@ -5,11 +5,14 @@ import lexicon from './lexicon/plugin.js'
 import preTagger from './preTagger/plugin.js'
 import postTagger from './postTagger/plugin.js'
 import tagset from './tagset/plugin.js'
+import numbers from './numbers/plugin.js'
+
 nlp.plugin(tokenize)
 nlp.plugin(tagset)
 nlp.plugin(lexicon)
 nlp.plugin(preTagger)
 nlp.plugin(postTagger)
+nlp.plugin(numbers)
 
 const fr = function (txt, lex) {
   let dok = nlp(txt, lex)

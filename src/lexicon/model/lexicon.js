@@ -25,6 +25,12 @@ Object.keys(lexData).forEach(tag => {
       words[res.plural] = 'MaleAdjective'
       words[res.femalePlural] = 'FemaleAdjective'
     }
+    if (tag === 'Cardinal') {
+      words[w] = ['TextValue', 'Cardinal']
+    }
+    if (tag === 'Ordinal') {
+      words[w] = ['TextValue', 'Ordinal']
+    }
     if (tag === 'MaleNoun') {
       let res = conjugate.noun(w)
       words[res.plural] = 'PluralNoun'

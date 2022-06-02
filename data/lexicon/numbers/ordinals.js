@@ -25,10 +25,5 @@ export default [
   'quarantieme',
   'cinquantieme',
   'soixantieme',
-  'centieme',
-  'millieme',
-  'millionieme',
-  'milliardieme',
-  'billionieme',
-  'trillionieme',
+
 ]

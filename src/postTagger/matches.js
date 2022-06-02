@@ -6,5 +6,7 @@ const postTagger = function (doc) {
   doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj')
   doc.match('se [#Noun]', 0).tag('Verb', 'se-noun')
   doc.match('me [#Noun]', 0).tag('Verb', 'me-noun')
+  // numbers
+  doc.match('#Value et (un|unieme)').tag('TextValue', 'et-un')
 }
 export default postTagger
