@@ -26,8 +26,10 @@ text = `huit mille`
 text = `quatre-vingt-et-deux`
 text = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
 text = `quatre centieme`
-text = `$400`
+text = `92`
 let doc = nlp(text)//.debug()
 
 let num = doc.numbers()
-console.log(num.json())
+num.toText()
+doc.debug()
+// console.log(num.json())

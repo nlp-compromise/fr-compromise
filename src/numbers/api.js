@@ -48,74 +48,74 @@ const api = function (View) {
     /** convert to numeric form like '8' or '8th' */
     toNumber() {
       let m = this.if('#TextValue')
-      // m.forEach(val => {
-      //   let obj = parse(val)
-      //   if (obj.num === null) {
-      //     return
-      //   }
-      //   let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
-      //   let str = format(obj, fmt)
-      //   val.replaceWith(str, { tags: true })
-      //   val.tag('NumericValue')
-      // })
+      m.forEach(val => {
+        let obj = parse(val)
+        if (obj.num === null) {
+          return
+        }
+        let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
+        let str = format(obj, fmt)
+        val.replaceWith(str, { tags: true })
+        val.tag('NumericValue')
+      })
       return this
     }
     /** convert to numeric form like 'eight' or 'eighth' */
     toText() {
       let m = this
-      // let res = m.map(val => {
-      //   if (val.has('#TextValue')) {
-      //     return val
-      //   }
-      //   let obj = parse(val)
-      //   if (obj.num === null) {
-      //     return val
-      //   }
-      //   let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
-      //   let str = format(obj, fmt)
-      //   val.replaceWith(str, { tags: true })
-      //   val.tag('TextValue')
-      //   return val
-      // })
-      // return new Numbers(res.document, res.pointer)
+      let res = m.map(val => {
+        if (val.has('#TextValue')) {
+          return val
+        }
+        let obj = parse(val)
+        if (obj.num === null) {
+          return val
+        }
+        let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
+        let str = format(obj, fmt)
+        val.replaceWith(str, { tags: true })
+        val.tag('TextValue')
+        return val
+      })
+      return new Numbers(res.document, res.pointer)
     }
     /** convert ordinal to cardinal form, like 'eight', or '8' */
     toCardinal() {
-      // let m = this
-      // let res = m.map(val => {
-      //   if (!val.has('#Ordinal')) {
-      //     return val
-      //   }
-      //   let obj = parse(val)
-      //   if (obj.num === null) {
-      //     return val
-      //   }
-      //   let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal'
-      //   let str = format(obj, fmt)
-      //   val.replaceWith(str, { tags: true })
-      //   val.tag('Cardinal')
-      //   return val
-      // })
-      // return new Numbers(res.document, res.pointer)
+      let m = this
+      let res = m.map(val => {
+        if (!val.has('#Ordinal')) {
+          return val
+        }
+        let obj = parse(val)
+        if (obj.num === null) {
+          return val
+        }
+        let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal'
+        let str = format(obj, fmt)
+        val.replaceWith(str, { tags: true })
+        val.tag('Cardinal')
+        return val
+      })
+      return new Numbers(res.document, res.pointer)
     }
     /** convert cardinal to ordinal form, like 'eighth', or '8th' */
     toOrdinal() {
-      // let m = this
-      // let res = m.map(val => {
-      //   if (val.has('#Ordinal')) {
-      //     return val
-      //   }
-      //   let obj = parse(val)
-      //   if (obj.num === null) {
-      //     return val
-      //   }
-      //   let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal'
-      //   let str = format(obj, fmt)
-      //   val.replaceWith(str, { tags: true })
-      //   val.tag('Ordinal')
-      //   return val
-      // })
-      // return new Numbers(res.document, res.pointer)
+      let m = this
+      let res = m.map(val => {
+        if (val.has('#Ordinal')) {
+          return val
+        }
+        let obj = parse(val)
+        if (obj.num === null) {
+          return val
+        }
+        let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal'
+        let str = format(obj, fmt)
+        val.replaceWith(str, { tags: true })
+        val.tag('Ordinal')
+        return val
+      })
+      return new Numbers(res.document, res.pointer)
     }
 
     /** return only numbers that are == n */
@@ -148,61 +148,61 @@ const api = function (View) {
     }
     /** set these number to n */
     set(n) {
-      // if (n === undefined) {
-      //   return this // don't bother
-      // }
-      // if (typeof n === 'string') {
-      //   n = parse(n).num
-      // }
-      // let m = this
-      // let res = m.map((val) => {
-      //   let obj = parse(val)
-      //   obj.num = n
-      //   if (obj.num === null) {
-      //     return val
-      //   }
-      //   let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
-      //   if (val.has('#TextValue')) {
-      //     fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
-      //   }
-      //   let str = format(obj, fmt)
-      //   // add commas to number
-      //   if (obj.hasComma && fmt === 'Cardinal') {
-      //     str = Number(str).toLocaleString()
-      //   }
-      //   val = val.not('#Currency')
-      //   val.replaceWith(str, { tags: true })
-      //   // handle plural/singular unit
-      //   // agreeUnits(agree, val, obj)
-      //   return val
-      // })
-      // return new Numbers(res.document, res.pointer)
+      if (n === undefined) {
+        return this // don't bother
+      }
+      if (typeof n === 'string') {
+        n = parse(n).num
+      }
+      let m = this
+      let res = m.map((val) => {
+        let obj = parse(val)
+        obj.num = n
+        if (obj.num === null) {
+          return val
+        }
+        let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
+        if (val.has('#TextValue')) {
+          fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
+        }
+        let str = format(obj, fmt)
+        // add commas to number
+        if (obj.hasComma && fmt === 'Cardinal') {
+          str = Number(str).toLocaleString()
+        }
+        val = val.not('#Currency')
+        val.replaceWith(str, { tags: true })
+        // handle plural/singular unit
+        // agreeUnits(agree, val, obj)
+        return val
+      })
+      return new Numbers(res.document, res.pointer)
     }
     add(n) {
-      // if (!n) {
-      //   return this // don't bother
-      // }
-      // if (typeof n === 'string') {
-      //   n = parse(n).num
-      // }
-      // let m = this
-      // let res = m.map((val) => {
-      //   let obj = parse(val)
-      //   if (obj.num === null) {
-      //     return val
-      //   }
-      //   obj.num += n
-      //   let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
-      //   if (obj.isText) {
-      //     fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
-      //   }
-      //   let str = format(obj, fmt)
-      //   val.replaceWith(str, { tags: true })
-      //   // handle plural/singular unit
-      //   // agreeUnits(agree, val, obj)
-      //   return val
-      // })
-      // return new Numbers(res.document, res.pointer)
+      if (!n) {
+        return this // don't bother
+      }
+      if (typeof n === 'string') {
+        n = parse(n).num
+      }
+      let m = this
+      let res = m.map((val) => {
+        let obj = parse(val)
+        if (obj.num === null) {
+          return val
+        }
+        obj.num += n
+        let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
+        if (obj.isText) {
+          fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
+        }
+        let str = format(obj, fmt)
+        val.replaceWith(str, { tags: true })
+        // handle plural/singular unit
+        // agreeUnits(agree, val, obj)
+        return val
+      })
+      return new Numbers(res.document, res.pointer)
     }
     /** decrease each number by n*/
     subtract(n, agree) {

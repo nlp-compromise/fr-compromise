@@ -1,9 +1,12 @@
+import toText from './toText.js'
+
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
-
+    let words = toText(parsed.num)
+    return words.join(' ')
   }
   if (fmt === 'TextCardinal') {
-
+    return toText(parsed.num).join(' ')
   }
   // numeric formats
   // '55e'

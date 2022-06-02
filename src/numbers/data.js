@@ -11,8 +11,6 @@ export default {
     [7, 'sept', 'septieme'],
     [8, 'huit', 'huitieme'],
     [9, 'neuf', 'neuvieme'],
-  ],
-  teens: [
     [10, 'dix', 'dixieme'],
     [11, 'onze', 'onzieme'],
     [12, 'douze', 'douzieme'],
