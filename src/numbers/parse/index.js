@@ -1,87 +1,61 @@
-import { toCardinal, toNumber } from './_data.js'
+import fromText from './fromText.js'
 
-const multiNums = {
-  dix: true,//dix huit
-  soixante: true,//soixante dix
-  quatre: true,//quatre vingt
-  mille: true//mille milliards
-}
-
-// greedy scan for multi-word numbers, like 'quatre vingt'
-const scanAhead = function (terms, i) {
-  let skip = 0
-  let add = 0
-  let words = []
-  for (let index = 0; index < 3; index += 1) {
-    if (!terms[i + index]) {
-      break
-    }
-    let w = terms[i + index].normal || ''
-    if (toCardinal.hasOwnProperty(w)) {
-      w = toCardinal[w]
-    }
-    words.push(w)
-    let str = words.join(' ')
-    if (toNumber.hasOwnProperty(str)) {
-      skip = index
-      add = toNumber[str]
-      // console.log(str)
-    }
+const fromNumber = function (m) {
+  let str = m.text('normal').toLowerCase()
+  str = str.replace(/(e|er)$/, '')
+  let hasComma = false
+  if (/,/.test(str)) {
+    hasComma = true
+    str = str.replace(/,/g, '')
   }
-  return { skip, add }
-}
-
-const parseNumbers = function (view) {
-  let terms = view.docs[0]
-  let sum = 0
-  let carry = 0
-  for (let i = 0; i < terms.length; i += 1) {
-    let { tags, normal } = terms[i]
-    let w = normal || ''
-    // support 'quatre vingt dix', etc
-    if (multiNums.hasOwnProperty(w)) {
-      let { add, skip } = scanAhead(terms, i)
-      if (skip > 0) {
-        carry += add
-        i += skip
-        // console.log('skip', skip, 'add', add)
-        continue
-      }
+  // get prefix/suffix
+  let arr = str.split(/([0-9.,]*)/)
+  let [prefix, num] = arr
+  let suffix = arr.slice(2).join('')
+  if (num !== '' && m.length < 2) {
+    num = Number(num || str)
+    //ensure that num is an actual number
+    if (typeof num !== 'number') {
+      num = null
     }
-    // ... et-un
-    if (w === 'et') {
-      continue
+    // strip an ordinal off the suffix
+    if (suffix === 'e' || suffix === 'er') {
+      suffix = ''
     }
-    // 'huitieme'
-    if (tags.has('Ordinal')) {
-      w = toCardinal[w]
-    }
-    // 'cent'
-    if (tags.has('Multiple')) {
-      let mult = toNumber[w] || 1
-      if (carry === 0) {
-        carry = 1
-      }
-      // sum += carry
-      // sum = sum* mult
-      // console.log('carry', carry, 'mult', mult, 'sum', sum)
-      sum += mult * carry
-      carry = 0
-      continue
-    }
-    // 'trois'
-    if (toNumber.hasOwnProperty(w)) {
-      carry += toNumber[w]
-    } else {
-      console.log('missing', w)
-    }
-  }
-  // include any remaining
-  if (carry !== 0) {
-    sum += carry
   }
   return {
-    num: sum
+    hasComma,
+    prefix,
+    num,
+    suffix,
   }
 }
-export default parseNumbers
+
+const parseNumber = function (m) {
+  let terms = m.docs[0]
+  let num = null
+  let prefix = ''
+  let suffix = ''
+  let hasComma = false
+  let isText = m.has('#TextValue')
+  if (isText) {
+    num = fromText(terms)
+  } else {
+    let res = fromNumber(m)
+    prefix = res.prefix
+    suffix = res.suffix
+    num = res.num
+    hasComma = res.hasComma
+  }
+  return {
+    hasComma,
+    prefix,
+    num,
+    suffix,
+    isText,
+    isOrdinal: m.has('#Ordinal'),
+    isFraction: m.has('#Fraction'),
+    isMoney: m.has('#Money'),
+  }
+}
+export default parseNumber
