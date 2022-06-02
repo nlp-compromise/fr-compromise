@@ -55,8 +55,10 @@ const api = function (View) {
         }
         let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
         let str = format(obj, fmt)
-        val.replaceWith(str, { tags: true })
-        val.tag('NumericValue')
+        if (str) {
+          val.replaceWith(str, { tags: true })
+          val.tag('NumericValue')
+        }
       })
       return this
     }
@@ -73,8 +75,10 @@ const api = function (View) {
         }
         let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
         let str = format(obj, fmt)
-        val.replaceWith(str, { tags: true })
-        val.tag('TextValue')
+        if (str) {
+          val.replaceWith(str, { tags: true })
+          val.tag('TextValue')
+        }
         return val
       })
       return new Numbers(res.document, res.pointer)
@@ -92,8 +96,10 @@ const api = function (View) {
         }
         let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal'
         let str = format(obj, fmt)
-        val.replaceWith(str, { tags: true })
-        val.tag('Cardinal')
+        if (str) {
+          val.replaceWith(str, { tags: true })
+          val.tag('Cardinal')
+        }
         return val
       })
       return new Numbers(res.document, res.pointer)
@@ -111,8 +117,10 @@ const api = function (View) {
         }
         let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal'
         let str = format(obj, fmt)
-        val.replaceWith(str, { tags: true })
-        val.tag('Ordinal')
+        if (str) {
+          val.replaceWith(str, { tags: true })
+          val.tag('Ordinal')
+        }
         return val
       })
       return new Numbers(res.document, res.pointer)
@@ -170,10 +178,12 @@ const api = function (View) {
         if (obj.hasComma && fmt === 'Cardinal') {
           str = Number(str).toLocaleString()
         }
-        val = val.not('#Currency')
-        val.replaceWith(str, { tags: true })
-        // handle plural/singular unit
-        // agreeUnits(agree, val, obj)
+        if (str) {
+          val = val.not('#Currency')
+          val.replaceWith(str, { tags: true })
+          // handle plural/singular unit
+          // agreeUnits(agree, val, obj)
+        }
         return val
       })
       return new Numbers(res.document, res.pointer)
@@ -197,9 +207,11 @@ const api = function (View) {
           fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
         }
         let str = format(obj, fmt)
-        val.replaceWith(str, { tags: true })
-        // handle plural/singular unit
-        // agreeUnits(agree, val, obj)
+        if (str) {
+          val.replaceWith(str, { tags: true })
+          // handle plural/singular unit
+          // agreeUnits(agree, val, obj)
+        }
         return val
       })
       return new Numbers(res.document, res.pointer)
