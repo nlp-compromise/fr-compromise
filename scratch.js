@@ -23,14 +23,15 @@ text = `ils ne sont pas construits`
 text = `présenter une demande`
 
 text = `huit mille`
-text = `quatre-vingt-et-deux`
 text = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
 text = `quatre centieme`
-text = `six centième`
-let doc = nlp(text)//.debug()
+text = `six`
+text = `j'ai quatre vingt deux pommes`
+// let doc = nlp(text)
+// doc.numbers().add(2)
+// console.log(doc.text())
 
-let num = doc.numbers()
-num.toNumber()
-// num.toCardinal()
-doc.debug()
+let doc = nlp(`j'ai quarante pommes`).debug()
+doc.numbers().minus(50)
+console.log(doc.text())
 // console.log(num.json())

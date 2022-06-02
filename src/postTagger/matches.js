@@ -9,5 +9,6 @@ const postTagger = function (doc) {
   // numbers
   doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un')
   doc.match('#Value un').tag('TextValue', 'quatre-vingt-un')
+  doc.match('moins #Value').tag('TextValue', 'moins-value')
 }
 export default postTagger

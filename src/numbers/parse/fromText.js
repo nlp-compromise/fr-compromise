@@ -34,9 +34,11 @@ const scanAhead = function (terms, i) {
 const parseNumbers = function (terms = []) {
   let sum = 0
   let carry = 0
+  let minus = false
   for (let i = 0; i < terms.length; i += 1) {
     let { tags, normal } = terms[i]
     let w = normal || ''
+
     // support 'quatre vingt dix', etc
     if (multiNums.hasOwnProperty(w)) {
       let { add, skip } = scanAhead(terms, i)
@@ -46,6 +48,10 @@ const parseNumbers = function (terms = []) {
         // console.log('skip', skip, 'add', add)
         continue
       }
+    }
+    if (w === 'moins') {
+      minus = true
+      continue
     }
     // ... et-un
     if (w === 'et') {
@@ -78,6 +84,9 @@ const parseNumbers = function (terms = []) {
   // include any remaining
   if (carry !== 0) {
     sum += carry
+  }
+  if (minus === true) {
+    sum *= -1
   }
   return sum
 }

@@ -62,6 +62,26 @@ oder im Browser:
 </script>
 ```
 
+
+### Les Numeros:
+fr-compromise peut analyser les nombres écrits et numériques:
+```js
+let doc = nlp(`j'ai moins quarante dollars`).debug()
+doc.numbers().add(50)
+doc.text()
+// "j'ai dix dollars"
+```
+
+### Lemmatisation:
+il peut conjuguer des mots à leur racine:
+```js
+let doc=nlp('Nous jetons les chaussures')
+doc.compute('root')
+doc.found('{jeter} les {chaussure}')
+// true
+```
+
+
 see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
 
 Veuillez rejoindre pour aider! - please join to help!
@@ -72,6 +92,7 @@ Veuillez rejoindre pour aider! - please join to help!
 <!-- <h2 align="center">
   <a href="https://rawgit.com/nlp-compromise/fr-compromise/master/demo/index.html">Demo</a>
 </h2> -->
+
 
 
 ### Contributing
