@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 let text = ''
 text = `qui sont effectuées dans des bassins hydrographiques`
@@ -27,11 +27,15 @@ text = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
 text = `quatre centieme`
 text = `six`
 text = `j'ai quatre vingt deux pommes`
+
+text = `Pour une fille d'Ottawa`
+text = `Grandie à Ste-Foy`
+text = `D'un père militaire`
+text = `Et d'une belle fille qui fut sa mère`
 // let doc = nlp(text)
 // doc.numbers().add(2)
 // console.log(doc.text())
 
-let doc = nlp(`j'ai quarante pommes`).debug()
-doc.numbers().minus(50)
-console.log(doc.text())
-// console.log(num.json())
+let doc = nlp(text)
+doc.contractions().expand()
+doc.debug()

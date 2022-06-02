@@ -11,6 +11,7 @@ import suffixCheck from './2nd-pass/suffix-lookup.js'
 import nounGender from './3rd-pass/noun-gender.js'
 import nounPlurals from './3rd-pass/noun-plurals.js'
 import adjPlurals from './3rd-pass/adj-plurals.js'
+import fixContractions from './3rd-pass/fix-contractions.js'
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -36,6 +37,10 @@ const thirdPass = function (terms, world) {
     nounGender(terms, i, world)
     nounPlurals(terms, i, world)
     adjPlurals(terms, i, world)
+  }
+  // (4th pass)
+  for (let i = 0; i < terms.length; i += 1) {
+    fixContractions(terms, i, world)
   }
 }
 
