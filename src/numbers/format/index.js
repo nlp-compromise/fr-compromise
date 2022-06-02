@@ -1,8 +1,12 @@
 import toText from './toText.js'
+import { toOrdinal } from '../parse/_data.js'
+
 
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
+    let last = words[words.length - 1]
+    words[words.length - 1] = toOrdinal[last]
     return words.join(' ')
   }
   if (fmt === 'TextCardinal') {
@@ -11,7 +15,7 @@ const formatNumber = function (parsed, fmt) {
   // numeric formats
   // '55e'
   if (fmt === 'Ordinal') {
-    let str = toString(parsed.num)
+    let str = String(parsed.num)
     let last = str.slice(str.length - 1, str.length)
     if (last === '1') {
       return str += 'er'
@@ -19,7 +23,7 @@ const formatNumber = function (parsed, fmt) {
     return str += 'e'
   }
   if (fmt === 'Cardinal') {
-    return toString(parsed.num)
+    return String(parsed.num)
   }
   return String(parsed.num || '')
 }

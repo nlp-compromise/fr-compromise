@@ -26,10 +26,11 @@ text = `huit mille`
 text = `quatre-vingt-et-deux`
 text = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
 text = `quatre centieme`
-text = `92`
+text = `six centième`
 let doc = nlp(text)//.debug()
 
 let num = doc.numbers()
-num.toText()
+num.toNumber()
+// num.toCardinal()
 doc.debug()
 // console.log(num.json())

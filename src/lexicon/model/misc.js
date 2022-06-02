@@ -20,12 +20,12 @@ export default {
   million: ['Multiple', 'Cardinal'],
   milliard: ['Multiple', 'Cardinal'],
   quadrillion: ['Multiple', 'Cardinal'],
-  centieme: ['Multiple', 'Ordinal'],
-  millieme: ['Multiple', 'Ordinal'],
-  millionieme: ['Multiple', 'Ordinal'],
-  milliardieme: ['Multiple', 'Ordinal'],
-  billionieme: ['Multiple', 'Ordinal'],
-  trillionieme: ['Multiple', 'Ordinal'],
+  centième: ['Multiple', 'Ordinal'],
+  millième: ['Multiple', 'Ordinal'],
+  millionième: ['Multiple', 'Ordinal'],
+  milliardième: ['Multiple', 'Ordinal'],
+  billionième: ['Multiple', 'Ordinal'],
+  trillionième: ['Multiple', 'Ordinal'],
   // plural numbers
   septs: ['TextValue', 'Cardinal'],
 
