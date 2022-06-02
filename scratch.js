@@ -29,9 +29,14 @@ text = `six`
 text = `j'ai quatre vingt deux pommes`
 
 text = `Pour une fille d'Ottawa`
-text = `Grandie à Ste-Foy`
-text = `D'un père militaire`
-text = `Et d'une belle fille qui fut sa mère`
+// text = `Grandie à Ste-Foy`
+// text = `D'un père militaire`
+// text = `Et d'une belle fille qui fut sa mère`
+text = `Qui écoutait du country`
+text = `Entre deux caisses de bière`
+// text = `Et partait le samedi`
+// text = `Pour un lac de Hawkesbury`
+text = `Rejoindre la grand-mère`
 // let doc = nlp(text)
 // doc.numbers().add(2)
 // console.log(doc.text())

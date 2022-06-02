@@ -52,7 +52,13 @@ test('match:', function (t) {
     ['soyons', '#Copula'],
     ['soyez', '#Copula'],
     ['être', '#Copula'],
-    // ['', '#Copula'],
+
+    [`Pour une fille d'Ottawa`, '#Preposition #Determiner #Noun . #Place'],
+    // [`Grandie à Ste-Foy`, '#Verb a #Place+'],
+    [`D'un père militaire`, 'de un #Noun #Adjective'],
+    [`Et d'une belle fille qui fut sa mère`, '#Conjunction . une #Adjective #Noun #Preposition #Copula #Possessive #Noun'],
+    [`Entre deux caisses de bière`, `#Preposition #Value #PluralNoun #Preposition #FemaleNoun`],
+    [`Rejoindre la grand-mère`, `#Verb la #Adjective #Noun+`]
   ]
   arr.forEach(function (a) {
     let [str, match] = a
