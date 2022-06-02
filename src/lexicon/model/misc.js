@@ -26,6 +26,12 @@ export default {
   milliardieme: ['Multiple', 'Ordinal'],
   billionieme: ['Multiple', 'Ordinal'],
   trillionieme: ['Multiple', 'Ordinal'],
+  // plural numbers
+  septs: ['TextValue', 'Cardinal'],
 
-  '1er': ['Ordinal', 'NumericValue']
+  cents: ['Multiple', 'Cardinal'],
+  milles: ['Multiple', 'Cardinal'],
+  millions: ['Multiple', 'Cardinal'],
+  milliards: ['Multiple', 'Cardinal'],
+
 }

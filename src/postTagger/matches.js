@@ -7,6 +7,7 @@ const postTagger = function (doc) {
   doc.match('se [#Noun]', 0).tag('Verb', 'se-noun')
   doc.match('me [#Noun]', 0).tag('Verb', 'me-noun')
   // numbers
-  doc.match('#Value et (un|unieme)').tag('TextValue', 'et-un')
+  doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un')
+  doc.match('#Value un').tag('TextValue', 'quatre-vingt-un')
 }
 export default postTagger

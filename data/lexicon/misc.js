@@ -21,7 +21,7 @@ export default {
 
 
   quelle: 'QuestionWord',
-  que: 'QuestionWord',
+  // que: 'QuestionWord',
   qu: 'QuestionWord',
   quand: 'QuestionWord',
 

@@ -13,6 +13,13 @@ Object.keys(data).forEach(k => {
   })
 })
 
+// add some more
+Object.assign(toNumber, {
+  cents: 100,
+  milles: 1000,
+  millions: 1000000,
+  milliards: 1000000000,
+})
 
 export {
   toOrdinal,

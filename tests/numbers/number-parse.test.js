@@ -73,7 +73,8 @@ test('cardinal-parse:', function (t) {
     ['soixante-sept', 67],
     ['soixante-dix-sept', 77],
     ['quatre-vingt-et-sept', 87],
-    ['quatre-vingt-sept', 97],
+    ['quatre-vingt-sept', 87],
+    ['quatre-vingt-dix-sept', 97],
     ['huit', 8],
     ['dix-huit', 18],
     ['vingt-huit', 28],
@@ -140,8 +141,8 @@ test('cardinal-parse:', function (t) {
 
   arr.forEach(function (a) {
     let [str, want] = a
-    let n = nlp(str).numbers().get()[0] || {}
-    t.equal(n, want, here + str)
+    let num = nlp(str).numbers().get()[0] || {}
+    t.equal(num, want, here + str)
   })
   t.end()
 })
@@ -149,16 +150,16 @@ test('cardinal-parse:', function (t) {
 
 test('ordinal-parse:', function (t) {
   let arr = [
-    ['première', '1er',]//'first'
-    ['deuxième', '2e']//'second'
-    ['troisième', '3e']//'third'
-    ['quatrième', '4e']//'fourth'
-    ['cinquième', '5e']//'fifth'
-    ['sixième', '6e']//'sixth'
-    ['septième', '7e']//'seventh'
-    ['huitième', '8e']//'eighth'
-    ['neuvième', '9e']//'ninth'
-    ['dixième', '10e']//'tenth'
+    ['première', '1er'],//'first'
+    ['deuxième', '2e'],//'second'
+    ['troisième', '3e'],//'third'
+    ['quatrième', '4e'],//'fourth'
+    ['cinquième', '5e'],//'fifth'
+    ['sixième', '6e'],//'sixth'
+    ['septième', '7e'],//'seventh'
+    ['huitième', '8e'],//'eighth'
+    ['neuvième', '9e'],//'ninth'
+    ['dixième', '10e'],//'tenth'
   ]
   arr.forEach(function (a) {
     let [str, want] = a

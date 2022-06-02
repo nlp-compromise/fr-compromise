@@ -1,4 +1,4 @@
-import { toOrdinal, toCardinal, toNumber } from './_data.js'
+import { toCardinal, toNumber } from './_data.js'
 
 const multiNums = {
   dix: true,//dix huit
@@ -7,6 +7,7 @@ const multiNums = {
   mille: true//mille milliards
 }
 
+// greedy scan for multi-word numbers, like 'quatre vingt'
 const scanAhead = function (terms, i) {
   let skip = 0
   let add = 0
@@ -24,6 +25,7 @@ const scanAhead = function (terms, i) {
     if (toNumber.hasOwnProperty(str)) {
       skip = index
       add = toNumber[str]
+      // console.log(str)
     }
   }
   return { skip, add }
@@ -60,7 +62,9 @@ const parseNumbers = function (view) {
       if (carry === 0) {
         carry = 1
       }
-      // console.log('carry', carry, 'mult', mult)
+      // sum += carry
+      // sum = sum* mult
+      // console.log('carry', carry, 'mult', mult, 'sum', sum)
       sum += mult * carry
       carry = 0
       continue

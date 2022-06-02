@@ -23,8 +23,10 @@ text = `ils ne sont pas construits`
 text = `présenter une demande`
 
 text = `huit mille`
-text = `dix sept mille`
-let doc = nlp(text).debug()
+text = `quatre-vingt-et-deux`
+text = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
+text = `quatre cent quinze mille`
+let doc = nlp(text)//.debug()
 
 let num = doc.numbers()
 console.log(num.json())
