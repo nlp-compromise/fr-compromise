@@ -11,7 +11,20 @@ test('root-match:', function (t) {
     ['infinitésimal', '{infinitésimal}'],//masc
     ['infinitésimale', '{infinitésimal}'],//fem
     ['infinitésimaux', '{infinitésimal}'],//masc plural
-    ['infinitésimales', '{infinitésimal}']//fem plural
+    ['infinitésimales', '{infinitésimal}'],//fem plural
+
+    [`Étouffé par sa propre moustache `, '{étouffer}'],//'étouffer'
+    [`Quelle est la chose préférée des pirates à tricoter ?`, '{tricoter}'],//tricoter'
+    [`Déballé en 1913`, '{déballer}'],//'déballer'
+    [`J'ai regardé ce que j'avais tranché`, '{trancher}'],//trancher
+    [`Vous devez apprendre à rendre les choses plus rapides`, '{rapide}'],//'rapide'
+    [`Les analystes ont attribué le faible`, '{attribuer}'],//attribuer
+    [`La production a cessé en octobre.`, '{cesser}'],//'cesser'
+    // [` Entre-temps, j'ai institué une recherche privée rigoureuse du cadavre`, '{rigoureux}'],//'rigoureux'
+    [`nous les avons tous déballés`, '{déballer}'],//'déballer'
+    // [`Appuyez sur le bouton du département correspondant.`, '{correspond}'],//'correspond'
+    // [`Non da si vous exécutez qu'il active la version complète da.`, '{activer}'],//activer
+    // [`Tu sais, je pensais, et si je déballais ici ?`, '{déballer}'],//'déballer'
   ]
   arr.forEach(function (a) {
     let [str, match] = a

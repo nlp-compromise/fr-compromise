@@ -6,6 +6,8 @@ const postTagger = function (doc) {
   // doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj')
   // ne foo pas
   doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas')
+  // il active le
+  doc.match('il [.] (le|la|les)', 0).tag('Verb', 'ne-verb-pas')
   // reflexive
   doc.match('(se|me|te) [.]', 0).tag('Verb', 'se-noun')
   // numbers

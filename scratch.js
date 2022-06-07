@@ -1,9 +1,9 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
-let text = ''
-text = `qui sont effectuées dans des bassins hydrographiques`
+let txt = ''
+txt = `qui sont effectuées dans des bassins hydrographiques`
 // text = `Il pourrait avoir raison lentment.`
 // text = `Je ne crois pas nager.`
 // text = `Nord de l'Alberta en améliorant l'information et en la diffusant.`
@@ -13,34 +13,50 @@ text = `qui sont effectuées dans des bassins hydrographiques`
 // text = `je pouvais dormir `
 // text = ` Je peux partir `
 // text = ` Tu dois finir `
-text = ` l'arrivée initiale des noctuelles`
-text = `grossissent et mûrissent ; ils se traduisent `
-text = ` assez tôt pour être touché par l'arrivée`
-text = `diminuent`
-text = ` à des travaux visant`
-text = `des techniques culturales`
-text = `ils ne sont pas construits`
-text = `présenter une demande`
+txt = ` l'arrivée initiale des noctuelles`
+txt = `grossissent et mûrissent ; ils se traduisent `
+txt = ` assez tôt pour être touché par l'arrivée`
+txt = `diminuent`
+txt = ` à des travaux visant`
+txt = `des techniques culturales`
+txt = `ils ne sont pas construits`
+txt = `présenter une demande`
 
-text = `huit mille`
-text = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
-text = `quatre centieme`
-text = `six`
-text = `j'ai quatre vingt deux pommes`
+txt = `huit mille`
+txt = `quatre cent quinze mille deux cent quatre-vingt-dix-sept`
+txt = `quatre centieme`
+txt = `six`
+txt = `j'ai quatre vingt deux pommes`
 
-text = `Pour une fille d'Ottawa`
+txt = `Pour une fille d'Ottawa`
 // text = `Grandie à Ste-Foy`
 // text = `D'un père militaire`
 // text = `Et d'une belle fille qui fut sa mère`
-text = `Qui écoutait du country`
-text = `Entre deux caisses de bière`
+txt = `Qui écoutait du country`
+txt = `Entre deux caisses de bière`
 // text = `Et partait le samedi`
 // text = `Pour un lac de Hawkesbury`
-text = `Rejoindre ouvert`
+txt = `Rejoindre ouvert`
 // let doc = nlp(text)
 // doc.numbers().add(2)
 // console.log(doc.text())
 
-let doc = nlp(text)
-doc.contractions().expand()
+
+txt = ` Étouffé par sa propre moustache `//'étouffer' [vb]
+txt = ` Quelle est la chose préférée des pirates à tricoter ?`//tricoter'
+txt = ` Et quand ils sont arrivés, nous les avons tous déballés`//'déballer' [vb]
+txt = ` Tu sais, je pensais, et si je déballais ici ?`//'déballer' [vb]
+txt = ` Déballé en 1913`//'déballer' [vb]
+txt = ` J'ai regardé ce que j'avais tranché`//trancher
+txt = `Vous devez apprendre à rendre les choses plus rapides`//'rapide'
+txt = `Non da si vous exécutez qu'il active la version complète da.`//activer [vb]
+txt = `Les analystes ont attribué le faible`//attribuer
+txt = ` La production a cessé en octobre.`//'cesser'
+txt = `  Appuyez sur le bouton du département correspondant.`//'correspond'
+txt = `tous déballés`//'rigoureux'
+
+let doc = nlp(txt)
+doc.compute('root')
+console.log(doc.docs)
+// doc.contractions().expand()
 doc.debug()

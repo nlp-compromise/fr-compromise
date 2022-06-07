@@ -23,6 +23,14 @@ const fr = function (txt, lex) {
   return dok
 }
 
+fr.world = nlp.world
+fr.model = nlp.model
+fr.methods = nlp.methods
+fr.tokenize = nlp.tokenize
+fr.plugin = nlp.plugin
+fr.extend = nlp.extend
+
+
 /** log the decision-making to console */
 fr.verbose = function (set) {
   let env = typeof process === 'undefined' ? self.env || {} : process.env //use window, in browser

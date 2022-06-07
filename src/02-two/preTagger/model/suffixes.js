@@ -2,6 +2,8 @@ const rb = 'Adverb'
 const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
+const inf = 'Infinitive'
+const pres = 'PresentTense'
 
 
 export default [
@@ -13,10 +15,10 @@ export default [
     ge: nn,
     ie: nn,
 
-    er: vb,
-    ir: vb,
+    er: inf,
+    ir: inf,
     ée: vb,
-    és: vb,
+    és: pres,
     sé: vb,
     ré: vb,
     çu: vb,//conçu
@@ -65,6 +67,7 @@ export default [
     eurs: nn,//directeurs
     tion: nn,//amélioration
     ance: nn,//croissance
+    euse: jj//rigoureuse
   },
   {
     //5-letter

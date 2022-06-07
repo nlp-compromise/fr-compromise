@@ -37,6 +37,10 @@ const root = function (view) {
           let form = verbForm(term)
           term.root = toRoot.verb.fromFutureTense(str, form)
         }
+        if (term.tags.has('PastTense')) {
+          let form = verbForm(term)
+          term.root = toRoot.verb.fromPastParticiple(str, form)
+        }
         //  fromImperfectTense, fromPastParticiple
       }
     })
