@@ -36,7 +36,7 @@ text = `Qui écoutait du country`
 text = `Entre deux caisses de bière`
 // text = `Et partait le samedi`
 // text = `Pour un lac de Hawkesbury`
-text = `Rejoindre la grand-mère`
+text = `Rejoindre ouvert`
 // let doc = nlp(text)
 // doc.numbers().add(2)
 // console.log(doc.text())

@@ -34,7 +34,13 @@
       }
       // allow a list of methods
       else if (isArray$a(input)) {
-        input.forEach(name => world.compute.hasOwnProperty(name) && compute[name](this));
+        input.forEach(name => {
+          if (world.compute.hasOwnProperty(name)) {
+            compute[name](this);
+          } else {
+            console.warn('no compute:', input); // eslint-disable-line
+          }
+        });
       }
       // allow a custom compute function
       else if (typeof input === 'function') {
@@ -100,7 +106,7 @@
     return res
   };
 
-  const find = function (cb) {
+  const find$1 = function (cb) {
     let ptrs = this.fullPointer;
     // let cache = this._cache || []
     let found = ptrs.find((ptr, i) => {
@@ -132,7 +138,7 @@
     ptrs = ptrs.slice(r, r + n);
     return this.update(ptrs)
   };
-  var loops = { forEach, map, filter, find, some, random };
+  var loops = { forEach, map, filter, find: find$1, some, random };
 
   const utils = {
     /** */
@@ -141,15 +147,16 @@
     },
     /** return individual terms*/
     terms: function (n) {
+      let m = this.match('.');
       // this is a bit faster than .match('.') 
-      let ptrs = [];
-      this.docs.forEach((terms) => {
-        terms.forEach((term) => {
-          let [y, x] = term.index || [];
-          ptrs.push([y, x, x + 1]);
-        });
-      });
-      let m = this.update(ptrs);
+      // let ptrs = []
+      // this.docs.forEach((terms) => {
+      //   terms.forEach((term) => {
+      //     let [y, x] = term.index || []
+      //     ptrs.push([y, x, x + 1])
+      //   })
+      // })
+      // let m = this.update(ptrs)
       return typeof n === 'number' ? m.eq(n) : m
     },
 
@@ -261,7 +268,7 @@
 
   // aliases
   methods$m.get = methods$m.eq;
-  var api$b = methods$m;
+  var api$h = methods$m;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -388,10 +395,10 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$b);
+  Object.assign(View.prototype, api$h);
   var View$1 = View;
 
-  var version = '14.2.0';
+  var version = '14.2.1';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -659,7 +666,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$k);
   };
-  var api$a = addAPI$3;
+  var api$g = addAPI$3;
 
   var compute$7 = {
     cache: function (view) {
@@ -668,7 +675,7 @@
   };
 
   var cache$3 = {
-    api: api$a,
+    api: api$g,
     compute: compute$7,
     methods: methods$l,
   };
@@ -713,7 +720,7 @@
 
   // case logic
   const isTitleCase$1 = (str) => /^\p{Lu}[\p{Ll}'’]/u.test(str) || /^\p{Lu}$/u.test(str);
-  const toTitleCase = (str) => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
+  const toTitleCase$1 = (str) => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
   const toLowerCase = (str) => str.replace(/^\p{Lu}/u, x => x.toLowerCase());
 
   // splice an array into an array
@@ -762,7 +769,7 @@
       return
     }
     // titlecase new first term
-    needle[0].text = toTitleCase(needle[0].text);
+    needle[0].text = toTitleCase$1(needle[0].text);
     // should we un-titlecase the old word?
     let old = home[start];
     if (old.tags.has('ProperNoun') || old.tags.has('Acronym')) {
@@ -827,7 +834,7 @@
 
     TTT|NNN|II|R
 
-  TTT -> 46 seconds since load
+  TTT -> 46 terms since load
   NNN -> 46 thousand sentences (>1 inf-jest)
   II  -> 1,200 words in a sentence (nuts)
   R   -> 1-36 random number 
@@ -847,7 +854,7 @@
       after 46-thousand sentences
 
   */
-  const start$1 = new Date().getTime();
+  let start$1 = 0;
 
   const pad3 = (str) => {
     str = str.length < 3 ? '0' + str : str;
@@ -856,7 +863,8 @@
 
   const toId = function (term) {
     let [n, i] = term.index || [0, 0];
-    var now = new Date().getTime() - start$1;
+    start$1 += 1;
+    var now = start$1;
     now = parseInt(now, 10);
 
     //don't overflow time
@@ -979,7 +987,7 @@
   const dollarStub = /\$[0-9a-z]+/g;
   const fns$2 = {};
 
-  const titleCase$2 = function (str) {
+  const titleCase$3 = function (str) {
     return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase())
   };
 
@@ -1041,7 +1049,7 @@
     }
     // try to co-erce case, too
     if (keep.case && m.docs[0] && m.docs[0][0] && m.docs[0][0].index[1] === 0) {
-      m.docs[0][0].text = titleCase$2(m.docs[0][0].text);
+      m.docs[0][0].text = titleCase$3(m.docs[0][0].text);
     }
     return m
   };
@@ -1527,7 +1535,7 @@
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$g);
   };
-  var api$9 = addAPI$2;
+  var api$f = addAPI$2;
 
   const compute$5 = {
     id: function (view) {
@@ -1544,11 +1552,11 @@
   var compute$6 = compute$5;
 
   var change = {
-    api: api$9,
+    api: api$f,
     compute: compute$6,
   };
 
-  var contractions$4 = [
+  var contractions$5 = [
     // simple mappings
     { word: '@', out: ['at'] },
     { word: 'alot', out: ['a', 'lot'] },
@@ -1604,7 +1612,7 @@
     { before: 't', out: ['tu'] }, // t'aime
   ];
 
-  var model$6 = { one: { contractions: contractions$4 } };
+  var model$6 = { one: { contractions: contractions$5 } };
 
   // put n new words where 1 word was
   const insertContraction = function (document, point, words) {
@@ -1612,13 +1620,14 @@
     if (!words || words.length === 0) {
       return
     }
-    words = words.map((word) => {
+    words = words.map((word, i) => {
       word.implicit = word.text;
       word.machine = word.text;
       word.pre = '';
       word.post = '';
       word.text = '';
       word.normal = '';
+      word.index = [n, w + i];
       return word
     });
     if (words[0]) {
@@ -1784,7 +1793,7 @@
       end += 1;
     }
     tmp.ptrs = [[0, start, end]];
-    tmp.compute(['lexicon', 'preTagger', 'index']);
+    tmp.compute(['lexicon', 'preTagger']);
   };
 
   const byEnd = {
@@ -1825,11 +1834,13 @@
   };
 
   const toDocs = function (words, view) {
-    return view.fromText(words.join(' ')).docs[0]
+    let doc = view.fromText(words.join(' '));
+    doc.compute('id');
+    return doc.docs[0]
   };
 
   //really easy ones
-  const contractions$2 = (view) => {
+  const contractions$3 = (view) => {
     let { world, document } = view;
     const { model, methods } = world;
     let list = model.one.contractions || [];
@@ -1876,16 +1887,16 @@
       }
     });
   };
-  var contractions$3 = contractions$2;
+  var contractions$4 = contractions$3;
 
-  var compute$4 = { contractions: contractions$3 };
+  var compute$4 = { contractions: contractions$4 };
 
   const plugin = {
     model: model$6,
     compute: compute$4,
     hooks: ['contractions'],
   };
-  var contractions$1 = plugin;
+  var contractions$2 = plugin;
 
   // scan-ahead to match multiple-word terms - 'jack rabbit'
   const checkMulti = function (terms, i, lexicon, setTag, world) {
@@ -2211,7 +2222,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$8 (View) {
+  function api$e (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2267,7 +2278,7 @@
   };
 
   var lookup = {
-    api: api$8,
+    api: api$e,
     lib: lib$4
   };
 
@@ -2639,7 +2650,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$d);
   };
-  var api$7 = matchAPI;
+  var api$d = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -2711,7 +2722,7 @@
     choices:[],
   }
   */
-  const titleCase$1 = str => str.charAt(0).toUpperCase() + str.substring(1);
+  const titleCase$2 = str => str.charAt(0).toUpperCase() + str.substring(1);
   const end = (str) => str.charAt(str.length - 1);
   const start = (str) => str.charAt(0);
   const stripStart = (str) => str.substring(1);
@@ -2833,7 +2844,7 @@
       //chunks
       if (start(w) === '<' && end(w) === '>') {
         w = stripBoth(w);
-        obj.chunk = titleCase$1(w);
+        obj.chunk = titleCase$2(w);
         obj.greedy = true;
         return obj
       }
@@ -2875,7 +2886,7 @@
     //do the actual token content
     if (start(w) === '#') {
       obj.tag = stripStart(w);
-      obj.tag = titleCase$1(obj.tag);
+      obj.tag = titleCase$2(obj.tag);
       return obj
     }
     //dynamic function on a term object
@@ -3935,7 +3946,7 @@
   };
 
   var match = {
-    api: api$7,
+    api: api$d,
     methods: methods$b,
     lib: lib$3,
   };
@@ -4401,7 +4412,7 @@
   };
   var debug$1 = debug;
 
-  const toText = function (term) {
+  const toText$2 = function (term) {
     let pre = term.pre || '';
     let post = term.post || '';
     return pre + term.text + post
@@ -4433,7 +4444,7 @@
           i = end - 1;
           text += terms[i].post || '';
         } else {
-          text += toText(t);
+          text += toText$2(t);
         }
       }
     });
@@ -4567,10 +4578,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$7);
   };
-  var api$6 = addAPI$1;
+  var api$c = addAPI$1;
 
   var output = {
-    api: api$6,
+    api: api$c,
   };
 
   // do the pointers intersect?
@@ -4977,11 +4988,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$5);
   };
-  var api$5 = addAPI;
+  var api$b = addAPI;
 
   var pointers = {
     methods: methods$6,
-    api: api$5,
+    api: api$b,
   };
 
   var lib$2 = {
@@ -4997,7 +5008,7 @@
     }
   };
 
-  const api$3 = function (View) {
+  const api$9 = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5041,9 +5052,9 @@
     };
 
   };
-  var api$4 = api$3;
+  var api$a = api$9;
 
-  const parse = function (matches, methods) {
+  const parse$1 = function (matches, methods) {
     const parseMatch = methods.one.parseMatch;
     matches.forEach(obj => {
       obj.regs = parseMatch(obj.match);
@@ -5055,7 +5066,7 @@
     return matches
   };
 
-  var parse$1 = parse;
+  var parse$2 = parse$1;
 
   // stich an array into another, replacing one element
   function spliceArray(main, index, arrayToInsert) {
@@ -5180,7 +5191,7 @@
   // do some indexing on the list of matches
   const compile = function (matches, methods) {
     // turn match-syntax into json
-    matches = parse$1(matches, methods);
+    matches = parse$2(matches, methods);
     // convert (a|b) to ['a', 'b']
     matches = buildUp$1(matches);
     // matches = buildUp(matches) // run this twice
@@ -5428,7 +5439,7 @@
 
   var sweep = {
     lib: lib$2,
-    api: api$4,
+    api: api$a,
     methods: {
       one: methods$4,
     }
@@ -5816,7 +5827,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$2 = tagAPI;
+  var api$8 = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -5870,7 +5881,7 @@
       tagRank: tagRank$3
     },
     methods: methods$3,
-    api: api$2,
+    api: api$8,
     lib: lib$1
   };
 
@@ -6940,10 +6951,10 @@
     return this
   };
 
-  const api = function (View) {
+  const api$6 = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$1 = api;
+  var api$7 = api$6;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7025,7 +7036,7 @@
   };
   var typeahead = {
     model: model$3,
-    api: api$1,
+    api: api$7,
     lib,
     compute,
     hooks: ['typeahead']
@@ -7037,7 +7048,7 @@
   nlp$1.extend(match); //10kb
   nlp$1.extend(pointers); //2kb
   nlp$1.extend(tag); //2kb
-  nlp$1.plugin(contractions$1); //~6kb
+  nlp$1.plugin(contractions$2); //~6kb
   nlp$1.extend(tokenize$1); //7kb
   nlp$1.plugin(cache$3); //~1kb
   nlp$1.extend(lookup); //7kb
@@ -7101,7 +7112,7 @@
 
   var unicode$1 = unicode;
 
-  var contractions = [
+  var contractions$1 = [
     { word: "n'y", out: ['ne', 'a'] },
     { word: 'aux', out: ['à', 'les'] },
     { word: 'au', out: ['à', 'le'] },
@@ -7115,7 +7126,7 @@
     mutate: (world) => {
       world.model.one.unicode = unicode$1;
 
-      world.model.one.contractions = contractions;
+      world.model.one.contractions = contractions$1;
     }
   };
 
@@ -7566,7 +7577,7 @@
   var lexData = {
     "Negative": "true¦aucun,n0;!e,i",
     "Auxiliary": "true¦ai,ont,se",
-    "Possessive": "true¦l2m1t0;e,oi;!e;eur,ui",
+    "Possessive": "true¦l5m4no3s2t0vo3;a,e5o0;i,n;a,es,on;s,tre;!a,e1on;eur0ui;!s",
     "Conjunction": "true¦&,car,donc,et,ma2o1pu2s0voire;inon,oit;r,u;is",
     "Preposition": "true¦aQbecause,cMdIeDgrace,horCjusquBlors9malgPoutPp6qu4s1v0y,à;eGia,oici;a1elEoTu0;ivaPr;ns,uf;elqu0i,oi4;!';ar1endaLour0rPuis2;!quoi;! Lmi;qu0;!e;',e;m8s;n0xcepte;!tAv0;e1ir0;on;rs;!ans,e1u0;!ra8;!pu0rrie4s,va7;is;hez,o0;mme,n0ura4;cerna3t0;re;!fin,pr5u2v0;a0ec;nt; 0pr2;dess0;us;es",
     "Adverb": "true¦0:12;a0Ub0Qc0Jd0Ee07f05g04h03i02jZlVmTnSoQpHquDr0Ls9t2ultra,vi1;s a v0Yte;a5ertio,o2r1;es,op;t,u1;jou13t1;!e0S;n1rd;d0Rt;ecu0Bi3o1urto09;i-disa0u1;da01ve0;!c,de0t0G;!a2e1;!lque;n1si;d,t;a7e5lu4o3r1;esqu1imo;',e;i0urta0;s,t07;le mePu1;!t-etQ;r1s;fo0AtoT;rZu1;i,tre m04;agCeanmoiPon;a1eDieux,oiO;intena0l,tI;a2o1;in,ngDrs; 1-dedaK;b08dess05;a2us1;que 04te;dYmaY;ci,dem,ntT;aFiS;ue9;er1i,ort;me;n1tc;co5f4s2tre 1;temps;emb1uite;le;in;re;avantage,e1orenN;bo3ca,da2hoTja,s1;ormaJs7;ns;ut;a,e5i3omb2resce1;ndo;ien;! dess1;oGus;penda0rt1;es;e3ien1ref;!t1;ot;aucoup,l;iDlBssez,u2vant hi1;er; de8-desso7par5ssi4t1;a0our,re1;fo1;is;!tôt;ava0;nt;us;la;i1o3;as;lleu1nsi;rs",
@@ -7587,9 +7598,9 @@
     "City": "true¦a2Yb28c1Yd1Te1Sf1Qg1Kh1Ci1Ajakar2Jk11l0Um0Gn0Co0ApZquiYrVsLtCuBv8w3y1z0;agreb,uri21;ang1Ve0okohama;katerin1Jrev36;ars3e2i0rocl3;ckl0Xn0;nipeg,terth0Y;llingt1Qxford;aw;a1i0;en2Jlni31;lenc2Wncouv0Hr2I;lan bat0Etrecht;a6bilisi,e5he4i3o2rondheim,u0;nVr0;in,ku;kyo,ronIulouC;anj25l15miso2Lra2C; haJssaloni0Z;gucigalpa,hr2Ql av0N;i0llinn,mpe2Dngi08rtu;chu24n2OpT;a3e2h1kopje,t0ydney;ockholm,uttga14;angh1Henzh1Z;o0Mv00;int peters0Wl3n0ppo1H; 0ti1D;jo0salv2;se;v0z0S;adV;eykjavik,i1o0;me,sario,t27;ga,o de janei19;to;a8e6h5i4o2r0ueb1Syongya1P;a0etor26;gue;rt0zn26; elizabe3o;ls1Irae26;iladelph21nom pe09oenix;r0tah tik1B;th;lerKr0tr12;is;dessa,s0ttawa;a1Jlo;a2ew 0;delVtaip0york;ei;goya,nt0Wpl0Wv1T;a6e5i4o1u0;mb0Nni0K;nt1sco0;u,w;evideo,real;l1Nn02skolc;dellín,lbour0T;drid,l5n3r0;ib1se0;ille;or;chest0dalXi10;er;mo;a5i2o0vBy02;nd0s angel0G;on,r0F;ege,ma0nz,sbZverpo1;!ss0;ol; pla0Iusan0F;a5hark4i3laipeda,o1rak0uala lump2;ow;be,pavog0sice;ur;ev,ng8;iv;b3mpa0Kndy,ohsiu0Hra0un03;c0j;hi;ncheMstanb0̇zmir;ul;a5e3o0; chi mi1ms,u0;stI;nh;lsin0rakliG;ki;ifa,m0noi,va0A;bu0SiltD;alw4dan3en2hent,iza,othen1raz,ua0;dalaj0Gngzhou;bu0P;eUoa,ève;sk;ay;es,rankfu0;rt;dmont4indhovU;a1ha01oha,u0;blRrb0Eshanbe;e0kar,masc0FugavpiJ;gu,je0;on;a7ebu,h2o0raioJuriti01;lo0nstanJpenhagNrk;gFmbo;enn3i1ristchur0;ch;ang m1c0ttagoL;ago;ai;i0lgary,pe town,rac4;ro;aHeBirminghWogoAr5u0;char3dap3enos air2r0sZ;g0sa;as;es;est;a2isba1usse0;ls;ne;silPtisla0;va;ta;i3lgrade,r0;g1l0n;in;en;ji0rut;ng;ku,n3r0sel;celo1ranquil0;la;na;g1ja lu0;ka;alo0kok;re;aBb9hmedabad,l7m4n2qa1sh0thens,uckland;dod,gabat;ba;k0twerp;ara;m5s0;terd0;am;exandr0maty;ia;idj0u dhabi;an;lbo1rh0;us;rg",
     "Place": "true¦aMbKcIdHeFfEgBhAi9jfk,kul,l7m5new eng4ord,p2s1the 0upJyyz;bronx,hamptons;fo,oho,under2yd;acifMek,h0;l,x;land;a0co,idDuc;libu,nhattK;a0gw,hr;s,x;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
     "Currency": "true¦$,aud,bTcRdMeurLfKgbp,hkd,iJjpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotyTł;en,uanS;af,of;h0t6;e0il6;k0q0;elN;iel,oubleMp,upeeM;e3ound0;! st0s;er0;lingI;n0soH;ceGn0;ies,y;e0i8;i,mpi7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
-    "Cardinal": "true¦cinqDdBhuit,mill9neuf,onCqu4s2tr0v8zero;e0ois;iAnD;e0ix,oixB;i8pt;a0in7;drillion,r8t0;or5re0;! v0;ingt;e,i0;ard,on;eux,ix,ou0;ze;!u0;an0;te",
-    "Ordinal": "true¦biHcEd9hDmilli8nCo7qu4s2tr0unIvingtIzeroI;e0iGoisH;izGntG;e0ixFoixaD;izEptE;a0i2;raAt0;orzBrB;nzA;ard9eAon9;eux8ix0ouz8; 0ie8;h1n0sept6;euv5;uit4;e1inqu0;a0ie3;nt1;llion0;ie0;me",
-    "Unit": "true¦b9celsius,e7fahrenheitAgig8hertz,jouleAk6m5pe4ter8y2z1°0µs;c,f,n;b,e1;b,o0;tt4;rcent,t3;eg2³;elvin3ilob2m/h;b,x0;ab0;yte0;!s",
+    "Cardinal": "true¦cinqDd7hCnBon8qu4s2tr0vingt,zero;e0ois;i6nD;e0ix,oixB;i4pt;a0in3;r8t0;or1re;eux,ix1ou0;ze;! 0;h1n0sept;euf;uit;!u0;an0;te",
+    "Ordinal": "true¦cinquFd8hDnCon9qu4s2tr0uniHvingGzeroiH;e0oisiG;i7nE;e0iBoix4;i5pC;a0in4;r1t0;or2riA;an8;eu5ix1ou0;zi7; 0i6;h1n0sep4;euvi4;ui2;xi2;an0i1;ti0;ème",
+    "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
     "MaleNoun": "true¦0:0L;a0Ab08c05d01eZfVgThiv04iPjOlieu,mKniv09pDr7s6t4v3é1;chel0Al1qui01tabl0Ivé0D;èQé0;en09égéta08;a1echniIrai8;b06rif,ux;ala0Ceg0tatis9;e1èg3és02;c3mbour0Cn1staura0E;de0forPouvel1;le0;en09ru1;te0;a5er4la3oli2r1;a1ofS;ti7;inWnW;fectiWspecA;ie0r1;apluie,le0teB;er,o3us1;i1ée;que;biOmeZuve0;eu,ournT;dRn1;itia1vestT;ti1;ve;estion1ouverL;naO;i2onctionn1;aMe0;le,nan1;ce0;au,n1space;dro6ga7registre0seigEtenCvirD;egré,o2évelop1;pe0;cu0nnDssi1;er;han2ommentaDréd1;it;ge0;at1ur1énéficiaA;eau;ccro9ffa8gré0ir,n5pprovisi3ttein2utomobi1venir;le;te;on1;ne0;im2n1;ée;al;ire;is1;se0;me1;nt",
     "Organization": "true¦0:43;a38b2Pc29d21e1Xf1Tg1Lh1Gi1Dj19k17l13m0Sn0Go0Dp07qu06rZsStFuBv8w3y1;amaha,m0Xou1w0X;gov,tu2Q;a3e1orld trade organizati3Y;lls fargo,st1;fie22inghou16;l1rner br3A;-m11gree2Zl street journ24m11;an halNeriz3Tisa,o1;dafo2Fl1;kswagLvo;bs,kip,n2ps,s1;a tod2Pps;es32i1;lev2Vted natio2S; mobi2Iaco bePd bMeAgi frida9h3im horto2Rmz,o1witt2U;shiba,y1;ota,s r Y;e 1in lizzy;b3carpen30daily ma2Uguess w2holli0rolling st1Ms1w2;mashing pumpki2Muprem0;ho;ea1lack eyed pe3Cyrds;ch bo1tl0;ys;l2s1;co,la m12;efoni07us;a6e4ieme2Enp,o2pice gir5ta1ubaru;rbucks,to2K;ny,undgard1;en;a2Ox pisto1;ls;few23insbu24msu1V;.e.m.,adiohead,b6e3oyal 1yan2U;b1dutch she4;ank;/max,aders dige1Dd 1vl2Z;bu1c1Shot chili peppe2Hlobst26;ll;c,s;ant2Sizno2C;an5bs,e3fiz22hilip morrBi2r1;emier24octer & gamb1Pudenti13;nk floyd,zza hut;psi25tro1uge08;br2Nchina,n2N; 2ason1Vda2D;ld navy,pec,range juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,tre dame,vart1;is;ke,ntendo,ss0K;l,s;c,st1Ctflix,w1; 1sweek;kids on the block,york08;a,c;nd1Rs2t1;ional aca2Co,we0P;a,cYd0N;aAcdonald9e5i3lb,o1tv,yspace;b1Knsanto,ody blu0t1;ley crue,or0N;crosoft,t1;as,subisO;dica3rcedes2talli1;ca;!-benz;id,re;'s,s;c's milk,tt11z1V;'ore08a3e1g,ittle caesa1H;novo,x1;is,mark; pres5-z-boy,bour party;atv,fc,kk,m1od1H;art;iffy lu0Jo3pmorgan1sa;! cha1;se;hnson & johns1Py d1O;bm,hop,n1tv;g,te1;l,rpol; & m,asbro,ewlett-packaSi3o1sbc,yundai;me dep1n1G;ot;tac1zbollah;hi;eneral 6hq,l5mb,o2reen d0Gu1;cci,ns n ros0;ldman sachs,o1;dye1g09;ar;axo smith kliYencore;electr0Gm1;oto0S;a3bi,da,edex,i1leetwood mac,oFrito-l08;at,nancial1restoU; tim0;cebook,nnie mae;b04sa,u3xxon1; m1m1;ob0E;!rosceptics;aiml08e5isney,o3u1;nkin donuts,po0Tran dur1;an;j,w j1;on0;a,f leppa2ll,peche mode,r spiegXstiny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eedence clearwater reviv1ossra03;al;ca c5l4m1o08st03;ca2p1;aq;st;dplLgate;ola;a,sco1tigroup;! systems;ev2i1;ck fil-a,na daily;r0Fy;dbury,pital o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,rexiteeV;ei3mbardiJston 1;glo1pizza;be;ng;ack & deckFo2ue c1;roW;ckbuster video,omingda1;le; g1g1;oodriM;cht3e ge0n & jer2rkshire hathaw1;ay;ryG;el;nana republ3s1xt5y5;f,kin robbi1;ns;ic;bWcRdidQerosmith,ig,lKmEnheuser-busDol,pple9r6s3t&t,v2y1;er;is,on;hland1sociated F; o1;il;by4g2m1;co;os; compu2bee1;'s;te1;rs;ch;c,d,erican3t1;!r1;ak; ex1;pre1;ss; 4catel2t1;air;!-luce1;nt;jazeera,qae1;da;as;/dc,a3er,t1;ivisi1;on;demy of scienc0;es;ba,c",
     "FemaleNoun": "true¦ambulance,confiture,géolog1l0poule,rue;ibrair0utte;ie",
@@ -7770,6 +7781,57 @@
     serons: ['Copula', 'FutureTense'],
     seront: ['Copula', 'FutureTense'],
     serai: ['Copula', 'FutureTense'],
+
+    cent: ['Multiple', 'Cardinal'],
+    mille: ['Multiple', 'Cardinal'],
+    million: ['Multiple', 'Cardinal'],
+    milliard: ['Multiple', 'Cardinal'],
+    quadrillion: ['Multiple', 'Cardinal'],
+    centième: ['Multiple', 'Ordinal'],
+    millième: ['Multiple', 'Ordinal'],
+    millionième: ['Multiple', 'Ordinal'],
+    milliardième: ['Multiple', 'Ordinal'],
+    billionième: ['Multiple', 'Ordinal'],
+    trillionième: ['Multiple', 'Ordinal'],
+    // plural numbers
+    septs: ['TextValue', 'Cardinal'],
+
+    cents: ['Multiple', 'Cardinal'],
+    milles: ['Multiple', 'Cardinal'],
+    millions: ['Multiple', 'Cardinal'],
+    milliards: ['Multiple', 'Cardinal'],
+
+    sommes: ['Copula', 'PresentTense'],
+    êtes: ['Copula', 'PresentTense'],
+    sont: ['Copula', 'PresentTense'],
+    étions: ['Copula', 'PresentTense'],
+    serez: ['Copula', 'PresentTense'],
+    seront: ['Copula', 'PresentTense'],
+    été: ['Copula'],
+    fus: ['Copula', 'PastTense'],
+    fut: ['Copula', 'PastTense'],
+    fûmes: ['Copula', 'PastTense'],
+    fûtes: ['Copula', 'PastTense'],
+    furent: ['Copula', 'PastTense'],
+    fusse: ['Copula', 'PastTense'],
+    fusses: ['Copula', 'PastTense'],
+    fût: ['Copula', 'PastTense'],
+    fussions: ['Copula', 'PastTense'],
+    fussiez: ['Copula', 'PastTense'],
+    fussent: ['Copula', 'PastTense'],
+    serais: ['Copula', 'PresentTense'],
+    serais: ['Copula', 'PresentTense'],
+    serait: ['Copula', 'PresentTense'],
+    serions: ['Copula', 'PresentTense'],
+    seriez: ['Copula', 'PresentTense'],
+    seraient: ['Copula', 'PresentTense'],
+    sois: ['Copula', 'PresentTense'],
+    soyons: ['Copula', 'PresentTense'],
+    soyez: ['Copula', 'PresentTense'],
+    être: ['Copula', 'PresentTense'],
+
+
+
   };
 
   const tagMap = {
@@ -7793,6 +7855,12 @@
         words[res.female] = 'FemaleAdjective';
         words[res.plural] = 'MaleAdjective';
         words[res.femalePlural] = 'FemaleAdjective';
+      }
+      if (tag === 'Cardinal') {
+        words[w] = ['TextValue', 'Cardinal'];
+      }
+      if (tag === 'Ordinal') {
+        words[w] = ['TextValue', 'Ordinal'];
       }
       if (tag === 'MaleNoun') {
         let res = conjugate.noun(w);
@@ -7949,7 +8017,7 @@
     }
     return null
   };
-  var titleCase = titleCaseNoun;
+  var titleCase$1 = titleCaseNoun;
 
   const min = 1400;
   const max = 2100;
@@ -8244,13 +8312,34 @@
   };
   var adjPlurals$1 = adjPlurals;
 
+  // better guesses for 'le/la/les' in l'foo
+  const fixContractions = function (terms, i, world) {
+    let term = terms[i];
+    term.tags;
+    if (term.implicit === 'le') {
+      let nextTerm = terms[i + 1];
+      if (!nextTerm) {
+        return null
+      }
+      if (nextTerm.tags.has('FemaleNoun')) {
+        term.implicit = 'la';
+      }
+      // support female plural?
+      if (nextTerm.tags.has('PluralNoun')) {
+        term.implicit = 'les';
+      }
+    }
+    return null
+  };
+  var fixContractions$1 = fixContractions;
+
   // 1st pass
 
   // these methods don't care about word-neighbours
   const firstPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
       //  is it titlecased?
-      let found = titleCase(terms, i, world);
+      let found = titleCase$1(terms, i, world);
       // try look-like rules
       found = found || checkRegex$1(terms, i, world);
       // turn '1993' into a year
@@ -8270,6 +8359,10 @@
       nounGender$1(terms, i, world);
       nounPlurals$1(terms, i, world);
       adjPlurals$1(terms, i, world);
+    }
+    // (4th pass)
+    for (let i = 0; i < terms.length; i += 1) {
+      fixContractions$1(terms, i);
     }
   };
 
@@ -8388,14 +8481,14 @@
     //numbers
     // 50 | -50 | 3.23  | 5,999.0  | 10+
     [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?\+?$/, ['Cardinal', 'NumericValue'], '5,999'],
-    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th)$/, ['Ordinal', 'NumericValue'], '53rd'],
+    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(e|er)$/, ['Ordinal', 'NumericValue'], '53rd'],
     // .73th
     [/^\.[0-9]+\+?$/, ['Cardinal', 'NumericValue'], '.73th'],
     //percent
     [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?%\+?$/, ['Percent', 'Cardinal', 'NumericValue'], '-4%'],
     [/^\.[0-9]+%$/, ['Percent', 'Cardinal', 'NumericValue'], '.3%'],
     //fraction
-    [/^[0-9]{1,4}\/[0-9]{1,4}(st|nd|rd|th)?s?$/, ['Fraction', 'NumericValue'], '2/3rds'],
+    [/^[0-9]{1,4}\/[0-9]{1,4}(e|er)?s?$/, ['Fraction', 'NumericValue'], '2/3rds'],
     //range
     [/^[0-9.]{1,3}[a-z]{0,2}[-–—][0-9]{1,3}[a-z]{0,2}$/, ['Value', 'NumberRange'], '3-4'],
     //time-range
@@ -8617,12 +8710,18 @@
 
   const postTagger$1 = function (doc) {
     // l'inconnu
-    doc.match('le [#Adjective]', 0).tag('MaleNoun', 'le-adj');
-    doc.match('la [#Adjective]', 0).tag('FemaleNoun', 'la-adj');
-    doc.match('un [#Adjective]', 0).tag('MaleNoun', 'un-adj');
-    doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj');
-    doc.match('se [#Noun]', 0).tag('Verb', 'se-noun');
-    doc.match('me [#Noun]', 0).tag('Verb', 'me-noun');
+    // doc.match('le [#Adjective]', 0).tag('MaleNoun', 'le-adj')
+    // doc.match('la [#Adjective]', 0).tag('FemaleNoun', 'la-adj')
+    // doc.match('un [#Adjective]', 0).tag('MaleNoun', 'un-adj')
+    // doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj')
+    // ne foo pas
+    doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas');
+    // reflexive
+    doc.match('(se|me|te) [.]', 0).tag('Verb', 'se-noun');
+    // numbers
+    doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un');
+    doc.match('#Value un').tag('TextValue', 'quatre-vingt-un');
+    doc.match('moins #Value').tag('TextValue', 'moins-value');
   };
   var postTagger$2 = postTagger$1;
 
@@ -8864,7 +8963,7 @@
       not: ['Noun'],
     },
     Multiple: {
-      is: 'Value',
+      is: 'TextValue',
     },
     RomanNumeral: {
       is: 'Cardinal',
@@ -9020,11 +9119,709 @@
     tags
   };
 
+  const findNumbers = function (view) {
+    let m = view.match('#Value+');
+
+    //seventh fifth
+    if (m.match('#Ordinal #Ordinal').match('#TextValue').found && !m.has('#Multiple')) {
+      m = m.splitAfter('#Ordinal');
+    }
+
+    //fifth five
+    m = m.splitBefore('#Ordinal [#Cardinal]', 0);
+    //5-8
+    m = m.splitAfter('#NumberRange');
+    // june 5th 1999
+    m = m.splitBefore('#Year');
+    return m
+  };
+  var find = findNumbers;
+
+  var data = {
+
+    ones: [
+      [0, 'zero', 'zeroième'],
+      [1, 'un', 'unième'],
+      [2, 'deux', 'deuxième'],
+      [3, 'trois', 'troisième'],
+      [4, 'quatre', 'quatrième'],
+      [5, 'cinq', 'cinquième'],
+      [6, 'six', 'sixième'],
+      [7, 'sept', 'septième'],
+      [8, 'huit', 'huitième'],
+      [9, 'neuf', 'neuvième'],
+      [10, 'dix', 'dixième'],
+      [11, 'onze', 'onzième'],
+      [12, 'douze', 'douzième'],
+      [13, 'treize', 'treizième'],
+      [14, 'quatorze', 'quatorzième'],
+      [15, 'quinze', 'quinzième'],
+      [16, 'seize', 'seizième'],
+      [17, 'dix sept', 'dix septième'],
+      [18, 'dix huit', 'dix huitième'],
+      [19, 'dix neuf', 'dix neuvième'],
+    ],
+    tens: [
+      [20, 'vingt', 'vingtième'],
+      [30, 'trente', 'trentième'],
+      [40, 'quarante', 'quarantième'],
+      [50, 'cinquante', 'cinquantième'],
+      [60, 'soixante', 'soixantième'],
+      [70, 'soixante dix', 'soixante dixième'],
+      [80, 'quatre vingt', 'quatre vingtième'],
+      [90, 'quatre vingt dix', 'quatre vingt dixième'],
+    ],
+    multiples: [
+      [100, 'cent', 'centième'],
+      [1000, 'mille', 'millième'],
+      [1000000, 'million', 'millionième'],//million 1000,000
+      [1000000000, 'milliard', 'milliardième'],//billion 1000,000,000
+      // [1000000000000, 'mille milliards', 'mille milliardième'],//trillion 1000,000,000
+    ]
+
+  };
+
+  const toCardinal = {};
+  const toOrdinal = {};
+  const toNumber = {};
+
+  Object.keys(data).forEach(k => {
+    data[k].forEach(a => {
+      let [num, w, ord] = a;
+      toCardinal[ord] = w;
+      toOrdinal[w] = ord;
+      toNumber[w] = num;
+    });
+  });
+
+  // add some more
+  Object.assign(toNumber, {
+    cents: 100,
+    milles: 1000,
+    millions: 1000000,
+    milliards: 1000000000,
+  });
+
+  const multiNums = {
+    dix: true,//dix huit
+    soixante: true,//soixante dix
+    quatre: true,//quatre vingt
+    mille: true//mille milliards
+  };
+
+  // greedy scan for multi-word numbers, like 'quatre vingt'
+  const scanAhead = function (terms, i) {
+    let skip = 0;
+    let add = 0;
+    let words = [];
+    for (let index = 0; index < 3; index += 1) {
+      if (!terms[i + index]) {
+        break
+      }
+      let w = terms[i + index].normal || '';
+      if (toCardinal.hasOwnProperty(w)) {
+        w = toCardinal[w];
+      }
+      words.push(w);
+      let str = words.join(' ');
+      if (toNumber.hasOwnProperty(str)) {
+        skip = index;
+        add = toNumber[str];
+        // console.log(str)
+      }
+    }
+    return { skip, add }
+  };
+
+  const parseNumbers = function (terms = []) {
+    let sum = 0;
+    let carry = 0;
+    let minus = false;
+    for (let i = 0; i < terms.length; i += 1) {
+      let { tags, normal } = terms[i];
+      let w = normal || '';
+
+      // support 'quatre vingt dix', etc
+      if (multiNums.hasOwnProperty(w)) {
+        let { add, skip } = scanAhead(terms, i);
+        if (skip > 0) {
+          carry += add;
+          i += skip;
+          // console.log('skip', skip, 'add', add)
+          continue
+        }
+      }
+      if (w === 'moins') {
+        minus = true;
+        continue
+      }
+      // ... et-un
+      if (w === 'et') {
+        continue
+      }
+      // 'huitieme'
+      if (tags.has('Ordinal')) {
+        w = toCardinal[w];
+      }
+      // 'cent'
+      if (tags.has('Multiple')) {
+        let mult = toNumber[w] || 1;
+        if (carry === 0) {
+          carry = 1;
+        }
+        // sum += carry
+        // sum = sum* mult
+        // console.log('carry', carry, 'mult', mult, 'sum', sum)
+        sum += mult * carry;
+        carry = 0;
+        continue
+      }
+      // 'trois'
+      if (toNumber.hasOwnProperty(w)) {
+        carry += toNumber[w];
+      } else {
+        console.log('missing', w);
+      }
+    }
+    // include any remaining
+    if (carry !== 0) {
+      sum += carry;
+    }
+    if (minus === true) {
+      sum *= -1;
+    }
+    return sum
+  };
+  var fromText = parseNumbers;
+
+  const fromNumber = function (m) {
+    let str = m.text('normal').toLowerCase();
+    str = str.replace(/(e|er)$/, '');
+    let hasComma = false;
+    if (/,/.test(str)) {
+      hasComma = true;
+      str = str.replace(/,/g, '');
+    }
+    // get prefix/suffix
+    let arr = str.split(/([0-9.,]*)/);
+    let [prefix, num] = arr;
+    let suffix = arr.slice(2).join('');
+    if (num !== '' && m.length < 2) {
+      num = Number(num || str);
+      //ensure that num is an actual number
+      if (typeof num !== 'number') {
+        num = null;
+      }
+      // strip an ordinal off the suffix
+      if (suffix === 'e' || suffix === 'er') {
+        suffix = '';
+      }
+    }
+    return {
+      hasComma,
+      prefix,
+      num,
+      suffix,
+    }
+  };
+
+  const parseNumber = function (m) {
+    let terms = m.docs[0];
+    let num = null;
+    let prefix = '';
+    let suffix = '';
+    let hasComma = false;
+    let isText = m.has('#TextValue');
+    if (isText) {
+      num = fromText(terms);
+    } else {
+      let res = fromNumber(m);
+      prefix = res.prefix;
+      suffix = res.suffix;
+      num = res.num;
+      hasComma = res.hasComma;
+    }
+    return {
+      hasComma,
+      prefix,
+      num,
+      suffix,
+      isText,
+      isOrdinal: m.has('#Ordinal'),
+      isFraction: m.has('#Fraction'),
+      isMoney: m.has('#Money'),
+    }
+  };
+  var parse = parseNumber;
+
+  let ones = data.ones.reverse();
+  let tens = data.tens.reverse();
+
+  let multiples = [
+    [1e12, 'mille milliard'],
+    [1e11, 'cent milliard'],
+    [1e9, 'milliard'],
+    [1e8, 'cent million'],
+    [1e6, 'million'],
+    [100000, 'cent mille'],
+    [1000, 'mille'],
+    [100, 'cent'],
+    [1, 'one'],
+  ];
+
+  //turn number into an array of magnitudes, like [[5, million], [2, hundred]]
+  const getMagnitudes = function (num) {
+    let working = num;
+    let have = [];
+    multiples.forEach(a => {
+      if (num >= a[0]) {
+        let howmany = Math.floor(working / a[0]);
+        working -= howmany * a[0];
+        if (howmany) {
+          have.push({
+            unit: a[1],
+            num: howmany,
+          });
+        }
+      }
+    });
+    return have
+  };
+
+  const twoDigit = function (num) {
+    let words = [];
+    // 20-90
+    for (let i = 0; i < tens.length; i += 1) {
+      if (tens[i][0] <= num) {
+        words.push(tens[i][1]);
+        num -= tens[i][0];
+        break
+      }
+    }
+    if (num === 0) {
+      return words
+    }
+    // 0-19
+    for (let i = 0; i < ones.length; i += 1) {
+      if (ones[i][0] <= num) {
+        // 'et un'
+        if (words.length && ones[i][1] === 'un') {
+          words.push('et');
+        }
+        words.push(ones[i][1]);
+        num -= ones[i][0];
+        break
+      }
+    }
+    return words
+  };
+
+  // turn a number like 80 into words like 'quatre vingt'
+  const toText = function (num) {
+    if (num === 0) {
+      return ['zero']
+    }
+    let words = [];
+    if (num < 0) {
+      words.push('moins');
+      num = Math.abs(num);
+    }
+    // handle multiples
+    let found = getMagnitudes(num);
+    found.forEach(obj => {
+      let res = twoDigit(obj.num);
+      if (obj.num === 1 && obj.unit !== 'one') ; else {
+        words = words.concat(res);
+      }
+      if (obj.unit !== 'one') {
+        words.push(obj.unit);
+      }
+    });
+    return words
+  };
+  var toText$1 = toText;
+
+  const formatNumber = function (parsed, fmt) {
+    if (fmt === 'TextOrdinal') {
+      let words = toText$1(parsed.num);
+      let last = words[words.length - 1];
+      words[words.length - 1] = toOrdinal[last];
+      return words.join(' ')
+    }
+    if (fmt === 'TextCardinal') {
+      return toText$1(parsed.num).join(' ')
+    }
+    // numeric formats
+    // '55e'
+    if (fmt === 'Ordinal') {
+      let str = String(parsed.num);
+      let last = str.slice(str.length - 1, str.length);
+      if (last === '1') {
+        return str += 'er'
+      }
+      return str += 'e'
+    }
+    if (fmt === 'Cardinal') {
+      return String(parsed.num)
+    }
+    return String(parsed.num || '')
+  };
+  var format = formatNumber;
+
+  // return the nth elem of a doc
+  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  const api$4 = function (View) {
+    /**   */
+    class Numbers extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Numbers';
+      }
+      parse(n) {
+        return getNth(this, n).map(parse)
+      }
+      get(n) {
+        return getNth(this, n).map(parse).map(o => o.num)
+      }
+      json(n) {
+        let doc = getNth(this, n);
+        return doc.map(p => {
+          let json = p.toView().json(n)[0];
+          let parsed = parse(p);
+          json.number = {
+            prefix: parsed.prefix,
+            num: parsed.num,
+            suffix: parsed.suffix,
+            hasComma: parsed.hasComma,
+          };
+          return json
+        }, [])
+      }
+      /** any known measurement unit, for the number */
+      units() {
+        return this.growRight('#Unit').match('#Unit$')
+      }
+      /** return only ordinal numbers */
+      isOrdinal() {
+        return this.if('#Ordinal')
+      }
+      /** return only cardinal numbers*/
+      isCardinal() {
+        return this.if('#Cardinal')
+      }
+
+      /** convert to numeric form like '8' or '8th' */
+      toNumber() {
+        let m = this.if('#TextValue');
+        m.forEach(val => {
+          let obj = parse(val);
+          if (obj.num === null) {
+            return
+          }
+          let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('NumericValue');
+          }
+        });
+        return this
+      }
+      /** convert to numeric form like 'eight' or 'eighth' */
+      toText() {
+        let m = this;
+        let res = m.map(val => {
+          if (val.has('#TextValue')) {
+            return val
+          }
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('TextValue');
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      /** convert ordinal to cardinal form, like 'eight', or '8' */
+      toCardinal() {
+        let m = this;
+        let res = m.map(val => {
+          if (!val.has('#Ordinal')) {
+            return val
+          }
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('Cardinal');
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      /** convert cardinal to ordinal form, like 'eighth', or '8th' */
+      toOrdinal() {
+        let m = this;
+        let res = m.map(val => {
+          if (val.has('#Ordinal')) {
+            return val
+          }
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('Ordinal');
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+
+      /** return only numbers that are == n */
+      isEqual(n) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num === n
+        })
+      }
+      /** return only numbers that are > n*/
+      greaterThan(n) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num > n
+        })
+      }
+      /** return only numbers that are < n*/
+      lessThan(n) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num < n
+        })
+      }
+      /** return only numbers > min and < max */
+      between(min, max) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num > min && num < max
+        })
+      }
+      /** set these number to n */
+      set(n) {
+        if (n === undefined) {
+          return this // don't bother
+        }
+        if (typeof n === 'string') {
+          n = parse(n).num;
+        }
+        let m = this;
+        let res = m.map((val) => {
+          let obj = parse(val);
+          obj.num = n;
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
+          if (val.has('#TextValue')) {
+            fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
+          }
+          let str = format(obj, fmt);
+          // add commas to number
+          if (obj.hasComma && fmt === 'Cardinal') {
+            str = Number(str).toLocaleString();
+          }
+          if (str) {
+            val = val.not('#Currency');
+            val.replaceWith(str, { tags: true });
+            // handle plural/singular unit
+            // agreeUnits(agree, val, obj)
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      add(n) {
+        if (!n) {
+          return this // don't bother
+        }
+        if (typeof n === 'string') {
+          n = parse(n).num;
+        }
+        let m = this;
+        let res = m.map((val) => {
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          obj.num += n;
+          let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
+          if (obj.isText) {
+            fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
+          }
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            // handle plural/singular unit
+            // agreeUnits(agree, val, obj)
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      /** decrease each number by n*/
+      subtract(n, agree) {
+        return this.add(n * -1, agree)
+      }
+      /** increase each number by 1 */
+      increment(agree) {
+        return this.add(1, agree)
+      }
+      /** decrease each number by 1 */
+      decrement(agree) {
+        return this.add(-1, agree)
+      }
+      // overloaded - keep Numbers class
+      update(pointer) {
+        let m = new Numbers(this.document, pointer);
+        m._cache = this._cache; // share this full thing
+        return m
+      }
+    }
+    // aliases
+    Numbers.prototype.isBetween = Numbers.prototype.between;
+    Numbers.prototype.minus = Numbers.prototype.subtract;
+    Numbers.prototype.plus = Numbers.prototype.add;
+    Numbers.prototype.equals = Numbers.prototype.isEqual;
+
+    View.prototype.numbers = function (n) {
+      let m = find(this);
+      m = getNth(m, n);
+      return new Numbers(this.document, m.pointer)
+    };
+    // alias
+    View.prototype.values = View.prototype.numbers;
+  };
+  var api$5 = api$4;
+
+  var numbers = {
+    api: api$5
+  };
+
+  const findPeople = function () {
+    let m = this.match('#Honorific+? #Person+');
+    return m
+  };
+
+  const findOrgs = function () {
+    return this.match('#Organization+')
+  };
+
+  const findPlaces = function () {
+    let m = this.match('(#Place|#Address)+');
+
+    // split all commas except for 'paris, france'
+    let splits = m.match('@hasComma');
+    splits = splits.filter(c => {
+      // split 'europe, china'
+      if (c.has('(asia|africa|europe|america)$')) {
+        return true
+      }
+      // don't split 'paris, france'
+      if (c.has('(#City|#Region|#ProperNoun)$') && c.after('^(#Country|#Region)').found) {
+        return false
+      }
+      return true
+    });
+    m = m.splitAfter(splits);
+    return m
+  };
+
+  const api$2 = function (View) {
+    View.prototype.people = findPeople;
+    View.prototype.organizations = findOrgs;
+    View.prototype.places = findPlaces;
+  };
+
+  var api$3 = api$2;
+
+  var topics = {
+    api: api$3
+  };
+
+  const titleCase = /^\p{Lu}[\p{Ll}'’]/u; //upercase, then lowercase
+  // import contract from './contract.js'
+
+  const toTitleCase = function (str = '') {
+    str = str.replace(/^ *[a-z\u00C0-\u00FF]/, x => x.toUpperCase()); //TODO: support unicode
+    return str
+  };
+
+  const api = function (View) {
+    /** */
+    class Contractions extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Contraction';
+      }
+      /** i've -> 'i have' */
+      expand() {
+        this.docs.forEach(terms => {
+          let isTitleCase = titleCase.test(terms[0].text);
+          terms.forEach((t, i) => {
+            t.text = t.implicit;
+            delete t.implicit;
+            //add whitespace
+            if (i < terms.length - 1 && t.post === '') {
+              t.post += ' ';
+            }
+            // flag it as dirty
+            t.dirty = true;
+          });
+          // make the first word title-case?
+          if (isTitleCase) {
+            terms[0].text = toTitleCase(terms[0].text);
+          }
+        });
+        this.compute('normal'); //re-set normalized text
+        return this
+      }
+    }
+    // add fn to View
+    View.prototype.contractions = function () {
+      let m = this.match('@hasContraction+');
+      return new Contractions(this.document, m.pointer)
+    };
+    // View.prototype.contract = contract
+  };
+
+  var api$1 = api;
+
+  var contractions = {
+    api: api$1
+  };
+
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
   nlp$1.plugin(lexicon);
   nlp$1.plugin(preTagger);
   nlp$1.plugin(postTagger);
+  nlp$1.plugin(numbers);
+  nlp$1.plugin(topics);
+  nlp$1.plugin(contractions);
 
   const fr = function (txt, lex) {
     let dok = nlp$1(txt, lex);
