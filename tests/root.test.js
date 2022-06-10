@@ -25,6 +25,7 @@ test('root-match:', function (t) {
     // [`Appuyez sur le bouton du département correspondant.`, '{correspond}'],//'correspond'
     // [`Non da si vous exécutez qu'il active la version complète da.`, '{activer}'],//activer
     // [`Tu sais, je pensais, et si je déballais ici ?`, '{déballer}'],//'déballer'
+    ['en marchant', '{marcher}']
   ]
   arr.forEach(function (a) {
     let [str, match] = a

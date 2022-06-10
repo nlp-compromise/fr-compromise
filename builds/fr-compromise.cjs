@@ -374,8 +374,10 @@
       let document = methods.one.tokenize.fromString(input, this.world);
       let doc = new View(document);
       doc.world = this.world;
-      // doc.compute(world.hooks)
-      doc.compute(['normal', 'lexicon', 'preTagger']);
+      doc.compute(['normal', 'lexicon']);
+      if (this.world.compute.preTagger) {
+        doc.compute('preTagger');
+      }
       return doc
     }
     clone() {
@@ -398,7 +400,7 @@
   Object.assign(View.prototype, api$h);
   var View$1 = View;
 
-  var version = '14.2.1';
+  var version = '14.3.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -965,7 +967,10 @@
     // shift our self pointer, if necessary
     view.ptrs = selfPtrs;
     // try to tag them, too
-    doc.compute(['id', 'index', 'lexicon', 'preTagger']);
+    doc.compute(['id', 'index', 'lexicon']);
+    if (doc.world.compute.preTagger) {
+      doc.compute('preTagger');
+    }
     return doc
   };
 
@@ -1040,7 +1045,10 @@
     // delete the original terms
     main.delete(original); //science.
     // what should we return?
-    let m = main.toView(ptrs).compute(['index', 'lexicon', 'preTagger']);
+    let m = main.toView(ptrs).compute(['index', 'lexicon']);
+    if (m.world.compute.preTagger) {
+      m.compute('preTagger');
+    }
     // replace any old tags
     if (keep.tags) {
       m.terms().forEach((term, i) => {
@@ -1570,6 +1578,9 @@
     { word: "shan't", out: ['should', 'not'] },
     { word: "won't", out: ['will', 'not'] },
     { word: "that's", out: ['that', 'is'] },
+    { word: "what's", out: ['what', 'is'] },
+    { word: "let's", out: ['let', 'us'] },
+    { word: "there's", out: ['there', 'is'] },
     { word: 'dunno', out: ['do', 'not', 'know'] },
     { word: 'gonna', out: ['going', 'to'] },
     { word: 'gotta', out: ['have', 'got', 'to'] }, //hmm
@@ -1756,16 +1767,18 @@
     preD,
   };
 
-  const isRange = /^([0-9.]{1,3}[a-z]{0,2}) ?[-–—] ?([0-9]{1,3}[a-z]{0,2})$/i;
+  const isRange = /^([0-9.]{1,4}[a-z]{0,2}) ?[-–—] ?([0-9]{1,4}[a-z]{0,2})$/i;
   const timeRange = /^([0-9]{1,2}(:[0-9][0-9])?(am|pm)?) ?[-–—] ?([0-9]{1,2}(:[0-9][0-9])?(am|pm)?)$/i;
+  const phoneNum = /^[0-9]{3}-[0-9]{4}$/;
 
   const numberRange = function (terms, i) {
     let term = terms[i];
-    if (term.tags.has('PhoneNumber') === true) {
-      return null
-    }
     let parts = term.text.match(isRange);
     if (parts !== null) {
+      // 123-1234 is a phone number, not a number-range
+      if (term.tags.has('PhoneNumber') === true || phoneNum.test(term.text)) {
+        return null
+      }
       return [parts[1], 'to', parts[2]]
     } else {
       parts = term.text.match(timeRange);
@@ -1793,7 +1806,10 @@
       end += 1;
     }
     tmp.ptrs = [[0, start, end]];
-    tmp.compute(['lexicon', 'preTagger']);
+    tmp.compute('lexicon');
+    if (tmp.world.compute.preTagger) {
+      tmp.compute('preTagger');
+    }
   };
 
   const byEnd = {
@@ -2342,7 +2358,7 @@
     // support param as string
     if (typeof regs === 'string') {
       regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts);
+      regs = one.parseMatch(regs, opts, this.world);
     }
     let todo = { regs, group };
     let res = one.match(this.docs, todo, this._cache);
@@ -2373,7 +2389,7 @@
     }
     if (typeof regs === 'string') {
       regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts);
+      regs = one.parseMatch(regs, opts, this.world);
     }
     let todo = { regs, group, justOne: true };
     let res = one.match(this.docs, todo, this._cache);
@@ -2396,7 +2412,7 @@
     }
     if (typeof regs === 'string') {
       regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts);
+      regs = one.parseMatch(regs, opts, this.world);
     }
     let todo = { regs, group, justOne: true };
     let ptrs = one.match(this.docs, todo, this._cache).ptrs;
@@ -2417,7 +2433,7 @@
     }
     if (typeof regs === 'string') {
       regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts);
+      regs = one.parseMatch(regs, opts, this.world);
     }
     let todo = { regs, group, justOne: true };
     let ptrs = this.fullPointer;
@@ -2450,7 +2466,7 @@
     // otherwise parse the match string
     if (typeof regs === 'string') {
       regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts);
+      regs = one.parseMatch(regs, opts, this.world);
     }
     let cache = this._cache || [];
     let view = this.filter((m, i) => {
@@ -2507,7 +2523,7 @@
 
   const growLeft = function (regs, group, opts) {
     if (typeof regs === 'string') {
-      regs = this.world.methods.one.parseMatch(regs, opts);
+      regs = this.world.methods.one.parseMatch(regs, opts, this.world);
     }
     regs[regs.length - 1].end = true;// ensure matches are beside us ←
     let ptrs = this.fullPointer;
@@ -2524,7 +2540,7 @@
 
   const growRight = function (regs, group, opts) {
     if (typeof regs === 'string') {
-      regs = this.world.methods.one.parseMatch(regs, opts);
+      regs = this.world.methods.one.parseMatch(regs, opts, this.world);
     }
     regs[0].start = true;// ensure matches are beside us →
     let ptrs = this.fullPointer;
@@ -2703,7 +2719,7 @@
 
   const hasMinMax = /\{([0-9]+)?(, *[0-9]*)?\}/;
   const andSign = /&&/;
-  // const hasDash = /\p{Letter}-\p{Letter}/u
+  // const hasDash = /\p{Letter}[-–—]\p{Letter}/u
   const captureName = new RegExp(/^<\s*(\S+)\s*>/);
   /* break-down a match expression into this:
   {
@@ -2914,14 +2930,37 @@
       } else {
         w = w.toLowerCase();
       }
-      // if (hasDash.test(w) === true) {
-      //   w = w.replace(/-/g, '')
-      // }
       obj.word = w;
     }
     return obj
   };
   var parseToken$1 = parseToken;
+
+  const hasDash$2 = /[a-z0-9][-–—][a-z]/i;
+
+  // match 're-do' -> ['re','do']
+  const splitHyphens$1 = function (regs, world) {
+    let prefixes = world.model.one.prefixes;
+    for (let i = regs.length - 1; i >= 0; i -= 1) {
+      let reg = regs[i];
+      if (reg.word && hasDash$2.test(reg.word)) {
+        let words = reg.word.split(/[-–—]/g);
+        // don't split 're-cycle', etc
+        if (prefixes.hasOwnProperty(words[0])) {
+          continue
+        }
+        words = words.filter(w => w).reverse();
+        regs.splice(i, 1);
+        words.forEach(w => {
+          let obj = Object.assign({}, reg);
+          obj.word = w;
+          regs.splice(i, 0, obj);
+        });
+      }
+    }
+    return regs
+  };
+  var splitHyphens$2 = splitHyphens$1;
 
   // name any [unnamed] capture-groups with a number
   const nameGroups = function (regs) {
@@ -3017,17 +3056,20 @@
   var postProcess$1 = postProcess;
 
   /** parse a match-syntax string into json */
-  const syntax = function (input, opts = {}) {
+  const syntax = function (input, opts, world) {
     // fail-fast
     if (input === null || input === undefined || input === '') {
       return []
     }
+    opts = opts || {};
     if (typeof input === 'number') {
       input = String(input); //go for it?
     }
     let tokens = parseBlocks$1(input);
     //turn them into objects
     tokens = tokens.map(str => parseToken$1(str, opts));
+    // '~re-do~'
+    tokens = splitHyphens$2(tokens, world);
     //clean up anything weird
     tokens = postProcess$1(tokens);
     // console.log(tokens)
@@ -3941,7 +3983,7 @@
       if (killUnicode) {
         str = killUnicode(str, world);
       }
-      return world.methods.one.parseMatch(str, opts)
+      return world.methods.one.parseMatch(str, opts, world)
     }
   };
 
@@ -4999,7 +5041,7 @@
     // compile a list of matches into a match-net
     buildNet: function (matches) {
       const methods = this.methods();
-      let { index, always } = methods.one.buildNet(matches, methods);
+      let { index, always } = methods.one.buildNet(matches, this.world());
       return {
         isNet: true,
         index,
@@ -5054,10 +5096,10 @@
   };
   var api$a = api$9;
 
-  const parse$1 = function (matches, methods) {
-    const parseMatch = methods.one.parseMatch;
+  const parse$1 = function (matches, world) {
+    const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
-      obj.regs = parseMatch(obj.match);
+      obj.regs = parseMatch(obj.match, {}, world);
       // wrap these ifNo properties into an array
       if (typeof obj.ifNo === 'string') {
         obj.ifNo = [obj.ifNo];
@@ -5189,9 +5231,9 @@
   var group = groupBy;
 
   // do some indexing on the list of matches
-  const compile = function (matches, methods) {
+  const compile = function (matches, world) {
     // turn match-syntax into json
-    matches = parse$2(matches, methods);
+    matches = parse$2(matches, world);
     // convert (a|b) to ['a', 'b']
     matches = buildUp$1(matches);
     // matches = buildUp(matches) // run this twice
@@ -5344,6 +5386,10 @@
     let tag = todo.tag || '';
     if (isArray$3(todo.tag)) {
       tag = todo.tag.join(' #');
+    }
+    // don't show if it's already there
+    if (!tag || terms.every(t => t.tags.has(tag))) {
+      return
     }
     let reason = todo.reason || todo.match;
     reason = reason ? `|${reason}|` : '';
@@ -5520,7 +5566,7 @@
       tag = tag.slice(0, 2).join(', #') + ' +'; //truncate the list of tags
     }
     tag = typeof tag !== 'string' ? tag.join(', #') : tag;
-    console.log(` ${yellow(word).padEnd(24)} \x1b[32m→\x1b[0m #${tag.padEnd(25)}  ${i(reason)}`); // eslint-disable-line
+    console.log(` ${yellow(word).padEnd(24)} \x1b[32m→\x1b[0m #${tag.padEnd(22)}  ${i(reason)}`); // eslint-disable-line
   };
 
   // add a tag to all these terms
@@ -6616,7 +6662,6 @@
     'bi',
     'co',
     'contra',
-    // 'counter',
     'de',
     'extra',
     'infra',
@@ -6624,28 +6669,30 @@
     'intra',
     'macro',
     'micro',
-    'mid',
     'mis',
     'mono',
     'multi',
-    // 'non',
-    // 'over',
     'peri',
-    // 'post',
     'pre',
     'pro',
     'proto',
     'pseudo',
     're',
-    // 'semi',
     'sub',
-    // 'super', //'super-cool'
     'supra',
     'trans',
     'tri',
-    // 'ultra', //'ulta-cool'
     'un',
-    'out',
+    'out', //out-lived
+    // 'counter',
+    // 'mid',
+    // 'out',
+    // 'non',
+    // 'over',
+    // 'post',
+    // 'semi',
+    // 'super', //'super-cool'
+    // 'ultra', //'ulta-cool'
     // 'under',
     // 'whole',
   ].reduce((h, str) => {
@@ -7113,13 +7160,26 @@
   var unicode$1 = unicode;
 
   var contractions$1 = [
+    { word: "qu'il", out: ['que', 'il'] },
     { word: "n'y", out: ['ne', 'a'] },
+    { word: "n'est", out: ['ne', 'est'] },
     { word: 'aux', out: ['à', 'les'] },
     { word: 'au', out: ['à', 'le'] },
     { before: 'm', out: ['me'] },
     { before: 's', out: ['se'] },
     { before: 't', out: ['tu'] },
     { before: 'n', out: ['ne'] },
+    { after: 'puisqu', out: ['puisque'] },
+    { after: 'lorsqu', out: ['lorsque'] },//lorsqu’il
+    { after: 'jusqu', out: ['jusque'] },//jusqu’ici
+    { word: 'quelqu', out: ['quelque'] },//Quelqu'un
+
+    { word: 'auquel', out: ['à', 'lequel'] },
+    { word: 'auxquels', out: ['à', 'lesquels'] },
+    { word: 'auxquelles', out: ['à', 'lesquelles'] },
+    { word: 'duquel', out: ['de', 'lequel'] },
+    { word: 'desquels', out: ['de', 'lesquels'] },
+    { word: 'desquelles', out: ['de', 'lesquelles'] },
   ];
 
   var tokenize = {
@@ -7935,6 +7995,10 @@
             let form = verbForm(term);
             term.root = toRoot.verb.fromFutureTense(str, form);
           }
+          if (term.tags.has('PastTense')) {
+            let form = verbForm(term);
+            term.root = toRoot.verb.fromPastParticiple(str, form);
+          }
           //  fromImperfectTense, fromPastParticiple
         }
       });
@@ -8312,6 +8376,69 @@
   };
   var adjPlurals$1 = adjPlurals;
 
+  // maître
+  // traître
+
+  const guessGender$2 = function (str) {
+    // female singular
+    if (str.match(/[eë]$/)) {
+      return 'f'
+    }
+    // female plurals
+    let suffixes = [
+      /[aei]lles$/,
+      /[aei]les$/,
+      /[aeiou]ttes$/,
+      /ntes$/,
+      /i[vct]es$/,
+      /uses$/,
+      /sses$/,
+      /[èuay]res$/,
+      /ires$/,
+      /ées$/,
+      /ues$/,
+      /ies$/,
+      /[ndvt]es$/,
+    ];
+    for (let i = 0; i < suffixes.length; i += 1) {
+      if (suffixes[i].test(str)) {
+        return 'f'
+      }
+    }
+
+
+    return 'm'
+  };
+
+  // guess a gender tag each Adjective
+  const adjGender = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    let tags = term.tags;
+    if (tags.has('Adjective')) {
+      let str = term.implicit || term.normal || term.text || '';
+      // i actually think there are no exceptions.
+      if (guessGender$2(str) === 'f') {
+        return setTag([term], 'FemaleAdjective', world, false, '3-adj-gender')
+      } else {
+        return setTag([term], 'MaleAdjective', world, false, '3-adj-gender')
+      }
+    }
+    return null
+  };
+  var adjGender$1 = adjGender;
+
+  // import data from '/Users/spencer/mountain/fr-compromise/data/models/adjective/index.js'
+  // let count = 0
+  // Object.keys(data).forEach(m => {
+  //   let [f, mp, fp] = data[m]
+  //   if (guessGender(fp) !== 'f') {
+  //     console.log(fp)
+  //     count += 1
+  //   }
+  // })
+  // console.log(count)
+
   // better guesses for 'le/la/les' in l'foo
   const fixContractions = function (terms, i, world) {
     let term = terms[i];
@@ -8359,6 +8486,7 @@
       nounGender$1(terms, i, world);
       nounPlurals$1(terms, i, world);
       adjPlurals$1(terms, i, world);
+      adjGender$1(terms, i, world);
     }
     // (4th pass)
     for (let i = 0; i < terms.length; i += 1) {
@@ -8520,6 +8648,8 @@
   const nn = 'Noun';
   const vb = 'Verb';
   const jj = 'Adjective';
+  const inf = 'Infinitive';
+  const pres = 'PresentTense';
 
 
   var suffixPatterns = [
@@ -8531,10 +8661,10 @@
       ge: nn,
       ie: nn,
 
-      er: vb,
-      ir: vb,
+      er: inf,
+      ir: inf,
       ée: vb,
-      és: vb,
+      és: pres,
       sé: vb,
       ré: vb,
       çu: vb,//conçu
@@ -8583,6 +8713,7 @@
       eurs: nn,//directeurs
       tion: nn,//amélioration
       ance: nn,//croissance
+      euse: jj//rigoureuse
     },
     {
       //5-letter
@@ -8716,6 +8847,8 @@
     // doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj')
     // ne foo pas
     doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas');
+    // il active le
+    doc.match('il [.] (le|la|les)', 0).tag('Verb', 'ne-verb-pas');
     // reflexive
     doc.match('(se|me|te) [.]', 0).tag('Verb', 'se-noun');
     // numbers
@@ -9279,8 +9412,6 @@
       // 'trois'
       if (toNumber.hasOwnProperty(w)) {
         carry += toNumber[w];
-      } else {
-        console.log('missing', w);
       }
     }
     // include any remaining
@@ -9814,6 +9945,8 @@
     api: api$1
   };
 
+  // import nlp from 'compromise/one'
+
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
   nlp$1.plugin(lexicon);
@@ -9827,6 +9960,14 @@
     let dok = nlp$1(txt, lex);
     return dok
   };
+
+  fr.world = nlp$1.world;
+  fr.model = nlp$1.model;
+  fr.methods = nlp$1.methods;
+  fr.tokenize = nlp$1.tokenize;
+  fr.plugin = nlp$1.plugin;
+  fr.extend = nlp$1.extend;
+
 
   /** log the decision-making to console */
   fr.verbose = function (set) {

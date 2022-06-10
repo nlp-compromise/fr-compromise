@@ -78,7 +78,7 @@ const parseNumbers = function (terms = []) {
     if (toNumber.hasOwnProperty(w)) {
       carry += toNumber[w]
     } else {
-      console.log('missing', w)
+      // console.log('missing', w) //TODO: fixme
     }
   }
   // include any remaining
