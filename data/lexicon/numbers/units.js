@@ -42,4 +42,29 @@ export default [
   'µs',
 
   'percent',
+
+
+  'gramme',
+  'grammes',
+  'kilogramme',
+  'kilogrammes',
+  'kilo',
+  'kilos',
+  'litre',
+  'litres',
+  'millilitre',
+  'millilitres',
+  'centimètre',
+  'centimètres',
+  'mètre',
+  'mètres',
+  'kilomètre',
+  'km',
+  'kms',
+  // pied
+  'pouce',
+  'pouces',
+  'mile',
+  'miles'
+  // livre
 ]

@@ -817,6 +817,7 @@ export default [
   'estimer',
   'estiment',
   'estourbir',
+  'être',
   'établir',
   'étaler',
   'éterniser',
