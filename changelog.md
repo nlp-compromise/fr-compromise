@@ -1,3 +1,7 @@
+### 0.1.1 [July 2022]
+- **[fix]** - import format
+- **[new]** - typescript types
+
 ### 0.1.0 [June 2022]
 - **[new]** - `.compute('root')`
 - **[new]** - number-parsing
