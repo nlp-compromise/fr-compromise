@@ -135,7 +135,5 @@ npm watch
 ## Voir aussi
 
 - [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
-- [de-compromise](https://github.com/nlp-compromise/de-compromise) - german version
-
 
 MIT

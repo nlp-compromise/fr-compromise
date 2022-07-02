@@ -21,7 +21,7 @@
 
   var tmpWrld = { methods: methods$n, model: model$7, compute: compute$9, hooks };
 
-  const isArray$a = input => Object.prototype.toString.call(input) === '[object Array]';
+  const isArray$9 = input => Object.prototype.toString.call(input) === '[object Array]';
 
   const fns$4 = {
     /** add metadata to term objects */
@@ -33,7 +33,7 @@
         compute[input](this);
       }
       // allow a list of methods
-      else if (isArray$a(input)) {
+      else if (isArray$9(input)) {
         input.forEach(name => {
           if (world.compute.hasOwnProperty(name)) {
             compute[name](this);
@@ -400,7 +400,7 @@
   Object.assign(View.prototype, api$h);
   var View$1 = View;
 
-  var version = '14.3.0';
+  var version = '14.3.1';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -483,7 +483,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  const isArray$9 = function (arr) {
+  const isArray$8 = function (arr) {
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
@@ -491,7 +491,7 @@
   const fromJson = function (json) {
     return json.map(o => {
       return o.terms.map(term => {
-        if (isArray$9(term.tags)) {
+        if (isArray$8(term.tags)) {
           term.tags = new Set(term.tags);
         }
         return term
@@ -536,9 +536,9 @@
       return new View(input.document, input.ptrs)
     }
     // handle json input
-    if (isArray$9(input)) {
+    if (isArray$8(input)) {
       // pre-tokenized array-of-arrays 
-      if (isArray$9(input[0])) {
+      if (isArray$8(input[0])) {
         let document = preTokenized(input);
         return new View(document)
       }
@@ -632,6 +632,9 @@
         if (term.machine) {
           stuff.add(term.machine);
         }
+        if (term.root) {
+          stuff.add(term.root);
+        }
         // cache slashes words, etc
         if (term.alias) {
           term.alias.forEach(str => stuff.add(str));
@@ -676,7 +679,7 @@
     }
   };
 
-  var cache$3 = {
+  var cache$1 = {
     api: api$g,
     compute: compute$7,
     methods: methods$l,
@@ -906,7 +909,7 @@
     }
   };
 
-  const isArray$8 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
+  const isArray$7 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
 
   // set new ids for each terms
   const addIds$2 = function (terms) {
@@ -928,8 +931,8 @@
       return input.clone().docs[0] //assume one sentence
     }
     //allow an array of terms, too
-    if (isArray$8(input)) {
-      return isArray$8(input[0]) ? input[0] : input
+    if (isArray$7(input)) {
+      return isArray$7(input[0]) ? input[0] : input
     }
     return []
   };
@@ -1466,7 +1469,7 @@
 
   var sort$1 = { unique, reverse: reverse$2, sort };
 
-  const isArray$7 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
+  const isArray$6 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
 
   // append a new document, somehow
   const combineDocs = function (homeDocs, inputDocs) {
@@ -1512,7 +1515,7 @@
         return combineViews(this, input)
       }
       // assume it's an array of terms
-      if (isArray$7(input)) {
+      if (isArray$6(input)) {
         let docs = combineDocs(this.document, input);
         this.document = docs;
         return this.all()
@@ -2561,16 +2564,16 @@
 
   var lookaround = { before, after, growLeft, growRight, grow };
 
-  const combine$1 = function (left, right) {
+  const combine = function (left, right) {
     return [left[0], left[1], right[2]]
   };
 
-  const isArray$6 = function (arr) {
+  const isArray$5 = function (arr) {
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
   const getDoc$3 = (reg, view, group) => {
-    if (typeof reg === 'string' || isArray$6(reg)) {
+    if (typeof reg === 'string' || isArray$5(reg)) {
       return view.match(reg, group)
     }
     if (!reg) {
@@ -2619,7 +2622,7 @@
       res.push(o.before);
       if (o.match && o.after) {
         // console.log(combine(o.match, o.after))
-        res.push(combine$1(o.match, o.after));
+        res.push(combine(o.match, o.after));
       } else {
         res.push(o.match);
         res.push(o.after);
@@ -2639,7 +2642,7 @@
     all.forEach(o => {
       res.push(o.passthrough);
       if (o.before && o.match) {
-        res.push(combine$1(o.before, o.match));
+        res.push(combine(o.before, o.match));
       } else {
         res.push(o.before);
         res.push(o.match);
@@ -3451,7 +3454,7 @@
   };
   var doAstrix$1 = doAstrix;
 
-  const isArray$5 = function (arr) {
+  const isArray$4 = function (arr) {
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
@@ -3462,7 +3465,7 @@
     for (let c = 0; c < block.choices.length; c += 1) {
       // try to match this list of tokens
       let regs = block.choices[c];
-      if (!isArray$5(regs)) {
+      if (!isArray$4(regs)) {
         return false
       }
       wasFound = regs.every((cr, w_index) => {
@@ -4199,6 +4202,80 @@
   fmts.reduced = fmts.root;
   var fmts$1 = fmts;
 
+  /* eslint-disable no-bitwise */
+  /* eslint-disable no-mixed-operators */
+  /* eslint-disable no-multi-assign */
+
+  // https://github.com/jbt/tiny-hashes/
+  let k = [], i$1 = 0;
+  for (; i$1 < 64;) {
+    k[i$1] = 0 | Math.sin(++i$1 % Math.PI) * 4294967296;
+  }
+
+  function md5(s) {
+    let b, c, d,
+      h = [b = 0x67452301, c = 0xEFCDAB89, ~b, ~c],
+      words = [],
+      j = decodeURI(encodeURI(s)) + '\x80',
+      a = j.length;
+
+    s = (--a / 4 + 2) | 15;
+
+    words[--s] = a * 8;
+
+    for (; ~a;) {
+      words[a >> 2] |= j.charCodeAt(a) << 8 * a--;
+    }
+
+    for (i$1 = j = 0; i$1 < s; i$1 += 16) {
+      a = h;
+
+      for (; j < 64;
+        a = [
+          d = a[3],
+          (
+            b +
+            ((d =
+              a[0] +
+              [
+                b & c | ~b & d,
+                d & b | ~d & c,
+                b ^ c ^ d,
+                c ^ (b | ~d)
+              ][a = j >> 4] +
+              k[j] +
+              ~~words[i$1 | [
+                j,
+                5 * j + 1,
+                3 * j + 5,
+                7 * j
+              ][a] & 15]
+            ) << (a = [
+              7, 12, 17, 22,
+              5, 9, 14, 20,
+              4, 11, 16, 23,
+              6, 10, 15, 21
+            ][4 * a + j++ % 4]) | d >>> -a)
+          ),
+          b,
+          c
+        ]
+      ) {
+        b = a[1] | 0;
+        c = a[2];
+      }
+      for (j = 4; j;) h[--j] += a[j];
+    }
+
+    for (s = ''; j < 32;) {
+      s += ((h[j >> 3] >> ((1 ^ j++) * 4)) & 15).toString(16);
+    }
+
+    return s;
+  }
+
+  // console.log(md5('food-safety'))
+
   const defaults$1 = {
     text: true,
     terms: true,
@@ -4211,14 +4288,14 @@
   };
 
   const fns$1 = {
-    text: (terms) => {
-      return textFromTerms(terms, { keepPunct: true }, false)
-    },
+    text: (terms) => textFromTerms(terms, { keepPunct: true }, false),
     normal: (terms) => textFromTerms(terms, merge(fmts$1.normal, { keepPunct: true }), false),
     implicit: (terms) => textFromTerms(terms, merge(fmts$1.implicit, { keepPunct: true }), false),
 
     machine: (terms) => textFromTerms(terms, opts, false),
     root: (terms) => textFromTerms(terms, merge(opts, { form: 'root' }), false),
+
+    hash: (terms) => md5(textFromTerms(terms, { keepPunct: true }, false)),
 
     offset: (terms) => {
       let len = fns$1.text(terms).length;
@@ -4527,6 +4604,9 @@
     if (method === 'machine' || method === 'reduced') {
       return this.text('machine')
     }
+    if (method === 'hash' || method === 'md5') {
+      return md5(this.text())
+    }
 
     // json data formats
     if (method === 'json') {
@@ -4624,6 +4704,11 @@
 
   var output = {
     api: api$c,
+    methods: {
+      one: {
+        hash: md5
+      }
+    }
   };
 
   // do the pointers intersect?
@@ -4953,12 +5038,12 @@
 
   // console.log(getIntersection([[0, 1, 3]], [[0, 2, 4]]))
 
-  const isArray$4 = function (arr) {
+  const isArray$3 = function (arr) {
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
   const getDoc = (m, view) => {
-    if (typeof m === 'string' || isArray$4(m)) {
+    if (typeof m === 'string' || isArray$3(m)) {
       return view.match(m)
     }
     if (!m) {
@@ -5041,12 +5126,9 @@
     // compile a list of matches into a match-net
     buildNet: function (matches) {
       const methods = this.methods();
-      let { index, always } = methods.one.buildNet(matches, this.world());
-      return {
-        isNet: true,
-        index,
-        always
-      }
+      let net = methods.one.buildNet(matches, this.world());
+      net.isNet = true;
+      return net
     }
   };
 
@@ -5096,72 +5178,6 @@
   };
   var api$a = api$9;
 
-  const parse$1 = function (matches, world) {
-    const parseMatch = world.methods.one.parseMatch;
-    matches.forEach(obj => {
-      obj.regs = parseMatch(obj.match, {}, world);
-      // wrap these ifNo properties into an array
-      if (typeof obj.ifNo === 'string') {
-        obj.ifNo = [obj.ifNo];
-      }
-    });
-    return matches
-  };
-
-  var parse$2 = parse$1;
-
-  // stich an array into another, replacing one element
-  function spliceArray(main, index, arrayToInsert) {
-    main.splice(index, 1, ...arrayToInsert);
-    return main
-  }
-
-  // enumerate any OR options
-  const getORs = function (reg) {
-    if (reg.fastOr) {
-      return Array.from(reg.fastOr).map(str => {
-        return [{ word: str }]
-      })
-    }
-    return reg.choices
-  };
-
-  // try keeping all other properties on the old reg
-  const combine = function (obj, reg) {
-    let both = Object.assign({}, obj, reg);
-    delete both.choices;
-    delete both.fastOr;
-    delete both.operator;
-    return both
-  };
-
-  const buildUp = function (matches) {
-    let all = [];
-    matches.forEach(obj => {
-      for (let i = 0; i < obj.regs.length; i += 1) {
-        let reg = obj.regs[i];
-        // (negative or is un-multipliable) - !(a|b|c)  -> "a" matches !b
-        if (reg.operator === 'or' && !reg.negative === true) {
-          let more = getORs(reg);
-          more.forEach(r => {
-            let tmp = Object.assign({}, obj);//clone
-            tmp.regs = tmp.regs.slice(0);//clone
-            r = r.map(main => combine(obj.regs[i], main));
-            tmp.regs = spliceArray(tmp.regs, i, r);
-            all.push(tmp);
-          });
-          return
-        }
-      }
-      all.push(obj);
-    });
-    // console.dir(all, { depth: 5 })
-    return all
-  };
-
-
-  var buildUp$1 = buildUp;
-
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
     // negatives can't be cached
@@ -5180,81 +5196,106 @@
     return null
   };
 
-  // extract the clear needs for each match
-  const findNeeds = function (regs) {
-    // parse match strings
-    let need = new Set();
+  const getNeeds = function (regs) {
+    let needs = [];
     regs.forEach(reg => {
-      let res = getTokenNeeds(reg);
-      if (res) {
-        need.add(res);
-      } else {
-        // support AND (foo && tag)
-        if (reg.operator === 'and' && reg.choices) {
-          reg.choices.forEach(oneSide => {
-            oneSide.forEach(r => {
+      needs.push(getTokenNeeds(reg));
+      // support AND (foo && tag)
+      if (reg.operator === 'and' && reg.choices) {
+        reg.choices.forEach(oneSide => {
+          oneSide.forEach(r => {
+            needs.push(getTokenNeeds(r));
+          });
+        });
+      }
+    });
+    return needs.filter(str => str)
+  };
+
+  const getWants = function (regs) {
+    let wants = [];
+    let count = 0;
+    regs.forEach(reg => {
+      if (reg.operator === 'or' && !reg.optional && !reg.negative) {
+        // add fast-or terms
+        if (reg.fastOr) {
+          Array.from(reg.fastOr).forEach(w => {
+            wants.push(w);
+          });
+        }
+        // add slow-or
+        if (reg.choices) {
+          reg.choices.forEach(rs => {
+            rs.forEach(r => {
               let n = getTokenNeeds(r);
               if (n) {
-                need.add(n);
+                wants.push(n);
               }
             });
           });
         }
+        count += 1;
       }
     });
-    return need
+    return { wants, count }
   };
 
-  // produce quick lookups for a list of matches
-  const cache$1 = function (matches) {
+  const parse$1 = function (matches, world) {
+    const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
-      obj.needs = Array.from(findNeeds(obj.regs));
+      obj.regs = parseMatch(obj.match, {}, world);
+      // wrap these ifNo properties into an array
+      if (typeof obj.ifNo === 'string') {
+        obj.ifNo = [obj.ifNo];
+      }
+      // cache any requirements up-front 
+      obj.needs = getNeeds(obj.regs);
+      let { wants, count } = getWants(obj.regs);
+      obj.wants = wants;
+      obj.minWant = count;
       // get rid of tiny sentences
       obj.minWords = obj.regs.filter(o => !o.optional).length;
     });
     return matches
   };
 
-  var cache$2 = cache$1;
-
-  const groupBy = function (matches) {
-    let byGroup = {};
-    matches.forEach(obj => {
-      obj.needs.forEach(need => {
-        byGroup[need] = byGroup[need] || [];
-        byGroup[need].push(obj);
-      });
-    });
-    return byGroup
-  };
-
-  var group = groupBy;
+  var parse$2 = parse$1;
 
   // do some indexing on the list of matches
   const compile = function (matches, world) {
     // turn match-syntax into json
     matches = parse$2(matches, world);
-    // convert (a|b) to ['a', 'b']
-    matches = buildUp$1(matches);
-    // matches = buildUp(matches) // run this twice
-    // retrieve the needs of each match statement
-    matches = cache$2(matches);
+
+    // collect by wants and needs
+    let hooks = {};
+    matches.forEach(obj => {
+      // add needs
+      obj.needs.forEach(str => {
+        hooks[str] = hooks[str] || [];
+        hooks[str].push(obj);
+      });
+      // add wants
+      obj.wants.forEach(str => {
+        hooks[str] = hooks[str] || [];
+        hooks[str].push(obj);
+      });
+    });
+    // remove duplicates
+    Object.keys(hooks).forEach(k => {
+      let already = {};
+      hooks[k] = hooks[k].filter(obj => {
+        if (already[obj.match]) {
+          return false
+        }
+        already[obj.match] = true;
+        return true
+      });
+    });
+
     // keep all un-cacheable matches (those with no needs) 
-    let always = matches.filter(o => o.needs.length === 0);
-
-    // organize them according to need...
-    let byGroup = group(matches);
-
-    // Every sentence has a Noun/Verb,
-    // assume any match will be found on another need
-    // this is true now,
-    // but we should stay careful about this.
-    delete byGroup['#Noun'];
-    delete byGroup['#Verb'];
-    // console.log(matches.filter(o => o.needs.length === 1)) //check!
-
+    let always = matches.filter(o => o.needs.length === 0 && o.wants.length === 0);
     return {
-      index: byGroup,
+      hooks,
       always
     }
   };
@@ -5262,39 +5303,55 @@
   var buildNet = compile;
 
   // for each cached-sentence, find a list of possible matches
-  const matchUp = function (docNeeds, matchGroups) {
-    return docNeeds.map(needs => {
-      let maybes = [];
-      needs.forEach(need => {
-        if (matchGroups.hasOwnProperty(need)) {
-          maybes = maybes.concat(matchGroups[need]);
+  const getHooks = function (docCaches, hooks) {
+    return docCaches.map((set, i) => {
+      let maybe = [];
+      Object.keys(hooks).forEach(k => {
+        if (docCaches[i].has(k)) {
+          maybe = maybe.concat(hooks[k]);
         }
       });
-      return new Set(maybes)
+      // remove duplicates
+      let already = {};
+      maybe = maybe.filter(m => {
+        if (already[m.match]) {
+          return false
+        }
+        already[m.match] = true;
+        return true
+      });
+      return maybe
     })
   };
 
-  var getCandidates = matchUp;
+  var getHooks$1 = getHooks;
 
   // filter-down list of maybe-matches
   const localTrim = function (maybeList, docCache) {
-    // console.log(maybeList)
-    for (let n = 0; n < docCache.length; n += 1) {
+    return maybeList.map((list, n) => {
       let haves = docCache[n];
-
       // ensure all stated-needs of the match are met
-      maybeList[n] = Array.from(maybeList[n]).filter(obj => {
+      list = list.filter(obj => {
         return obj.needs.every(need => haves.has(need))
       });
       // ensure nothing matches in our 'ifNo' property
-      maybeList[n] = maybeList[n].filter(obj => {
+      list = list.filter(obj => {
         if (obj.ifNo !== undefined && obj.ifNo.some(no => docCache[n].has(no)) === true) {
           return false
         }
         return true
       });
-    }
-    return maybeList
+      // ensure atleast one(?) of the wants is found
+      list = list.filter(obj => {
+        if (obj.wants.length === 0) {
+          return true
+        }
+        // ensure there's one cache-hit
+        let found = obj.wants.filter(str => haves.has(str)).length;
+        return found >= obj.minWant
+      });
+      return list
+    })
   };
   var trimDown = localTrim;
 
@@ -5329,15 +5386,6 @@
   };
   var runMatch$1 = runMatch;
 
-  // const counts = {}
-
-
-  // setInterval(() => {
-  //   let res = Object.keys(counts).map(k => [k, counts[k]])
-  //   res = res.sort((a, b) => (a[1] > b[1] ? -1 : 0))
-  //   console.log(res)
-  // }, 5000)
-
   const tooSmall = function (maybeList, document) {
     return maybeList.map((arr, i) => {
       let termCount = document[i].length;
@@ -5352,7 +5400,7 @@
     // find suitable matches to attempt, on each sentence
     let docCache = methods.one.cacheDoc(document);
     // collect possible matches for this document
-    let maybeList = getCandidates(docCache, net.index);
+    let maybeList = getHooks$1(docCache, net.hooks);
     // ensure all defined needs are met for each match
     maybeList = trimDown(maybeList, docCache);
     // add unchacheable matches to each sentence's todo-list
@@ -5361,51 +5409,21 @@
     }
     // if we don't have enough words
     maybeList = tooSmall(maybeList, document);
-    // console.log(maybeList)
-    // maybeList.forEach(list => {
-    //   list.forEach(o => {
-    //     counts[o.match] = counts[o.match] || 0
-    //     counts[o.match] += 1
+
+    // maybeList.forEach((arr, i) => {
+    //   let txt = document[i].map(t => t.text).join(' ')
+    //   console.log(`==== ${txt} ====`)
+    //   arr.forEach(m => {
+    //     console.log(`    - ${m.match}`)
     //   })
     // })
+
     // now actually run the matches
     let results = runMatch$1(maybeList, document, methods, opts);
     // console.dir(results, { depth: 5 })
     return results
   };
   var bulkMatch = sweep$1;
-
-  const isArray$3 = function (arr) {
-    return Object.prototype.toString.call(arr) === '[object Array]'
-  };
-
-  const logger = function (todo, document) {
-    let [n, start, end] = todo.pointer;
-    let terms = document[n];
-    let i = start > 4 ? start - 2 : 0;
-    let tag = todo.tag || '';
-    if (isArray$3(todo.tag)) {
-      tag = todo.tag.join(' #');
-    }
-    // don't show if it's already there
-    if (!tag || terms.every(t => t.tags.has(tag))) {
-      return
-    }
-    let reason = todo.reason || todo.match;
-    reason = reason ? `|${reason}|` : '';
-    let msg = `  ${reason}`.padEnd(20) + ' - ';
-    const yellow = str => '\x1b[2m' + str + '\x1b[0m';
-    for (; i < terms.length; i += 1) {
-      if (i > end + 2) {
-        break
-      }
-      let str = terms[i].machine || terms[i].normal;
-      msg += i > start && i < end ? `\x1b[32m${str}\x1b[0m ` : `${yellow(str)} `; // matched terms are green
-    }
-    msg += '  \x1b[32m→\x1b[0m #' + tag.padEnd(12) + '  ';
-    console.log(msg); //eslint-disable-line
-  };
-  var logger$1 = logger;
 
   // is this tag consistent with the tags they already have?
   const canBe = function (terms, tag, model) {
@@ -5435,16 +5453,13 @@
     // some logging for debugging
     const env = typeof process === 'undefined' || !process.env ? self.env || {} : process.env;
     if (env.DEBUG_TAGS) {
-      console.log(`\n  \x1b[32m→ ${list.length} corrections:\x1b[0m`); //eslint-disable-line
+      console.log(`\n\n  \x1b[32m→ ${list.length} post-tagger:\x1b[0m`); //eslint-disable-line
     }
     return list.map(todo => {
       if (!todo.tag && !todo.chunk) {
         return
       }
       let reason = todo.reason || todo.match;
-      if (env.DEBUG_TAGS) {
-        logger$1(todo, document);
-      }
       let terms = getDoc([todo.pointer], document)[0];
       // handle 'safe' tag
       if (todo.safe === true) {
@@ -5458,7 +5473,7 @@
         }
       }
       if (todo.tag !== undefined) {
-        setTag(terms, todo.tag, world, todo.safe, reason);
+        setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger
         if (terms.length === 1 && todo.tag === 'Noun') {
           if (terms[0].text && terms[0].text.match(/..s$/) !== null) {
@@ -5558,10 +5573,12 @@
   };
 
   // verbose-mode tagger debuging
-  const log = (term, tag, reason = '') => {
+  const log = (terms, tag, reason = '') => {
     const yellow = str => '\x1b[33m\x1b[3m' + str + '\x1b[0m';
     const i = str => '\x1b[3m' + str + '\x1b[0m';
-    let word = term.text || '[' + term.implicit + ']';
+    let word = terms.map(t => {
+      return t.text || '[' + t.implicit + ']'
+    }).join(' ');
     if (typeof tag !== 'string' && tag.length > 2) {
       tag = tag.slice(0, 2).join(', #') + ' +'; //truncate the list of tags
     }
@@ -5578,7 +5595,7 @@
     // some logging for debugging
     const env = typeof process === 'undefined' || !process.env ? self.env || {} : process.env;
     if (env && env.DEBUG_TAGS) {
-      log(terms[0], tag, reason);
+      log(terms, tag, reason);
     }
     if (isArray$2(tag) === true) {
       tag.forEach(tg => setTag(terms, tg, world, isSafe));
@@ -7097,7 +7114,7 @@
   nlp$1.extend(tag); //2kb
   nlp$1.plugin(contractions$2); //~6kb
   nlp$1.extend(tokenize$1); //7kb
-  nlp$1.plugin(cache$3); //~1kb
+  nlp$1.plugin(cache$1); //~1kb
   nlp$1.extend(lookup); //7kb
   nlp$1.extend(typeahead); //1kb
   nlp$1.extend(lexicon$3); //1kb
@@ -8428,7 +8445,7 @@
   };
   var adjGender$1 = adjGender;
 
-  // import data from '/Users/spencer/mountain/fr-compromise/data/models/adjective/index.js'
+  // import data from '../../data/models/adjective/index.js'
   // let count = 0
   // Object.keys(data).forEach(m => {
   //   let [f, mp, fp] = data[m]
