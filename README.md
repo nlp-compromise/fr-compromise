@@ -10,11 +10,6 @@
     </sub>
   </div>
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
-  <div align="center">
-    <sub>
-     <a href="https://github.com/nlp-compromise/de-compromise">german</a> • <a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
-    </sub>
-  </div>
 </div>
 
 <div align="center">
@@ -29,6 +24,11 @@
     <img src="https://badge-size.herokuapp.com/spencermountain/fr-compromise/master/builds/fr-compromise.min.js" />
   </a>
   </div>
+</div>
+<div align="center">
+  <sub> see: 
+    <a href="https://github.com/nlp-compromise/de-compromise">german</a> • <a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+  </sub>
 </div>
 
 <!-- spacer -->

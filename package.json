@@ -21,9 +21,10 @@
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "testb": "TESTENV=prod npm run test",
-    "build": "rollup -c --silent",
+    "build": "npm run version && rollup -c --silent",
     "pack": "node ./scripts/pack.js",
     "watch": "amble ./scratch.js",
+    "version": "node ./scripts/version.js",
     "score": "node ./learn/giga/test.js"
   },
   "files": [

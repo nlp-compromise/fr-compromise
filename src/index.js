@@ -8,6 +8,7 @@ import tagset from './02-two/tagset/plugin.js'
 import numbers from './03-three/numbers/plugin.js'
 import topics from './03-three/topics/plugin.js'
 import contractions from './03-three/contractions/plugin.js'
+import version from './_version.js'
 
 nlp.plugin(tokenize)
 nlp.plugin(tagset)
@@ -39,5 +40,6 @@ fr.verbose = function (set) {
   env.DEBUG_CHUNKS = set === 'chunker' || set === true ? true : ''
   return this
 }
+fr.version = version
 
 export default fr
