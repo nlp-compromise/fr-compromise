@@ -10,6 +10,11 @@
     </sub>
   </div>
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+  <div align="center">
+    <sub>
+     <a href="https://github.com/nlp-compromise/de-compromise">german</a> • <a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+    </sub>
+  </div>
 </div>
 
 <div align="center">
@@ -130,7 +135,5 @@ npm watch
 ## Voir aussi
 
 - [benob/french-tagger](https://github.com/benob/french-tagger/blob/master/lefff-word-tag.txt)
-- [de-compromise](https://github.com/nlp-compromise/de-compromise) - german version
-
 
 MIT

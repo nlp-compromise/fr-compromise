@@ -50,7 +50,7 @@ const adjGender = function (terms, i, world) {
 }
 export default adjGender
 
-// import data from '/Users/spencer/mountain/fr-compromise/data/models/adjective/index.js'
+// import data from '../../data/models/adjective/index.js'
 // let count = 0
 // Object.keys(data).forEach(m => {
 //   let [f, mp, fp] = data[m]

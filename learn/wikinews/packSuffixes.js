@@ -1,5 +1,5 @@
 const fs = require('fs')
-const suff = require('/Users/spencer/mountain/fr-compromise/src/tagger/data/suffixMap.js')
+const suff = require('../../src/tagger/data/suffixMap.js')
 
 // find any long suffixes that are covered by shorter ones
 const twos = suff[5]
