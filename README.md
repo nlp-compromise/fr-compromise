@@ -37,7 +37,7 @@
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
 
-`fr-compromise` is a port of [compromise](https://github.com/nlp-compromise/compromise) in french.
+`fr-compromise` est un port de [compromise](https://github.com/nlp-compromise/compromise) en français
 
 L'objectif de ce projet est de fournir un petit POS-tagger de base basé sur des règles. 
 
@@ -74,9 +74,7 @@ ou côté client:
 **it-compromise** includes all methods of `compromise/one`:
 
 <details>
-  <summary><h3>Clicca per vedere</h3></summary>
-
-### Compromise/one
+  <summary><h3>cliquez pour voir l'API</h3></summary>
 
 ##### Output
 
@@ -255,6 +253,9 @@ doc.found('{jeter} les {chaussure}')
 // true
 ```
 
+<div align="right">
+  <a href="https://docs.compromise.cool/compromise-root">root docs</a>
+</div>
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
