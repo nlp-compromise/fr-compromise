@@ -1,5 +1,3 @@
-    
-
 <div align="center">
   <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
   <div><b>fr-compromise</b></div>
@@ -28,7 +26,7 @@
   </div>
   <div align="center">
     <sub>
-     see: <a href="https://github.com/nlp-compromise/fr-compromise">italian</a> • <a href="https://github.com/nlp-compromise/de-compromise">german</a>  •<a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+     voir: <a href="https://github.com/nlp-compromise/fr-compromise">italian</a> • <a href="https://github.com/nlp-compromise/de-compromise">german</a>  •<a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
     </sub>
   </div>
 </div>
@@ -71,7 +69,7 @@ ou côté client:
 ```
 
 ## API
-**it-compromise** includes all methods of `compromise/one`:
+**fr-compromise** inclut toutes les méthodes de `compromise/one`:
 
 <details>
   <summary><h3>cliquez pour voir l'API</h3></summary>
@@ -260,8 +258,7 @@ doc.found('{jeter} les {chaussure}')
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
 
-
-### Contributing
+### Contribuant
 Veuillez rejoindre pour aider! - please join to help!
 
 *help with first PR[1](https://github.com/spencermountain/compromise/wiki/Contributing)*
