@@ -1,7 +1,7 @@
 // import nlp from 'compromise/one'
 import nlp from 'compromise/one'
 import tokenize from './01-one/tokenize/plugin.js'
-import lexicon from './02-two/lexicon/plugin.js'
+import lexicon from './01-one/lexicon/plugin.js'
 import preTagger from './02-two/preTagger/plugin.js'
 import postTagger from './02-two/postTagger/plugin.js'
 import tagset from './02-two/tagset/plugin.js'

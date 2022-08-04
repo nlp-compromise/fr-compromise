@@ -21,8 +21,7 @@ txt = `Une boule blanche géante`
 txt = `Le Karnataka ne libérera plus`
 txt = `Il a été libéré par les Royals`
 
-// doguer
-txt = `j'avais drogué`
+
 
 // prodigieux
 txt = `les mascarades était prodigieuse`
@@ -47,10 +46,11 @@ txt = `les promotions sont interdites par l'interdiction`
 
 //endommager
 txt = `Il a été endommagé dans deux énormes incendies`
+// doguer
+txt = `j'avais drogué`
 
-
-let doc = nlp(txt)
-doc.compute('root')
-console.log(doc.docs)
-// doc.contractions().expand()
-doc.debug()
+let doc = nlp(txt).debug()
+// doc.compute('root')
+// console.log(doc.docs)
+// doc.debug()
+// doc.match('{doguer}').debug()
