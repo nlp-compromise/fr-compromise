@@ -7,10 +7,12 @@ const maleEnds = ['age', 'isme', 'eau', 'ment', 'in', 'ou', 'et', 'ege', 'eme', 
 ]
 
 const suffixGuess = function (term) {
-  if (femaleEnds.find(suff => term.normal.endsWith(suff))) {
+  let str = term.normal
+  str = str.replace(/s$/, '')
+  if (femaleEnds.find(suff => str.endsWith(suff))) {
     return 'FemaleNoun'
   }
-  if (maleEnds.find(suff => term.normal.endsWith(suff))) {
+  if (maleEnds.find(suff => str.endsWith(suff))) {
     return 'MaleNoun'
   }
   return null

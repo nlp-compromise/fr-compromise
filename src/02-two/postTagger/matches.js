@@ -17,5 +17,8 @@ const postTagger = function (doc) {
   doc.match('(je|tu|il|elle|nous|vous|ils) [#Adjective] (la|le|les)', 0).tag('Verb', 'ils-x-les')
   // sont interdites par l'interdiction
   doc.match('(est|été|sont|était|serait) [#Adjective] #Preposition', 0).tag('Verb', 'song-x-par')
+  // have unpacked
+  doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres')
+
 }
 export default postTagger

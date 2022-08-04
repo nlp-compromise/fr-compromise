@@ -1,5 +1,7 @@
 // inf: [je, tu, il, nous, vous, ils]
 export default {
+  "être": ["suis", "es", "est", "sommes", "êtes", "sont"],
+  "avoir": ["ai", "as", "a", "avons", "avez", "ont"],
   "acheter": ["achète", "achètes", "achète", "achetons", "achetez", "achètent"],
   "geler": ["gèle", "gèles", "gèle", "gelons", "gelez", "gèlent"],
   "aller": ["vais", "vas", "va", "allons", "allez", "vont"],

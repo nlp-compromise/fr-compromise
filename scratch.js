@@ -45,10 +45,10 @@ txt = `les promotions sont interdites par l'interdiction`
 //endommager
 txt = `Il a été endommagé dans deux énormes incendies`
 
-txt = `nous avons déballés`
+txt = `les chaussures  `
 
 let doc = nlp(txt).debug()
 doc.compute('root')
-console.log(doc.docs)
+// console.log(doc.docs)
 // doc.debug()
-doc.match('{déballer}').debug()
+// doc.match('les {chaussure} ').debug()
