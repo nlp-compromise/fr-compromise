@@ -10,7 +10,7 @@ import models from '../data/models/index.js'
 const steps = [
   {
     label: 'lexicon',
-    path: './src/02-two/lexicon/model/_data.js',
+    path: './src/01-one/lexicon/model/_data.js',
     compress: function () {
       let packed = {}
       //turn them into a series of flat-arrays
@@ -33,7 +33,7 @@ const steps = [
   },
   {
     label: 'models',
-    path: './src/02-two/lexicon/methods/_data.js',
+    path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
       Object.keys(models).forEach(k => {

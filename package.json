@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "fr-compromise",
   "description": "Linguistique computationnelle modeste",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./builds/fr-compromise.mjs",
   "unpkg": "./builds/fr-compromise.min.js",
   "type": "module",
@@ -21,9 +21,10 @@
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "testb": "TESTENV=prod npm run test",
-    "build": "rollup -c --silent",
+    "build": "npm run version && rollup -c --silent",
     "pack": "node ./scripts/pack.js",
     "watch": "amble ./scratch.js",
+    "version": "node ./scripts/version.js",
     "score": "node ./learn/giga/test.js"
   },
   "files": [
@@ -31,7 +32,7 @@
     "types.d.ts"
   ],
   "dependencies": {
-    "compromise": "14.3.1",
+    "compromise": "14.4.4",
     "efrt": "2.6.0",
     "suffix-thumb": "4.0.2"
   },
@@ -39,7 +40,7 @@
     "@rollup/plugin-alias": "3.1.9",
     "@rollup/plugin-node-resolve": "13.3.0",
     "amble": "1.3.0",
-    "rollup": "2.75.7",
+    "rollup": "2.77.2",
     "rollup-plugin-terser": "7.0.2",
     "tap-dancer": "0.3.4",
     "tape": "5.5.3"

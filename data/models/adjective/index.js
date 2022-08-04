@@ -2165,6 +2165,7 @@ export default {
   "producteur": ["productrice", "producteurs", "productrices"],
   "productif": ["productive", "productifs", "productives"],
   "produit": ["produite", "produits", "produites"],
+  "prodigieux": ["prodigieuse", "prodigieux", "prodigieuses"],
   "professionnel": ["professionnelle", "professionnels", "professionnelles"],
   "profond": ["profonde", "profonds", "profondes"],
   "programmé": ["programmée", "programmés", "programmées"],

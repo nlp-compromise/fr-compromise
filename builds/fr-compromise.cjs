@@ -4,7 +4,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.frCompromise = factory());
 })(this, (function () { 'use strict';
 
-  let methods$n = {
+  let methods$o = {
     one: {},
     two: {},
     three: {},
@@ -19,7 +19,7 @@
   let compute$9 = {};
   let hooks = [];
 
-  var tmpWrld = { methods: methods$n, model: model$7, compute: compute$9, hooks };
+  var tmpWrld = { methods: methods$o, model: model$7, compute: compute$9, hooks };
 
   const isArray$9 = input => Object.prototype.toString.call(input) === '[object Array]';
 
@@ -53,6 +53,8 @@
   };
   var compute$8 = fns$4;
 
+  // wrappers for loops in javascript arrays
+
   const forEach = function (cb) {
     let ptrs = this.fullPointer;
     ptrs.forEach((ptr, i) => {
@@ -64,11 +66,14 @@
 
   const map = function (cb, empty) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     let res = ptrs.map((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
-      return cb(view, i)
+      let out = cb(view, i);
+      // if we returned nothing, return a view
+      if (out === undefined) {
+        return this.none()
+      }
+      return out
     });
     if (res.length === 0) {
       return empty || this.update([])
@@ -95,23 +100,18 @@
 
   const filter = function (cb) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     ptrs = ptrs.filter((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
       return cb(view, i)
     });
-    let res = this.update(ptrs); //TODO: keep caches automatically
-    // res._cache = ptrs.map(ptr => cache[ptr[0]])
+    let res = this.update(ptrs);
     return res
   };
 
   const find$1 = function (cb) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     let found = ptrs.find((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
       return cb(view, i)
     });
     return this.update([found])
@@ -119,10 +119,8 @@
 
   const some = function (cb) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     return ptrs.some((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
       return cb(view, i)
     })
   };
@@ -176,14 +174,11 @@
     /** */
     eq: function (n) {
       let ptr = this.pointer;
-      let cache = this._cache || [];
       if (!ptr) {
         ptr = this.docs.map((_doc, i) => [i]);
       }
       if (ptr[n]) {
-        let view = this.update([ptr[n]]);
-        view._cache = cache[n];
-        return view
+        return this.update([ptr[n]])
       }
       return this.none()
     },
@@ -264,11 +259,11 @@
   utils.firstTerm = utils.firstTerms;
   var util = utils;
 
-  const methods$m = Object.assign({}, util, compute$8, loops);
+  const methods$n = Object.assign({}, util, compute$8, loops);
 
   // aliases
-  methods$m.get = methods$m.eq;
-  var api$h = methods$m;
+  methods$n.get = methods$n.eq;
+  var api$h = methods$n;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -342,31 +337,27 @@
     update(pointer) {
       let m = new View(this.document, pointer);
       // send the cache down, too?
-      if (m._cache && pointer && pointer.length > 1) {
-        // only if it's full
+      if (this._cache && pointer && pointer.length > 0) {
+        // only keep cache if it's a full-sentence
         let cache = [];
-        pointer.forEach(ptr => {
+        pointer.forEach((ptr, i) => {
+          let [n, start, end] = ptr;
           if (ptr.length === 1) {
-            cache.push(m._cache[ptr[0]]);
+            cache[i] = this._cache[n];
+          } else if (start === 0 && this.document[n].length === end) {
+            cache[i] = this._cache[n];
           }
-          // let [n, start, end] = ptr
-          // if (start === 0 && this.document[n][end - 1] && !this.document[n][end]) {
-          //   console.log('=-=-=-= here -=-=-=-')
-          // }
         });
-        m._cache = cache;
+        if (cache.length > 0) {
+          m._cache = cache;
+        }
       }
       m.world = this.world;
       return m
     }
     // create a new View, from this one
     toView(pointer) {
-      if (pointer === undefined) {
-        pointer = this.pointer;
-      }
-      let m = new View(this.document, pointer);
-      // m._cache = this._cache // share this full thing
-      return m
+      return new View(this.document, pointer || this.pointer)
     }
     fromText(input) {
       const { methods } = this;
@@ -400,7 +391,7 @@
   Object.assign(View.prototype, api$h);
   var View$1 = View;
 
-  var version = '14.3.1';
+  var version$1 = '14.4.4';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -583,7 +574,6 @@
     return doc
   };
 
-
   /** extend compromise functionality */
   nlp.plugin = function (plugin) {
     extend$1(plugin, this._world, View$1, this);
@@ -609,7 +599,7 @@
   /** log the decision-making to console */
   nlp.verbose = verbose;
   /** current library release version */
-  nlp.version = version;
+  nlp.version = version$1;
 
   var nlp$1 = nlp;
 
@@ -650,13 +640,13 @@
   };
   var cacheDoc = createCache;
 
-  var methods$l = {
+  var methods$m = {
     one: {
       cacheDoc,
     },
   };
 
-  const methods$k = {
+  const methods$l = {
     /** */
     cache: function () {
       this._cache = this.methods.one.cacheDoc(this.document);
@@ -669,7 +659,7 @@
     },
   };
   const addAPI$3 = function (View) {
-    Object.assign(View.prototype, methods$k);
+    Object.assign(View.prototype, methods$l);
   };
   var api$g = addAPI$3;
 
@@ -682,7 +672,7 @@
   var cache$1 = {
     api: api$g,
     compute: compute$7,
-    methods: methods$l,
+    methods: methods$m,
   };
 
   var caseFns = {
@@ -859,7 +849,7 @@
       after 46-thousand sentences
 
   */
-  let start$1 = 0;
+  let index$2 = 0;
 
   const pad3 = (str) => {
     str = str.length < 3 ? '0' + str : str;
@@ -868,19 +858,17 @@
 
   const toId = function (term) {
     let [n, i] = term.index || [0, 0];
-    start$1 += 1;
-    var now = start$1;
-    now = parseInt(now, 10);
+    index$2 += 1;
 
-    //don't overflow time
-    now = now > 46655 ? 46655 : now;
+    //don't overflow index
+    index$2 = index$2 > 46655 ? 0 : index$2;
     //don't overflow sentences
-    n = n > 46655 ? 46655 : n;
+    n = n > 46655 ? 0 : n;
     // //don't overflow terms
-    i = i > 1294 ? 1294 : i;
+    i = i > 1294 ? 0 : i;
 
     // 3 digits for time
-    let id = pad3(now.toString(36));
+    let id = pad3(index$2.toString(36));
     // 3 digit  for sentence index (46k)
     id += pad3(n.toString(36));
 
@@ -939,6 +927,7 @@
 
   const insert = function (input, view, prepend) {
     const { document, world } = view;
+    view.uncache();
     // insert words at end of each doc
     let ptrs = view.fullPointer;
     let selfPtrs = view.fullPointer;
@@ -1027,6 +1016,7 @@
   fns$2.replaceWith = function (input, keep = {}) {
     let ptrs = this.fullPointer;
     let main = this;
+    this.uncache();
     if (typeof input === 'function') {
       return replaceByFn(main, input)
     }
@@ -1168,10 +1158,11 @@
     return ptrs
   };
 
-  const methods$j = {
+  const methods$k = {
     /** */
     remove: function (reg) {
       const { indexN } = this.methods.one.pointer;
+      this.uncache();
       // two modes:
       //  - a. remove self, from full parent
       let self = this.all();
@@ -1203,17 +1194,16 @@
         this.ptrs = [];
         return self.none()
       }
-      // self._cache = null
       let res = self.toView(ptrs); //return new document
       return res
     },
   };
 
   // aliases
-  methods$j.delete = methods$j.remove;
-  var remove = methods$j;
+  methods$k.delete = methods$k.remove;
+  var remove = methods$k;
 
-  const methods$i = {
+  const methods$j = {
     /** add this punctuation or whitespace before each match: */
     pre: function (str, concat) {
       if (str === undefined && this.found) {
@@ -1315,10 +1305,10 @@
       return this
     },
   };
-  methods$i.deHyphenate = methods$i.dehyphenate;
-  methods$i.toQuotation = methods$i.toQuotations;
+  methods$j.deHyphenate = methods$j.dehyphenate;
+  methods$j.toQuotation = methods$j.toQuotations;
 
-  var whitespace$1 = methods$i;
+  var whitespace = methods$j;
 
   /** alphabetical order */
   const alpha = (a, b) => {
@@ -1388,7 +1378,7 @@
     return arr
   };
 
-  var methods$h = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
+  var methods$i = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
 
   // aliases
   const seqNames = new Set(['index', 'sequence', 'seq', 'sequential', 'chron', 'chronological']);
@@ -1410,6 +1400,7 @@
   /** re-arrange the order of the matches (in place) */
   const sort = function (input) {
     let { docs, pointer } = this;
+    this.uncache();
     if (typeof input === 'function') {
       return customSort(this, input)
     }
@@ -1433,12 +1424,12 @@
     }
     // sort by frequency
     if (freqNames.has(input)) {
-      arr = methods$h.byFreq(arr);
+      arr = methods$i.byFreq(arr);
       return this.update(arr.map(o => o.pointer))
     }
     // apply sort method on each phrase
-    if (typeof methods$h[input] === 'function') {
-      arr = arr.sort(methods$h[input]);
+    if (typeof methods$i[input] === 'function') {
+      arr = arr.sort(methods$i[input]);
       return this.update(arr.map(o => o.pointer))
     }
     return this
@@ -1449,6 +1440,9 @@
     let ptrs = this.pointer || this.docs.map((_d, n) => [n]);
     ptrs = [].concat(ptrs);
     ptrs = ptrs.reverse();
+    if (this._cache) {
+      this._cache = this._cache.reverse();
+    }
     return this.update(ptrs)
   };
 
@@ -1541,10 +1535,10 @@
   };
   var harden$1 = { harden, soften };
 
-  const methods$g = Object.assign({}, caseFns, insert$1, replace, remove, whitespace$1, sort$1, concat, harden$1);
+  const methods$h = Object.assign({}, caseFns, insert$1, replace, remove, whitespace, sort$1, concat, harden$1);
 
   const addAPI$2 = function (View) {
-    Object.assign(View.prototype, methods$g);
+    Object.assign(View.prototype, methods$h);
   };
   var api$f = addAPI$2;
 
@@ -1793,6 +1787,34 @@
   };
   var numberRange$1 = numberRange;
 
+  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/i;
+
+  const notUnit = new Set([
+    'st',
+    'nd',
+    'rd',
+    'th',
+    'am',
+    'pm',
+    'max'
+  ]);
+
+  const numberUnit = function (terms, i) {
+    let term = terms[i];
+    let parts = term.text.match(numUnit);
+    if (parts !== null) {
+      // is it a recognized unit, like 'km'?
+      let unit = parts[2].toLowerCase().trim();
+      // don't split '3rd'
+      if (notUnit.has(unit)) {
+        return null
+      }
+      return [parts[1], unit] //split it
+    }
+    return null
+  };
+  var numberUnit$1 = numberUnit;
+
   const byApostrophe = /'/;
   const numDash = /^[0-9][^-–—]*[-–—].*?[0-9]/;
 
@@ -1809,10 +1831,6 @@
       end += 1;
     }
     tmp.ptrs = [[0, start, end]];
-    tmp.compute('lexicon');
-    if (tmp.world.compute.preTagger) {
-      tmp.compute('preTagger');
-    }
   };
 
   const byEnd = {
@@ -1854,7 +1872,7 @@
 
   const toDocs = function (words, view) {
     let doc = view.fromText(words.join(' '));
-    doc.compute('id');
+    doc.compute(['id', 'alias']);
     return doc.docs[0]
   };
 
@@ -1863,6 +1881,7 @@
     let { world, document } = view;
     const { model, methods } = world;
     let list = model.one.contractions || [];
+    new Set(model.one.units || []);
     // each sentence
     document.forEach((terms, n) => {
       // loop through terms backwards
@@ -1898,10 +1917,18 @@
             methods.one.setTag(words, 'NumberRange', world);//add custom tag
             // is it a time-range, like '5-9pm'
             if (words[2] && words[2].tags.has('Time')) {
-              methods.one.setTag([words[0]], 'Time', world);
+              methods.one.setTag([words[0]], 'Time', world, null, 'time-range');
             }
             reTag(document[n], view, i, words.length);
           }
+          continue
+        }
+        // split-apart '4km'
+        words = numberUnit$1(terms, i);
+        if (words) {
+          words = toDocs(words, view);
+          splice(document, [n, i], words);
+          methods.one.setTag([words[1]], 'Unit', world, null, 'contraction-unit');
         }
       }
     });
@@ -2002,7 +2029,7 @@
 
   // tag any words in our lexicon - even if it hasn't been filled-up yet
   // rest of pre-tagger is in ./two/preTagger
-  const firstPass$1 = function (view) {
+  const lexicon$4 = function (view) {
     const world = view.world;
     view.docs.forEach(terms => {
       for (let i = 0; i < terms.length; i += 1) {
@@ -2017,7 +2044,7 @@
   };
 
   var compute$3 = {
-    lexicon: firstPass$1
+    lexicon: lexicon$4
   };
 
   // derive clever things from our lexicon key-value pairs
@@ -2026,12 +2053,12 @@
     let lex = {};
     // console.log('start:', Object.keys(lex).length)
     let _multi = {};
-
     // go through each word in this key-value obj:
     Object.keys(words).forEach(word => {
       let tag = words[word];
       // normalize lexicon a little bit
       word = word.toLowerCase().trim();
+      word = word.replace(/'s\b/, '');
       // cache multi-word terms
       let split = word.split(/ /);
       if (split.length > 1) {
@@ -2047,7 +2074,7 @@
   };
   var expandLexicon = expand$1;
 
-  var methods$f = {
+  var methods$g = {
     one: {
       expandLexicon,
     }
@@ -2094,7 +2121,7 @@
 
   var lexicon$3 = {
     model: model$5,
-    methods: methods$f,
+    methods: methods$g,
     compute: compute$3,
     lib: lib$5,
     hooks: ['lexicon']
@@ -2290,11 +2317,13 @@
   /** pre-compile a list of matches to lookup */
   const lib$4 = {
     /** turn an array or object into a compressed trie*/
-    compile: function (input) {
+    buildTrie: function (input) {
       const trie = build(input, this.world());
       return compress$1(trie)
     }
   };
+  // add alias
+  lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
     api: api$e,
@@ -2348,6 +2377,19 @@
   //   return false
   // }
 
+  const parseRegs = function (regs, opts, world) {
+    const one = world.methods.one;
+    if (typeof regs === 'number') {
+      regs = String(regs);
+    }
+    // support param as string
+    if (typeof regs === 'string') {
+      regs = one.killUnicode(regs, world);
+      regs = one.parseMatch(regs, opts, world);
+    }
+    return regs
+  };
+
   const match$2 = function (regs, group, opts) {
     const one = this.methods.one;
     // support param as view object
@@ -2358,25 +2400,12 @@
     if (isNet(regs)) {
       return this.sweep(regs, { tagger: false }).view.settle()
     }
-    // support param as string
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group };
     let res = one.match(this.docs, todo, this._cache);
     let { ptrs, byGroup } = fixPointers(res, this.fullPointer);
     let view = this.toView(ptrs);
     view._groups = byGroup;
-    // try to keep some of the cache
-    // if (this._cache) {
-    //   view._cache = view.ptrs.map(ptr => {
-    //     if (isFull(ptr, this.document)) {
-    //       return this._cache[ptr[0]]
-    //     }
-    //     return null
-    //   })
-    // }
     return view
   };
 
@@ -2390,10 +2419,7 @@
     if (isNet(regs)) {
       return this.sweep(regs, { tagger: false, matchOne: true }).view
     }
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
     let res = one.match(this.docs, todo, this._cache);
     let { ptrs, byGroup } = fixPointers(res, this.fullPointer);
@@ -2413,10 +2439,7 @@
     if (isNet(regs)) {
       return this.sweep(regs, { tagger: false }).view.found
     }
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
     let ptrs = one.match(this.docs, todo, this._cache).ptrs;
     return ptrs.length > 0
@@ -2434,10 +2457,7 @@
       let m = this.sweep(regs, { tagger: false }).view.settle();
       return this.if(m)//recurse with result
     }
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
     let ptrs = this.fullPointer;
     let cache = this._cache || [];
@@ -2467,10 +2487,7 @@
       return this.ifNo(m)
     }
     // otherwise parse the match string
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let cache = this._cache || [];
     let view = this.filter((m, i) => {
       let todo = { regs, group, justOne: true };
@@ -2593,9 +2610,9 @@
     return ptr
   };
 
-  const methods$e = {};
+  const methods$f = {};
   // [before], [match], [after]
-  methods$e.splitOn = function (m, group) {
+  methods$f.splitOn = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -2612,7 +2629,7 @@
   };
 
   // [before], [match after]
-  methods$e.splitBefore = function (m, group) {
+  methods$f.splitBefore = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -2634,7 +2651,7 @@
   };
 
   // [before match], [after]
-  methods$e.splitAfter = function (m, group) {
+  methods$f.splitAfter = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -2653,21 +2670,21 @@
     res = res.map(p => addIds$1(p, this));
     return this.update(res)
   };
-  methods$e.split = methods$e.splitAfter;
+  methods$f.split = methods$f.splitAfter;
 
-  var split$1 = methods$e;
+  var split$1 = methods$f;
 
-  const methods$d = Object.assign({}, match$3, lookaround, split$1);
+  const methods$e = Object.assign({}, match$3, lookaround, split$1);
   // aliases
-  methods$d.lookBehind = methods$d.before;
-  methods$d.lookBefore = methods$d.before;
+  methods$e.lookBehind = methods$e.before;
+  methods$e.lookBefore = methods$e.before;
 
-  methods$d.lookAhead = methods$d.after;
-  methods$d.lookAfter = methods$d.after;
+  methods$e.lookAhead = methods$e.after;
+  methods$e.lookAfter = methods$e.after;
 
-  methods$d.notIf = methods$d.ifNo;
+  methods$e.notIf = methods$e.ifNo;
   const matchAPI = function (View) {
-    Object.assign(View.prototype, methods$d);
+    Object.assign(View.prototype, methods$e);
   };
   var api$d = matchAPI;
 
@@ -2849,14 +2866,24 @@
         return obj
       }
 
-      //machine/sense overloaded
+      //root/sense overloaded
       if (start(w) === '{' && end(w) === '}') {
         w = stripBoth(w);
+        obj.id = w;
+        obj.root = w;
         if (/\//.test(w)) {
-          obj.sense = w;
-          obj.greedy = true;
-        } else {
-          obj.machine = w;
+          let split = obj.root.split(/\//);
+          obj.root = split[0];
+          obj.pos = split[1];
+          if (obj.pos === 'adj') {
+            obj.pos = 'Adjective';
+          }
+          // titlecase
+          obj.pos = obj.pos.charAt(0).toUpperCase() + obj.pos.substr(1).toLowerCase();
+          // add sense-number too
+          if (split[2] !== undefined) {
+            obj.num = split[2];
+          }
         }
         return obj
       }
@@ -2964,6 +2991,76 @@
     return regs
   };
   var splitHyphens$2 = splitHyphens$1;
+
+  const addVerbs = function (token, world) {
+    let { verbConjugate } = world.methods.two.transform;
+    if (!verbConjugate) {
+      return []
+    }
+    let res = verbConjugate(token.root, world.model);
+    delete res.FutureTense;
+    return Object.values(res).filter(str => str)
+  };
+
+  const addNoun = function (token, world) {
+    let { nounToPlural } = world.methods.two.transform;
+    let res = [token.root];
+    if (!nounToPlural) {
+      return res
+    }
+    res.push(nounToPlural(token.root, world.model));
+    return res
+  };
+
+  const addAdjective = function (token, world) {
+    let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
+    let res = [token.root];
+    if (!adjToSuperlative || !adjToComparative || !adjToAdverb) {
+      return res
+    }
+    res.push(adjToSuperlative(token.root, world.model));
+    res.push(adjToComparative(token.root, world.model));
+    res.push(adjToAdverb(token.root, world.model));
+    return res
+  };
+
+  // turn '{walk}' into 'walking', 'walked', etc
+  const inflectRoot = function (regs, world) {
+    // do we have compromise/two?
+    regs = regs.map(token => {
+      // a reg to convert '{foo}'
+      if (token.root) {
+        // check if compromise/two is loaded
+        if (world.methods.two && world.methods.two.transform && world.methods.two.transform.verbConjugate) {
+          let choices = [];
+          if (!token.pos || token.pos === 'Verb') {
+            choices = choices.concat(addVerbs(token, world));
+          }
+          if (!token.pos || token.pos === 'Noun') {
+            choices = choices.concat(addNoun(token, world));
+          }
+          // don't run these by default
+          if (!token.pos || token.pos === 'Adjective') {
+            choices = choices.concat(addAdjective(token, world));
+          }
+          choices = choices.filter(str => str);
+          if (choices.length > 0) {
+            token.operator = 'or';
+            token.fastOr = new Set(choices);
+          }
+        } else {
+          // if no compromise/two, drop down into 'machine' lookup
+          token.machine = token.root;
+          delete token.id;
+          delete token.root;
+        }
+      }
+      return token
+    });
+
+    return regs
+  };
+  var inflectRoot$1 = inflectRoot;
 
   // name any [unnamed] capture-groups with a number
   const nameGroups = function (regs) {
@@ -3073,6 +3170,8 @@
     tokens = tokens.map(str => parseToken$1(str, opts));
     // '~re-do~'
     tokens = splitHyphens$2(tokens, world);
+    // '{walk}'
+    tokens = inflectRoot$1(tokens, world);
     //clean up anything weird
     tokens = postProcess$1(tokens);
     // console.log(tokens)
@@ -3200,7 +3299,7 @@
   /** search the term's 'pre' punctuation  */
   const hasPre = (term, punct) => term.pre.indexOf(punct) !== -1;
 
-  const methods$c = {
+  const methods$d = {
     /** does it have a quotation symbol?  */
     hasQuote: term => startQuote.test(term.pre) || endQuote.test(term.post),
     /** does it have a comma?  */
@@ -3233,9 +3332,9 @@
     isUpperCase: term => /^\p{Lu}+$/u.test(term.text),
   };
   // aliases
-  methods$c.hasQuotation = methods$c.hasQuote;
+  methods$d.hasQuotation = methods$d.hasQuote;
 
-  var termMethods = methods$c;
+  var termMethods = methods$d;
 
   //declare it up here
   let wrapMatch = function () { };
@@ -3328,6 +3427,10 @@
     }
     // support optimized (one|two)
     if (reg.fastOr !== undefined) {
+      // {work/verb} must be a verb
+      if (reg.pos && !term.tags.has(reg.pos)) {
+        return null
+      }
       return reg.fastOr.has(term.implicit) || reg.fastOr.has(term.normal) || reg.fastOr.has(term.text) || reg.fastOr.has(term.machine)
     }
     //support slower (one|two)
@@ -3598,12 +3701,40 @@
   const doNegative = function (state) {
     const { regs } = state;
     let reg = regs[state.r];
+
+
+
+    // match *anything* but this term
     let tmpReg = Object.assign({}, reg);
     tmpReg.negative = false; // try removing it
-    let foundNeg = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
-    if (foundNeg === true) {
-      return null //bye!
+    let found = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
+    if (found) {
+      return false//die
     }
+
+    // should we skip the term too?
+    // "before after"
+    //  match("before !foo? after")
+    if (reg.optional) {
+      // does the next reg match the this term?
+      let nextReg = regs[state.r + 1];
+      if (nextReg) {
+        let fNext = matchTerm(state.terms[state.t], nextReg, state.start_i + state.t, state.phrase_length);
+        if (fNext) {
+          state.r += 1;
+        } else if (nextReg.optional && regs[state.r + 2]) {
+          // ugh. ok,
+          // support "!foo? extra? need"
+          // but don't scan ahead more than that.
+          let fNext2 = matchTerm(state.terms[state.t], regs[state.r + 2], state.start_i + state.t, state.phrase_length);
+          if (fNext2) {
+            state.r += 2;
+          }
+        }
+      }
+    }
+
+    state.t += 1;
     return true
   };
   var doNegative$1 = doNegative;
@@ -3735,6 +3866,7 @@
    * starting at this certain term.
    */
   const tryHere = function (terms, regs, start_i, phrase_length) {
+    // console.log(`\n\n:start: '${terms[0].text}':`)
     if (terms.length === 0 || regs.length === 0) {
       return null
     }
@@ -3797,6 +3929,10 @@
       }
       // support '.' as any-single
       if (reg.anything === true) {
+        // '!.' negative anything should insta-fail
+        if (reg.negative && reg.anything) {
+          return null
+        }
         let alive = simpleMatch$1(state);
         if (!alive) {
           return null
@@ -3811,7 +3947,17 @@
         }
         continue
       }
+      // ok, it doesn't match - but maybe it wasn't *supposed* to?
+      if (reg.negative) {
+        // we want *anything* but this term
+        let alive = doNegative$1(state);
+        if (!alive) {
+          return null
+        }
+        continue
+      }
       // ok, finally test the term-reg
+      // console.log('   - ' + state.terms[state.t].text)
       let hasMatch = matchTerm(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length);
       if (hasMatch === true) {
         let alive = simpleMatch$1(state);
@@ -3820,13 +3966,8 @@
         }
         continue
       }
-      // ok, it doesn't match - but maybe it wasn't *supposed* to?
-      if (reg.negative) {
-        let alive = doNegative$1(state);
-        if (!alive) {
-          return null
-        }
-      }
+      // console.log('=-=-=-= here -=-=-=-')
+
       //ok who cares, keep going
       if (reg.optional === true) {
         continue
@@ -3968,7 +4109,7 @@
 
   var match$1 = runMatch$2;
 
-  const methods$a = {
+  const methods$b = {
     one: {
       termMethods,
       parseMatch,
@@ -3976,7 +4117,7 @@
     },
   };
 
-  var methods$b = methods$a;
+  var methods$c = methods$b;
 
   var lib$3 = {
     /** pre-parse any match statements */
@@ -3992,7 +4133,7 @@
 
   var match = {
     api: api$d,
-    methods: methods$b,
+    methods: methods$c,
     lib: lib$3,
   };
 
@@ -4343,7 +4484,7 @@
   };
 
 
-  const methods$9 = {
+  const methods$a = {
     /** return data */
     json: function (n) {
       let res = toJSON(this, n);
@@ -4353,8 +4494,8 @@
       return res
     },
   };
-  methods$9.data = methods$9.json;
-  var json = methods$9;
+  methods$a.data = methods$a.json;
+  var json = methods$a;
 
   /* eslint-disable no-console */
   const logClientSide = function (view) {
@@ -4601,6 +4742,9 @@
     if (method === 'normal') {
       return this.text('normal')
     }
+    if (method === 'root') {
+      return this.text('root')
+    }
     if (method === 'machine' || method === 'reduced') {
       return this.text('machine')
     }
@@ -4655,14 +4799,14 @@
     return this.text()
   };
 
-  const methods$8 = {
+  const methods$9 = {
     /** */
     debug: debug$1,
     /** */
     out: out,
   };
 
-  var out$1 = methods$8;
+  var out$1 = methods$9;
 
   const isObject$1 = val => {
     return Object.prototype.toString.call(val) === '[object Object]'
@@ -4695,10 +4839,10 @@
     },
   };
 
-  const methods$7 = Object.assign({}, out$1, text, json, html$1);
+  const methods$8 = Object.assign({}, out$1, text, json, html$1);
 
   const addAPI$1 = function (View) {
-    Object.assign(View.prototype, methods$7);
+    Object.assign(View.prototype, methods$8);
   };
   var api$c = addAPI$1;
 
@@ -4934,7 +5078,7 @@
     return arr
   };
 
-  var methods$6 = {
+  var methods$7 = {
     one: {
       termList,
       getDoc: getDoc$2,
@@ -5064,19 +5208,19 @@
     })
   };
 
-  const methods$5 = {};
+  const methods$6 = {};
 
   // all parts, minus duplicates
-  methods$5.union = function (m) {
+  methods$6.union = function (m) {
     m = getDoc(m, this);
     let ptrs = getUnion$1(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
-  methods$5.and = methods$5.union;
+  methods$6.and = methods$6.union;
 
   // only parts they both have
-  methods$5.intersection = function (m) {
+  methods$6.intersection = function (m) {
     m = getDoc(m, this);
     let ptrs = getIntersection$1(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
@@ -5084,16 +5228,16 @@
   };
 
   // only parts of a that b does not have
-  methods$5.not = function (m) {
+  methods$6.not = function (m) {
     m = getDoc(m, this);
     let ptrs = getDifference(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
-  methods$5.difference = methods$5.not;
+  methods$6.difference = methods$6.not;
 
   // get opposite of a
-  methods$5.complement = function () {
+  methods$6.complement = function () {
     let doc = this.all();
     let ptrs = getDifference(doc.fullPointer, this.fullPointer);
     ptrs = addIds(ptrs, this.document);
@@ -5101,7 +5245,7 @@
   };
 
   // remove overlaps
-  methods$5.settle = function () {
+  methods$6.settle = function () {
     let ptrs = this.fullPointer;
     ptrs.forEach(ptr => {
       ptrs = getUnion$1(ptrs, [ptr]);
@@ -5113,12 +5257,12 @@
 
   const addAPI = function (View) {
     // add set/intersection/union
-    Object.assign(View.prototype, methods$5);
+    Object.assign(View.prototype, methods$6);
   };
   var api$b = addAPI;
 
   var pointers = {
-    methods: methods$6,
+    methods: methods$7,
     api: api$b,
   };
 
@@ -5240,7 +5384,7 @@
     return { wants, count }
   };
 
-  const parse$1 = function (matches, world) {
+  const parse$2 = function (matches, world) {
     const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
       obj.regs = parseMatch(obj.match, {}, world);
@@ -5259,12 +5403,12 @@
     return matches
   };
 
-  var parse$2 = parse$1;
+  var parse$3 = parse$2;
 
   // do some indexing on the list of matches
-  const compile = function (matches, world) {
+  const buildNet = function (matches, world) {
     // turn match-syntax into json
-    matches = parse$2(matches, world);
+    matches = parse$3(matches, world);
 
     // collect by wants and needs
     let hooks = {};
@@ -5300,7 +5444,7 @@
     }
   };
 
-  var buildNet = compile;
+  var buildNet$1 = buildNet;
 
   // for each cached-sentence, find a list of possible matches
   const getHooks = function (docCaches, hooks) {
@@ -5444,7 +5588,7 @@
   };
   var canBe$1 = canBe;
 
-  const tagger$2 = function (list, document, world) {
+  const tagger$1 = function (list, document, world) {
     const { model, methods } = world;
     const { getDoc, setTag, unTag } = methods.one;
     if (list.length === 0) {
@@ -5456,7 +5600,7 @@
       console.log(`\n\n  \x1b[32m→ ${list.length} post-tagger:\x1b[0m`); //eslint-disable-line
     }
     return list.map(todo => {
-      if (!todo.tag && !todo.chunk) {
+      if (!todo.tag && !todo.chunk && !todo.unTag) {
         return
       }
       let reason = todo.reason || todo.match;
@@ -5490,10 +5634,10 @@
       }
     })
   };
-  var bulkTagger = tagger$2;
+  var bulkTagger = tagger$1;
 
-  var methods$4 = {
-    buildNet,
+  var methods$5 = {
+    buildNet: buildNet$1,
     bulkMatch,
     bulkTagger
   };
@@ -5502,7 +5646,7 @@
     lib: lib$2,
     api: api$a,
     methods: {
-      one: methods$4,
+      one: methods$5,
     }
   };
 
@@ -5549,7 +5693,7 @@
     }
     // finally, add our tag
     term.tags.add(tag);
-    // now it's dirty
+    // now it's dirty?
     term.dirty = true;
     // add a chunk too, if it's easy
     addChunk(term, tag);
@@ -5797,7 +5941,7 @@
   };
   var addTags$2 = addTags$1;
 
-  var methods$3 = {
+  var methods$4 = {
     one: {
       setTag: setTag$1,
       unTag: unTag$1,
@@ -5943,13 +6087,17 @@
     compute: {
       tagRank: tagRank$3
     },
-    methods: methods$3,
+    methods: methods$4,
     api: api$8,
     lib: lib$1
   };
 
-  const initSplit = /(\S.+?[.!?\u203D\u2E18\u203C\u2047-\u2049])(?=\s|$)/g; //!TODO: speedup this regex
+  // split by periods, question marks, unicode ⁇, etc
+  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049]+\s)/g;
+  // merge these back into prev sentence
+  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049]+\s$/;
   const newLine = /((?:\r?\n|\r)+)/; // Match different new-line formats
+
   // Start with a regex:
   const basicSplit = function (text) {
     let all = [];
@@ -5959,76 +6107,32 @@
       //split by period, question-mark, and exclamation-mark
       let arr = lines[i].split(initSplit);
       for (let o = 0; o < arr.length; o++) {
-        all.push(arr[o]);
+        // merge 'foo' + '.'
+        if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
+          arr[o] += arr[o + 1];
+          arr[o + 1] = '';
+        }
+        if (arr[o] !== '') {
+          all.push(arr[o]);
+        }
       }
     }
     return all
   };
-  var basicSplit$1 = basicSplit;
+  var simpleSplit = basicSplit;
 
-  const isAcronym$2 = /[ .][A-Z]\.? *$/i;
-  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
-  const hasLetter$1 = /\p{L}/u;
+  const hasLetter$1 = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
+  const hasSomething$1 = /\S/;
 
-  /** does this look like a sentence? */
-  const isSentence = function (str, abbrevs) {
-    // must have a letter
-    if (hasLetter$1.test(str) === false) {
-      return false
-    }
-    // check for 'F.B.I.'
-    if (isAcronym$2.test(str) === true) {
-      return false
-    }
-    //check for '...'
-    if (hasEllipse.test(str) === true) {
-      return false
-    }
-    let txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
-    let words = txt.split(' ');
-    let lastWord = words[words.length - 1].toLowerCase();
-    // check for 'Mr.'
-    if (abbrevs.hasOwnProperty(lastWord) === true) {
-      return false
-    }
-    // //check for jeopardy!
-    // if (blacklist.hasOwnProperty(lastWord)) {
-    //   return false
-    // }
-    return true
-  };
-  var isSentence$1 = isSentence;
-
-  //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
-  // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
-  //regs-
-  const hasSomething = /\S/;
-  const startWhitespace = /^\s+/;
-  const hasLetter = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
-
-  const splitSentences = function (text, model) {
-    let abbrevs = model.one.abbreviations || new Set();
-    text = text || '';
-    text = String(text);
-    let sentences = [];
-    // First do a greedy-split..
+  const notEmpty = function (splits) {
     let chunks = [];
-    // Ensure it 'smells like' a sentence
-    if (!text || typeof text !== 'string' || hasSomething.test(text) === false) {
-      return sentences
-    }
-    // cleanup unicode-spaces
-    text = text.replace('\xa0', ' ');
-    // Start somewhere:
-    let splits = basicSplit$1(text);
-    // Filter-out the crap ones
     for (let i = 0; i < splits.length; i++) {
       let s = splits[i];
       if (s === undefined || s === '') {
         continue
       }
       //this is meaningful whitespace
-      if (hasSomething.test(s) === false || hasLetter.test(s) === false) {
+      if (hasSomething$1.test(s) === false || hasLetter$1.test(s) === false) {
         //add it to the last one
         if (chunks[chunks.length - 1]) {
           chunks[chunks.length - 1] += s;
@@ -6042,12 +6146,20 @@
       //else, only whitespace, no terms, no sentence
       chunks.push(s);
     }
-    //detection of non-sentence chunks:
-    //loop through these chunks, and join the non-sentence chunks back together..
+    return chunks
+  };
+  var simpleMerge = notEmpty;
+
+  //loop through these chunks, and join the non-sentence chunks back together..
+  const smartMerge = function (chunks, world) {
+    const isSentence = world.methods.one.tokenize.isSentence;
+    const abbrevs = world.model.one.abbreviations || new Set();
+
+    let sentences = [];
     for (let i = 0; i < chunks.length; i++) {
       let c = chunks[i];
       //should this chunk be combined with the next one?
-      if (chunks[i + 1] && isSentence$1(c, abbrevs) === false) {
+      if (chunks[i + 1] && isSentence(c, abbrevs) === false) {
         chunks[i + 1] = c + (chunks[i + 1] || '');
       } else if (c && c.length > 0) {
         //this chunk is a proper sentence..
@@ -6055,6 +6167,143 @@
         chunks[i] = '';
       }
     }
+    return sentences
+  };
+  var smartMerge$1 = smartMerge;
+
+  // merge embedded quotes into 1 sentence
+  // like - 'he said "no!" and left.' 
+  const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
+
+  // don't support single-quotes for multi-sentences
+  const pairs = {
+    '\u0022': '\u0022', // 'StraightDoubleQuotes'
+    '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
+    // '\u0027': '\u0027', // 'StraightSingleQuotes'
+    '\u201C': '\u201D', // 'CommaDoubleQuotes'
+    // '\u2018': '\u2019', // 'CommaSingleQuotes'
+    '\u201F': '\u201D', // 'CurlyDoubleQuotesReversed'
+    // '\u201B': '\u2019', // 'CurlySingleQuotesReversed'
+    '\u201E': '\u201D', // 'LowCurlyDoubleQuotes'
+    '\u2E42': '\u201D', // 'LowCurlyDoubleQuotesReversed'
+    '\u201A': '\u2019', // 'LowCurlySingleQuotes'
+    '\u00AB': '\u00BB', // 'AngleDoubleQuotes'
+    '\u2039': '\u203A', // 'AngleSingleQuotes'
+    '\u2035': '\u2032', // 'PrimeSingleQuotes'
+    '\u2036': '\u2033', // 'PrimeDoubleQuotes'
+    '\u2037': '\u2034', // 'PrimeTripleQuotes'
+    '\u301D': '\u301E', // 'PrimeDoubleQuotes'
+    // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
+    '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+  };
+  const openQuote = RegExp('(' + Object.keys(pairs).join('|') + ')', 'g');
+  const closeQuote = RegExp('(' + Object.values(pairs).join('|') + ')', 'g');
+
+  const closesQuote = function (str) {
+    if (!str) {
+      return false
+    }
+    let m = str.match(closeQuote);
+    if (m !== null && m.length === 1) {
+      return true
+    }
+    return false
+  };
+
+  // allow micro-sentences when inside a quotation, like:
+  // the doc said "no sir. i will not beg" and walked away.
+  const quoteMerge = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      // do we have an open-quote and not a closed one?
+      let m = split.match(openQuote);
+      if (m !== null && m.length === 1) {
+
+        // look at the next sentence for a closing quote,
+        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
+          splits[i] += splits[i + 1];// merge them
+          arr.push(splits[i]);
+          splits[i + 1] = '';
+          i += 1;
+          continue
+        }
+        // look at n+2 for a closing quote,
+        if (closesQuote(splits[i + 2])) {
+          let toAdd = splits[i + 1] + splits[i + 2];// merge them all
+          //make sure it's not too-long
+          if (toAdd.length < MAX_QUOTE) {
+            splits[i] += toAdd;
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            splits[i + 2] = '';
+            i += 2;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var quoteMerge$1 = quoteMerge;
+
+  const MAX_LEN = 250;// ¯\_(ツ)_/¯
+
+  // support unicode variants?
+  // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
+  const hasOpen = /\(/g;
+  const hasClosed = /\)/g;
+  const mergeParens = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      let m = split.match(hasOpen);
+      if (m !== null && m.length === 1) {
+        // look at next sentence, for closing parenthesis
+        if (splits[i + 1] && splits[i + 1].length < MAX_LEN) {
+          let m2 = splits[i + 1].match(hasClosed);
+          if (m2 !== null && m.length === 1 && !hasOpen.test(splits[i + 1])) {
+            // merge in 2nd sentence
+            splits[i] += splits[i + 1];
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            i += 1;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var parensMerge = mergeParens;
+
+  //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
+  // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
+  //regs-
+  const hasSomething = /\S/;
+  const startWhitespace = /^\s+/;
+
+  const splitSentences = function (text, world) {
+    text = text || '';
+    text = String(text);
+    // Ensure it 'smells like' a sentence
+    if (!text || typeof text !== 'string' || hasSomething.test(text) === false) {
+      return []
+    }
+    // cleanup unicode-spaces
+    text = text.replace('\xa0', ' ');
+    // First do a greedy-split..
+    let splits = simpleSplit(text);
+    // Filter-out the crap ones
+    let sentences = simpleMerge(splits);
+    //detection of non-sentence chunks:
+    sentences = smartMerge$1(sentences, world);
+    // allow 'he said "no sir." and left.'
+    sentences = quoteMerge$1(sentences);
+    // allow 'i thought (no way!) and left.'
+    sentences = parensMerge(sentences);
     //if we never got a sentence, return the given text
     if (sentences.length === 0) {
       return [text]
@@ -6070,7 +6319,7 @@
     }
     return sentences
   };
-  var sentence = splitSentences;
+  var splitSentences$1 = splitSentences;
 
   const hasHyphen = function (str, model) {
     let parts = str.split(/[-–—]/);
@@ -6218,40 +6467,62 @@
     result = result.filter(s => s);
     return result
   };
-  var term = splitWords;
+  var splitTerms = splitWords;
+
+  const allowBefore = [
+    '#', //#hastag
+    '@', //@atmention
+    '_',//underscore
+    '\\-',//-4  (escape)
+    '+',//+4
+    '.',//.4
+  ];
+  const allowAfter = [
+    '%',//88%
+    '_',//underscore
+    // '\'',// \u0027
+  ];
 
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
+  let beforeReg = new RegExp(`[${allowBefore.join('')}]+$`, '');
+  let afterReg = new RegExp(`^[${allowAfter.join('')}]+`, '');
+
   //we have slightly different rules for start/end - like #hashtags.
-  const startings =
-    /^[ \n\t.[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*•^†‡°¡¿※№÷×ºª%‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u0027\u201C\u201F\u201B\u201E\u2E42\u201A\u2035\u2036\u2037\u301D\u0060\u301F]+/;
-  const endings =
-    /[ \n\t.'[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*@•^†‡°¡¿※#№÷×ºª‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u201D\u00B4\u301E]+$/;
+  const endings = /[\p{Punctuation}\s]+$/u;
+  const startings = /^[\p{Punctuation}\s]+/u;
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
-  const minusNumber = /^[-+.][0-9]/;
   const shortYear = /^'[0-9]{2}/;
 
   const normalizePunctuation = function (str) {
     let original = str;
     let pre = '';
     let post = '';
-    // number cleanups
+    // adhoc cleanup for pre
     str = str.replace(startings, found => {
-      pre = found;
-      // support '-40'
-      if ((pre === '-' || pre === '+' || pre === '.') && minusNumber.test(str)) {
-        pre = '';
-        return found
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(beforeReg);
+      if (m) {
+        pre = found.replace(beforeReg, '');
+        return m
       }
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
         return found
       }
+      pre = found; //keep it
       return ''
     });
+    // ad-hoc cleanup for post 
     str = str.replace(endings, found => {
-      post = found;
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(afterReg);
+      if (m) {
+        post = found.replace(afterReg, '');
+        return m
+      }
+
       // keep s-apostrophe - "flanders'" or "chillin'"
       if (hasApostrophe$1.test(found) && /[sn]['’]$/.test(original) && hasApostrophe$1.test(pre) === false) {
         post = post.replace(hasApostrophe$1, '');
@@ -6259,9 +6530,10 @@
       }
       //keep end-period in acronym
       if (hasAcronym.test(str) === true) {
-        post = post.replace(/\./, '');
+        post = found.replace(/^\./, '');
         return '.'
       }
+      post = found;//keep it
       return ''
     });
     //we went too far..
@@ -6289,7 +6561,21 @@
     };
     return parsed
   };
-  var whitespace = parseTerm;
+  var splitWhitespace = parseTerm;
+
+  // 'Björk' to 'Bjork'.
+  const killUnicode = function (str, world) {
+    const unicode = world.model.one.unicode || {};
+    str = str || '';
+    let chars = str.split('');
+    chars.forEach((s, i) => {
+      if (unicode[s]) {
+        chars[i] = unicode[s];
+      }
+    });
+    return chars.join('')
+  };
+  var killUnicode$1 = killUnicode;
 
   /** some basic operations on a string to reduce noise */
   const clean = function (str) {
@@ -6329,7 +6615,7 @@
   const noPeriodAcronym$1 = /[A-Z]{2,}('s|,)?$/;
   const lowerCaseAcronym$1 = /([a-z]\.)+[a-z]\.?$/;
 
-  const isAcronym$1 = function (str) {
+  const isAcronym$2 = function (str) {
     //like N.D.A
     if (periodAcronym$1.test(str) === true) {
       return true
@@ -6350,7 +6636,7 @@
   };
 
   const doAcronym = function (str) {
-    if (isAcronym$1(str)) {
+    if (isAcronym$2(str)) {
       str = str.replace(/\./g, '');
     }
     return str
@@ -6369,27 +6655,13 @@
   };
   var normal = normalize;
 
-  // 'Björk' to 'Bjork'.
-  const killUnicode = function (str, world) {
-    const unicode = world.model.one.unicode || {};
-    str = str || '';
-    let chars = str.split('');
-    chars.forEach((s, i) => {
-      if (unicode[s]) {
-        chars[i] = unicode[s];
-      }
-    });
-    return chars.join('')
-  };
-  var killUnicode$1 = killUnicode;
-
   // turn a string input into a 'document' json format
-  const fromString = function (input, world) {
+  const parse$1 = function (input, world) {
     const { methods, model } = world;
     const { splitSentences, splitTerms, splitWhitespace } = methods.one.tokenize;
     input = input || '';
     // split into sentences
-    let sentences = splitSentences(input, model);
+    let sentences = splitSentences(input, world);
     // split into word objects
     input = sentences.map((txt) => {
       let terms = splitTerms(txt, model);
@@ -6403,14 +6675,54 @@
     });
     return input
   };
+  var fromString = parse$1;
 
-  var methods$2 = {
+  const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
+  const hasEllipse = /(?:\u2026|\.{2,}) *$/; // '...'
+  const hasLetter = /\p{L}/u;
+  const leadInit = /^[A-Z]\. $/; // "W. Kensington"
+
+  /** does this look like a sentence? */
+  const isSentence = function (str, abbrevs) {
+    // must have a letter
+    if (hasLetter.test(str) === false) {
+      return false
+    }
+    // check for 'F.B.I.'
+    if (isAcronym$1.test(str) === true) {
+      return false
+    }
+    // check for leading initial - "W. Kensington"
+    if (str.length === 3 && leadInit.test(str)) {
+      return false
+    }
+    //check for '...'
+    if (hasEllipse.test(str) === true) {
+      return false
+    }
+    let txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
+    let words = txt.split(' ');
+    let lastWord = words[words.length - 1].toLowerCase();
+    // check for 'Mr.'
+    if (abbrevs.hasOwnProperty(lastWord) === true) {
+      return false
+    }
+    // //check for jeopardy!
+    // if (blacklist.hasOwnProperty(lastWord)) {
+    //   return false
+    // }
+    return true
+  };
+  var isSentence$1 = isSentence;
+
+  var methods$3 = {
     one: {
       killUnicode: killUnicode$1,
       tokenize: {
-        splitSentences: sentence,
-        splitTerms: term,
-        splitWhitespace: whitespace,
+        splitSentences: splitSentences$1,
+        isSentence: isSentence$1,
+        splitTerms,
+        splitWhitespace,
         fromString,
       },
     },
@@ -6606,7 +6918,7 @@
     'dl',
     'ml',
     'gal',
-    'ft', //ambiguous
+    // 'ft', //ambiguous
     'qt',
     'pt',
     'tbl',
@@ -6635,13 +6947,12 @@
     'kmph', //kilometers per hour
     'kb', //kilobyte
     'mb', //megabyte
-    'gb', //ambig
+    // 'gb', //ambig
     'tb', //terabyte
     'lx', //lux
     'lm', //lumen
-    'pa', //ambig
+    // 'pa', //ambig
     'fl oz', //
-
     'yb',
   ];
 
@@ -6761,7 +7072,7 @@
     r: 'ŔŕŖŗŘřƦȐȑȒȓɌɍЃГЯгяѓҐґ',
     s: 'ŚśŜŝŞşŠšƧƨȘșȿЅѕ',
     t: 'ŢţŤťŦŧƫƬƭƮȚțȶȾΓΤτϮТт',
-    u: 'µÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųƯưƱƲǓǔǕǖǗǘǙǚǛǜȔȕȖȗɄΰμυϋύ',
+    u: 'ÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųƯưƱƲǓǔǕǖǗǘǙǚǛǜȔȕȖȗɄΰυϋύ',
     v: 'νѴѵѶѷ',
     w: 'ŴŵƜωώϖϢϣШЩшщѡѿ',
     x: '×ΧχϗϰХхҲҳӼӽӾӿ',
@@ -6795,7 +7106,7 @@
   // const hasApostrophe = /['’]s$/
 
   const addAliases = function (term, world) {
-    let str = term.normal || term.text;
+    let str = term.normal || term.text || term.machine;
     const aliases = world.model.one.aliases;
     // lookup known aliases like '&'
     if (aliases.hasOwnProperty(str)) {
@@ -6940,7 +7251,7 @@
     }
   };
 
-  const methods$1 = {
+  const methods$2 = {
     alias: (view) => termLoop(view, alias),
     machine: (view) => termLoop(view, machine),
     normal: (view) => termLoop(view, normal),
@@ -6949,11 +7260,11 @@
     index: index$1,
     wordCount: wordCount$1,
   };
-  var compute$1 = methods$1;
+  var compute$1 = methods$2;
 
   var tokenize$1 = {
     compute: compute$1,
-    methods: methods$2,
+    methods: methods$3,
     model: model$4,
     hooks: ['alias', 'machine', 'index', 'id'],
   };
@@ -7347,7 +7658,7 @@
   var reverse$1 = reverse;
 
   // generated in ./lib/models
-  var model$2 = {
+  var packed = {
     "noun": {
       "female": {
         "rules": "bbé|2esse,é|1e,fghan|5e,stillan|7e,opain|2ine,urtisan|7e,émon|4e,itan|4e,mportun|7e,usulman|7e,ersan|5e,exan|4e,in|2e,n|1ne,culteur|4rice,ssadeur|4rice,faiteur|4rice,ituteur|4rice,ocuteur|4rice,ajeur|5e,oir|3e,peaker|6ine,diteur|3rice,niteur|3rice,érieur|6e,cteur|2rice,ateur|2rice,er|ère,eur|2se,ndalou|6se,hou|3te,eau|1lle,u|1e,ll girl|2-girl,areil|5le,el|2le,l|1e,ane|2ard,ègre|égresse,oète|1étesse,e|1sse,hat|3te,et|2te,t|1e,and-duc|3e-duchesse,rec|3que,urc|2que,oup|2ve,ex shop|2-shop,f|ve,i|1e,d|1e",
@@ -7367,19 +7678,19 @@
     },
     "adjective": {
       "female": {
-        "rules": "ndalou|6se,eau|1lle,igu|3ë,u|1e,ouffeur|6se,routeur|6se,harmeur|6se,hanteur|5resse,lâneur|5se,uisseur|6se,ureteur|6se,utur|4e,agyar|5e,ajeur|5e,artyr|5e,eilleur|7e,ineur|5e,bscur|5e,ointeur|6se,orteur|5se,écheur|4resse,êveur|4se,rompeur|6se,engeur|4resse,reur|3se,tteur|4se,pur|3e,ûr|2e,ceur|3se,ueur|3se,deur|3se,ir|2e,cheur|4se,geur|3se,érieur|6e,leur|3se,teur|1rice,er|ère,ouffon|6ne,énin|3gne,aysan|5ne,olisson|7ne,saxon|5ne,ron|3ne,ignon|5ne,illon|5ne,chon|4ne,ton|3ne,en|2ne,n|1e,oulot|5te,ésuet|3ète,âlot|4te,eplet|3ète,ieillot|7te,complet|5ète,quiet|3ète,cret|2ète,et|2te,t|1e,ref|1ève,f|ve,êta|3sse,oi|2te,avori|5te,i|1e,û|ue,entil|5le,eil|3le,el|2le,l|1e,rec|3que,ublic|4que,urc|2que,anc|3he,nouï|4e,igolo|5te,aître|5sse,long|4ue,d|1e,é|1e",
+        "rules": "ndalou|6se,eau|1lle,igu|3ë,u|1e,ouffeur|6se,routeur|6se,harmeur|6se,hanteur|5resse,lâneur|5se,uisseur|6se,ureteur|6se,utur|4e,agyar|5e,ajeur|5e,artyr|5e,eilleur|7e,ineur|5e,bscur|5e,ointeur|6se,orteur|5se,écheur|4resse,êveur|4se,rompeur|6se,engeur|4resse,reur|3se,tteur|4se,pur|3e,ûr|2e,ceur|3se,ueur|3se,deur|3se,ir|2e,cheur|4se,geur|3se,érieur|6e,leur|3se,teur|1rice,er|ère,ouffon|6ne,énin|3gne,aysan|5ne,olisson|7ne,saxon|5ne,ron|3ne,ignon|5ne,illon|5ne,chon|4ne,ton|3ne,en|2ne,n|1e,oulot|5te,ésuet|3ète,âlot|4te,eplet|3ète,ieillot|7te,complet|5ète,quiet|3ète,cret|2ète,et|2te,t|1e,ref|1ève,f|ve,êta|3sse,oi|2te,avori|5te,i|1e,û|ue,entil|5le,eil|3le,el|2le,l|1e,rec|3que,ublic|4que,urc|2que,anc|3he,nouï|4e,digieux|6se,igolo|5te,aître|5sse,long|4ue,d|1e,é|1e",
         "exceptions": "bon|3ne,con|3ne,dur|3e,fou|2lle,malin|4gne,menteur|6se,sec|1èche,sot|3te,sur|3e,tout-puissant|4e-puissante,beau|2lle,coi|3te,dû|1ue",
-        "rev": "dalouse|5,rève|1ef,êtasse|3,avorite|5,olle|1u,recque|3,ucelle|3au,igolote|5,èche|ec,angelle|4au,anche|3,igne|1n,îtresse|4,longue|4,que|c,eresse|1ur,ète|et,tte|1,trice|1eur,euse|2r,ère|er,lle|1,nne|1,ve|f,e|,iguë|3"
+        "rev": "dalouse|5,rève|1ef,êtasse|3,avorite|5,olle|1u,recque|3,igieuse|5x,ucelle|3au,igolote|5,èche|ec,angelle|4au,anche|3,igne|1n,îtresse|4,longue|4,que|c,eresse|1ur,ète|et,tte|1,trice|1eur,euse|2r,ère|er,lle|1,nne|1,ve|f,e|,iguë|3"
       },
       "plural": {
-        "rules": "ancal|5s,orfal|5s,naval|5s,ol|2s,ul|2s,il|2s,el|2s,al|1ux,êta|3s,û|us,nouï|4s,igolo|5s,aître|5s,long|4s,eau|3x,u|1s,c|1s,d|1s,i|1s,f|1s,r|1s,n|1s,t|1s,é|1s",
+        "rules": "ancal|5s,orfal|5s,naval|5s,ol|2s,ul|2s,il|2s,el|2s,al|1ux,êta|3s,û|us,nouï|4s,digieux|7,igolo|5s,aître|5s,long|4s,eau|3x,u|1s,c|1s,d|1s,i|1s,f|1s,r|1s,n|1s,t|1s,é|1s",
         "exceptions": "fatal|5s,natal|5s,dû|1us",
-        "rev": "eaux|3,aux|1l,s|"
+        "rev": "digieux|7,eaux|3,aux|1l,s|"
       },
       "femalePlural": {
-        "rules": "ndalou|6ses,eau|1lles,igu|3ës,u|1es,ouffeur|6ses,routeur|6ses,harmeur|6ses,hanteur|5resses,lâneur|5ses,uisseur|6ses,ureteur|6ses,utur|4es,agyar|5es,ajeur|5es,artyr|5es,eilleur|7es,ineur|5es,bscur|5es,ointeur|6ses,orteur|5ses,écheur|4resses,êveur|4ses,rompeur|6ses,engeur|4resses,reur|3ses,tteur|4ses,pur|3es,ûr|2es,ceur|3ses,ueur|3ses,deur|3ses,ir|2es,cheur|4ses,geur|3ses,érieur|6es,leur|3ses,teur|1rices,er|ères,ouffon|6nes,énin|3gnes,aysan|5nes,olisson|7nes,saxon|5nes,ron|3nes,ignon|5nes,illon|5nes,chon|4nes,ton|3nes,en|2nes,n|1es,oulot|5tes,ésuet|3ètes,âlot|4tes,eplet|3ètes,ieillot|7tes,complet|5ètes,quiet|3ètes,cret|2ètes,et|2tes,t|1es,ref|1èves,f|ves,êta|3sses,oi|2tes,avori|5tes,i|1es,û|ues,entil|5les,eil|3les,el|2les,l|1es,rec|3ques,ublic|4ques,urc|2ques,anc|3hes,nouï|4es,igolo|5tes,aître|5sses,long|4ues,d|1es,é|1es",
+        "rules": "ndalou|6ses,eau|1lles,igu|3ës,u|1es,ouffeur|6ses,routeur|6ses,harmeur|6ses,hanteur|5resses,lâneur|5ses,uisseur|6ses,ureteur|6ses,utur|4es,agyar|5es,ajeur|5es,artyr|5es,eilleur|7es,ineur|5es,bscur|5es,ointeur|6ses,orteur|5ses,écheur|4resses,êveur|4ses,rompeur|6ses,engeur|4resses,reur|3ses,tteur|4ses,pur|3es,ûr|2es,ceur|3ses,ueur|3ses,deur|3ses,ir|2es,cheur|4ses,geur|3ses,érieur|6es,leur|3ses,teur|1rices,er|ères,ouffon|6nes,énin|3gnes,aysan|5nes,olisson|7nes,saxon|5nes,ron|3nes,ignon|5nes,illon|5nes,chon|4nes,ton|3nes,en|2nes,n|1es,oulot|5tes,ésuet|3ètes,âlot|4tes,eplet|3ètes,ieillot|7tes,complet|5ètes,quiet|3ètes,cret|2ètes,et|2tes,t|1es,ref|1èves,f|ves,êta|3sses,oi|2tes,avori|5tes,i|1es,û|ues,entil|5les,eil|3les,el|2les,l|1es,rec|3ques,ublic|4ques,urc|2ques,anc|3hes,nouï|4es,digieux|6ses,igolo|5tes,aître|5sses,long|4ues,d|1es,é|1es",
         "exceptions": "bon|3nes,con|3nes,dur|3es,fou|2lles,malin|4gnes,menteur|6ses,sec|1èches,sot|3tes,sur|3es,tout-puissant|4es-puissantes,beau|2lles,coi|3tes,dû|1ues",
-        "rev": "alouses|4,rèves|1ef,êtasses|3,vorites|4,olles|1u,recques|3,ucelles|3au,golotes|4,èches|ec,ngelles|3au,anches|3,ignes|1n,tresses|3,longues|4,ques|c,eresses|1ur,iguës|3,ètes|et,ttes|1,trices|1eur,euses|2r,ères|er,lles|1,nnes|1,ves|f,es|"
+        "rev": "alouses|4,rèves|1ef,êtasses|3,vorites|4,olles|1u,recques|3,gieuses|4x,ucelles|3au,golotes|4,èches|ec,ngelles|3au,anches|3,ignes|1n,tresses|3,longues|4,ques|c,eresses|1ur,iguës|3,ètes|et,ttes|1,trices|1eur,euses|2r,ères|er,lles|1,nnes|1,ves|f,es|"
       }
     },
     "futureTense": {
@@ -7455,49 +7766,110 @@
     },
     "presentTense": {
       "je": {
-        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,éder|ède,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,eborder|éborde,echirer|échire,emarrer|émarre,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5e,aïr|1is,uérir|1iers,saillir|5e,avoir|1is,ssener|2ène,inturer|2,elleter|5te,rturber|1,epartir|épartis,ieillir|2,oleter|4te,filtrer|1,illeter|,acturer|2,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,precier|2écie,ssieger|3ège,reer|1ée,rreter|2ête,eplacer|éplace,eresser|éresse,referer|1éfère,ucceder|3ède,eunir|éunis,eussir|éussis,cquerir|3iers,épartir|4s,ecer|èce,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ène,sentir|3s,vouloir|1eux,iliser|,iliter|,erer|ère,dormir|3s,ever|ève,courir|4s,ouvrir|4e,eler|2le,enir|iens,oyer|1ie,ir|1s,er|1,outre|2s,araitre|4s,epondre|éponds,vivre|2s,soudre|3s,ttre|1s,ître|is,indre|2s,re|s",
-        "exceptions": "geler|1èle,aller|vais,jeter|3te,montrer|4e,declencher|1éclenche,elancer|élance,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,servir|3s,croître|4s,être|suis,iendre|3s,desservir|6s,peler|1èle,resservir|6s,familiariser|3,ecouter|écoute,eclaircir|éclaircis,etablir|établis,reflechir|1éfléchis,ecrire|écris,eteindre|éteins,défaillir|4us,faillir|2ux,céder|1ède,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,savoir|2is,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,uire|2s,vivre|2s,vieillir|3,faciliter|3,nuire|3s,cuire|3s",
-        "rev": "apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,éborde|eborder,échire|echirer,émarre|emarrer,ffre|3ir,pprécie|3ecier,ssiège|3eger,rée|1eer,rrête|2eter,éplace|eplacer,téresse|1eresser,réfère|1eferer,uccède|3eder,èce|ecer,ille|3ir,telle|3er,lette|3er,velle|3er,celle|3er,appelle|5er,ète|eter,ère|erer,ève|ever,ène|ener,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,épartis|epartir,evis|3vre,oss|3iliser,nstruis|6re,nterdis|6re,éunis|eunir,éussis|eussir,cquiers|3erir,arais|4tre,éponds|epondre,ouris|4re,éfaus|3illir,lais|3re,sors|3tir,çois|cevoir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,sens|3tir,vaincs|5re,pars|3tir,dors|3mir,nais|2ître,sous|3dre,sers|3vir,duis|3re,cris|3re,omps|3re,clus|3re,cours|4ir,ts|1tre,iens|enir,ins|2dre,ds|1re,is|1r,ein|3turer,er|2turber,t|1iliser,xf|2iltrer,am|2iliariser,eu|2illeter,rac|3turer,ab|2iliter,vaux|2loir,veux|1ouloir"
+        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,éder|ède,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,eborder|éborde,echirer|échire,emarrer|émarre,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5e,aïr|1is,uérir|1iers,saillir|5e,ssener|2ène,inturer|2,elleter|5te,rturber|1,epartir|épartis,ieillir|2,oleter|4te,filtrer|1,illeter|,acturer|2,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,precier|2écie,ssieger|3ège,reer|1ée,rreter|2ête,eplacer|éplace,eresser|éresse,referer|1éfère,ucceder|3ède,eunir|éunis,eussir|éussis,cquerir|3iers,épartir|4s,ecer|èce,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ène,sentir|3s,vouloir|1eux,iliser|,iliter|,erer|ère,dormir|3s,ever|ève,courir|4s,ouvrir|4e,eler|2le,enir|iens,oyer|1ie,ir|1s,er|1,outre|2s,araitre|4s,epondre|éponds,vivre|2s,soudre|3s,ttre|1s,ître|is,indre|2s,re|s",
+        "exceptions": "être|suis,avoir|1i,geler|1èle,aller|vais,jeter|3te,montrer|4e,declencher|1éclenche,elancer|élance,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,savoir|2is,servir|3s,croître|4s,iendre|3s,desservir|6s,peler|1èle,resservir|6s,familiariser|3,ecouter|écoute,eclaircir|éclaircis,etablir|établis,reflechir|1éfléchis,ecrire|écris,eteindre|éteins,défaillir|4us,faillir|2ux,céder|1ède,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,uire|2s,vivre|2s,vieillir|3,faciliter|3,nuire|3s,cuire|3s",
+        "rev": "i|voir,apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,éborde|eborder,échire|echirer,émarre|emarrer,ffre|3ir,pprécie|3ecier,ssiège|3eger,rée|1eer,rrête|2eter,éplace|eplacer,téresse|1eresser,réfère|1eferer,uccède|3eder,èce|ecer,ille|3ir,telle|3er,lette|3er,velle|3er,celle|3er,appelle|5er,ète|eter,ère|erer,ève|ever,ène|ener,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,épartis|epartir,evis|3vre,oss|3iliser,nstruis|6re,nterdis|6re,éunis|eunir,éussis|eussir,cquiers|3erir,arais|4tre,éponds|epondre,ouris|4re,éfaus|3illir,lais|3re,sors|3tir,çois|cevoir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,sens|3tir,vaincs|5re,pars|3tir,dors|3mir,nais|2ître,sous|3dre,sers|3vir,duis|3re,cris|3re,omps|3re,clus|3re,cours|4ir,ts|1tre,iens|enir,ins|2dre,ds|1re,is|1r,ein|3turer,er|2turber,t|1iliser,xf|2iltrer,am|2iliariser,eu|2illeter,rac|3turer,ab|2iliter,vaux|2loir,veux|1ouloir"
       },
       "tu": {
-        "rules": "cheter|2ètes,apiécer|3èces,eser|èses,evrer|èvres,élébrer|2èbres,éder|èdes,brécher|2èches,égler|ègles,rotéger|3èges,théquer|2èques,ppuyer|3ies,eborder|ébordes,echirer|échires,emarrer|émarres,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5es,aïr|1is,uérir|1iers,saillir|5es,avoir|1is,ssener|2ènes,elleter|5tes,epartir|épartis,oleter|4tes,ureter|2ètes,aleter|2ètes,arteler|3èles,odeler|2èles,ffrir|3es,precier|2écies,ssieger|3èges,reer|1ées,rreter|2êtes,eplacer|éplaces,eresser|éresses,referer|1éfères,ucceder|3èdes,eunir|éunis,eussir|éussis,cquerir|3iers,épartir|4s,ecer|èces,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ènes,sentir|3s,vouloir|1eux,erer|ères,dormir|3s,ever|èves,courir|4s,ouvrir|4es,eler|2les,enir|iens,oyer|1ies,r|s,outre|2s,araitre|4s,epondre|éponds,soudre|3s,ivre|1s,ttre|1s,ître|is,indre|2s,re|s",
-        "exceptions": "geler|1èles,aller|vas,jeter|3tes,montrer|4es,declencher|1éclenches,elancer|élances,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,servir|3s,croître|4s,être|es,iendre|3s,desservir|6s,peler|1èles,peinturer|re,perturber|rbe,resservir|6s,utiliser|ise,exfiltrer|tre,faciliter|ite,familiariser|iarise,feuilleter|lette,ecouter|écoutes,eclaircir|éclaircis,etablir|établis,reflechir|1éfléchis,ecrire|écris,eteindre|éteins,défaillir|4us,faillir|2ux,céder|1èdes,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,savoir|2is,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,suivre|3s,uire|2s,vivre|2s,nuire|3s,cuire|3s",
+        "rules": "cheter|2ètes,apiécer|3èces,eser|èses,evrer|èvres,élébrer|2èbres,éder|èdes,brécher|2èches,égler|ègles,rotéger|3èges,théquer|2èques,ppuyer|3ies,eborder|ébordes,echirer|échires,emarrer|émarres,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5es,aïr|1is,uérir|1iers,saillir|5es,ssener|2ènes,elleter|5tes,epartir|épartis,oleter|4tes,ureter|2ètes,aleter|2ètes,arteler|3èles,odeler|2èles,ffrir|3es,precier|2écies,ssieger|3èges,reer|1ées,rreter|2êtes,eplacer|éplaces,eresser|éresses,referer|1éfères,ucceder|3èdes,eunir|éunis,eussir|éussis,cquerir|3iers,épartir|4s,ecer|èces,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ènes,sentir|3s,vouloir|1eux,erer|ères,dormir|3s,ever|èves,courir|4s,ouvrir|4es,eler|2les,enir|iens,oyer|1ies,r|s,outre|2s,araitre|4s,epondre|éponds,soudre|3s,ivre|1s,ttre|1s,ître|is,indre|2s,re|s",
+        "exceptions": "être|es,avoir|1s,geler|1èles,aller|vas,jeter|3tes,montrer|4es,declencher|1éclenches,elancer|élances,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,savoir|2is,servir|3s,croître|4s,iendre|3s,desservir|6s,peler|1èles,peinturer|re,perturber|rbe,resservir|6s,utiliser|ise,exfiltrer|tre,faciliter|ite,familiariser|iarise,feuilleter|lette,ecouter|écoutes,eclaircir|éclaircis,etablir|établis,reflechir|1éfléchis,ecrire|écris,eteindre|éteins,défaillir|4us,faillir|2ux,céder|1èdes,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,suivre|3s,uire|2s,vivre|2s,nuire|3s,cuire|3s",
         "rev": "apièces|3écer,èses|eser,èvres|evrer,élèbres|2ébrer,brèches|2écher,ègles|égler,rotèges|3éger,thèques|2équer,ppuies|3yer,ébordes|eborder,échires|echirer,émarres|emarrer,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,épartis|epartir,evis|3vre,nstruis|6re,nterdis|6re,ffres|3ir,précies|2ecier,ssièges|3eger,rées|1eer,rrêtes|2eter,éplaces|eplacer,éresses|eresser,réfères|1eferer,uccèdes|3eder,éunis|eunir,éussis|eussir,cquiers|3erir,arais|4tre,éponds|epondre,ouris|4re,éfaus|3illir,lais|3re,èces|ecer,sors|3tir,çois|cevoir,illes|3ir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,telles|3er,lettes|3er,velles|3er,sens|3tir,celles|3er,ppelles|4er,vaincs|5re,pars|3tir,ètes|eter,ères|erer,dors|3mir,nais|2ître,sous|3dre,èves|ever,ènes|ener,sers|3vir,duis|3re,cris|3re,omps|3re,èles|eler,clus|3re,cours|4ir,ouvres|4ir,ts|1tre,iens|enir,ins|2dre,oies|1yer,ds|1re,s|r,vaux|2loir,veux|1ouloir"
       },
       "il": {
-        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,éder|ède,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,eborder|éborde,echirer|échire,emarrer|émarre,ésir|ît,uïr|it,epentir|5,urseoir|3oit,ouillir|2t,ueillir|5e,aïr|1it,uérir|1iert,saillir|5e,avoir|1it,ssener|2ène,inturer|2,elleter|5te,rturber|1,epartir|épartit,ieillir|2,oleter|4te,filtrer|1,illeter|,acturer|2,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,precier|2écie,ssieger|3ège,reer|1ée,rreter|2ête,eplacer|éplace,eresser|éresse,referer|1éfère,ucceder|3ède,eunir|éunit,eussir|éussit,cquerir|3iert,échoir|3et,ecer|èce,valoir|2ut,cevoir|çoit,vêtir|3,mener|1ène,sentir|4,vouloir|1eut,iliser|,iliter|,faillir|2ut,erer|ère,ouvoir|eut,dormir|3t,ever|ève,courir|4t,ouvrir|4e,eler|2le,enir|ient,oyer|1ie,ir|1t,er|1,ariâtre|5,nclore|4t,outre|3,araitre|3ît,epondre|épond,laire|2ît|plait,vaincre|5,soudre|3t,ivre|1t,ompre|3t,clure|3t,ttre|1,ître|2,indre|2t,dre|1,ire|1t",
-        "exceptions": "geler|1èle,aller|va,jeter|3te,montrer|4e,declencher|1éclenche,elancer|élance,mentir|4,mourir|1eurt,partir|4,ressortir|7,sortir|4,devoir|1oit,servir|3t,être|est,iendre|3t,accroître|5it,desservir|6t,peler|1èle,resservir|6t,familiariser|3,ecouter|écoute,eclaircir|éclaircit,etablir|établit,reflechir|1éfléchit,ecrire|écrit,eteindre|éteint,céder|1ède,gésir|1ît,ouïr|1it,bouillir|3t,haïr|2it,quérir|2iert,savoir|2it,boire|3t,croire|4t,dire|2t,foutre|4,lire|2t,luire|3t,rire|2t,suivre|3t,uire|2t,vivre|2t,repartir|1épartit,utiliser|2,vieillir|3,faciliter|3,nuire|3t,cuire|3t,plaire|3ît|plait",
+        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,éder|ède,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,eborder|éborde,echirer|échire,emarrer|émarre,ésir|ît,uïr|it,epentir|5,urseoir|3oit,ouillir|2t,ueillir|5e,aïr|1it,uérir|1iert,saillir|5e,ssener|2ène,inturer|2,elleter|5te,rturber|1,epartir|épartit,ieillir|2,oleter|4te,filtrer|1,illeter|,acturer|2,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,precier|2écie,ssieger|3ège,reer|1ée,rreter|2ête,eplacer|éplace,eresser|éresse,referer|1éfère,ucceder|3ède,eunir|éunit,eussir|éussit,cquerir|3iert,échoir|3et,ecer|èce,valoir|2ut,cevoir|çoit,vêtir|3,mener|1ène,sentir|4,vouloir|1eut,iliser|,iliter|,faillir|2ut,erer|ère,ouvoir|eut,dormir|3t,ever|ève,courir|4t,ouvrir|4e,eler|2le,enir|ient,oyer|1ie,ir|1t,er|1,ariâtre|5,nclore|4t,outre|3,araitre|3ît,epondre|épond,laire|2ît|plait,vaincre|5,soudre|3t,ivre|1t,ompre|3t,clure|3t,ttre|1,ître|2,indre|2t,dre|1,ire|1t",
+        "exceptions": "être|est,avoir|1,geler|1èle,aller|va,jeter|3te,montrer|4e,declencher|1éclenche,elancer|élance,mentir|4,mourir|1eurt,partir|4,ressortir|7,sortir|4,devoir|1oit,savoir|2it,servir|3t,iendre|3t,accroître|5it,desservir|6t,peler|1èle,resservir|6t,familiariser|3,ecouter|écoute,eclaircir|éclaircit,etablir|établit,reflechir|1éfléchit,ecrire|écrit,eteindre|éteint,céder|1ède,gésir|1ît,ouïr|1it,bouillir|3t,haïr|2it,quérir|2iert,boire|3t,croire|4t,dire|2t,foutre|4,lire|2t,luire|3t,rire|2t,suivre|3t,uire|2t,vivre|2t,repartir|1épartit,utiliser|2,vieillir|3,faciliter|3,nuire|3t,cuire|3t,plaire|3ît|plait",
         "rev": "apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,éborde|eborder,échire|echirer,émarre|emarrer,ffre|3ir,pprécie|3ecier,ssiège|3eger,rée|1eer,rrête|2eter,éplace|eplacer,téresse|1eresser,réfère|1eferer,uccède|3eder,èce|ecer,ille|3ir,telle|3er,lette|3er,velle|3er,celle|3er,appelle|5er,ète|eter,ère|erer,ève|ever,ène|ener,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurt|ourir,art|3ir,epent|5ir,ursoit|3eoir,cariât|6re,rconcit|6re,nclot|4re,audit|4re,ccroit|4ître,evit|3vre,nstruit|6re,nterdit|6re,éunit|eunir,éussit|eussir,cquiert|3erir,araît|3itre,ourit|4re,échet|3oir,vaut|2loir,sort|4ir,çoit|cevoir,vêt|3ir,fit|2re,sent|4ir,veut|1ouloir,bat|3tre,faut|2illir,eut|ouvoir,dort|3mir,sout|3dre,sert|3vir,duit|3re,crit|3re,ompt|3re,clut|3re,ait|2re,court|4ir,met|3tre,ît|2re,ient|enir,int|2dre,it|1r,ein|3turer,er|2turber,xf|2iltrer,am|2iliariser,eu|2illeter,oss|3iliser,rac|3turer,vainc|5re,ab|2iliter,épond|epondre,d|1re"
       },
       "nous": {
-        "rules": "eborder|ébordons,echirer|échirons,emarrer|émarrons,énir|3ssons,ésir|isons,mpartir|6ssons,révoir|4yons,urseoir|3oyons,ssoir|3yons,aïr|2ssons,ourvoir|5yons,sombrir|6ssons,ssoupir|6ssons,ssouvir|6ssons,tendrir|6ssons,epartir|épartissons,etentir|6ssons,omir|3ssons,leurir|5ssons,arantir|6ssons,ravir|4ssons,nvestir|6ssons,aigrir|5ssons,eurtrir|6ssons,precier|2écions,ssieger|3égeons,reer|1éons,rreter|2êtons,eplacer|éplaçons,eresser|éressons,referer|1éférons,ucceder|3édons,eunir|éunissons,eussir|éussissons,ubir|3ssons,cquerir|3érons,échoir|4yons,épartir|5ons,sortir|4ons,vêtir|3ons,inir|3ssons,utir|3ssons,anchir|5ssons,unir|3ssons,erer|érons,uir|2ssons,dormir|4ons,rrir|3ssons,vertir|5ssons,nnir|3ssons,servir|4ons,rnir|3ssons,entir|3ons,gir|2ssons,illir|3ons,cir|2ssons,sir|2ssons,dir|2ssons,lir|2ssons,rir|1ons,oir|1ns,enir|2ons,ger|2ons,cer|çons,er|ons,ariâtre|5tons,nclore|4sons,audire|4ssons,épandre|5ons,roire|2yons,outre|3ons,araitre|4ssons,epondre|épondons,ourire|4ons,rdre|2ons,ondre|3ons,vaincre|4quons,soudre|2lvons,ivre|2ons,crire|3vons,ompre|3ons,clure|3ons,prendre|4ons,ttre|2ons,ître|issons,endre|3ons,indre|1gnons,ire|1sons",
-        "exceptions": "montrer|4ons,declencher|1éclenchons,elancer|élançons,asservir|7ssons,partir|4ons,fuir|2yons,voir|2yons,être|sommes,iendre|2gnons,boire|1uvons,coudre|3sons,moudre|3lons,rire|2ons,assortir|7ssons,peinturer|res,perturber|rbes,revoir|4yons,utiliser|ises,vieillir|lis,exfiltrer|tres,faciliter|ites,familiariser|iarises,feuilleter|lettes,ecouter|écoutons,eclaircir|éclaircissons,etablir|établissons,reflechir|1éfléchissons,ecrire|écrivons,eteindre|éteignons,deborder|1ébordons,dechirer|1échirons,demarrer|1émarrons,choir|3ns,gésir|1isons,mentir|4ons,pouvoir|5ns,devoir|4ns,pourvoir|6yons,quérir|4ons,savoir|4ns,servir|4ons,valoir|4ns,croître|3issons,maudire|5ssons,paître|2issons,recroître|5issons,renaître|4issons,repaître|4issons,aindre|2gnons,connaître|5issons,croire|3yons,accroître|5issons,foutre|4ons,lire|2sons,naître|2issons,cloître|3issons,abolir|5ssons,accomplir|8ssons,assouplir|8ssons,assouvir|7ssons,astreindre|6gnons,atteindre|5gnons,desservir|7ons,embellir|7ssons,emplir|5ssons,empreindre|6gnons,peindre|3gnons,plaindre|4gnons,polir|4ssons,pondre|4ons,repartir|1épartissons,repeindre|5gnons,ressentir|7ons,resservir|7ons,restreindre|7gnons,faiblir|6ssons,feindre|3gnons,geindre|3gnons,gravir|5ssons,mollir|5ssons,mordre|4ons,morfondre|7ons,deplacer|1éplaçons,gerer|1érons,interesser|3éressons,remplir|6ssons,reunir|1éunissons,reussir|1éussissons,acquerir|4érons,craindre|4gnons,sentir|4ons,paraitre|5ssons,repondre|1épondons,déchoir|5yons",
+        "rules": "eborder|ébordons,echirer|échirons,emarrer|émarrons,énir|3ssons,ésir|isons,mpartir|6ssons,révoir|4yons,urseoir|3oyons,ssoir|3yons,aïr|2ssons,ourvoir|5yons,sombrir|6ssons,ssoupir|6ssons,ssouvir|6ssons,tendrir|6ssons,epartir|épartissons,etentir|6ssons,omir|3ssons,leurir|5ssons,arantir|6ssons,ravir|4ssons,nvestir|6ssons,aigrir|5ssons,eurtrir|6ssons,precier|2écions,ssieger|3égeons,reer|1éons,rreter|2êtons,eplacer|éplaçons,eresser|éressons,referer|1éférons,ucceder|3édons,eunir|éunissons,eussir|éussissons,ubir|3ssons,cquerir|3érons,échoir|4yons,épartir|5ons,sortir|4ons,vêtir|3ons,inir|3ssons,utir|3ssons,anchir|5ssons,unir|3ssons,erer|érons,uir|2ssons,dormir|4ons,rrir|3ssons,vertir|5ssons,nnir|3ssons,servir|4ons,rnir|3ssons,entir|3ons,gir|2ssons,illir|3ons,cir|2ssons,sir|2ssons,dir|2ssons,lir|2ssons,rir|1ons,enir|2ons,oir|1ns,ger|2ons,cer|çons,er|ons,ariâtre|5tons,nclore|4sons,audire|4ssons,épandre|5ons,roire|2yons,outre|3ons,araitre|4ssons,epondre|épondons,ourire|4ons,rdre|2ons,ondre|3ons,vaincre|4quons,soudre|2lvons,ivre|2ons,crire|3vons,ompre|3ons,clure|3ons,prendre|4ons,ttre|2ons,ître|issons,endre|3ons,indre|1gnons,ire|1sons",
+        "exceptions": "être|sommes,montrer|4ons,declencher|1éclenchons,elancer|élançons,asservir|7ssons,partir|4ons,fuir|2yons,voir|2yons,iendre|2gnons,boire|1uvons,coudre|3sons,moudre|3lons,rire|2ons,assortir|7ssons,peinturer|res,perturber|rbes,revoir|4yons,utiliser|ises,vieillir|lis,exfiltrer|tres,faciliter|ites,familiariser|iarises,feuilleter|lettes,ecouter|écoutons,eclaircir|éclaircissons,etablir|établissons,reflechir|1éfléchissons,ecrire|écrivons,eteindre|éteignons,avoir|3ns,deborder|1ébordons,dechirer|1échirons,demarrer|1émarrons,choir|3ns,gésir|1isons,mentir|4ons,pouvoir|5ns,devoir|4ns,pourvoir|6yons,quérir|4ons,savoir|4ns,servir|4ons,valoir|4ns,croître|3issons,maudire|5ssons,paître|2issons,recroître|5issons,renaître|4issons,repaître|4issons,aindre|2gnons,connaître|5issons,croire|3yons,accroître|5issons,foutre|4ons,lire|2sons,naître|2issons,cloître|3issons,abolir|5ssons,accomplir|8ssons,assouplir|8ssons,assouvir|7ssons,astreindre|6gnons,atteindre|5gnons,desservir|7ons,embellir|7ssons,emplir|5ssons,empreindre|6gnons,peindre|3gnons,plaindre|4gnons,polir|4ssons,pondre|4ons,repartir|1épartissons,repeindre|5gnons,ressentir|7ons,resservir|7ons,restreindre|7gnons,faiblir|6ssons,feindre|3gnons,geindre|3gnons,gravir|5ssons,mollir|5ssons,mordre|4ons,morfondre|7ons,deplacer|1éplaçons,gerer|1érons,interesser|3éressons,remplir|6ssons,reunir|1éunissons,reussir|1éussissons,acquerir|4érons,craindre|4gnons,sentir|4ons,paraitre|5ssons,repondre|1épondons,déchoir|5yons",
         "rev": "idérons|2erer,évalons|5ir,évoyons|3ir,pentons|4ir,rsoyons|2eoir,ssoyons|3ir,aïssons|2r,iâttons|3re,ncisons|3re,closons|3re,egnons|1ndre,pandons|4re,uivons|3re,pissons|2r,erdons|3re,evoyons|3ir,missons|2r,ffrons|3ir,récions|1ecier,iégeons|1eger,réons|1eer,rrêtons|2eter,éférons|eferer,ccédons|2eder,sférons|2erer,bissons|2r,ourions|4re,sortons|4ir,cevons|4ir,mouvons|5ir,vêtons|3ir,fisons|2re,inquons|2cre,hissons|2r,vivons|3re,voulons|5ir,disons|2re,battons|4re,partons|4ir,uissons|2r,dormons|4ir,solvons|2udre,oignons|2ndre,crivons|3re,ompons|3re,cluons|3re,aisons|2re,gissons|2r,prenons|4dre,tenons|3ir,ouvrons|4ir,ourons|3ir,illons|3ir,cissons|2r,mettons|4re,sissons|2r,dissons|2r,venons|3ir,uisons|2re,rissons|2r,endons|3re,tissons|2r,nissons|2r,geons|2r,çons|cer,ons|er"
       },
       "vous": {
         "rules": "eborder|ébordez,echirer|échirez,emarrer|émarrez,énir|3ssez,ésir|isez,mpartir|6ssez,révoir|4yez,urseoir|3oyez,ssoir|3yez,aïr|2ssez,ourvoir|5yez,sombrir|6ssez,ssoupir|6ssez,ssouvir|6ssez,tendrir|6ssez,inturer|2,rturber|1,epartir|épartissez,etentir|6ssez,ieillir|2,omir|3ssez,filtrer|1,illeter|,leurir|5ssez,acturer|2,arantir|6ssez,ravir|4ssez,nvestir|6ssez,aigrir|5ssez,eurtrir|6ssez,precier|2éciez,ssieger|3égez,reer|1éez,rreter|2êtez,eplacer|éplacez,eresser|éressez,referer|1éférez,ucceder|3édez,eunir|éunissez,eussir|éussissez,ubir|3ssez,cquerir|3érez,échoir|4yez,épartir|5ez,sortir|4ez,vêtir|3ez,inir|3ssez,utir|3ssez,anchir|5ssez,iliser|,iliter|,unir|3ssez,erer|érez,uir|2ssez,dormir|4ez,rrir|3ssez,vertir|5ssez,nnir|3ssez,servir|4ez,rnir|3ssez,entir|3ez,gir|2ssez,illir|3ez,cir|2ssez,sir|2ssez,dir|2ssez,lir|2ssez,rir|1ez,oir|ez,enir|2ez,er|1z,ariâtre|5tez,nclore|4sez,audire|4ssez,épandre|5ez,roire|2yez,outre|3ez,araitre|4ssez,epondre|épondez,ourire|4ez,faire|3tes,rdre|2ez,ondre|3ez,dire|2tes,vaincre|4quez,soudre|2lvez,ivre|2ez,crire|3vez,ompre|3ez,clure|3ez,prendre|4ez,ttre|2ez,ître|issez,endre|3ez,ire|1sez,indre|1gnez",
-        "exceptions": "montrer|4ez,declencher|1éclenchez,elancer|élancez,asservir|7ssez,partir|4ez,fuir|2yez,voir|2yez,être|2es,iendre|2gnez,boire|1uvez,coudre|3sez,moudre|3lez,rire|2ez,assortir|7ssez,revoir|4yez,familiariser|3,ecouter|écoutez,eclaircir|éclaircissez,etablir|établissez,reflechir|1éfléchissez,ecrire|écrivez,eteindre|éteignez,gésir|1isez,mentir|4ez,pouvoir|4ez,devoir|3ez,pourvoir|6yez,quérir|4ez,savoir|3ez,servir|4ez,valoir|3ez,croître|3issez,recroître|5issez,aindre|2gnez,croire|3yez,accroître|5issez,foutre|4ez,lire|2sez,atteindre|5gnez,pondre|4ez,repartir|1épartissez,faciliter|3,faiblir|6ssez,feindre|3gnez,geindre|3gnez,mordre|4ez,gerer|1érez,reunir|1éunissez,reussir|1éussissez,sentir|4ez",
+        "exceptions": "être|2es,montrer|4ez,declencher|1éclenchez,elancer|élancez,asservir|7ssez,partir|4ez,fuir|2yez,voir|2yez,iendre|2gnez,boire|1uvez,coudre|3sez,moudre|3lez,rire|2ez,assortir|7ssez,revoir|4yez,familiariser|3,ecouter|écoutez,eclaircir|éclaircissez,etablir|établissez,reflechir|1éfléchissez,ecrire|écrivez,eteindre|éteignez,avoir|2ez,gésir|1isez,mentir|4ez,pouvoir|4ez,devoir|3ez,pourvoir|6yez,quérir|4ez,savoir|3ez,servir|4ez,valoir|3ez,croître|3issez,recroître|5issez,aindre|2gnez,croire|3yez,accroître|5issez,foutre|4ez,lire|2sez,atteindre|5gnez,pondre|4ez,repartir|1épartissez,faciliter|3,faiblir|6ssez,feindre|3gnez,geindre|3gnez,mordre|4ez,gerer|1érez,reunir|1éunissez,reussir|1éussissez,sentir|4ez",
         "rev": "sidérez|3erer,ébordez|eborder,échirez|echirer,émarrez|emarrer,rvissez|3r,révalez|5oir,révoyez|4ir,epentez|5ir,ursoyez|3eoir,ssoyez|3ir,aïssez|2r,riâttez|4re,oncisez|4re,nclosez|4re,udissez|3re,egnez|1ndre,épandez|5re,loissez|2ître,uivez|3re,upissez|3r,uvissez|3r,erdez|3re,laignez|3ndre,ssentez|5ir,evoyez|3ir,omissez|3r,avissez|3r,rfondez|5re,ffrez|3ir,préciez|2ecier,ssiégez|3eger,réez|1eer,rrêtez|2eter,éplacez|eplacer,éressez|eresser,référez|1eferer,uccédez|3eder,nsférez|3erer,ubissez|3r,cquérez|3erir,raignez|3ndre,raissez|3tre,épondez|epondre,ouriez|4re,échoyez|4ir,sortez|4ir,cevez|3oir,mouvez|4oir,vêtez|3ir,paissez|2ître,fisez|2re,aisez|2re,ainquez|3cre,olissez|3r,chissez|3r,sservez|5ir,llissez|3r,peignez|3ndre,vivez|3re,voulez|4oir,battez|4re,partez|4ir,uissez|2r,dormez|4ir,naissez|2ître,solvez|2udre,reignez|3ndre,joignez|3ndre,crivez|3re,ompez|3re,cluez|3re,plissez|3r,gissez|2r,prenez|4dre,tenez|3ir,ouvrez|4ir,ourez|3ir,illez|3ir,cissez|2r,mettez|4re,sissez|2r,dissez|2r,venez|3ir,uisez|2re,rissez|2r,endez|3re,tissez|2r,nissez|2r,ez|1r,ein|3turer,er|2turber,t|1iliser,ie|2illir,xf|2iltrer,am|2iliariser,eu|2illeter,oss|3iliser,ites|1re,rac|3turer,ab|2iliter"
       },
       "ils": {
-        "rules": "cheter|2ètent,apiécer|3ècent,eser|èsent,evrer|èvrent,élébrer|2èbrent,éder|èdent,brécher|2èchent,égler|èglent,rotéger|3ègent,théquer|2èquent,ppuyer|3ient,eborder|ébordent,echirer|échirent,emarrer|émarrent,énir|3ssent,ésir|isent,mpartir|6ssent,révoir|5ent,urseoir|3oient,ssoir|4ent,aïr|2ssent,ourvoir|6ent,uérir|1ièrent,avoir|2ent,ssener|2ènent,sombrir|6ssent,ssoupir|6ssent,ssouvir|6ssent,tendrir|6ssent,elleter|5tent,epartir|épartissent,etentir|6ssent,oleter|4tent,omir|3ssent,leurir|5ssent,ureter|2ètent,arantir|6ssent,ravir|4ssent,aleter|2ètent,nvestir|6ssent,aigrir|5ssent,arteler|3èlent,eurtrir|6ssent,odeler|2èlent,ffrir|3ent,precier|2écient,ssieger|3ègent,reer|1éent,rreter|2êtent,eplacer|éplacent,eresser|éressent,referer|1éfèrent,ucceder|3èdent,eunir|éunissent,eussir|éussissent,ubir|3ssent,cquerir|3ièrent,échoir|5ent,épartir|5ent,ecer|ècent,valoir|3ent,sortir|4ent,cevoir|çoivent,vêtir|3ent,inir|3ssent,utir|3ssent,anchir|5ssent,mener|1ènent,vouloir|1eulent,unir|3ssent,erer|èrent,uir|2ssent,ouvoir|euvent,dormir|4ent,ever|èvent,rrir|3ssent,vertir|5ssent,nnir|3ssent,servir|4ent,rnir|3ssent,entir|3ent,courir|4ent,gir|2ssent,ouvrir|4ent,illir|3ent,cir|2ssent,sir|2ssent,dir|2ssent,eler|2lent,lir|2ssent,enir|iennent,oyer|1ient,er|1nt,ariâtre|5tent,nclore|4sent,audire|4ssent,épandre|5ent,roire|3ent,outre|3ent,raire|3ent,araitre|4ssent,epondre|épondent,ourire|4ent,faire|1ont,rdre|2ent,ondre|3ent,vaincre|4quent,soudre|2lvent,ivre|2ent,crire|3vent,ompre|3ent,clure|3ent,prendre|4nent,ttre|2ent,ître|issent,endre|3ent,indre|1gnent,ire|1sent",
-        "exceptions": "geler|1èlent,aller|vont,jeter|3tent,montrer|4ent,declencher|1éclenchent,elancer|élancent,asservir|7ssent,mourir|1eurent,partir|4ent,devoir|1oivent,fuir|3ent,voir|3ent,être|sont,iendre|2gnent,boire|3vent,coudre|3sent,moudre|3lent,rire|2ent,assortir|7ssent,peler|1èlent,peinturer|re,perturber|rbe,revoir|5ent,utiliser|ise,vieillir|lit,exfiltrer|tre,faciliter|ite,familiariser|iarise,feuilleter|lette,ecouter|écoutent,eclaircir|éclaircissent,etablir|établissent,reflechir|1éfléchissent,ecrire|écrivent,eteindre|éteignent,céder|1èdent,deborder|1ébordent,dechirer|1échirent,demarrer|1émarrent,gésir|1isent,mentir|4ent,pouvoir|1euvent,pourvoir|7ent,quérir|2ièrent,savoir|3ent,servir|4ent,valoir|3ent,croître|3issent,maudire|5ssent,paître|2issent,recroître|5issent,renaître|4issent,repaître|4issent,aindre|2gnent,connaître|5issent,croire|4ent,accroître|5issent,foutre|4ent,lire|2sent,naître|2issent,cloître|3issent,abolir|5ssent,accomplir|8ssent,assouplir|8ssent,assouvir|7ssent,astreindre|6gnent,atteindre|5gnent,desservir|7ent,embellir|7ssent,emplir|5ssent,empreindre|6gnent,peindre|3gnent,plaindre|4gnent,polir|4ssent,pondre|4ent,repartir|1épartissent,repeindre|5gnent,ressentir|7ent,resservir|7ent,restreindre|7gnent,faiblir|6ssent,feindre|3gnent,geindre|3gnent,gravir|5ssent,mollir|5ssent,mordre|4ent,morfondre|7ent,appeler|5lent,deplacer|1éplacent,gerer|1èrent,interesser|3éressent,rappeler|6lent,remplir|6ssent,reunir|1éunissent,reussir|1éussissent,acquerir|4ièrent,craindre|4gnent,sentir|4ent,paraitre|5ssent,repondre|1épondent,déchoir|6ent",
+        "rules": "cheter|2ètent,apiécer|3ècent,eser|èsent,evrer|èvrent,élébrer|2èbrent,éder|èdent,brécher|2èchent,égler|èglent,rotéger|3ègent,théquer|2èquent,ppuyer|3ient,eborder|ébordent,echirer|échirent,emarrer|émarrent,énir|3ssent,ésir|isent,mpartir|6ssent,révoir|5ent,urseoir|3oient,ssoir|4ent,aïr|2ssent,ourvoir|6ent,uérir|1ièrent,ssener|2ènent,sombrir|6ssent,ssoupir|6ssent,ssouvir|6ssent,tendrir|6ssent,elleter|5tent,epartir|épartissent,etentir|6ssent,oleter|4tent,omir|3ssent,leurir|5ssent,ureter|2ètent,arantir|6ssent,ravir|4ssent,aleter|2ètent,nvestir|6ssent,aigrir|5ssent,arteler|3èlent,eurtrir|6ssent,odeler|2èlent,ffrir|3ent,precier|2écient,ssieger|3ègent,reer|1éent,rreter|2êtent,eplacer|éplacent,eresser|éressent,referer|1éfèrent,ucceder|3èdent,eunir|éunissent,eussir|éussissent,ubir|3ssent,cquerir|3ièrent,échoir|5ent,épartir|5ent,ecer|ècent,valoir|3ent,sortir|4ent,cevoir|çoivent,vêtir|3ent,inir|3ssent,utir|3ssent,anchir|5ssent,mener|1ènent,vouloir|1eulent,unir|3ssent,erer|èrent,uir|2ssent,ouvoir|euvent,dormir|4ent,ever|èvent,rrir|3ssent,vertir|5ssent,nnir|3ssent,servir|4ent,rnir|3ssent,entir|3ent,courir|4ent,gir|2ssent,ouvrir|4ent,illir|3ent,cir|2ssent,sir|2ssent,dir|2ssent,eler|2lent,lir|2ssent,enir|iennent,oyer|1ient,er|1nt,ariâtre|5tent,nclore|4sent,audire|4ssent,épandre|5ent,roire|3ent,outre|3ent,raire|3ent,araitre|4ssent,epondre|épondent,ourire|4ent,faire|1ont,rdre|2ent,ondre|3ent,vaincre|4quent,soudre|2lvent,ivre|2ent,crire|3vent,ompre|3ent,clure|3ent,prendre|4nent,ttre|2ent,ître|issent,endre|3ent,indre|1gnent,ire|1sent",
+        "exceptions": "être|sont,avoir|ont,geler|1èlent,aller|vont,jeter|3tent,montrer|4ent,declencher|1éclenchent,elancer|élancent,asservir|7ssent,mourir|1eurent,partir|4ent,devoir|1oivent,fuir|3ent,savoir|3ent,voir|3ent,iendre|2gnent,boire|3vent,coudre|3sent,moudre|3lent,rire|2ent,assortir|7ssent,peler|1èlent,peinturer|re,perturber|rbe,revoir|5ent,utiliser|ise,vieillir|lit,exfiltrer|tre,faciliter|ite,familiariser|iarise,feuilleter|lette,ecouter|écoutent,eclaircir|éclaircissent,etablir|établissent,reflechir|1éfléchissent,ecrire|écrivent,eteindre|éteignent,céder|1èdent,deborder|1ébordent,dechirer|1échirent,demarrer|1émarrent,gésir|1isent,mentir|4ent,pouvoir|1euvent,pourvoir|7ent,quérir|2ièrent,servir|4ent,valoir|3ent,croître|3issent,maudire|5ssent,paître|2issent,recroître|5issent,renaître|4issent,repaître|4issent,aindre|2gnent,connaître|5issent,croire|4ent,accroître|5issent,foutre|4ent,lire|2sent,naître|2issent,cloître|3issent,abolir|5ssent,accomplir|8ssent,assouplir|8ssent,assouvir|7ssent,astreindre|6gnent,atteindre|5gnent,desservir|7ent,embellir|7ssent,emplir|5ssent,empreindre|6gnent,peindre|3gnent,plaindre|4gnent,polir|4ssent,pondre|4ent,repartir|1épartissent,repeindre|5gnent,ressentir|7ent,resservir|7ent,restreindre|7gnent,faiblir|6ssent,feindre|3gnent,geindre|3gnent,gravir|5ssent,mollir|5ssent,mordre|4ent,morfondre|7ent,appeler|5lent,deplacer|1éplacent,gerer|1èrent,interesser|3éressent,rappeler|6lent,remplir|6ssent,reunir|1éunissent,reussir|1éussissent,acquerir|4ièrent,craindre|4gnent,sentir|4ent,paraitre|5ssent,repondre|1épondent,déchoir|6ent",
         "rev": "piècent|2écer,èsent|eser,èvrent|evrer,lèbrent|1ébrer,rèchent|1écher,èglent|égler,otègent|2éger,hèquent|1équer,ppuient|3yer,idèrent|2erer,évalent|4oir,évoient|4r,pentent|4ir,rsoient|2eoir,ssoient|4r,aïssent|2r,iâttent|3re,ncisent|3re,closent|3re,egnent|1ndre,pandent|4re,oulent|2dre,raient|3re,uivent|3re,pissent|2r,erdent|3re,evoient|4r,missent|2r,ffrent|3ir,récient|1ecier,siègent|2eger,réent|1eer,rrêtent|2eter,éfèrent|eferer,ccèdent|2eder,sfèrent|2erer,bissent|2r,ourient|4re,ècent|ecer,sortent|4ir,çoivent|cevoir,meuvent|1ouvoir,vêtent|3ir,font|1aire,fisent|2re,aisent|2re,inquent|2cre,tellent|3er,hissent|2r,lettent|3er,vellent|3er,vivent|3re,veulent|1ouloir,cellent|3er,disent|2re,battent|4re,partent|4ir,ètent|eter,uissent|2r,dorment|4ir,solvent|2udre,oignent|2ndre,èvent|ever,ènent|ener,crivent|3re,ompent|3re,èlent|eler,cluent|3re,rennent|3dre,courent|4ir,gissent|2r,ouvrent|4ir,illent|3ir,cissent|2r,mettent|4re,sissent|2r,dissent|2r,uisent|2re,rissent|2r,endent|3re,tissent|2r,nissent|2r,iennent|enir,oient|1yer,ent|1r"
       }
     }
   };
 
   // uncompress them
-  let model$1 = Object.keys(model$2).reduce((h, k) => {
+  let model$1 = Object.keys(packed).reduce((h, k) => {
     h[k] = {};
-    Object.keys(model$2[k]).forEach(form => {
-      h[k][form] = uncompress$1(model$2[k][form]);
+    Object.keys(packed[k]).forEach(form => {
+      h[k][form] = uncompress$1(packed[k][form]);
     });
     return h
   }, {});
 
+  var model$2 = model$1;
 
-  const doVerb$1 = function (str, m) {
+  let fRev = reverse$1(model$2.adjective.female);
+  let pRev$1 = reverse$1(model$2.adjective.plural);
+  let fpRev$1 = reverse$1(model$2.adjective.femalePlural);
+
+  const toFemale = (str) => convert$1(str, model$2.adjective.female);
+  const toPlural$1 = (str) => convert$1(str, model$2.adjective.plural);
+  const toFemalePlural$1 = (str) => convert$1(str, model$2.adjective.femalePlural);
+  const fromFemale = (str) => convert$1(str, fRev);
+  const fromPlural$1 = (str) => convert$1(str, pRev$1);
+  const fromFemalePlural$1 = (str) => convert$1(str, fpRev$1);
+
+  const conjugate = function (str) {
+    return {
+      male: str,
+      female: toFemale(str),
+      plural: toPlural$1(str),
+      femalePlural: toFemalePlural$1(str),
+    }
+  };
+
+  var adjective = {
+    conjugate,
+    toFemale,
+    toPlural: toPlural$1,
+    toFemalePlural: toFemalePlural$1,
+    fromFemale,
+    fromPlural: fromPlural$1,
+    fromFemalePlural: fromFemalePlural$1,
+  };
+
+  // let fRev = reverse(model.noun.female)
+  let pRev = reverse$1(model$2.noun.plural);
+  let fpRev = reverse$1(model$2.noun.femalePlural);
+
+  // const toFemale = (str) => convert(str, model.noun.female)
+  const toPlural = (str) => convert$1(str, model$2.noun.plural);
+  const toFemalePlural = (str) => convert$1(str, model$2.noun.femalePlural);
+  // const fromFemale = (str) => convert(str, fRev)
+  const fromPlural = (str) => convert$1(str, pRev);
+  const fromFemalePlural = (str) => convert$1(str, fpRev);
+
+
+  var noun = {
+    // conjugate,
+    // toFemale,
+    toPlural,
+    toFemalePlural,
+    // fromFemale,
+    fromPlural,
+    fromFemalePlural,
+  };
+
+  // ---verbs--
+  const reverseAll = function (obj) {
+    return Object.keys(obj).reduce((h, k) => {
+      h[k] = reverse$1(obj[k]);
+      return h
+    }, {})
+  };
+
+  const doVerb = function (str, m) {
     return {
       first: convert$1(str, m.je),
       second: convert$1(str, m.tu),
@@ -7507,30 +7879,46 @@
       thirdPlural: convert$1(str, m.ils),
     }
   };
-
-  const presentTense = (str) => doVerb$1(str, model$1.presentTense);
-  const futureTense = (str) => doVerb$1(str, model$1.futureTense);
-  const imperfect = (str) => doVerb$1(str, model$1.imperfect);
-  const pastParticiple = (str) => convert$1(str, model$1.pastParticiple.prt);
-
-  const noun$1 = function (str) {
-    return {
-      male: str,
-      female: convert$1(str, model$1.noun.female),
-      plural: convert$1(str, model$1.noun.plural),
-      femalePlural: convert$1(str, model$1.noun.femalePlural),
+  const doOneVerb = function (str, form, m) {
+    if (form === 'FirstPerson') {
+      return convert$1(str, m.je)
     }
+    if (form === 'SecondPerson') {
+      return convert$1(str, m.tu)
+    }
+    if (form === 'ThirdPerson') {
+      return convert$1(str, m.il)
+    }
+    if (form === 'FirstPersonPlural') {
+      return convert$1(str, m.nous)
+    }
+    if (form === 'SecondPersonPlural') {
+      return convert$1(str, m.vous)
+    }
+    if (form === 'ThirdPersonPlural') {
+      return convert$1(str, m.ils)
+    }
+    return str
   };
 
-  const adjective$1 = function (str) {
-    return {
-      male: str,
-      female: convert$1(str, model$1.adjective.female),
-      plural: convert$1(str, model$1.adjective.plural),
-      femalePlural: convert$1(str, model$1.adjective.femalePlural),
-    }
-  };
-  var conjugate = { presentTense, futureTense, imperfect, noun: noun$1, adjective: adjective$1, pastParticiple };
+  const presentTense = (str) => doVerb(str, model$2.presentTense);
+  const futureTense = (str) => doVerb(str, model$2.futureTense);
+  const imperfect = (str) => doVerb(str, model$2.imperfect);
+  const pastParticiple = (str) => convert$1(str, model$2.pastParticiple.prt);
+
+  const fromPresent = reverseAll(model$2.presentTense);
+  const fromPresentTense = (str, form) => doOneVerb(str, form, fromPresent);
+
+  const fromFuture = reverseAll(model$2.futureTense);
+  const fromFutureTense = (str, form) => doOneVerb(str, form, fromFuture);
+
+  const fromImperfect = reverseAll(model$2.imperfect);
+  const fromImperfectTense = (str, form) => doOneVerb(str, form, fromImperfect);
+
+  const fromParticiple = reverse$1(model$2.pastParticiple.prt);
+  const fromPastParticiple = (str) => convert$1(str, fromParticiple);
+
+  var verb = { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple };
 
   // console.log(presentTense('marcher'))
   // console.log(futureTense('marcher'))
@@ -7539,116 +7927,7 @@
   // console.log(noun('roche'))
   // console.log(adjective('gentil'))
 
-  const fromFemale$1 = reverse$1(uncompress$1(model$2.adjective.female));
-  const fromPlural$1 = reverse$1(uncompress$1(model$2.adjective.plural));
-  const fromFemalePlural = reverse$1(uncompress$1(model$2.adjective.femalePlural));
-
-  const toRoot$2 = function (str, plural, gender) {
-    if (plural && gender === 'f') {
-      return convert$1(str, fromFemalePlural)
-    }
-    if (gender === 'f') {
-      return convert$1(str, fromFemale$1)
-    }
-    if (plural) {
-      return convert$1(str, fromPlural$1)
-    }
-    return str
-  };
-  var adjective = toRoot$2;
-
-  //   "actuel": ["actuelle", "actuels", "actuelles"],
-  // console.log(toRoot('actuelles', true, 'f'))
-  // console.log(toRoot('actuelle', false, 'f'))
-  // console.log(toRoot('actuels', true, 'm'))
-  // console.log(toRoot('actuel', false, 'm'))
-
-  const fromPlural = reverse$1(uncompress$1(model$2.noun.plural));
-  const fromFemale = reverse$1(uncompress$1(model$2.noun.female));
-  // const fromFemalePlural = reverse(uncompress(model.noun.femalePlural))
-
-  const toRoot$1 = function (str, plural, gender) {
-    if (plural && gender === 'f') {
-      // return convert(str, fromFemalePlural)
-      str = convert$1(str, fromPlural);
-      str = convert$1(str, fromFemale);
-      return str
-    }
-    if (gender === 'f') {
-      return convert$1(str, fromFemale)
-    }
-    if (plural) {
-      return convert$1(str, fromPlural)
-    }
-    return str
-  };
-
-  var noun = toRoot$1;
-  //   "ambassadeur": ["ambassadrice", "ambassadeurs", "ambassadrices"],
-  // console.log(toRoot('ambassadrices', true, 'f'))
-  // console.log(toRoot('ambassadrice', false, 'f'))
-  // console.log(toRoot('ambassadeurs', true, 'm'))
-  // console.log(toRoot('ambassadeur', false, 'm'))
-
-  // ---verbs--
-  const reverseAll = function (obj) {
-    return Object.keys(obj).reduce((h, k) => {
-      h[k] = uncompress$1(obj[k]);
-      h[k] = reverse$1(h[k]);
-      return h
-    }, {})
-  };
-
-
-
-
-
-
-
-  const doVerb = function (str, form, mod) {
-    let forms = {
-      FirstPerson: () => convert$1(str, mod.je),
-      SecondPerson: () => convert$1(str, mod.tu),
-      ThirdPerson: () => convert$1(str, mod.il),
-      FirstPersonPlural: () => convert$1(str, mod.nous),
-      SecondPersonPlural: () => convert$1(str, mod.vous),
-      ThirdPersonPlural: () => convert$1(str, mod.ils),
-    };
-    if (forms.hasOwnProperty(form)) {
-      return forms[form](str)
-    }
-    return str
-  };
-
-  const fromPresent = reverseAll(model$2.presentTense);
-  const fromPresentTense = (str, form) => doVerb(str, form, fromPresent);
-
-  const fromFuture = reverseAll(model$2.futureTense);
-  const fromFutureTense = (str, form) => doVerb(str, form, fromFuture);
-
-  const fromImperfect = reverseAll(model$2.imperfect);
-  const fromImperfectTense = (str, form) => doVerb(str, form, fromImperfect);
-
-  const fromParticiple = reverse$1(uncompress$1(model$2.pastParticiple.prt));
-  const fromPastParticiple = (str) => convert$1(str, fromParticiple);
-
-  var verb = { fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple };
-
-  // console.log(fromPastParticiple('gelé'))
-
-  //   "jeter": ["jette", "jettes", "jette", "jetons", "jetez", "jettent"],
-  // console.log(fromPresentTense('jette', 'first'))
-  // console.log(fromPresentTense('jettes', 'second'))
-  // console.log(fromPresentTense('jette', 'third'))
-  // console.log(fromPresentTense('jetons', 'firstPlural'))
-  // console.log(fromPresentTense('jetez', 'secondPlural'))
-  // console.log(fromPresentTense('jettent', 'thirdPlural'))
-
-  var toRoot = {
-    adjective,
-    noun,
-    verb
-  };
+  var methods$1 = { adjective, noun, verb };
 
   // generated in ./lib/lexicon
   var lexData = {
@@ -7665,7 +7944,7 @@
     "LastName": "true¦0:34;1:3B;2:39;3:2Y;4:2E;5:30;a3Bb31c2Od2Ee2Bf25g1Zh1Pi1Kj1Ek17l0Zm0Nn0Jo0Gp05rYsMtHvFwCxBy8zh6;a6ou,u;ng,o;a6eun2Uoshi1Kun;ma6ng;da,guc1Zmo27sh21zaR;iao,u;a7eb0il6o3right,u;li3Bs2;gn0lk0ng,tanabe;a6ivaldi;ssilj37zqu1;a9h8i2Go7r6sui,urn0;an,ynisJ;lst0Prr1Uth;at1Uomps2;kah0Vnaka,ylor;aEchDeChimizu,iBmiAo9t7u6zabo;ar1lliv2AzuE;a6ein0;l23rm0;sa,u3;rn4th;lva,mmo24ngh;mjon4rrano;midt,neid0ulz;ito,n7sa6to;ki;ch1dLtos,z;amBeag1Zi9o7u6;bio,iz,sD;b6dri1MgIj0Tme24osevelt,ssi,ux;erts,ins2;c6ve0F;ci,hards2;ir1os;aEeAh8ic6ow20;as6hl0;so;a6illips;m,n1T;ders5et8r7t6;e0Nr4;ez,ry;ers;h21rk0t6vl4;el,te0J;baBg0Blivei01r6;t6w1O;ega,iz;a6eils2guy5ix2owak,ym1E;gy,ka6var1K;ji6muW;ma;aEeCiBo8u6;ll0n6rr0Bssolini,ñ6;oz;lina,oKr6zart;al0Me6r0U;au,no;hhail4ll0;rci0ssi6y0;!er;eWmmad4r6tsu07;in6tin1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n0Qr6w0J;oy;bv6v6;re;mmy,rs5u;aBennedy,imuAle0Lo8u7wo6;k,n;mar,znets4;bay6vacs;asY;ra;hn,rl9to,ur,zl4;aAen9ha3imen1o6u3;h6nYu3;an6ns2;ss2;ki0Es5;cks2nsse0D;glesi9ke8noue,shik7to,vano6;u,v;awa;da;as;aBe8itchcock,o7u6;!a3b0ghNynh;a3ffmann,rvat;mingw7nde6rN;rs2;ay;ns5rrQs7y6;asDes;an4hi6;moJ;a9il,o8r7u6;o,tierr1;ayli3ub0;m1nzal1;nd6o,rcia;hi;erAis9lor8o7uj6;ita;st0urni0;es;ch0;nand1;d7insteHsposi6vaL;to;is2wards;aCeBi9omin8u6;bo6rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw7vi6;es,s;in;aFhBlarkAo6;h5l6op0rbyn,x;em7li6;ns;an;!e;an8e7iu,o6ristens5u3we;i,ng,u3w,y;!n,on6u3;!g;mpb7rt0st6;ro;ell;aBe8ha3lanco,oyko,r6yrne;ooks,yant;ng;ck7ethov5nnett;en;er,ham;ch,h8iley,rn6;es,i0;er;k,ng;dDl9nd6;ers6rA;en,on,s2;on;eks7iy8var1;ez;ej6;ev;ams",
     "MaleName": "true¦0:CD;1:BK;2:C1;3:BS;4:B4;5:BY;6:AS;7:9U;8:BC;9:AW;A:AN;aB3bA7c96d86e7Ff6Xg6Fh5Vi5Hj4Kk4Al3Qm2On2Do27p21qu1Zr1As0Qt06u05v00wNxavi3yGzB;aBor0;cBh8Hne;hCkB;!aB0;ar50eAZ;ass2i,oCuB;sDu24;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAO;lfgang,odrow;lBn1N;bDey,frBIlB;aA4iB;am,e,s;e88ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a92y;aEern1iB;cCha0nceBrg9Ava0;!nt;ente,t59;lentin48n8Xughn;lyss4Lsm0;aTeOhKiIoErCyB;!l3ro8s1;av9PeBist0oy,um0;nt9Hv53y;bDd7WmBny;!as,mBoharu;aAXie,y;i82y;mBt9;!my,othy;adDeoCia7ComB;!as;!do7L;!de9;dErB;en8GrB;an8FeBy;ll,n8E;!dy;dgh,ic9Snn3req,ts44;aRcotPeNhJiHoFpenc3tBur1Nylve8Gzym1;anDeBua7A;f0phAEvBwa79;e56ie;!islaw,l6;lom1nA2uB;leyma8ta;dBl7Im1;!n6;aDeB;lBrm0;d1t1;h6Rne,qu0Tun,wn,y8;aBbasti0k1Wl40rg3Zth,ymo9H;m9n;!tB;!ie,y;lCmBnti20q4Hul;!mAu4;ik,vato6U;aVeRhe91iNoFuCyB;an,ou;b6KdCf9pe6PssB;!elAH;ol2Ty;an,bHcGdFel,geEh0landA8meo,nDry,sCyB;!ce;coe,s;!a94nA;l3Jr;e4Qg3n6olfo,ri68;co,ky;bAe9U;cBl6;ar5Oc5NhCkBo;!ey,ie,y;a85ie;gCid,ub5x,yBza;ansh,nS;g8WiB;na8Ss;ch5Yfa4lDmCndBpha4sh6Uul,ymo70;al9Yol2By;i9Ion;f,ph;ent2inB;cy,t1;aFeDhilCier62ol,reB;st1;!ip,lip;d9Brcy,tB;ar,e2V;b3Sdra6Ft44ul;ctav2Vliv3m96rFsCtBum8Uw5;is,to;aCc8SvB;al52;ma;i,l49vJ;athJeHiDoB;aBel,l0ma0r2X;h,m;cCg4i3IkB;h6Uola;hol5XkBol5X;!ol5W;al,d,il,ls1vB;il50;anBy;!a4i4;aWeTiKoFuCyB;l21r1;hamCr5ZstaB;fa,p4G;ed,mF;dibo,e,hamDis1XntCsBussa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a78ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOrHs1tDuricCxB;!imilian8Cwe7;e,io;eo,hCi52tB;!eo,hew,ia;eBis;us,w;cDio,k86lCqu6Gsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6RrenDuBwe7;!iB;e,s;!zo;am,on4;a7Bevi,la4SnDoBst3vi;!nB;!a60el;!ny;mCnBr67ur4Twr4T;ce,d1;ar,o4N;aIeDhaled,iBrist4Vu48y3B;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5C;e0Yy;a7ri4N;r,th;na68rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Bue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4X;!ath4Wie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5JemCmai8oBry;me,ni0O;i6Uy;!e58rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4M;e4Zod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Fma4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu52;!r;nacBor;io;im;in,n;aJeFina4VoDuByd56;be25gBmber4CsD;h,o;m3ra33sBwa3X;se2;aDctCitCn4ErB;be20m0;or;th;bKlJmza,nIo,rDsCyB;a43d5;an,s0;lEo4FrDuBv6;hi40ki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h57nt;nzaBrd1;lo;!n;lbe4Qno,ovan4R;ne,oDrB;aBry;ld,rd4U;ffr6rge;bri4l5rBv2;la1Zr3Eth,y;aReNiLlJorr0IrB;anDedBitz;!dAeBri24;ri23;cDkB;!ie,lB;in,yn;esJisB;!co,zek;etch3oB;yd;d4lBonn;ip;deriDliCng,rnB;an01;pe,x;co;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;!dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;!edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
     "MaleAdjective": "true¦0:032;1:034;2:020;3:02T;4:014;5:024;6:038;7:039;8:01V;9:02N;A:01A;B:02H;C:UA;D:02X;E:02D;F:00K;G:022;H:YT;I:031;J:Z5;K:02R;L:00A;aY2bW3cRIdNXeLFfJMgIHhHWiEYjESlE7mC8nBJoAOp7Squ7Rr5Js3Ht2Bu24v11zé10â011éMô4;b0Wc0Ld0Kg0Ihon4l0Cm08n07oYFp03qu01r00tSvM;aPeNiHAoM;ca003l9;il5ntM;ré,uGé;c9nMpo2s034;es027o014;aSeRhQinceEoOrMudi3;angMiq9oK;er,l02R;fYOi5nn3uM;fUVrYM;iopiFé2;i0rnG;b01Rgé;a01Bein4o02EudK;ar016iM;disClNRvaRY;aOerQ4iNlo2ouMrouv3uis3;stoufEvML;cé,scop1;no00Prp015ta0;amou2erv3;aOiGUoMu,écH;ti6BuM;s7va0;cJil5nciZB;aQePimOoNu,éM;ga0vaZD;ig6qSB;i6é;ct9Bvé;bo2nXF;aMrilVQypTY;l,ré;en4ifZFuc01D;aVerUhSlaRoOrNuM;lé,ma0;as3it;euIrNuM;lé,r4;cHné;boI2ir3t3;aMeN;nc2pYT;ve5;il5rtQ3;aNerl9l4LouMrécH;illLSrifXM;hi,ucH;b2lé;a0Ie09iYoRrai,u,éMê02B;cu,gétaPhéme0nNrM;ifJo5;al,iMérHZ;el,tiF;l,riFt8;cRiQlOt8uNyaMû4;geBnt;lu,é;aMeBé;nt,tHP;lé,sA;al,i9J;bIcVdé,eTf,giElSnd4SolRrQsPtNvM;a0ifYL;aMré;l,mi6;cTTsé,uGé;al,g01Qil,tuGuQI;aWDeU9;!aA;illMtnamiF;i01Fot;eULtoZ1;in0WlTnQrMspTMuf,x3;b1dOmNnFTrZLsé,tM;!-de-gNEic1ébr1;eH8ouSW;i,oWC;dNgeBtMu;i5ru;u,éF;ou4u;cQgPiNll01FntaVIrJuM;dY2t2;lEnM;!cu;aHEin1;a0haVDilE;kraiW9lQniPrOsNtM;iYOérA;aYGuGé;baAge0;!latT3versG;cé2tM;raviolYTérX7;a0Me0Gh0Fi0Co04rQuOyroVQâtUUéMê011;léMnu,t86;pho6vi7;!a0méfJniSTrMé;buPMc,gZH;aTemRiPoNuq9éM;buY3pi00O;mp004nq9pX4uM;bl3vé,é;b1cYNmestESomphaMvi1;l,nt;blMpé;a0oCé;ceBdZEhi,itVZnOpNumatiDvaillZYîM;na0tA3;u,ézoïd1;ch3quilliDsM;cVZi,pMvers1;aYQlJX;caUMléImb3nSquRrPscYNt1uM;ch3ffu,lousaArMt-puWC;ang4RbillU9mL2nM;a0oV8é;dUBrQAtuM;!r3;aUGé;du,itrR7na0;béRDg2mNntinnabuEré,ssTDtM;ré,uba0;b2o2;e71éâWY;i0mpQnPrMutWRxYB;m002ni,rM;iMoLX;en,fi3toNI;du,taPKu;or76é2;bWPil5mi7nPpOquArNs7tM;illWKo9;abisco4d8i,é;ageBé;ge0né;a17c15e0Zi0SnobiS0o0Lp0Ht0BuSyPéMûr;dMlectiURmZRpa2roposVN;at8uM;cW7i1A;mpathiDnMriF;coW1diM;c1q9;a0b01cZd-XffWggeN0iVjXFpRrNspeM;ct,nMJ;aObaDTdévelJXfaKge5huF9me6naturGpNvM;iva0ol4;eup5reU0;igu,n6;erNpMérVN;lW5o7;fMpo7;iUXlu;ciYHnCvi;iDoca0;aMc7E;fVYméVY;cMeBré;eX6uNY;conscOUit,jePUlimZ5merWIordZ9sNtEWurbaAveM;nP6rs8;tanP3éqOK;aQimuEomac1rOupéfNy5érM;iWLéotyVF;aKia0;esDiMucUT;ct,de0é;biWHliU1ndardi7;aSRecVQiriP2oOécM;iMulXK;alWMfJ;n8Art8;ci1ign3leXNmnoNKnRphistUWrCt,uM;dé,fOleXUrNs93teMveO5;nu,rO4;d,ia0;fMré;lé,ra0;geBn3;bRciTDdEMgnPmNnMt9;guV4i5V;plWDulM;ta6é;a5ifiMé;a0cX5;yMSéVV;cQigneuLWmpiOAnNrMul,xuGya0;eApeR0ré,vi;sNtiM;!meOP;atX4it8oCDuGé;!oVOrW3;andaVSel5intXHulptMélérWT;ur1é;b5cZhaVMiWlVngTouSrrasAtPuNvMxUU;a0oyaSC;greRTtM;ilEé;a6iMu2;né,sfaiM;sa0t;diFl;la0uinM;!oMP;i6Fé;gSElEnNsM;iXNonPQ;!t;caWYerdot1rM;ifJo-sai0é;a1De0Ki0Ho09u06ythX6âU4éMêvX3ôUQ;a04barbWEc02duKel,f01gZjYn1pUsRtOusP0vM;olMélNC;t3u;iNrM;ospeOAéGY;ce0f;erWMiMoOY;dMg6sC;enNHuG;aOuNétM;it8é;bliVKgRXté;nKCraTV;ouiX5;lé,ulMéIW;aTSiL;lécG9orWPrigér3ugJ;alcitIeMhaufSJonforCurVI;nt,pt8;ct8li7;bicoUKgT3iNr1sMtiE;taLQé;né,sseE;mRnQtVRuMy1;couEgNl3maAquAsOCtiM;er,niL;eMisD;aLKoRU;d,fEgeBrQT;aMpu;in,n;a0caNdé,golMngaR1sq9tuGv1;aR0o;in,na0;b0Dc06do05f04je4l01m00nZpVsRtPvMçu;enMu,êWT;dMu;icVD;arVTenMi2rous7;tSKu;caSZpOseNtM;a0rei0;mbEnTJr2;eUXlendSG;entOlUBoNrMtiR9u;odK4ésentTO;sa0usD;a0i;aSBcont2du,omVTtIvLI;pUUua0;aMeVEié,uiDâcHég9;tiMxa0;f,oV4;aKou5roiSBu7;nW3ub5;hercHoOrNuM;eilUNit,lé;oquevU7u;mmV8nNuM;rG2veKK;nMstitN0;aRYu;atW2onR9uC;b00cZdiYfXgWilQ0mVnTpRsPtOvNyM;onQGé;agV9iVP;aAXioUQé;a0sM;asJuI;ide,pM;or4rocH;cMgé;i,uNL;as7ifJolU6pa0;eBoûC;fi6raîchRK;al,c1n,oaMA;i1oPM;atVMelaiNHougTI;alNAiTCotiSG;a1Te1Kh1Ii1Gl14o0QrXuSyramid1âlD6éM;cTEda0jLYnPriUWtM;aNilErMuEé;ifJoRY;nt,raV9;aMétI;l,rd;a0bPcOdiBHisDni,rMtasNAérB1;!iMpurAuK1;ficaRQtaA;eau;iFlic;e0Ci07oUuTéMêtQJ;cQdesA6fPmOnat1oc7Epo7sNtenI3vMétabTM;eOSoPZ;e0idL1uUI;aGAédi4;abrR4é2;iMé8N;pi4té;de0sMV;ba0chaAduXfWgramUChiEWlVmUnonPKpSsRtPuTZvMémi8Q;enç1iNoM;ca0q9;dKSnR3;eMubéIéS5;cR9sC;crKt2;oMrSJ;rKQsé;etR5pt,u;i29onRZétaS2;essTFoS0;ctIPit;mPnNsM6vM;at8ilégJé;ciMtaMD;er,p1;it8ordi1é;miLna0ssM;a0enRDé;cHiXlVmp01nUrtTsPtNuM;d2rS6ssTX;agLeM;lé,nK9;it8sOtMé;al,éM;!rQE;eS5éTB;at8eBoQU;cK9dé2tifQG;iMynéM0;!cOBssQPtiRA;gOJlu,ntMv2;eBu,é;aTeQiPoOuIVéM;bMniL;éiF;mDVnS8;a0s7;in,urM;a0nichM;aNYeB;cé,iOnNq9tM;!i6;!a0q9té;nt8sa0;afL5caNTmMqu3voCétQA;en4pa0;ilippAosphorS7énM;iQSomén1;ct01inTlé,nSrNsMtKup5;a0tilJG;cuCdu,forPlé,ma7ApéJMsNtMverQGçNG;i79urDF;an,isCoS9uaFJéM;cu4véI;a0ma0é;aHXcHdu,sa0tu;aNHt;i08lpiCn07rXsRtNuSPvé,yMïF;a0sRGé;aHTeOie0rM;iMon1;arc1ciF;ntOIrnG;sNtM;or1;aOiMé;f,onnM;a0el,é;gLnt;aTcheFYeSfRiQl3oissi1tMveMMé;aOiM;al,cMel,sR3;iP5uPE;gé,nt;gAHsiF;aKuS7;il,ntLH;dox1guayFlys3noM;rm1;su,teEé;ll1Sr;b0Cc09dor07ff05is8lfaJAm04nd03pYrRsé,ttomQTuMxygé6;a4blJtOvM;eH1rM;aPViL;il5rM;aQTecuiSCé;aRbI7cheQdPgOiMné,phelA;eAEginM;al,el;ani7;on6u7E;st2;l,nPM;alApNt4UuH0érM;atR1é;oNrM;esDiRL;r4Dsé;oMZul3;b0Gniprése0;ensMiNMra0usq9;a0if,é;a0iM;féI;cMtogFH;asQQiMup3;deI9pHN;jeIJlOsMéNS;cBeMti6éd3;rQVssQM;igJGong;a01e00iZoPuOéM;!gMvro7;at8liP1;!anMBlKNméro4pLItrNJ;c8irUmSnchaErOté,uMvaO4yé;rriMé;!ciLsD;d-NmaMvéJT;l,nd;afO7cM;oréF;inaMmé;l,t8;!aFZci;cke5ppO0;stoORt,urEV;c2iTpolSrrPZsRtPuNvMzi,ïf;al,r3;fMséa7F;raOK;al,iMurG;f,on1;al,ilK4;iI9éoM7;n,sD;a12e0Ui0Mo02uVéNûrM;!isD;cSdNfNQl47nagLpriDriMtropoliI5;diEIta0;iMu7;aOcNtMév1;at8erranéF;al,in1o-lég1;n,teB;ha0onH1;et,gMPltiRnicip1rQsOtM;a0iMuG;lé,n;c5icMq9ulmOW;al,iF;al,muI;na2FplJ;biN4d04i02llOEm00nVqueBrStRuMyF;chPil5lOra0sNtKFvM;a0emB7;su,tacES;a0u,é;aKMe4;eBiPHoCA;al,dNf1i6KmN1tM;!-6el,ifN3;a0o2u;dPgolOopareGOtMuGN;aMé;gIGnt;!iF;aAi1;enMifJ;ta6;ndMré,si;re;ifJé2;gQliCnOroNtM;oyFé;boEiC;eBiMér1;er,m1sté3Z;nMraMD;aK1onM;!nNN;ilJUnPsOuMxiNY;b5rtriMsiF;!er;quAu2;aOsNtMu;al,eB;ongLtruGuG;cé,ça0;boul,chPKg02igr01jeBlXmeGZnUrQsPtNudKîtrM;e,i7;eFFin1riMutPIé3L;ciGmoni1;culAq9s8;b2chaMUgPFiOoNLqu3ra0tM;iMyr;al,en;t1é;ié2qu3uM;el,sM;crK;aNfJ1in,oMsaAveOH;doIuA;dMi7;if,roK;elMYichLS;isLXyar;aZeYiToPuOâcHéM;cHgMn16zarO7;al,er,islNP;!brGRcrNOiDminNMst2théMFxurLQ;calMQinG4mbaJ5nNrECti,uMy1;rdDHé;doK0gM;!itudOV;bOgo4mNp18tMé;tGVuaJX;i4ousA;ertAidORérM;a3Mé;nt,vé;bi1cRiQnPq9rOsNtMvé,xND;e0in,ér1;c8sa0;g9moJH;ciJ3guKI;d,tiL;rym1é2;aQePoNuM;biEif,ré;i0li,ncHuMvi1;eBffFTiMErnaKYé;té,unM7;casDillKAuniO5;di60gnor3ll2Hm1TnRrOsNtM;aJ2inéI;o5raéJ1su;aJCi7rM;atN1iCéM;el,guKQsoFL;a1Hc16d0Ye0Tf0Mg0Lh0Ki0HjustFXn0Go0Cqui0Bs02tRuQvNéM;dKg1;aincu,estiNiMé1I;o5t3;!gaKJ;si4tiLK;aNWePo87rOuJVéM;gr5ZrM;eKJieB;ansiM9i5T;llRmpeBAnQrMstinGM;allJcontineE8dKlB0mitE3nNpo7roM;gMIm07;aMé;tiBB;s8tiNU;ecDViB2;atisfaKcrKen7iSoQpir3tNuM;ffiDlC;antNinEBruM;ct8it;!a6;le0uM;cK9pçNM;gnMnEGsC;ifK7;et,siAWéC;cOffeDPnMKpMuï;porMéI;tun;cuJP;oM0é;ntMti1;erromMéresD;pu;abitCDos1Lu2WéLG;rLQéGU;aKQeRiniPlCLoMérJC;nM9rM;mMtu6;aIIel,é;!tésM;im1;ctICrn1;mploIWxM;aMTisCpM;lMreKVérim7K;iq9oM;i4ré;iPoOuNéM;ce0fi82pI9ter9S;!lA3st0T;-eurALle0;caJ6en,fféKYgOq9reMLsMviduG;cMtinMK;i9VrKG;e0né;aUeThSiRli6oMurLN;héKTmplKDnM;dLBg9Nnu,sNtMveH1;i0Brô5;cC5iMo5;dé2sC;de0s8;anJQ;ndJrDIsD;ndKYrM;cé2né;cQdPlOniLPpNrticu5ssouHMttenMvo9;du,t8;erçu,proprJ;té2;ap4éKP;heL7t8;ag08b07i4m00pM;aXerVlUoSrOuNérM;at8i1;de0isDls8r;essiFVoOuNéM;g6vu;de0;duCLmpLZvi7;ll9rtMs3te0;a0un,é;an4oI;soKNtiM;ne0;ir,rMtBFyé;faKti1;aQerJ1iPoNéM;diK8mo95ri4;biI6dé2rM;al,tG;g2ne0;cu5téM;riG;i5Hu;inK5é;imi4uMég1;mi6st2;aZeXiWoRuPydraCâOéMôteHX;bé4rMsiCtérU;is7;lé,t8;i5mMpHNrE;aAili3;llywooI5mPrNsM;pitaHQ;izoBJm8PriM;fJpiE;oseER;laIndHUtléIIvern1;rMur4xag8L;bu,culéF;biPcHgaF6lOnNrMuC5;aHKceEdi,n4R;dicaHBté;eCluc5D;lNtM;uKDé;i4lé;a0Ke0Hi0Fl0Co09rWuQâ4éMên3;a0mGPnMorD1;iNéraM;l,teB;al,t1;erQiMtGHéIM;llNnM;dé,éF;erIEoM;ti6;riL;aUeTiPoMéco-ro07;ndeBssiNuM;ilEpé;er,sD;ffDJllOmNnIHsM;a0onEVé;aIFpa0;aHNé;c,lotCnu;is7mmatGLndNssoui6TtuKvM;e,itatJ1é;!iM;loq9MsD;gueCCnNuM;aE4drK7lu,rHHverneAG;do5fl3;aNisDoMua0;usD;cé,pFX;rondMtI6v2;!in;igC4ntNrMsticuE;maA;il;gn3iQlOmAn4rMuf2;antCKdMni;iFé;a0bé,oM;n6pa0;!lCO;a14e0Zi0Ul0Ko08rXuQâcHéMê5;cOdNlAmMod1ru;inAor1;ér1L;al,oGY;gRlQm3rOsNtMya0;ur,é;e5il5;eFXiMt8;boGT;guImiDW;it8ueB;aUeTiRoOuNéMôDD;mF8quentEOtIJ;g1itDJst2;iNnMufrouC;cé,taFR;d,s7;aGKgorAXn12pé,q9sM;sD0é;la4uG1;cMgm3Rnco-aFRpp3te8Z;aFNtu2;c1et1llGUnTrOuM;!droDVisseBrMtu;bu,c79ni,ré;aAcPesBBmOtM;ifJuM;it,né;el,u5é;e6é;cOdM;aMé;ment,nt,teB;iLtHJé;aQePi9YoNuMâneBécH;et,orHAvi1;rMtCu;al,eB8isD;mmaCRuGJ;gOmMpi,tF1;aFXbM;a0oDD;eMra0;l5oE;cPer,gOli1nMsc1xé;!aMiI6;l,nciL;urFJé;e5hu,t8;i0n58rOsA9uM;illMt2;e4u;mMré,ve0;en4é;ci1go4iUlTmRnQrPsciCNtNuMvoG3;bouFJcHt8;al,igM;a0ué;ci,fe9F;farENé;iliMé;al,er;ot;nBNsH0t;ff1Wm1In0Drr0Cs07ur5QxM;a04c00eZiXorbiCpRtNuM;béIlC;erminaE9raNéM;nu3rDY;conjug1vaM;ga0;a7Ye65lPo7reFNul7éM;dDIrimeM;ntM;al,é;icG8oM;i4raE0s8;gMlé,sC;ea0u;mpt,rC3;eNit3luM;!s8;l64ptMss8;ioG6é;cMgé2lt3spéI;er19t;carDMpaPsNtM;iv1omDLudia9U;eMouff5;n75u5;cé,gnol;a0o6;c0Kd0Ef0Ag08ivIj07l06n04rZsVtOvM;a01elopp3iMoûC;rAWsaED;aF2eRiLou2rMurXêt3;'oPaOeMoP;bâF0couDBlaBLpMteAM;o7reBF;nt,vé,î6;uve5C;n3Sr2;aOeNoM;leEUmmeEUrce5;igB9veF8;b5ngl06;aPegistB1huG4icOoNuM;ban6;bé,ué;hiGE;ci6gé;eMuCI;iDVmi;eFKu3I;o9ôAI;ag84l9oM;rDRurCH;a90erFTiOlNoMuFT;nB0ui;amFRé;lé,év2;euECiOoNurM;ci;loE6mmaDKrmi;aMma1P;b5mM;an4;aQhOlNoMr44u5;mbr3uraEF;e1Kin;aMevêt2;ntFCî6;is7st2;bSmRpM;aOe7ier2loBVoNrMâ4êt2;es7isFZun4;r4ussié2;il5nMq21;acH;erd7Dito8Wu2ê5;aRouPrNuMêC;sq9é;asMouDRuF4;sé,é;cHrM;bé;l5rraC6;aPeOiNlanq9ond2rM;ay3on4é6;c56lé;ct8rvE3;cé,rM;a0oMé;ucH;a34e2Xi21o1Vr1Tu1RéMû;b1Nc19dica9Zf11g0Vha0Ul0Rm0Ln0Jp09r06sVtQvMçu;ast4YeNoM;lu,ra0t,ué,yé;lMrgonEE;opBL;aPeMo4Eraq9;nNrmM;in3;du,teBu;cHil5;aVeUhTiRoOuNéquilM;ib2;et,ni;bliDBeuv2l3piErM;dF1iM;en4;g6nMré;car6téres7;abCWonoIydra4éri4;mpa2rtA6spé2;bu7ffec4pprobaB9rE7;aNiDToMég5;bé,uC;ci6ng6D;aTeRlPoNrM;aDPeCMim3;itraCOli,r4uM;il5rvu;aMoAI;cé,iD;i0nMup5;aCJda0;rMs7;eCHte4R;aMuDJ;tu2;eOoNuM;ni;dé,n4raBT;ntMsu2;!iM;!el;aNiM;bé2cCPnq53ra0é;b2is7vé;ncH;aBEingD6ling9oPrOuNéM;né2;enC2i7;ad3os59;nf5uMût3;li8Fr9ZtC;aQenPiNoMraîcC7u0éC5;n8Irm3;c3Igu2niM;!t8;du,s8;iNvoM;ri7;lEt;aYeXhTiSla2oOrMulot4éCT;iMo9KépK;t,é;lOmpo7nNrASuM;pé,rag58su,ve21;cerCtrac4;le4o2;dé,s8;aOiMu;qMr3;ue4;r6us7î6;nt,va0;de0lé;aNorD5rMuC;aBBiCE;rq9ucH;bitBVc1rMve4;!ci;aco88es7oMu;g9it;du,le0mPn6rOté,uM;a4Xb5iMé;llAU;ma0s1é;inMp4;a2Iic1;a0Fcta0Dffér0Cg0Al08m07plôCCr06sPt,vM;erNiMor7J;n,sé;ge0t8R;cZgracJjoi0lYpWqual4KsStM;a0enQinOrM;aMib9;it,ya0;ctMg9;!if;du;iOolNéM;mi6;u,va0;de0mul26pé;aMer7o7ropor2Ju4;ru;oq9;iNoMrA8;nti62rC9;pli6;ect11ig40;ensB4in9;a4iM;ge0;eMit1;st8;e0é;toM;ri1;gMma4P;on1;mRntQr3WsM;cOsa5tM;i6rM;uc8F;enBSript8;e5é;eu2i;ctylogra6Wlto6XmMnD;as7né;a3Le3Hh2Vi2Sl2Ko07rTuOyclNâlAéréMô45;a8Abr1;opéF;baAiNltMrADta6;iAQurG;rNsMt,v2;a0i6;as7;aXiVoRuPéM;atNne5pM;iCu;eBif;!ciMel;al,fJ;cOisNq2Ct4uMya0;la0stAL;sa0é;hu;a5GminGstaM;llA;int8moi2IquM;a0e5;c1Xdé,gn71hé9Fi1Wl1Rm1Cn00opér9UquZrSsQté,uM;cHl4Ip3rNsu,tumiLveM;rt;bé,on6tMu;!aN;su,taM;ud;di1n44pPrMsé,t7BéF;eMi8Aos8;ctMsponAS;!eBio9Q;orNuM;le0;at8el;et,in;!c0Td0Rf0Kg0Hj0Gnu,quéIs05tTvMçu;aReNiMulsAB;vi1;nNrM;ge0ti;tMu;io9FuG;inc4Jl96;eTiRoQrM;aNit,ovM;er7;ctMi0ri3s4;uGé;ur6;gu,nM;e0Pge0uG;mpNnM;t,u;l8XoM;raA;ac2cVeTiSolQtOéM;cut8qM;ue0;a0ern3ituMru0S;a0t8Wé;aMi97;nt,teB;g6sC;nCrvM;a6Fé;ie0;oi0ug1;eNénM;it1;lé,sU;iPlicXond3RrM;aMon4;teM;rnG;a0dMné,r93sq9t;enM;tiG;am6iMuc62;ti9N;eNil69l0Hor9Er7CuM;pis87r7R;nt2pMr4;tuG;bZmVpMé6C;aTen7lSoPrNuls8éM;te0;es7i8RometCéheM;ns8;rteMs3;meM;nt1;aiDet,iq9;ct,r6Ds7t53;an8AeNun1VémM;or7S;n76rM;ci1ça0;atCi6lé;lNoM;ni1ré,ss1;aNeMégi1;ct8;nt,t0X;!f45n3I;ardiLh5Hu;aQiPoNéM;me0r54;is8UuMît2;té,é;gnoCma45nqNqueC;irNndestAqMs7;ua0;!on34se81;nNrconspe8Hse5tMvil6C;adAé;gl3t2;aYeViToQréPuchoCâNéM;ri,t8;taA;ta0;tiF;cola4iNqu3r1uMyé;ca2I;si;a0ffMliFrurg4M;on6ré;nu,rNveM;lu;!c63;grAm1UnSpeau4rOs7to30uM;d,fMs7;fa0;bOgé,mNnM;el,u;a0eB;onU;ceEgMta0;ea0é;nOrM;né,tMv47;ifJ;d2sé,tr1;botAch04de03l02mYnne5outchou4pWrOsMtal5ZuDva4B;aMq9s3till5Y;niL;aRcQd7OesDiPmi6nNré,téM;siF;asMé;siL;ca3Et69;ér1;ctériMmé52;el,sé;itMt8;al,on6;bNpagMé;na1K;odMré;giF;ci6ifor2Eé;n1Xt;otMé;tiL;a14e10i0Sl0Mo07rVuUyzaTâRéNêM;c53ta;aOdouAga20nMt78;iMédictA;n,t;nt,t;cHtM;a16i;ntA;cc1ri6té;aUeTiSoPuMési1Oûl3;isDnNtMya0;!al;!i;cHdé,nzé,uMyé;illMteB;on,é;dé,lEnguebaEsa0;ss4Wt3Cve4;ilNnM;cHla0;la0S;i7mbZnXr6ssWt4uMvA;cUdTffSillRlQrMs4Mt6N;d0Eguign36rOsM;iLoM;uf5;u,é;evers3ot;a0i,on0W;a0eBi,on;eBi6;hé,lé;e5u;!dMna0F;isDé;ar5Cé;aPeNin5BoM;nd,q9t34;ss3t,uM;!i,té;fa08ncMsé;!hi5T;enQgPrm47sM;corNeM;xuG;nu;ar2;-ai5AfNsMve53;éa0;aiD;auOdNlligéIrceBsMur2;ti1;on08;!cer2C;fo9gZlVnTptism1rRsQtMvaU;aNtM;a0u;ilM;leB;a6é;bMio5ré;a0e5ou3Ju;c1d3lieusaMni;rd;aOeinNlMza2M;a0on6;iLé;deBnY;arMué;reB;b4Sc43d3Qf3Cg33hu32i2Xj2Vl2Bm22n1Cp12r0Qs0Ct00uWvOzu2érMî6;iFoMé;nav1por4;aRePiOoMé2;isiMr4ué;na0;l0Zné,sé;nMr20ugE;a0tu2;c3AnMrJ;cé;d0Sr21straOtMvergn3H;oMrichiF;colEma0Bri7;liF;héWroVtM;aTePiOrMén9;aMib9;ya0;ra0t2;i0nM;dNtiM;f,on6;r0Iu;b5cHr3P;phJ;niF;cYeWo0QpVsNtrM;al,ei0;assinSerRiQoMu2y1U;cJifOm1Zr1DuM;pi,rM;di44;fé;du,mi5s4é1M;vi;!é;hyxJir3;pMx9;ti7;en3Z;chitecWdVgentUméTq9rOtiMyF;cu5fiMsan1;ciG;aOiNoMê4;ga0n01sé;vé,é2;cHn29;hé;!niF;in,é;e0u;tur1;aiDeu2la0QpNérM;it8;a1YlSrOuNétM;isD;yé;oMê4;fonNprJu2Nxim29;ié;di;iq9;al,c09dal08esthés07g01imZkylo7nWoVtM;iOéM;diluviFrM;ieB;aé0ScOdéraNsoM;ci1;pa0;iNlérM;ic1;pé;dArm1;e5onciaNuM;el,lé;teB;aMé;liL;lo-NoiM;ss3;aNsaxM;on;méM;ri11;ia0;ou;esMiFré;tr1;aig0LbSer,iRorQpPuDéM;lio2riM;caAnM;diF;ou5u4;ti;!c1nci2D;iMré,uE;a0gu;a02c00eZgéXig6lRpAsaQtNvM;éo5;ernNiLé2;er;at8é;ciF;ePié,onOuNéM;cha0;mé,s8;gé;maM;nd;riF;en;r4xandrAz0B;alAooM;li7;ngNrM;ma0;ui;ouMus4;ré,té;gMlé,m3sé;rNuM;!i7;elMi;et;ri1J;aTenRi4oniDrePuM;erNicM;heB;ri;ss8;té;ouM;il5;ça0;fPghOriM;caA;in;an;aSeRilQliPol3rNéM;re0;ancMioE;hi;gea0;ié,é;ct0S;iMmé;bMré;li;dVhéTjaSmiQoOroKéM;quM;at;lMpt0L;esO;nistrMrM;at8;ce0;re0s8;if;itM;ioM;nnG;cWhRidu5tNé2;ré;iNuG;el;f,vé;lé;aNeM;vé;lMr6;anM;dé;abl3ent9identXoTrPuM;eMsé;ilE;la0;oMu;chMupi;eBé;ur;mNrt,utuM;mé;mo00pM;ag6li;el,é;ué;a02dom00erIjeXoVrRsNusM;if,é;e0oNtraK;it;lu,rb3;a0é;acadabIuM;pt,tiM;!sD;sa0;li,nM;da0;ct;ra0;nt;in1;al;is7ndNtM;tu;on6;né;sé",
-    "FemaleName": "true¦0:FV;1:FZ;2:FO;3:FA;4:F9;5:FP;6:EO;7:EM;8:EW;9:GC;A:G8;B:E2;C:G5;D:FL;E:FI;F:ED;aE0bD2cB5dAGe9Ef8Zg8Gh82i7Rj6Tk5Zl4Nm37n2So2Pp2Equ2Dr1Ns0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7DeHol1SvG;et7onB6;le0sen3;an8endBLhiB1iG;lInG;if39niGo0;e,f38;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9VenFY;da,l8Unus,rG;a,nGoniD1;a,iDB;leGnesEA;nDJrG;i1y;aSePhNiMoJrGu6y4;acG1iGu0E;c3na,sG;h9Lta;nHrG;a,i;i9Iya;a5IffaCFna,s5;al3eGomasi0;a,l8Fo6Xres1;g7To6WrHssG;!a,ie;eFi,ri9;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a05carlet2Ye04hUiSkye,oQtMuHyG;bFHlvi1;e,sHzG;an2Tet7ie,y;anGi9;!a,e,nG;aEe;aIeG;fGl3DphG;an2;cF6r6;f3nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBU;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;l5Yre0;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBMome;e,ie;in1ri0;a02eXhViToHuG;by,thBJ;bQcPlOnNsHwe0xG;an92ie,y;aHeGie,lC;ann9ll1marBEtB;!lGnn1;iGyn;e,nG;a,d7V;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBXki;ea,iannDVoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;cAQkaE;chGe,i0mo0n5EquCBvDy0;aCAelGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAV;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaB9tHulG;a,et7in1;ricGsy,tA7;a,e,ia;ctav3deHfAUlGphAU;a,ga,iv3;l3t7;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoB0k8AolG;a,eBF;!mh;l7Rna,risF;dIi5OnHo23taG;li1s5;cy,et7;eAiCM;a01ckenz2eViLoIrignayani,uriBEyG;a,rG;a,na,tAQ;i4ll9WnG;a,iG;ca,ka,qB2;a,chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi9IlG;iGy;cent,e;red;!e6;ae6el3G;ag4JgKi,lHrG;edi60isFyl;an2iGliF;nGsAK;a,da;!an,han;b08c9Dd06e,g04i03l01nZrKtJuHv6Qx86yGz2;a,bell,ra;de,rG;a,eD;h73il8t2;a,cSgOiJjor2l6Gn2s5tIyG;!aGbe5PjaAlou;m,n9Q;a,ha,i0;!aIbAJeHja,lCna,sGt52;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri7;!t;!ry;et3IiB;elGi5Zy;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBEon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9QnGsAO;!a,e9P;a,sAM;aAZcJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi9na,rG;a6Yi9;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Jet7z2;a,et7;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8Ee;!n4E;b7Serty;!n5P;aNda,e0iLla,nKoIslAPtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4L;cNdon7Ri6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5A;a,en,iGy;!e,n46;ri,urtn98;aMerLl97mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6OiJlInHrG;a,i,ri;d4na;ey,i,l9Os2y;ra,s5;c8Ui5WlOma6nyakumari,rMss5KtJviByG;!e,lG;a,eG;e,i76;a5DeHhGi3NlCri0y;ar5Ber5Bie,leDr9Dy;!lyn71;a,en,iGl4Tyn;!ma,n30sF;ei70i,l2;a04eVilToMuG;anKdJliGst55;aHeGsF;!nAt0W;!n8V;i2Qy;a,iB;!anLcelCd5Uel6Zhan6HlJni,sHva0yG;a,ce;eGie;fi0lCph4W;eGie;en,n1;!a,e,n34;!i0ZlG;!i0Y;anLle0nIrHsG;i5Psi5P;i,ri;!a,el6Nif1QnG;a,et7iGy;!e,f1O;a,e70iHnG;a,e6ZiG;e,n1;cLd1mi,nHqueliAsmin2Svie4yAzG;min9;a9eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6S;do4;!belGdo4;!a,e,l2E;en1i0ma;a,di4es,gr5P;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1M;ll2rten1G;aHdGlaH;a,egard;ry;ath0ViHlGnrietBrmiAst0V;en22ga;di;il73lKnJrGtt2yl73z6B;iGmo4Eri4F;etG;!te;aEnaE;ey,l2;aXeSiNlLold11rIwG;enGyne17;!dolC;acieHetGisel8;a,chD;!la;adys,enGor3yn1X;a,da,na;aJgi,lHna,ov70selG;a,e,le;da,liG;an;!n0;mYnIorgHrG;ald35i,m2Stru72;et7i0;a,eGna;s1Mvieve;briel3Fil,le,rnet,yle;aReOio0loMrG;anHe8iG;da,e8;!cG;esHiGoi0G;n1s3V;!ca;!rG;a,en43;lHrnG;!an8;ec3ic3;rHtiGy9;ma;ah,rah;d0FileDkBl00mUn49rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2H;geni1la,ni3R;h51ta;meral8peranJtG;eHhGrel6;er;l2Pr;za;iGma,nest29yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;a,en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aVeKiJoGul2U;lor50miniq3Xn30rGtt2;a,eDis,la,othGthy;ea,y;an08naEonAx2;anObNde,eMiLlImetr3nGsir4T;a,iG;ce,se;a,iHla,orGphiA;es,is;a,l5I;d0Grd0G;!d4Mna;!b2DoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1XyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et7iG;!ca,el1Bka;arGia;is;a0Re0Nh05i03lUoJrHynG;di,th3;istGy05;al,i0;lOnLrHurG;tn1E;aId28iGn28riA;!nG;a,e,n1;!l1T;n2sG;tanGuelo;ce,za;eGleD;en,t7;aIeoHotG;il4B;!pat4;iKrIudG;et7iG;a,ne;a,e,iG;ce,sY;re;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;i9yl;a,y;nLrG;isJlHmG;aiA;a,eGot7;n1t7;!sa;d4el1OtG;al,el1N;cHlG;es7i3E;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2FsG;a2Eie;a,iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Di0D;a,e,l1;isBl2;tlG;in,yn;arb0CeYianXlVoTrG;andRePiIoHyG;an0nn;nwCok9;an2MdgKg0HtG;n26tG;!aHnG;ey,i,y;ny;etG;!t9;an0e,nG;da,na;i9y;bbi9nG;iBn2;ancGossom,ythe;a,he;ca;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Yy9;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et7iA;!triG;ce,z;a4ie,ra;aliy28b23d1Kg1Gi18l0Rm0Mn00rVsMthe0uIva,yG;anGes5;a,na;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi9yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t7;an19elG;le;aYdWeUgQiOja,nHtoGya;inet7n3;!aJeHiGmI;e,ka;!mGt7;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t7;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,ta,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i9y;!e;il;ah",
+    "FemaleName": "true¦0:FU;1:FY;2:FN;3:F9;4:F8;5:FO;6:EN;7:EL;8:EV;9:GB;A:G7;B:E1;C:G4;D:FK;E:FH;F:EC;aDZbD2cB5dAGe9Ef8Zg8Gh82i7Rj6Tk5Zl4Nm37n2So2Pp2Equ2Dr1Ns0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7DeHol1SvG;et7onB6;le0sen3;an8endBLhiB1iG;lInG;if39niGo0;e,f38;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9VenFX;da,l8Unus,rG;a,nGoniD0;a,iDA;leGnesE9;nDIrG;i1y;aSePhNiMoJrGu6y4;acG0iGu0E;c3na,sG;h9Lta;nHrG;a,i;i9Iya;a5IffaCFna,s5;al3eGomasi0;a,l8Fo6Xres1;g7To6WrHssG;!a,ie;eFi,ri9;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a05carlet2Ye04hUiSkye,oQtMuHyG;bFGlvi1;e,sHzG;an2Tet7ie,y;anGi9;!a,e,nG;aEe;aIeG;fGl3DphG;an2;cF5r6;f3nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBT;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;l5Yre0;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBLome;e,ie;in1ri0;a02eXhViToHuG;by,thBI;bQcPlOnNsHwe0xG;an92ie,y;aHeGie,lC;ann9ll1marBDtB;!lGnn1;iGyn;e,nG;a,d7V;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBWki;ea,iannDUoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;cAPkaE;chGe,i0mo0n5EquCAvDy0;aC9elGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAU;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaB8tHulG;a,et7in1;ricGsy,tA7;a,e,ia;ctav3deHfATlGphAT;a,ga,iv3;l3t7;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoAZk8AolG;a,eBE;!mh;l7Rna,risF;dIi5OnHo23taG;li1s5;cy,et7;eAiCL;a01ckenz2eViLoIrignayani,uriBDyG;a,rG;a,na,tAP;i4ll9VnG;a,iG;ca,ka,qB1;a,chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi9HlG;iGy;cent,e;red;!e6;ae6el3G;ag4JgKi,lHrG;edi60isFyl;an2iGliF;nGsAJ;a,da;!an,han;b08c9Cd06e,g04i03l01nZrKtJuHv6Qx86yGz2;a,bell,ra;de,rG;a,eD;h73il8t2;a,cSgOiJjor2l6Gn2s5tIyG;!aGbe5PjaAlou;m,n9P;a,ha,i0;!aIbAIeHja,lCna,sGt52;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri7;!t;!ry;et3IiB;elGi5Zy;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBDon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9PnGsAN;!a,e9O;a,sAL;aAYcJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi9na,rG;a6Yi9;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Jet7z2;a,et7;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8De;!n4E;b7Rerty;!n5P;aNda,e0iLla,nKoIslAOtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4L;cNdon7Qi6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5A;a,en,iGy;!e,n46;ri,urtn97;aMerLl96mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6NiJlInHrG;a,i,ri;d4na;ey,i,l9Ns2y;ra,s5;c8Ti5WlOma6nyakumari,rMss5KtJviByG;!e,lG;a,eG;e,i75;a5DeHhGi3NlCri0y;ar5Ber5Bie,leDr9Cy;!lyn70;a,en,iGl4Tyn;!ma,n30sF;ei6Zi,l2;a04eVilToMuG;anKdJliGst55;aHeGsF;!nAt0W;!n8U;i2Qy;a,iB;!anLcelCd5Uel6Yhan6GlJni,sHva0yG;a,ce;eGie;fi0lCph4W;eGie;en,n1;!a,e,n34;!i0ZlG;!i0Y;anLle0nIrHsG;i5Osi5O;i,ri;!a,el6Mif1QnG;a,et7iGy;!e,f1O;a,e6ZiHnG;a,e6YiG;e,n1;cLd1mi,nHqueliAsmin2Svie4yAzG;min9;a9eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6R;do4;!belGdo4;!a,e,l2E;en1i0ma;a,di4es,gr5O;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1M;ll2rten1G;aHdGlaH;a,egard;ry;ath0ViHlGnrietBrmiAst0V;en22ga;di;il72lKnJrGtt2yl72z6A;iGmo4Eri4F;etG;!te;aEnaE;ey,l2;aXeSiNlLold11rIwG;enGyne17;!dolC;acieHetGisel8;a,chD;!la;adys,enGor3yn1X;a,da,na;aJgi,lHna,ov6ZselG;a,e,le;da,liG;an;!n0;mYnIorgHrG;ald35i,m2Stru71;et7i0;a,eGna;s1Mvieve;briel3Fil,le,rnet,yle;aReOio0loMrG;anHe8iG;da,e8;!cG;esHiGoi0G;n1s3U;!ca;!rG;a,en42;lHrnG;!an8;ec3ic3;rHtiGy9;ma;ah,rah;d0FileDkBl00mUn48rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2H;geni1la,ni3Q;h50ta;meral8peranJtG;eHhGrel6;er;l2Pr;za;iGma,nest29yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;a,en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aVeKiJoGul2T;lor4Zminiq3Wn2ZrGtt2;a,eDis,la,othGthy;ea,y;an08naEonAx2;anObNde,eMiLlImetr3nGsir4S;a,iG;ce,se;a,iHla,orGphiA;es,is;a,l5H;d0Grd0G;!d4Lna;!b2CoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1XyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et7iG;!ca,el1Bka;arGia;is;a0Re0Nh05i03lUoJrHynG;di,th3;istGy05;al,i0;lOnLrHurG;tn1E;aId27iGn27riA;!nG;a,e,n1;!l1S;n2sG;tanGuelo;ce,za;eGleD;en,t7;aIeoHotG;il4A;!pat4;iKrIudG;et7iG;a,ne;a,e,iG;ce,sY;re;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;i9yl;a,y;nLrG;isJlHmG;aiA;a,eGot7;n1t7;!sa;d4el1NtG;al,el1M;cHlG;es7i3D;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2EsG;a2Die;a,iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Ci0C;a,e,l1;isBl2;tlG;in,yn;arb0BeXianWlVoTrG;andRePiIoHyG;an0nn;nwCok9;an2LdgKg0GtG;n25tG;!aHnG;ey,i,y;ny;etG;!t9;an0e,nG;da,na;i9y;bbi9nG;iBn2;anGossom,ythe;ca;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Yy9;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et7iA;!triG;ce,z;a4ie,ra;aliy28b23d1Kg1Gi18l0Rm0Mn00rVsMthe0uIva,yG;anGes5;a,na;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi9yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t7;an19elG;le;aYdWeUgQiOja,nHtoGya;inet7n3;!aJeHiGmI;e,ka;!mGt7;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t7;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,ta,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i9y;!e;il;ah",
     "Month": "true¦a6déc4févr3j1ma0nov4octo5sept4;i,rs;anv1ui0;llet,n;ier;em0;bre;out,vril",
     "Country": "true¦0:3I;1:2Q;a31b2Hc25d21e1Tf1Ng1Ch1Ai13j10k0Yl0Tm0Fn04om3MpZqat1KrXsKtCu6v4wal3yemTz2;a28imbabwe;es,lis and futu33;a2enezue38ietnam;nuatu,tican city;.5gTkrai3Cnited 3ruXs2zbeE;a,sr;arab emirat0Jkingdom,states2;! of amer31;k.,s.2; 2Ba.;a7haBimor-les0Ao6rinidad4u2;nis0rk2valu;ey,me37s and caic1X; and 2-2;toba1N;go,kel0Znga;iw35ji2nz31;ki33;aCcotl1eBi8lov7o5pa2Gri lanka,u4w2yr0;az2ed9itzerl1;il1;d30isse,riname;lomon1Zmal0uth 2;afr2LkKsud2Y;ak0en0;erra leo2Rn2;gapo2Lt maart2;en;negJrb0ychellX;int 2moa,n marino,udi arab0;hele2Aluc0mart24;epublic of ir0Dom2Mussi27w2;an2B;a3eGhilippinSitcairn1Oo2uerto riL;l1rtugD;ki2Ll3nama,pua new0Xra2;gu5;au,esti2F;aAe8i6or2;folk1Mth3w2;ay; k2ern mariana1G;or0R;caragua,ger2ue;!ia;p2ther1Dw zeal1;al;mib0u2;ru;a6exi5icro0Co2yanm06;ldova,n2roc4zamb9;a3gol0t2;enegro,serrat;co;c9dagasc01l6r4urit3yot2;te;an0i1A;shall10tin2;iq1R;a3div2i,ta;es;wi,ys0;ao,ed05;a5e4i2uxembourg;b2echtenste16thu1P;er0ya;ban0Lsotho;os,tv0;azakh1Oe2iriba07osovo,uwait,yrgyz1O;eling0Onya;a2erH;ma19p2;an,on;c7nd6r4s3tal2vory coast;ie,y;le of m1Irael;a2el1;n,q;ia,oJ;el1;aiVon2ungary;dur0Qg kong;aBeAha0Uibralt9re7u2;a5ern4inea2ya0T;!-biss2;au;sey;deloupe,m,tema0V;e2na0R;ce,nl1;ar;orgie,rmany;bVmb0;a6i5r2;ance,ench 2;guia0Hpoly2;nes0;ji,nl1;lklandVroeV;ast tim8cu7gypt,l salv7ngl1quatorial5ritr6s3t2;ats unis,hiop0;p0Mt2;on0; guin2;ea;ad2;or;enmark,jibou4ominica3r con2;go;!n B;ti;aAentral african 9h7o4roat0u3yprRzech2; 8ia;ba,racao;c3lo2morQngo-brazzaville,okFsta r02te d'ivoi05;mb0;osD;i2ristmasG;le,nS;republic;m2naVpe verde,yman9;bod0ero2;on;aGeChut06o9r4u2;lgar0r2;kina faso,ma,undi;az5etXitish 2unei,és5;virgin2; is2;lands;il;liv0naiOsnia and herzegoviHtswaHuvet2; isl1;and;l2n8rmuH;ar3gi2ize;qLum;us;h3ngladesh,rbad2;os;am3ra2;in;as;fghaKlFmeriDn6r4ustr2zerbaijM;ali2ia;a,e;genti2men0uba;na;dorra,g5t2;arct3igua and barbu2;da;ica;leter3o2uil2;la;re;ca,q2;ue;b4ger0lem2;ag2;ne;an0;ia;ni2;st2;an",
     "Region": "true¦a20b1Sc1Id1Des1Cf19g13h10i0Xj0Vk0Tl0Qm0FnZoXpSqPrMsDtAut9v5w2y0zacatec22;o05u0;cat18kZ;a0est vir4isconsin,yomi14;rwick1Qshington0;! dc;er2i0;ctor1Sr0;gin1R;acruz,mont;ah,tar pradesh;a1e0laxca1Cusca9;nnessee,x1Q;bas0Jmaulip1PsmI;a5i3o1taf0Nu0ylh12;ffUrrZs0X;me0Zno19uth 0;cRdQ;ber1Hc0naloa;hu0Rily;n1skatchew0Qxo0;ny; luis potosi,ta catari1H;a0hode6;j0ngp01;asth0Lshahi;inghai,u0;e0intana roo;bec,ensVreta0D;ara3e1rince edward0; isT;i,nnsylv0rnambu01;an13;!na;axa0Mdisha,h0klaho1Antar0reg3x03;io;ayarit,eAo2u0;evo le0nav0K;on;r0tt0Qva scot0W;f5mandy,th0; 0ampton0P;c2d1yo0;rk0N;ako0X;aroli0U;olk;bras0Wva00w0; 1foundland0;! and labrador;brunswick,hamp0Gjers0mexiIyork state;ey;a5i1o0;nta0Mrelos;ch2dlanAn1ss0;issippi,ouri;as geraFneso0L;igPoacP;dhya,harasht03ine,ni2r0ssachusetts;anhao,y0;land;p0toba;ur;anca03e0incoln03ouis7;e0iG;ds;a0entucky,hul09;ns07rnata0Cshmir;alis0iangxi;co;daho,llino1nd0owa;ia04;is;a1ert0idalDun9;fordS;mpRwaii;ansu,eorgVlou4u0;an1erre0izhou,jarat;ro;ajuato,gdo0;ng;cesterL;lori1uji0;an;da;sex;e3o1uran0;go;rs0;et;lawaDrbyC;a7ea6hi5o0umbrG;ahui3l2nnectic1rsi0ventry;ca;ut;iLorado;la;apDhuahua;ra;l7m0;bridge2peche;a4r3uck0;ingham0;shi0;re;emen,itish columb2;h1ja cal0sque,var1;iforn0;ia;guascalientes,l3r0;izo1kans0;as;na;a1ber0;ta;ba1s0;ka;ma",
@@ -7928,7 +8207,7 @@
 
       // expand
       if (tag === 'MaleAdjective') {
-        let res = conjugate.adjective(w);
+        let res = methods$1.adjective.conjugate(w);
         words[res.female] = 'FemaleAdjective';
         words[res.plural] = 'MaleAdjective';
         words[res.femalePlural] = 'FemaleAdjective';
@@ -7940,29 +8219,29 @@
         words[w] = ['TextValue', 'Ordinal'];
       }
       if (tag === 'MaleNoun') {
-        let res = conjugate.noun(w);
-        words[res.plural] = 'PluralNoun';
+        let p = methods$1.noun.toPlural(w);
+        words[p] = 'PluralNoun';
       }
       if (tag === 'Infinitive') {
         // do future-tense
-        let res = conjugate.futureTense(w);
+        let res = methods$1.verb.futureTense(w);
         Object.keys(res).forEach(k => {
           if (!words[res[k]]) {
             words[res[k]] = [tagMap[k], 'FutureTense'];
           }
         });
         // do present-tense
-        res = conjugate.presentTense(w);
+        res = methods$1.verb.presentTense(w);
         Object.keys(res).forEach(k => {
           if (!words[res[k]]) {
             words[res[k]] = [tagMap[k], 'PresentTense'];
           }
         });
         // do imperfect mood
-        res = conjugate.imperfect(w);
+        res = methods$1.verb.imperfect(w);
         Object.keys(res).forEach(k => words[res[k]] = 'Verb');
         // past-participle
-        let out = conjugate.pastParticiple(w);
+        let out = methods$1.verb.pastParticiple(w);
         words[out] = 'PastTense';
       }
     });
@@ -7986,35 +8265,45 @@
   };
 
   const root = function (view) {
-    const toRoot = view.world.methods.two.transform.toRoot;
+    const transform = view.world.methods.two.transform;
     view.docs.forEach(terms => {
       terms.forEach(term => {
         let str = term.implicit || term.normal || term.text;
         // nouns -> singular masculine form
         if (term.tags.has('Noun') && !term.tags.has('Pronoun')) {
           let isPlural = term.tags.has('PluralNoun');
-          let gender = term.tags.has('FemaleNoun') ? 'f' : 'm';
-          term.root = toRoot.noun(str, isPlural, gender);
+          let isFemale = term.tags.has('FemaleNoun');
+          if (isPlural && isFemale) {
+            term.root = transform.noun.fromFemalePlural(str);
+          } else if (isPlural) {
+            term.root = transform.noun.fromPlural(str);
+          } else ;
         }
         // adjectives -> singular masculine form
         if (term.tags.has('Adjective')) {
           let isPlural = term.tags.has('PluralAdjective');
-          let gender = term.tags.has('FemaleAdjective') ? 'f' : 'm';
-          term.root = toRoot.adjective(str, isPlural, gender);
+          let isFemale = term.tags.has('FemaleAdjective');
+          if (isPlural && isFemale) {
+            term.root = transform.adjective.fromFemalePlural(str);
+          } else if (isPlural) {
+            term.root = transform.adjective.fromPlural(str);
+          } else if (isFemale) {
+            term.root = transform.adjective.fromFemale(str);
+          }
         }
         // verbs -> infinitive form
         if (term.tags.has('Verb')) {
           if (term.tags.has('PresentTense')) {
             let form = verbForm(term);
-            term.root = toRoot.verb.fromPresentTense(str, form);
+            term.root = transform.verb.fromPresentTense(str, form);
           }
           if (term.tags.has('FutureTense')) {
             let form = verbForm(term);
-            term.root = toRoot.verb.fromFutureTense(str, form);
+            term.root = transform.verb.fromFutureTense(str, form);
           }
           if (term.tags.has('PastTense')) {
             let form = verbForm(term);
-            term.root = toRoot.verb.fromPastParticiple(str, form);
+            term.root = transform.verb.fromPastParticiple(str, form);
           }
           //  fromImperfectTense, fromPastParticiple
         }
@@ -8026,10 +8315,7 @@
   var lexicon = {
     methods: {
       two: {
-        transform: {
-          conjugate,
-          toRoot
-        }
+        transform: methods$1
       }
     },
     model: {
@@ -8521,7 +8807,7 @@
     });
     return view
   };
-  var tagger$1 = tagger;
+  var preTagger$1 = tagger;
 
   const boringTags = new Set(['Auxiliary', 'Possessive']);
 
@@ -8774,10 +9060,12 @@
   ];
 
   const suffixGuess = function (term) {
-    if (femaleEnds.find(suff => term.normal.endsWith(suff))) {
+    let str = term.normal;
+    str = str.replace(/s$/, '');
+    if (femaleEnds.find(suff => str.endsWith(suff))) {
       return 'FemaleNoun'
     }
-    if (maleEnds.find(suff => term.normal.endsWith(suff))) {
+    if (maleEnds.find(suff => str.endsWith(suff))) {
       return 'MaleNoun'
     }
     return null
@@ -8846,22 +9134,21 @@
 
   var preTagger = {
     compute: {
-      tagger: tagger$1,
+      preTagger: preTagger$1,
       tagRank: tagRank$1
     },
     methods,
     model: {
       two: model
     },
-    hooks: ['tagger']
+    hooks: ['preTagger']
   };
 
   const postTagger$1 = function (doc) {
     // l'inconnu
-    // doc.match('le [#Adjective]', 0).tag('MaleNoun', 'le-adj')
-    // doc.match('la [#Adjective]', 0).tag('FemaleNoun', 'la-adj')
-    // doc.match('un [#Adjective]', 0).tag('MaleNoun', 'un-adj')
-    // doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj')
+    doc.match('(le|un) [#Verb]', 0).tag('MaleNoun', 'le-verb');
+    doc.match('(la|une) [#Verb]', 0).tag('FemaleNoun', 'la-verb');
+    doc.match('(des|les) [#Verb]', 0).tag('PluralNoun', 'des-verb');
     // ne foo pas
     doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas');
     // il active le
@@ -8872,6 +9159,13 @@
     doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un');
     doc.match('#Value un').tag('TextValue', 'quatre-vingt-un');
     doc.match('moins #Value').tag('TextValue', 'moins-value');
+    // Elle interdit les transactions
+    doc.match('(je|tu|il|elle|nous|vous|ils) [#Adjective] (la|le|les)', 0).tag('Verb', 'ils-x-les');
+    // sont interdites par l'interdiction
+    doc.match('(est|été|sont|était|serait) [#Adjective] #Preposition', 0).tag('Verb', 'song-x-par');
+    // have unpacked
+    doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres');
+
   };
   var postTagger$2 = postTagger$1;
 
@@ -9962,6 +10256,8 @@
     api: api$1
   };
 
+  var version = '0.1.2';
+
   // import nlp from 'compromise/one'
 
   nlp$1.plugin(tokenize);
@@ -9994,6 +10290,7 @@
     env.DEBUG_CHUNKS = set === 'chunker' || set === true ? true : '';
     return this
   };
+  fr.version = version;
 
   return fr;
 

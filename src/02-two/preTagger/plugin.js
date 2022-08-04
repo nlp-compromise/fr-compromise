@@ -1,4 +1,4 @@
-import tagger from './compute/index.js'
+import preTagger from './compute/index.js'
 import tagRank from './tagRank.js'
 import model from './model/index.js'
 import methods from './methods/index.js'
@@ -6,12 +6,12 @@ import methods from './methods/index.js'
 
 export default {
   compute: {
-    tagger,
+    preTagger,
     tagRank
   },
   methods,
   model: {
     two: model
   },
-  hooks: ['tagger']
+  hooks: ['preTagger']
 }
