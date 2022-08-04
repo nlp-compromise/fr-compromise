@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 let txt = ''
 
@@ -20,8 +20,6 @@ txt = `Une boule blanche géante`
 // libérer
 txt = `Le Karnataka ne libérera plus`
 txt = `Il a été libéré par les Royals`
-
-
 
 // prodigieux
 txt = `les mascarades était prodigieuse`
@@ -46,11 +44,11 @@ txt = `les promotions sont interdites par l'interdiction`
 
 //endommager
 txt = `Il a été endommagé dans deux énormes incendies`
-// doguer
-txt = `j'avais drogué`
+
+txt = `nous avons déballés`
 
 let doc = nlp(txt).debug()
-// doc.compute('root')
-// console.log(doc.docs)
+doc.compute('root')
+console.log(doc.docs)
 // doc.debug()
-// doc.match('{doguer}').debug()
+doc.match('{déballer}').debug()

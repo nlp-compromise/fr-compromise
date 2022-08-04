@@ -21,11 +21,43 @@ test('root-match:', function (t) {
     [`Les analystes ont attribué le faible`, '{attribuer}'],//attribuer
     [`La production a cessé en octobre.`, '{cesser}'],//'cesser'
     // [` Entre-temps, j'ai institué une recherche privée rigoureuse du cadavre`, '{rigoureux}'],//'rigoureux'
-    [`nous les avons tous déballés`, '{déballer}'],//'déballer'
+    [`nous avons déballés`, '{déballer}'],//'déballer'
     // [`Appuyez sur le bouton du département correspondant.`, '{correspond}'],//'correspond'
     // [`Non da si vous exécutez qu'il active la version complète da.`, '{activer}'],//activer
     // [`Tu sais, je pensais, et si je déballais ici ?`, '{déballer}'],//'déballer'
-    ['en marchant', '{marcher}']
+    ['en marchant', '{marcher}'],
+
+
+    //chercher
+    [`Avant, je cherchais à attirer`, '{chercher}'],
+    [`quant à elle, chercha un apothicaire`, '{chercher}'],
+
+    //raison
+    [`J'ai dû le faire pour des raisons.`, '{raison}'],
+    [`avancé des raisons différentes.`, '{raison}'],
+    [`pour plusieurs raisons.`, '{raison}'],
+
+    // blanc
+    [`la boîte blanche`, '{blanc}'],
+    [`Une boule blanche géante`, '{blanc}'],
+    // libérer
+    [`Le Karnataka ne libérera plus`, '{libérer}'],
+    [`Il a été libéré par les Royals`, '{libérer}'],
+    [`les mascarades était prodigieuse`, '{prodigieux}'],
+    [`puissance musculaire prodigieuse`, '{prodigieux}'],
+    [`Tellement stressé que`, '{stresser}'],
+    [`du département correspondant.`, '{correspond}'],
+    // [`des vins sont bien calculée`, '{calculé}'],//adj
+    [`l'ai filtré par mes reins.`, '{rein}'],
+    [`les humains naissent avec quatre reins`, '{rein}'],
+
+    // interdire
+    // [`Elle interdit les transactions`, '{interdire}'],
+    // [`les promotions sont interdites par l'interdiction`, '{interdire}'],
+
+    //endommager
+    // [`Il a été endommagé dans deux énormes incendies`, '{endommager}'],
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a

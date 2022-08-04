@@ -185,7 +185,6 @@ export default [
   'beverly',
   'bianca',
   'blanca',
-  'blanche',
   'blossom',
   'blythe',
   'bobbi',

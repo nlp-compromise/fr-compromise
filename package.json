@@ -32,7 +32,7 @@
     "types.d.ts"
   ],
   "dependencies": {
-    "compromise": "14.4.3",
+    "compromise": "14.4.4",
     "efrt": "2.6.0",
     "suffix-thumb": "4.0.2"
   },

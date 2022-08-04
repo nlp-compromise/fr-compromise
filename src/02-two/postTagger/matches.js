@@ -1,9 +1,8 @@
 const postTagger = function (doc) {
   // l'inconnu
-  // doc.match('le [#Adjective]', 0).tag('MaleNoun', 'le-adj')
-  // doc.match('la [#Adjective]', 0).tag('FemaleNoun', 'la-adj')
-  // doc.match('un [#Adjective]', 0).tag('MaleNoun', 'un-adj')
-  // doc.match('une [#Adjective]', 0).tag('FemaleNoun', 'une-adj')
+  doc.match('(le|un) [#Verb]', 0).tag('MaleNoun', 'le-verb')
+  doc.match('(la|une) [#Verb]', 0).tag('FemaleNoun', 'la-verb')
+  doc.match('(des|les) [#Verb]', 0).tag('PluralNoun', 'des-verb')
   // ne foo pas
   doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas')
   // il active le
@@ -14,5 +13,9 @@ const postTagger = function (doc) {
   doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un')
   doc.match('#Value un').tag('TextValue', 'quatre-vingt-un')
   doc.match('moins #Value').tag('TextValue', 'moins-value')
+  // Elle interdit les transactions
+  doc.match('(je|tu|il|elle|nous|vous|ils) [#Adjective] (la|le|les)', 0).tag('Verb', 'ils-x-les')
+  // sont interdites par l'interdiction
+  doc.match('(est|été|sont|était|serait) [#Adjective] #Preposition', 0).tag('Verb', 'song-x-par')
 }
 export default postTagger
