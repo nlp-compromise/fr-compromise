@@ -55,10 +55,6 @@ Object.keys(lexData).forEach(tag => {
       Object.keys(res).forEach(k => words[res[k]] = 'Verb')
       // past-participle
       let out = transform.verb.pastParticiple(w)
-      if (w === 'endommager') {
-
-        console.log(out)
-      }
       words[out] = 'PastTense'
     }
   })
