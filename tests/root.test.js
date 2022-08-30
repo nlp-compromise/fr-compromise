@@ -49,34 +49,9 @@ test('root-match:', function (t) {
     //endommager
     // [`Il a été endommagé dans deux énormes incendies`, '{endommager}'],
 
-    //chercher
-    [`Avant, je cherchais à attirer`, '{chercher}'],
-    [`quant à elle, chercha un apothicaire`, '{chercher}'],
-    //raison
-    [`J'ai dû le faire pour des raisons.`, '{raison}'],
-    [`avancé des raisons différentes.`, '{raison}'],
-    [`pour plusieurs raisons.`, '{raison}'],
-    // blanc
-    [`la boîte blanche`, '{ blanc}'],
-    [`Une boule blanche géante`, '{blanc}'],
-    // libérer
-    [`Le Karnataka ne libérera plus`, '{ libérer}'],
-    [`Il a été libéré par les Royals`, '{libérer}'],
-    // prodigieux
-    [`les mascarades était prodigieuse`, '{ prodigieux}'],
-    [`puissance musculaire prodigieuse`, '{prodigieux}'],
-    // stresser
-    [`Tellement stressé que`, '{stresser}'],
-    // correspond
-    [`du département correspondant.`, '{correspond}'],
-    //  calculé
-    [`des vins est bien calculée`, '{calculé}'],
-    //  rein [n]
-    [`l'ai filtré par mes reins.`, '{rein}'],
-    [`les humains naissent avec quatre reins`, '{rein}'],
-    // interdire
-    [`Elle interdit les transactions`, '{interdire}'],
-    [`les promotions sont interdites par l'interdiction`, '{interdire}'],
+    ['des réductions moins que soudaines et importantes', '{soudain}'], //adj
+    ['chefs d’État ont été assassinés entre 1881 et 1914', '{assassiner}'], //verb
+    ['ils sont critiqués ici ', '{critiquer}'], //verb
 
   ]
   arr.forEach(function (a) {

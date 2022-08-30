@@ -6,7 +6,7 @@ const adjPlurals = function (terms, i, world) {
   let str = term.implicit || term.normal || term.text || ''
   if (tags.has('Adjective')) {
     // i actually think there are no exceptions.
-    if (str.endsWith('s') || str.endsWith('aux')) {
+    if (str.endsWith('s') || str.endsWith('aux') || str.endsWith('euse')) {
       return setTag([term], 'PluralAdjective', world, false, '3-plural-adj')
     }
   }
