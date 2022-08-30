@@ -18,7 +18,7 @@ test('root-match:', function (t) {
     [`Vous devez apprendre à rendre les choses plus rapides`, '{rapide}'],//'rapide'
     [`Les analystes ont attribué le faible`, '{attribuer}'],//attribuer
     [`La production a cessé en octobre.`, '{cesser}'],//'cesser'
-    // [` Entre-temps, j'ai institué une recherche privée rigoureuse du cadavre`, '{rigoureux}'],//'rigoureux'
+    [` Entre-temps, j'ai institué une recherche privée rigoureuse du cadavre`, '{rigoureux}'],//'rigoureux'
     // [`nous avons déballés`, '{déballer}'],//'déballer'
     // [`Appuyez sur le bouton du département correspondant.`, '{correspond}'],//'correspond'
     // [`Non da si vous exécutez qu'il active la version complète da.`, '{activer}'],//activer
