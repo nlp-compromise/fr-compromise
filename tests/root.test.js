@@ -50,8 +50,8 @@ test('root-match:', function (t) {
     // [`Il a été endommagé dans deux énormes incendies`, '{endommager}'],
 
     ['des réductions moins que soudaines et importantes', '{soudain}'], //adj
-    ['chefs d’État ont été assassinés entre 1881 et 1914', '{assassiner}'], //verb
-    ['ils sont critiqués ici ', '{critiquer}'], //verb
+    // ['chefs d’État ont été assassinés entre 1881 et 1914', '{assassiner}'], //verb
+    // ['ils sont critiqués ici ', '{critiquer}'], //verb
 
   ]
   arr.forEach(function (a) {

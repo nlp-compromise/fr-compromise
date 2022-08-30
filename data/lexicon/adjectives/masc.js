@@ -2993,5 +2993,6 @@ export default [
   "évident",
   "évocateur",
   "évolué",
-  "ôté"
+  "ôté",
+  "soudain"
 ]

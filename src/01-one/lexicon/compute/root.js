@@ -18,13 +18,13 @@ const root = function (view) {
       // nouns -> singular masculine form
       if (term.tags.has('Noun') && !term.tags.has('Pronoun')) {
         let isPlural = term.tags.has('PluralNoun')
-        let isFemale = term.tags.has('FemaleNoun')
-        if (isPlural && isFemale) {
-          term.root = transform.noun.fromFemalePlural(str)
-        } else if (isPlural) {
+        // let isFemale = term.tags.has('FemaleNoun')
+        if (isPlural) {
           term.root = transform.noun.fromPlural(str)
-        } else if (isFemale) {
-          // term.root = transform.noun.fromFemale(str)
+          // if (isFemale) {
+          // } else {
+          //   term.root = transform.noun.fromPlural(str)
+          // }
         }
       }
       // adjectives -> singular masculine form
