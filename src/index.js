@@ -7,6 +7,7 @@ import postTagger from './02-two/postTagger/plugin.js'
 import tagset from './02-two/tagset/plugin.js'
 import numbers from './03-three/numbers/plugin.js'
 import topics from './03-three/topics/plugin.js'
+import verbs from './03-three/verbs/plugin.js'
 import contractions from './03-three/contractions/plugin.js'
 import version from './_version.js'
 
@@ -17,6 +18,7 @@ nlp.plugin(preTagger)
 nlp.plugin(postTagger)
 nlp.plugin(numbers)
 nlp.plugin(topics)
+nlp.plugin(verbs)
 nlp.plugin(contractions)
 
 const fr = function (txt, lex) {

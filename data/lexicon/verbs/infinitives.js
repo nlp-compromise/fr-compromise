@@ -1883,4 +1883,5 @@ export default [
   'vouloir',
   'voyager',
   'vrombir',
+  'endommager'
 ]
