@@ -3421,7 +3421,7 @@ export default {
   "zébré": ["zébrée", "zébrés", "zébrées"],
   "zélé": ["zélée", "zélés", "zélées"],
 
-  "curieux": ["curieux", "curieuse", "curieuses"],
-  "fabuleux": ["fabuleux", "fabuleuse", "fabuleuses"],
-  "glorieux": ["glorieux", "glorieuse", "glorieuses"],
+  "curieux": ["curieuse", "curieux", "curieuses"],
+  "fabuleux": ["fabuleuse", "fabuleux", "fabuleuses"],
+  "glorieux": ["glorieuse", "glorieux", "glorieuses"],
 }
