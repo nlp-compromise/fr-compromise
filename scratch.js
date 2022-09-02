@@ -5,13 +5,13 @@ nlp.verbose('tagger')
 let txt = ''
 
 txt = `géante est réveillée ` //{réveiller}
-txt = `l'expérience en tant qu'étudiant enseignant` //{précieux}
+txt = `vous exécutez qu'il active la version` //{précieux}
 
 /*
 */
 // console.log(nlp('endormir').verbs().conjugate())
 let doc = nlp(txt).debug()
 doc.compute('root')
-console.log(doc.docs[0])
+// console.log(doc.docs[0])
 // doc.debug()
-doc.match('{étudiant} ').debug()
+doc.match('{activer} ').debug()

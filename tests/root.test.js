@@ -21,7 +21,7 @@ test('root-match:', function (t) {
     [` Entre-temps, j'ai institué une recherche privée rigoureuse du cadavre`, '{rigoureux}'],//'rigoureux'
     // [`nous avons déballés`, '{déballer}'],//'déballer'
     // [`Appuyez sur le bouton du département correspondant.`, '{correspond}'],//'correspond'
-    // [`Non da si vous exécutez qu'il active la version complète da.`, '{activer}'],//activer
+    // [`vous exécutez qu'il active la version.`, '{activer}'],//activer
     // [`Tu sais, je pensais, et si je déballais ici ?`, '{déballer}'],//'déballer'
     // ['en marchant', '{marcher}'],
     //chercher
@@ -42,7 +42,7 @@ test('root-match:', function (t) {
     [`puissance musculaire prodigieuse`, '{prodigieux}'],
     // [`Tellement stressé que`, '{stresser}'],
     // [`du département correspondant.`, '{correspond}'],
-    // [`des vins sont bien calculée`, '{calculé}'],//adj
+    [`des vins sont bien calculée`, '{calculé}'],//adj
     [`l'ai filtré par mes reins.`, '{rein}'],
     [`les humains naissent avec quatre reins`, '{rein}'],
     // interdire

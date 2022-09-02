@@ -20,6 +20,7 @@ const guessGender = function (str) {
     /ées$/,
     /ues$/,
     /ies$/,
+    /ée$/,
     /[ndvt]es$/,
   ]
   for (let i = 0; i < suffixes.length; i += 1) {
