@@ -30,4 +30,4 @@ export default {
   fromPlural,
   fromFemalePlural,
 }
-// console.log(fromFemale('audacieuse'))
+// console.log(fromFemale('douce'))

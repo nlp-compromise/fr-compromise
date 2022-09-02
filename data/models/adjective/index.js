@@ -3374,4 +3374,5 @@ export default {
   "hideux": ["hideuse", "hideux", "hideuses"],
   "honteux": ["honteuse", "honteux", "honteuses"],
   "joyeux": ["joyeuse", "joyeux", "joyeuses"],
+  "doux": ["douce", "doux", "douces"],
 }

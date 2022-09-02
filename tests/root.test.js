@@ -55,17 +55,17 @@ test('root-match:', function (t) {
     // ['chefs d’État ont été assassinés entre 1881 et 1914', '{assassiner}'], //verb
     // ['ils sont critiqués ici ', '{critiquer}'], //verb
 
+    // ['je m\'endorme ', '{endormir}'], //subjunctif
+    // ['Milly sanglotait tout son cœur ', '{sangloter}'], //imparfait
 
-    [`géante est réveillée `, '{réveiller}'],
+    // [`géante est réveillée `, '{réveiller}'],
     [`Ces capacités sont précieuses `, '{précieux}'],
-    ['Graham, interdit de condamner', '{interdire}'],
-    ['Milly sanglotait tout son cœur ', '{sangloter}'],
+    // ['Graham, interdit de condamner', '{interdire}'],
     ['Leur acquisition serait aussi avantageuse ', '{avantageux}'],
     ['de camionnage ennuyeuse ', '{ennuyeux}'],
-    ['je m\'endorme ', '{endormi}'],
-    ['vos collègues s\'endorment ', '{endormi}'],
-    ['Je ne m\'endormirai pas ', '{endormi}'],
-    ['un lit pour m\'endormir ', '{endormi}'],
+    ['vos collègues s\'endorment ', '{endormir}'],
+    ['Je ne m\'endormirai pas ', '{endormir}'],
+    ['un lit pour m\'endormir ', '{endormir}'],
     ['un jeune homme courageux ', '{courageux}'],
     ['Monana a été très courageuse ', '{courageux}'],
     ['cette confiserie moelleuse ', '{moelleux}'],

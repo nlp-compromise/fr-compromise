@@ -21,10 +21,6 @@ const root = function (view) {
         // let isFemale = term.tags.has('FemaleNoun')
         if (isPlural) {
           term.root = transform.noun.fromPlural(str)
-          // if (isFemale) {
-          // } else {
-          //   term.root = transform.noun.fromPlural(str)
-          // }
         }
       }
       // adjectives -> singular masculine form

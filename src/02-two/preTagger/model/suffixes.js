@@ -67,7 +67,8 @@ export default [
     eurs: nn,//directeurs
     tion: nn,//amélioration
     ance: nn,//croissance
-    euse: jj//rigoureuse
+    euse: jj,//rigoureuse
+    ouce: jj//douce
   },
   {
     //5-letter
@@ -83,6 +84,7 @@ export default [
     trant: vb,//montrant
     llant: vb,//détaillant
 
+    ouces: jj,//douces
     elles: jj,
     iques: jj,
     aires: jj,
