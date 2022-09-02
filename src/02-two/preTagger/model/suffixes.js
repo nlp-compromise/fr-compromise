@@ -86,6 +86,7 @@ export default [
     elles: jj,
     iques: jj,
     aires: jj,
+    euses: jj
   },
   {
     //6-letter

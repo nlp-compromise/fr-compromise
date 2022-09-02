@@ -26,8 +26,8 @@ test('root-match:', function (t) {
     // ['en marchant', '{marcher}'],
     //chercher
     // [`Avant, je cherchais à attirer`, '{chercher}'],
-    ['les cheminées', '{cheminée}']
-    ['les habitués', '{habitué}']
+    ['les cheminées', '{cheminée}'],
+    ['les habitués', '{habitué}'],
     //raison
     [`J'ai dû le faire pour des raisons.`, '{raison}'],
     [`avancé des raisons différentes.`, '{raison}'],
@@ -54,6 +54,26 @@ test('root-match:', function (t) {
     ['des réductions moins que soudaines et importantes', '{soudain}'], //adj
     // ['chefs d’État ont été assassinés entre 1881 et 1914', '{assassiner}'], //verb
     // ['ils sont critiqués ici ', '{critiquer}'], //verb
+
+
+    [`géante est réveillée `, '{réveiller}'],
+    [`Ces capacités sont précieuses `, '{précieux}'],
+    ['Graham, interdit de condamner', '{interdire}'],
+    ['Milly sanglotait tout son cœur ', '{sangloter}'],
+    ['Leur acquisition serait aussi avantageuse ', '{avantageux}'],
+    ['de camionnage ennuyeuse ', '{ennuyeux}'],
+    ['je m\'endorme ', '{endormi}'],
+    ['vos collègues s\'endorment ', '{endormi}'],
+    ['Je ne m\'endormirai pas ', '{endormi}'],
+    ['un lit pour m\'endormir ', '{endormi}'],
+    ['un jeune homme courageux ', '{courageux}'],
+    ['Monana a été très courageuse ', '{courageux}'],
+    ['cette confiserie moelleuse ', '{moelleux}'],
+    ['la princesse était douce ', '{doux}'],
+    ['la scène serait trop douloureuse ', '{douloureux}'],
+    ['sont bien trop honteuses ', '{honteux}'],
+    ['Ces capacités sont précieuses ', '{précieux}'],
+    ['était tellement délicieuse ', '{délicieux}'],
 
   ]
   arr.forEach(function (a) {
