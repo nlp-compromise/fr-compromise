@@ -1,4 +1,4 @@
-import noun from './noun/index.js'
+import noun from './noun/plurals.js'
 import adjective from './adjective/index.js'
 
 import futureTense from './verb/future-tense.js'
@@ -7,10 +7,11 @@ import pastParticiple from './verb/past-participle.js'
 import presentTense from './verb/present-tense.js'
 
 const vbOrder = ['je', 'tu', 'il', 'nous', 'vous', 'ils']
-const nOrder = ['female', 'plural', 'femalePlural']
+const nOrder = ['plural']
+const adjOrder = ['female', 'plural', 'femalePlural']
 const todo = {
   noun: { data: noun, keys: nOrder },
-  adjective: { data: adjective, keys: nOrder },
+  adjective: { data: adjective, keys: adjOrder },
   futureTense: { data: futureTense, keys: vbOrder },
   imperfect: { data: imperfect, keys: vbOrder },
   pastParticiple: { data: pastParticiple, keys: ['prt'] },
