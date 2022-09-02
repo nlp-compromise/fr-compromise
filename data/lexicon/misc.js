@@ -31,4 +31,7 @@ export default {
   sinon: 'Condition',
   'aujourd\'hui': 'Noun',
 
+  'quelque': 'Adjective',
+  'quelques': 'Adjective'
+
 }

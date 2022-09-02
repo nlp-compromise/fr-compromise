@@ -75,6 +75,14 @@ test('root-match:', function (t) {
     ['Ces capacités sont précieuses ', '{précieux}'],
     ['était tellement délicieuse ', '{délicieux}'],
 
+    // [`les appareils ménagers`, '{ménage}'],
+    // [`des tâches ménagères`, '{ménage}'],
+    [`ce ne sont que quelques formes`, '{forme}'],
+    [`l'expérience en tant qu'étudiant enseignant`, '{étudiant}'],
+    [`des pensées sombres `, '{pensée}'],
+    [`Identifiez vos pensées négatives`, '{pensée}'],
+    [`il avait lu mes pensées `, '{pensée}'],
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a
