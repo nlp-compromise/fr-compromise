@@ -26,6 +26,8 @@ test('root-match:', function (t) {
     // ['en marchant', '{marcher}'],
     //chercher
     // [`Avant, je cherchais à attirer`, '{chercher}'],
+    ['les cheminées', '{cheminée}']
+    ['les habitués', '{habitué}']
     //raison
     [`J'ai dû le faire pour des raisons.`, '{raison}'],
     [`avancé des raisons différentes.`, '{raison}'],

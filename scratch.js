@@ -5,7 +5,8 @@ nlp.verbose('tagger')
 let txt = ''
 
 txt = `les mascarades était prodigieuse`
-txt = `les chaussures`
+txt = `les cheminées`
+// txt = `les habitués`
 
 /*
 
@@ -15,4 +16,4 @@ let doc = nlp(txt).debug()
 doc.compute('root')
 console.log(doc.docs)
 // doc.debug()
-doc.match('{chaussure} ').debug()
+doc.match('{cheminée} ').debug()

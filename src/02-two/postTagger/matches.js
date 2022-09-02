@@ -1,8 +1,19 @@
+import nounGender from '../preTagger/compute/3rd-pass/noun-gender.js'
+
+const tagNoun = function (m) {
+  let world = m.world
+  m.docs.forEach(terms => {
+    terms.forEach((_t, i) => {
+      nounGender(terms, i, world)
+    })
+  })
+}
+
 const postTagger = function (doc) {
   // l'inconnu
-  doc.match('(le|un) [#Verb]', 0).tag('MaleNoun', 'le-verb')
-  doc.match('(la|une) [#Verb]', 0).tag('FemaleNoun', 'la-verb')
-  doc.match('(des|les) [#Verb]', 0).tag('PluralNoun', 'des-verb')
+  doc.match('(le|un) [#Verb]', 0).tag(['MaleNoun', 'Singular'], 'le-verb')
+  doc.match('(la|une) [#Verb]', 0).tag(['FemaleNoun', 'Singular'], 'la-verb')
+  tagNoun(doc.match('(des|les) [#Verb]', 0).tag('PluralNoun', 'des-verb'))
   // ne foo pas
   doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas')
   // il active le
