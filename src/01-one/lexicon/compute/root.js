@@ -30,7 +30,12 @@ const root = function (view) {
       // adjectives -> singular masculine form
       if (term.tags.has('Adjective')) {
         let isPlural = term.tags.has('PluralAdjective')
-        if (isPlural) {
+        let isFemale = term.tags.has('FemaleAdjective')
+        if (isPlural && isFemale) {
+          term.root = transform.adjective.fromFemalePlural(str)
+        } else if (isFemale) {
+          term.root = transform.adjective.fromFemale(str)
+        } else if (isPlural) {
           term.root = transform.adjective.fromPlural(str)
         }
       }
