@@ -17,6 +17,11 @@ txt = `  je nageais ` //{nager}
 /*
 Malédiction évitée {éviter}
 des chiens qui aboient {aboyer}
+
+
+* impossible
+* préliminaire
+* thérapeutique
 */
 // console.log(nlp('endormir').verbs().conjugate())
 let doc = nlp(txt).debug()
