@@ -6,7 +6,8 @@ Object.keys(data).forEach(k => {
     out[k] = data[k]
 
   }
-  if (k.endsWith("eux")) {
+  if (k.match(" ")) {
+    console.log(k)
   }
 })
 
