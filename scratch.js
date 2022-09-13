@@ -12,7 +12,7 @@ txt = ` qu'on respire l'air .` //{respirer}
 txt = ` que l'Iraq a dissimulées aux Nations Unies.` //{dissimuler}
 txt = `des coûts « démontre que le gouvernement exploite »` //{démontrer}
 txt = ` 	Attirez l'animal ` //{attirer}
-txt = `  je nageais ` //{nager}
+txt = `  ils sont sinistres ` //{nager}
 
 /*
 Malédiction évitée {éviter}
@@ -28,4 +28,4 @@ let doc = nlp(txt).debug()
 doc.compute('root')
 // console.log(doc.docs[0])
 // doc.debug()
-doc.match('{activer} ').debug()
+doc.match('{sinistre} ').debug()
