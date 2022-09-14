@@ -1,4 +1,4 @@
-import data from '/Users/spencer/mountain/fr-compromise/data/models/verb/imperfect.js'
+import data from '/Users/spencer/mountain/fr-compromise/data/models/adjective/index.js'
 
 let out = {}
 Object.keys(data).forEach(k => {
