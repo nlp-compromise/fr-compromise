@@ -83,7 +83,17 @@ test('root-match:', function (t) {
     [`Identifiez vos pensées négatives`, '{pensée}'],
     [`il avait lu mes pensées `, '{pensée}'],
     [`Attirez l'animal `, '{attirer}'],
-    [`des coûts « démontre que le gouvernement exploite »`, '{démontrer}']
+    [`des coûts « démontre que le gouvernement exploite »`, '{démontrer}'],
+    [`Respirez normalement.`, '{respirer}'],
+    [` qu'on respire l'air .`, '{respirer}'],
+    [`vous exécutez qu'il active la version`, '{exécuter}'],
+
+    // `bouillonnant` //{bouillir} //present parti
+    // [`géante est réveillée `, '{réveiller}'],
+    // ` que l'Iraq a dissimulées` //{dissimuler} //past participle
+    // let txt=`Malédiction évitée` {éviter}
+
+    // txt = 'des chiens qui aboient'// {aboyer}
 
   ]
   arr.forEach(function (a) {
