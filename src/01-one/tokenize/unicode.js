@@ -43,6 +43,7 @@ let compact = {
   x: '×ΧχϗϰХхҲҳӼӽӾӿ',
   y: 'ÝýÿŶŷŸƳƴȲȳɎɏΎΥΫγψϒϓϔЎУучўѰѱҮүҰұӮӯӰӱӲӳ',
   z: 'ŹźŻżŽžƵƶȤȥɀΖ',
+  oe: 'œ',
 }
 //decompress data into two hashes
 let unicode = {}

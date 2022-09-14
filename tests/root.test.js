@@ -36,8 +36,8 @@ test('root-match:', function (t) {
     [`la boîte blanche`, '{blanc}'],
     [`Une boule blanche géante`, '{blanc}'],
     // libérer
-    [`Le Karnataka ne libérera plus`, '{liberer}'],
-    [`Il a été libéré par les Royals`, '{liberer}'],
+    [`Le Karnataka ne libérera plus`, '{libérer}'],
+    [`Il a été libéré par les Royals`, '{libérer}'],
     [`les mascarades était prodigieuse`, '{prodigieux}'],
     [`puissance musculaire prodigieuse`, '{prodigieux}'],
     // [`Tellement stressé que`, '{stresser}'],
@@ -82,6 +82,8 @@ test('root-match:', function (t) {
     [`des pensées sombres `, '{pensée}'],
     [`Identifiez vos pensées négatives`, '{pensée}'],
     [`il avait lu mes pensées `, '{pensée}'],
+    [`Attirez l'animal `, '{attirer}'],
+    [`des coûts « démontre que le gouvernement exploite »`, '{démontrer}']
 
   ]
   arr.forEach(function (a) {
