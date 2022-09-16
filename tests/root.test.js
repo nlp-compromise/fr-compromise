@@ -114,13 +114,13 @@ test('root-match:', function (t) {
     // [`Les victimes de Doda incinérées `, `{incinérer}`], //adjective
 
     // ===adjectives===
-    // [`et boissons fraîches`, `{frais}`],
-    // [`la bolognaise qui en est ressortie fraîche`, `{frais}`],
+    [`et boissons fraîches`, `{frais}`],
+    [`la bolognaise qui en est ressortie fraîche`, `{frais}`],
     [`C'est une danse vigoureuse`, `{vigoureux}`],
     [`Une poignée de main assez raide`, `{raide}`],
     [`Elle est très affirmée`, `{affirmé}`],
     [`mon amie était occupée`, `{occupé}`],
-    // [`les plaignants n'étaient pas mûres`, `{mûr}`],
+    [`les plaignants n'étaient pas mûres`, `{mûr}`],
 
 
     // ===nouns===

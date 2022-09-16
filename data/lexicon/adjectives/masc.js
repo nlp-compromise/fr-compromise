@@ -2179,6 +2179,7 @@ export default [
   "prompt",
   "promu",
   "prononcé",
+  "propre",
   "proportionné",
   "proposé",
   "propret",
