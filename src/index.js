@@ -9,6 +9,7 @@ import numbers from './03-three/numbers/plugin.js'
 import topics from './03-three/topics/plugin.js'
 import verbs from './03-three/verbs/plugin.js'
 import adjectives from './03-three/adjectives/plugin.js'
+import nouns from './03-three/nouns/plugin.js'
 import contractions from './03-three/contractions/plugin.js'
 import version from './_version.js'
 
@@ -21,6 +22,7 @@ nlp.plugin(numbers)
 nlp.plugin(topics)
 nlp.plugin(verbs)
 nlp.plugin(adjectives)
+nlp.plugin(nouns)
 nlp.plugin(contractions)
 
 const fr = function (txt, lex) {
