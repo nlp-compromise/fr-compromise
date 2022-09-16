@@ -2,15 +2,48 @@ import nlp from './src/index.js'
 
 nlp.verbose('tagger')
 
-let txt = ''
+let txt = `Avant de m'endormir la nuit`
 
 
 /*
 
+// ===verbs===
+Avant de m'endormir la nuit {endormi}
+les violettes ne rôtissent pas {rôtir}
+Détendez-vous et respirez profondément {détendre}
+laissez-les se détendre. {détendre}
+vous détendre un peu {détendre}
+Les personnel sont résumés {résumer}
+les doses sont résumées {résumer}
+m'empêchait de lancer {empêcher}
+Cela ne l'a pas empêchée de le poursuivre. {empêcher}
+La saveur été complètement dominée {dominer}
+gémissant et grimaçant de douleur {gémir}
+gémisse-t-elle {gémir}
+Ils dérivaient devant une brise {dériver}
+3 brutes coordonnées {coordonner}
+et a été incinérée {incinérer}
+Les victimes de Doda incinérées  {incinérer}
+
+===adjectives===
+et boissons fraîches {frais}
+la bolognaise qui en est ressortie fraîche {frais}
+C'est une danse vigoureuse {vigoureux}
+Une poignée de main assez raide {raide}
+Elle est très affirmée {affirmé}
+mon amie était occupée {occupé}
+les plaignants n'étaient pas mûres {mûr}
+
+
+===nouns===
+ses propres règles {règle}
+
 
 */
+
+
 // inflection bug
-console.log(nlp('aboyer').verbs().conjugate())
+// console.log(nlp('aboyer').verbs().conjugate())
 
 
 // console.log(nlp('aboyer').verbs().conjugate())
@@ -18,4 +51,4 @@ let doc = nlp(txt).debug()
 doc.compute('root')
 // console.log(doc.docs[0])
 // doc.debug()
-doc.match('{aboyer} ').debug()
+doc.match('{endormi} ').debug()

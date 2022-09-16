@@ -24,7 +24,6 @@ test('root-match:', function (t) {
     // [`vous exécutez qu'il active la version.`, '{activer}'],//activer
     // [`Tu sais, je pensais, et si je déballais ici ?`, '{déballer}'],//'déballer'
     // ['en marchant', '{marcher}'],
-    //chercher
     // [`Avant, je cherchais à attirer`, '{chercher}'],
     ['les cheminées', '{cheminée}'],
     ['les habitués', '{habitué}'],
@@ -90,11 +89,40 @@ test('root-match:', function (t) {
 
     // `bouillonnant` //{bouillir} //present parti
     // [`géante est réveillée `, '{réveiller}'],
-    // ` que l'Iraq a dissimulées` //{dissimuler} //past participle
-    // let txt=`Malédiction évitée` {éviter}
+    // `que l'Iraq a dissimulées` //{dissimuler} //past participle
+    // `Malédiction évitée` {éviter}
+    // 'des chiens qui aboient'// {aboyer}
 
-    // txt = 'des chiens qui aboient'// {aboyer}
 
+    // ===verbs===
+    [`Avant de m'endormir la nuit`, `{endormi}`],
+    [`les violettes ne rôtissent pas`, `{rôtir}`],
+    [`Détendez-vous et respirez profondément`, `{détendre}`],
+    [`laissez-les se détendre.`, `{détendre}`],
+    [`vous détendre un peu`, `{détendre}`],
+    [`Les personnel sont résumés`, `{résumer}`],
+    [`les doses sont résumées`, `{résumer}`],
+    [`m'empêchait de lancer`, `{empêcher}`],
+    [`Cela ne l'a pas empêchée de le poursuivre.`, `{empêcher}`],
+    [`La saveur été complètement dominée`, `{dominer}`],
+    [`gémissant et grimaçant de douleur`, `{gémir}`],
+    [`gémisse-t-elle`, `{gémir}`],
+    [`Ils dérivaient devant une brise`, `{dériver}`],
+    [`3 brutes coordonnées`, `{coordonner}`],
+    [`et a été incinérée`, `{incinérer}`],
+    [`Les victimes de Doda incinérées `, `{incinérer}`],
+    // ===adjectives===
+    [`et boissons fraîches`, `{frais}`],
+    [`la bolognaise qui en est ressortie fraîche`, `{frais}`],
+    [`C'est une danse vigoureuse`, `{vigoureux}`],
+    [`Une poignée de main assez raide`, `{raide}`],
+    [`Elle est très affirmée`, `{affirmé}`],
+    [`mon amie était occupée`, `{occupé}`],
+    [`les plaignants n'étaient pas mûres`, `{mûr}`],
+
+
+    // ===nouns===
+    [`ses propres règles`, `{règle}`]
   ]
   arr.forEach(function (a) {
     let [str, match] = a
