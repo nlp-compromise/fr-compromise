@@ -37,6 +37,7 @@ let whichTense = [
   ['ient', 'PastTense'],
 
   // past-participle
+  ['ées', 'PastParticiple'],
   ['és', 'PastParticiple'],
   ['ée', 'PastParticiple'],
   ['é', 'Participle'],

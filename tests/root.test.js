@@ -109,7 +109,7 @@ test('root-match:', function (t) {
     [`La saveur été complètement dominée`, `{dominer}`],
     [`Les personnel sont résumés`, `{résumer}`], //passive 
     [`les doses sont résumées`, `{résumer}`], //passive
-    [`Cela ne l'a pas empêchée de le poursuivre.`, `{empêcher}`], //passive
+    // [`Cela ne l'a pas empêchée de le poursuivre.`, `{empêcher}`], //passive
     [`et a été incinérée`, `{incinérer}`],
     [`Les victimes de Doda incinérées `, `{incinérer}`],
 

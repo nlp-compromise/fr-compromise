@@ -3,7 +3,7 @@ const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
 const inf = 'Infinitive'
-const pres = 'PresentTense'
+// const pres = 'PresentTense'
 
 
 export default [
@@ -18,7 +18,7 @@ export default [
     er: inf,
     ir: inf,
     ée: vb,
-    és: pres,
+    és: vb,
     sé: vb,
     ré: vb,
     çu: vb,//conçu
