@@ -8,6 +8,7 @@ export default [
   { before: 's', out: ['se'] },
   { before: 't', out: ['tu'] },
   { before: 'n', out: ['ne'] },
+  { before: 'qu', out: ['que'] },//tant qu'étudiant
   { after: 'puisqu', out: ['puisque'] },
   { after: 'lorsqu', out: ['lorsque'] },//lorsqu’il
   { after: 'jusqu', out: ['jusque'] },//jusqu’ici

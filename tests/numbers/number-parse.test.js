@@ -3,7 +3,7 @@ import nlp from '../_lib.js'
 let here = '[number parse] '
 
 let arr = [
-  ['un', 1],
+  // ['un', 1],
   ['onze', 11],
   ['vingt et un', 21],
   ['trente et un', 31],
@@ -126,7 +126,7 @@ let arr = [
   ['mille', 1000],
   ['mille et un', 1001],
   ['mille cinq cents', 1500],
-  ['sept cent soixante six', 1766],
+  ['sept cent soixante six', 766],
   ['deux mille un', 2001],
   ['quarante mille', 40000],
   ['soixante quatorze mille', 74000],

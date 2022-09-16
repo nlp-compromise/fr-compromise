@@ -58,7 +58,16 @@ const fromImperfectTense = (str, form) => doOneVerb(str, form, fromImperfect)
 const fromParticiple = reverse(model.pastParticiple.prt)
 const fromPastParticiple = (str) => convert(str, fromParticiple)
 
-export default { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple }
+// do this one manually
+const fromPassive = function (str) {
+  str = str.replace(/ées$/, 'er')
+  str = str.replace(/ée$/, 'er')
+  str = str.replace(/és$/, 'er')
+  str = str.replace(/é$/, 'er')
+  return str
+}
+
+export default { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive }
 
 // console.log(presentTense('marcher'))
 // console.log(futureTense('marcher'))

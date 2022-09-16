@@ -3,7 +3,7 @@ const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
 const inf = 'Infinitive'
-const pres = 'PresentTense'
+// const pres = 'PresentTense'
 
 
 export default [
@@ -18,7 +18,7 @@ export default [
     er: inf,
     ir: inf,
     ée: vb,
-    és: pres,
+    és: vb,
     sé: vb,
     ré: vb,
     çu: vb,//conçu
@@ -67,7 +67,8 @@ export default [
     eurs: nn,//directeurs
     tion: nn,//amélioration
     ance: nn,//croissance
-    euse: jj//rigoureuse
+    euse: jj,//rigoureuse
+    ouce: jj//douce
   },
   {
     //5-letter
@@ -83,9 +84,11 @@ export default [
     trant: vb,//montrant
     llant: vb,//détaillant
 
+    ouces: jj,//douces
     elles: jj,
     iques: jj,
     aires: jj,
+    euses: jj
   },
   {
     //6-letter

@@ -5,7 +5,7 @@ let here = '[number ordinal] '
 
 let arr = [
   [0, 'zero', 'zeroième'],
-  [1, 'un', 'unième'],
+  // [1, 'un', 'unième'],
   [2, 'deux', 'deuxième'],
   [3, 'trois', 'troisième'],
   [4, 'quatre', 'quatrième'],
@@ -22,9 +22,9 @@ let arr = [
   [14, 'quatorze', 'quatorzième'],
   [15, 'quinze', 'quinzième'],
   [16, 'seize', 'seizième'],
-  [17, 'dix sept', 'dix septiem'],
-  [18, 'dix huit', 'dix huitiem'],
-  [19, 'dix neuf', 'dix neuviem'],
+  [17, 'dix sept', 'dix septième'],
+  [18, 'dix huit', 'dix huitième'],
+  [19, 'dix neuf', 'dix neuvième'],
 
   [20, 'vingt', 'vingtième'],
   [30, 'trente', 'trentième'],
@@ -33,13 +33,13 @@ let arr = [
   [60, 'soixante', 'soixantième'],
   [70, 'soixante dix', 'soixante dixième'],
   [80, 'quatre vingt', 'quatre vingtième'],
-  [90, 'quatre vingt dix huit', 'quatre vingt dixième'],
+  [90, 'quatre vingt dix huit', 'quatre vingt dix huitième'],
 
   [100, 'cent', 'centième'],
   [1000, 'mille', 'millième'],
   [1000000, 'million', 'millionième'],//million 1000,000
   [1000000000, 'milliard', 'milliardième'],//billion 1000,000,000
-  [1000000000000, 'mille milliards', 'mille milliardième'],//trillion 1000,000,000
+  // [1000000000000, 'mille milliards', 'mille milliardième'],//trillion 1000,000,000
 
 ]
 test('cardinal to ordinal:', function (t) {

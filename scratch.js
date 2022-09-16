@@ -1,54 +1,36 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
-let txt = ''
+let txt = "et boissons fraîches"
 
-//chercher
-txt = `Avant, je cherchais à attirer`
-txt = `quant à elle, chercha un apothicaire`
 
-//raison
-txt = `J'ai dû le faire pour des raisons.`
-txt = `avancé des raisons différentes.`
-txt = `pour plusieurs raisons.`
+/*
 
-// blanc
-txt = `la boîte blanche`
-txt = `Une boule blanche géante`
+*/
 
-// libérer
-txt = `Le Karnataka ne libérera plus`
-txt = `Il a été libéré par les Royals`
 
-// prodigieux
-txt = `les mascarades était prodigieuse`
-txt = `puissance musculaire prodigieuse`
+// inflection bug
+// console.log(nlp('aboyer').verbs().conjugate())
 
-// stresser
-txt = `Tellement stressé que`
 
-// correspond
-txt = `du département correspondant.`
+// let doc = nlp('3 cent').debug()
+// let doc = nlp('quatre cent quinze ').debug()
+// let doc = nlp('quatre cent quinze mille').debug()
 
-//  calculé
-txt = `des vins est bien calculée`
 
-//  rein [n]
-txt = `l'ai filtré par mes reins.`
-txt = `les humains naissent avec quatre reins`
+// let doc = nlp(`18e`).debug()
 
-// interdire
-txt = `Elle interdit les transactions`
-txt = `les promotions sont interdites par l'interdiction`
+let doc = nlp(`j'ai moins quarante dollars`).debug()
+doc.numbers().add(50)
+console.log(doc.text())
 
-//endommager
-txt = `Il a été endommagé dans deux énormes incendies`
 
-txt = `les chaussures  `
-
-let doc = nlp(txt).debug()
-doc.compute('root')
-// console.log(doc.docs)
-// doc.debug()
-// doc.match('les {chaussure} ').debug()
+// console.log(doc.numbers().get())
+// console.log(doc.text())
+// console.log(doc.values().json())
+// let doc = nlp('onzieme').debug()
+// doc.compute('root')
+// console.log(doc.docs[0][3])
+// // doc.debug()
+// doc.match('{empêcher} ').debug()

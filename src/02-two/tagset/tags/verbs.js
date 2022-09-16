@@ -41,6 +41,9 @@ export default {
   PhrasalVerb: {
     is: 'Verb',
   },
+  Passive: {
+    is: 'PastTense',
+  },
   Particle: {
     is: 'PhrasalVerb',
     not: ['PastTense', 'PresentTense', 'Copula', 'Gerund'],

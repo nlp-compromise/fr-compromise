@@ -693,5 +693,6 @@ export default {
   "étranger": ["étrangère", "étrangers", "étrangères"],
   "étudiant": ["étudiante", "étudiants", "étudiantes"],
   "évadé": ["évadée", "évadés", "évadées"],
-  "évolué": ["évoluée", "évolués", "évoluées"]
+  "évolué": ["évoluée", "évolués", "évoluées"],
+  // "chaussure": ["chaussure", "chaussures", "chaussures"]
 }

@@ -134,7 +134,6 @@ export default [
   "ancien",
   "ancré",
   "andalou",
-  "anesthésiant",
   "anglo-américain",
   "anglo-saxon",
   "angoissant",
@@ -1227,6 +1226,7 @@ export default [
   "fourni",
   "fourré",
   "foutu",
+  "frais",
   "fracassant",
   "fracassé",
   "fracturé",
@@ -2179,6 +2179,7 @@ export default [
   "prompt",
   "promu",
   "prononcé",
+  "propre",
   "proportionné",
   "proposé",
   "propret",
@@ -2978,7 +2979,6 @@ export default [
   "étranglé",
   "étriqué",
   "étroit",
-  "étudiant",
   "étudié",
   "évacué",
   "évanescent",
@@ -2993,5 +2993,6 @@ export default [
   "évident",
   "évocateur",
   "évolué",
-  "ôté"
+  "ôté",
+  "soudain"
 ]

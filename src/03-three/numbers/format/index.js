@@ -1,16 +1,25 @@
 import toText from './toText.js'
 import { toOrdinal } from '../parse/_data.js'
 
+const makeSuffix = function (obj) {
+  return {
+    prefix: obj.prefix || '',
+    suffix: obj.suffix || '',
+  }
+}
 
 const formatNumber = function (parsed, fmt) {
+  let { prefix, suffix } = makeSuffix(parsed)
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
     let last = words[words.length - 1]
     words[words.length - 1] = toOrdinal[last]
-    return words.join(' ')
+    let num = words.join(' ')
+    return `${prefix}${num}${suffix}`
   }
   if (fmt === 'TextCardinal') {
-    return toText(parsed.num).join(' ')
+    let num = toText(parsed.num).join(' ')
+    return `${prefix}${num}${suffix}`
   }
   // numeric formats
   // '55e'
@@ -18,13 +27,17 @@ const formatNumber = function (parsed, fmt) {
     let str = String(parsed.num)
     let last = str.slice(str.length - 1, str.length)
     if (last === '1') {
-      return str += 'er'
+      let num = str += 'er'
+      return `${prefix}${num}${suffix}`
     }
-    return str += 'e'
+    let num = str += 'e'
+    return `${prefix}${num}${suffix}`
   }
   if (fmt === 'Cardinal') {
-    return String(parsed.num)
+    let num = String(parsed.num)
+    return `${prefix}${num}${suffix}`
   }
-  return String(parsed.num || '')
+  let num = String(parsed.num || '')
+  return `${prefix}${num}${suffix}`
 }
 export default formatNumber

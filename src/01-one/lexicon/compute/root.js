@@ -18,13 +18,9 @@ const root = function (view) {
       // nouns -> singular masculine form
       if (term.tags.has('Noun') && !term.tags.has('Pronoun')) {
         let isPlural = term.tags.has('PluralNoun')
-        let isFemale = term.tags.has('FemaleNoun')
-        if (isPlural && isFemale) {
-          term.root = transform.noun.fromFemalePlural(str)
-        } else if (isPlural) {
+        // let isFemale = term.tags.has('FemaleNoun')
+        if (isPlural) {
           term.root = transform.noun.fromPlural(str)
-        } else if (isFemale) {
-          // term.root = transform.noun.fromFemale(str)
         }
       }
       // adjectives -> singular masculine form
@@ -33,10 +29,10 @@ const root = function (view) {
         let isFemale = term.tags.has('FemaleAdjective')
         if (isPlural && isFemale) {
           term.root = transform.adjective.fromFemalePlural(str)
-        } else if (isPlural) {
-          term.root = transform.adjective.fromPlural(str)
         } else if (isFemale) {
           term.root = transform.adjective.fromFemale(str)
+        } else if (isPlural) {
+          term.root = transform.adjective.fromPlural(str)
         }
       }
       // verbs -> infinitive form
@@ -49,7 +45,10 @@ const root = function (view) {
           let form = verbForm(term)
           term.root = transform.verb.fromFutureTense(str, form)
         }
-        if (term.tags.has('PastTense')) {
+        if (term.tags.has('Passive')) {
+          let form = verbForm(term)
+          term.root = transform.verb.fromPassive(str, form)
+        } else if (term.tags.has('PastTense')) {
           let form = verbForm(term)
           term.root = transform.verb.fromPastParticiple(str, form)
         }

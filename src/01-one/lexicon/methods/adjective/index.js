@@ -30,3 +30,4 @@ export default {
   fromPlural,
   fromFemalePlural,
 }
+// console.log(conjugate('frais'))

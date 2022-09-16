@@ -117,7 +117,6 @@ export default [
   'la-dedans',
   'deca',
   'ca',
-  'soudain',
   'soi-disant',
   'devant',
   'fi',

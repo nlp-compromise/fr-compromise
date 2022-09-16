@@ -20,6 +20,7 @@ const guessGender = function (str) {
     /ées$/,
     /ues$/,
     /ies$/,
+    /ée$/,
     /[ndvt]es$/,
   ]
   for (let i = 0; i < suffixes.length; i += 1) {
@@ -37,7 +38,7 @@ const adjGender = function (terms, i, world) {
   let setTag = world.methods.one.setTag
   let term = terms[i]
   let tags = term.tags
-  if (tags.has('Adjective')) {
+  if (tags.has('Adjective') && !tags.has('FemaleAdjective') && !tags.has('#MaleAdjective')) {
     let str = term.implicit || term.normal || term.text || ''
     // i actually think there are no exceptions.
     if (guessGender(str) === 'f') {

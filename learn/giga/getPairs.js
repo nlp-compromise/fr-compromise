@@ -28,7 +28,7 @@ for (let i = 1; i <= 10; i += 1) {
 // "NOM": true,
 let pairs = {}
 const tag = 'NOM'
-const prev = 'les'
+// const prev = 'les'
 
 let results = {}
 const doBoth = function (both) {
@@ -38,17 +38,18 @@ const doBoth = function (both) {
       return
     }
     if (term['$'].pos === tag) {
-      let last = terms[i - 1]['$text'].toLowerCase()
-      if (last === prev) {
-        let w = term['$text']
-        let inf = term['$'].lem
-        // console.log(last, w, inf)
-        if (w && inf) {
-          w = w.toLowerCase().trim()
-          inf = inf.toLowerCase().trim()
-          results[w] = inf
-        }
-      }
+      console.log(term)
+      // let last = terms[i - 1]['$text'].toLowerCase()
+      // if (last === prev) {
+      //   let w = term['$text']
+      //   let inf = term['$'].lem
+      //   // console.log(last, w, inf)
+      //   if (w && inf) {
+      //     w = w.toLowerCase().trim()
+      //     inf = inf.toLowerCase().trim()
+      //     results[w] = inf
+      //   }
+      // }
     }
   })
 }
