@@ -50,10 +50,14 @@ const postTagger = function (doc) {
   tagVerb(doc.match('(je|tu|il|elle|nous|vous|ils) [#Adjective] (la|le|les)', 0).tag('Verb', 'ils-x-les'))
   // sont interdites par l'interdiction
   tagVerb(doc.match('(est|été|sont|était|serait) [#Adjective] #Preposition', 0).tag('Verb', 'song-x-par'))
-  // have unpacked
-  doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres')
   // a dissimulées
   tagVerb(doc.match('(ai|as|a|avons|avez|ont) [#Adjective]', 0).tag('PastTense', 'have-adj'))
+  // have unpacked
+  doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres')
+  // passive voice - est-aimée
+  doc.match('#Copula #Adverb?+ [#PastParticiple]', 0).tag('Passive', 'passive-voice')
+
+  // ==Adjectives==
   // est bien calculée
   tagAdj(doc.match('#Copula (bien|très|pas|plus|tant|presque|seulement)+ [#Verb]', 0).tag('Adjective', 'est-bein-calculee'))
 

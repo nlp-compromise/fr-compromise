@@ -45,7 +45,10 @@ const root = function (view) {
           let form = verbForm(term)
           term.root = transform.verb.fromFutureTense(str, form)
         }
-        if (term.tags.has('PastTense')) {
+        if (term.tags.has('Passive')) {
+          let form = verbForm(term)
+          term.root = transform.verb.fromPassive(str, form)
+        } else if (term.tags.has('PastTense')) {
           let form = verbForm(term)
           term.root = transform.verb.fromPastParticiple(str, form)
         }

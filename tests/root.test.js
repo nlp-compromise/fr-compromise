@@ -100,29 +100,31 @@ test('root-match:', function (t) {
     [`Détendez-vous et respirez profondément`, `{détendre}`],
     [`laissez-les se détendre.`, `{détendre}`],
     [`vous détendre un peu`, `{détendre}`],
-    [`Les personnel sont résumés`, `{résumer}`],
-    [`les doses sont résumées`, `{résumer}`],
-    [`m'empêchait de lancer`, `{empêcher}`],
-    [`Cela ne l'a pas empêchée de le poursuivre.`, `{empêcher}`],
+    // [`gémissant et grimaçant de douleur`, `{gémir}`], //present participle
+    // [`gémisse-t-elle`, `{gémir}`], //subjunctive
+    // [`m'empêchait de lancer`, `{empêcher}`], //imparfait
+    // [`Ils dérivaient devant une brise`, `{dériver}`], //imparfait
+    // --passive--
+    // [`3 brutes coordonnées`, `{coordonner}`],
     [`La saveur été complètement dominée`, `{dominer}`],
-    [`gémissant et grimaçant de douleur`, `{gémir}`],
-    [`gémisse-t-elle`, `{gémir}`],
-    [`Ils dérivaient devant une brise`, `{dériver}`],
-    [`3 brutes coordonnées`, `{coordonner}`],
+    [`Les personnel sont résumés`, `{résumer}`], //passive 
+    [`les doses sont résumées`, `{résumer}`], //passive
+    [`Cela ne l'a pas empêchée de le poursuivre.`, `{empêcher}`], //passive
     [`et a été incinérée`, `{incinérer}`],
     [`Les victimes de Doda incinérées `, `{incinérer}`],
+
     // ===adjectives===
-    [`et boissons fraîches`, `{frais}`],
-    [`la bolognaise qui en est ressortie fraîche`, `{frais}`],
+    // [`et boissons fraîches`, `{frais}`],
+    // [`la bolognaise qui en est ressortie fraîche`, `{frais}`],
     [`C'est une danse vigoureuse`, `{vigoureux}`],
     [`Une poignée de main assez raide`, `{raide}`],
     [`Elle est très affirmée`, `{affirmé}`],
     [`mon amie était occupée`, `{occupé}`],
-    [`les plaignants n'étaient pas mûres`, `{mûr}`],
+    // [`les plaignants n'étaient pas mûres`, `{mûr}`],
 
 
     // ===nouns===
-    [`ses propres règles`, `{règle}`]
+    // [`ses propres règles`, `{règle}`]
   ]
   arr.forEach(function (a) {
     let [str, match] = a

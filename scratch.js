@@ -2,15 +2,15 @@ import nlp from './src/index.js'
 
 nlp.verbose('tagger')
 
-let txt = `ils sont résumés`
+// let txt = "pas empêchée"
+// let txt = "pas empêché"
+let txt = "La saveur été complètement dominée"
 
 
 /*
 
 // ===verbs===
 
-Les personnel sont résumés {résumer}
-les doses sont résumées {résumer}
 m'empêchait de lancer {empêcher}
 Cela ne l'a pas empêchée de le poursuivre. {empêcher}
 La saveur été complètement dominée {dominer}
@@ -45,6 +45,6 @@ ses propres règles {règle}
 // console.log(nlp('aboyer').verbs().conjugate())
 let doc = nlp(txt).debug()
 doc.compute('root')
-console.log(doc.docs[0][2])
+console.log(doc.docs[0][3])
 // doc.debug()
-doc.match('{résumer} ').debug()
+doc.match('{dominer} ').debug()
