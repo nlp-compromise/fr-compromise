@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 let txt = "et boissons fraîches"
 
@@ -16,8 +16,13 @@ let txt = "et boissons fraîches"
 
 // let doc = nlp('3 cent').debug()
 // let doc = nlp('quatre cent quinze ').debug()
-let doc = nlp('quatre cent quinze mille').debug()
-console.log(doc.values().json())
+// let doc = nlp('quatre cent quinze mille').debug()
+
+
+let doc = nlp(`18e`).debug()
+// console.log(doc.numbers().get())
+// console.log(doc.text())
+// console.log(doc.values().json())
 // let doc = nlp('onzieme').debug()
 // doc.compute('root')
 // console.log(doc.docs[0][3])
