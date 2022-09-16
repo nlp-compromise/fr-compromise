@@ -4,7 +4,7 @@ nlp.verbose('tagger')
 
 // let txt = "pas empêchée"
 // let txt = "pas empêché"
-let txt = "Cela ne l'a pas empêchée"
+let txt = "et boissons fraîches"
 
 
 /*
@@ -47,4 +47,4 @@ let doc = nlp(txt).debug()
 doc.compute('root')
 console.log(doc.docs[0][3])
 // doc.debug()
-doc.match('{empêcher} ').debug()
+doc.match('{frais} ').debug()

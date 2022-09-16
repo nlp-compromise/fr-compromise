@@ -1226,6 +1226,7 @@ export default [
   "fourni",
   "fourré",
   "foutu",
+  "frais",
   "fracassant",
   "fracassé",
   "fracturé",

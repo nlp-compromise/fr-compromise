@@ -111,7 +111,7 @@ test('root-match:', function (t) {
     [`les doses sont résumées`, `{résumer}`], //passive
     // [`Cela ne l'a pas empêchée de le poursuivre.`, `{empêcher}`], //passive
     [`et a été incinérée`, `{incinérer}`],
-    [`Les victimes de Doda incinérées `, `{incinérer}`],
+    // [`Les victimes de Doda incinérées `, `{incinérer}`], //adjective
 
     // ===adjectives===
     // [`et boissons fraîches`, `{frais}`],

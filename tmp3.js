@@ -1,12 +1,9 @@
-import data from '/Users/spencer/mountain/fr-compromise/data/lexicon/verbs/infinitives.js'
+import data from '/Users/spencer/mountain/fr-compromise/data/models/adjective/index.js'
 
-let all = data.filter((str, i) => {
-  if (str.endsWith('e') && data[i + 1] && data[i + 1] === str + 'r') {
-    return false
+Object.keys(data).forEach((k) => {
+  let arr = data[k]
+  if (arr[0].endsWith('s') || arr[0].endsWith('x')) {
+    console.log(k, arr)
   }
-  // if (data[i + 1] && data[i + 1].startsWith(str)) {
-  //   console.log(str, data[i + 1])
-  // }
-  return true
+  // return true
 })
-console.log(JSON.stringify(all, null, 2))
