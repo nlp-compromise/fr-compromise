@@ -1,3 +1,7 @@
+### 0.2.0 [Sept 2022]
+- **[fix]** - inflections+conjugations
+- **[new]** - start of verb, noun, and adjective methods
+
 ### 0.1.2 [August 2022]
 - **[fix]** - inflections+conjugations
 

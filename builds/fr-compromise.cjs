@@ -263,7 +263,7 @@
 
   // aliases
   methods$n.get = methods$n.eq;
-  var api$j = methods$n;
+  var api$n = methods$n;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -388,7 +388,7 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$j);
+  Object.assign(View.prototype, api$n);
   var View$1 = View;
 
   var version$1 = '14.5.0';
@@ -712,7 +712,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$l);
   };
-  var api$i = addAPI$3;
+  var api$m = addAPI$3;
 
   var compute$7 = {
     cache: function (view) {
@@ -721,7 +721,7 @@
   };
 
   var cache$1 = {
-    api: api$i,
+    api: api$m,
     compute: compute$7,
     methods: methods$m,
   };
@@ -1591,7 +1591,7 @@
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$h);
   };
-  var api$h = addAPI$2;
+  var api$l = addAPI$2;
 
   const compute$5 = {
     id: function (view) {
@@ -1608,7 +1608,7 @@
   var compute$6 = compute$5;
 
   var change = {
-    api: api$h,
+    api: api$l,
     compute: compute$6,
   };
 
@@ -2319,7 +2319,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$g (View) {
+  function api$k (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2377,7 +2377,7 @@
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$g,
+    api: api$k,
     lib: lib$4
   };
 
@@ -2737,7 +2737,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$e);
   };
-  var api$f = matchAPI;
+  var api$j = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -4220,7 +4220,7 @@
   };
 
   var match = {
-    api: api$f,
+    api: api$j,
     methods: methods$c,
     lib: lib$3,
   };
@@ -4932,10 +4932,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$8);
   };
-  var api$e = addAPI$1;
+  var api$i = addAPI$1;
 
   var output = {
-    api: api$e,
+    api: api$i,
     methods: {
       one: {
         hash: md5
@@ -5347,11 +5347,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$6);
   };
-  var api$d = addAPI;
+  var api$h = addAPI;
 
   var pointers = {
     methods: methods$7,
-    api: api$d,
+    api: api$h,
   };
 
   var lib$2 = {
@@ -5364,7 +5364,7 @@
     }
   };
 
-  const api$b = function (View) {
+  const api$f = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5408,7 +5408,7 @@
     };
 
   };
-  var api$c = api$b;
+  var api$g = api$f;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5735,7 +5735,7 @@
 
   var sweep = {
     lib: lib$2,
-    api: api$c,
+    api: api$g,
     methods: {
       one: methods$5,
     }
@@ -6129,7 +6129,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$a = tagAPI;
+  var api$e = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -6183,7 +6183,7 @@
       tagRank: tagRank$3
     },
     methods: methods$4,
-    api: api$a,
+    api: api$e,
     lib: lib$1
   };
 
@@ -6936,7 +6936,7 @@
 
   var months = ['jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'oct', 'nov', 'dec'];
 
-  var nouns$1 = [
+  var nouns$2 = [
     'ad',
     'al',
     'arc',
@@ -7054,7 +7054,7 @@
   let list = [
     [misc$2],
     [units, 'Unit'],
-    [nouns$1, 'Noun'],
+    [nouns$2, 'Noun'],
     [honorifics, 'Honorific'],
     [months, 'Month'],
     [organizations, 'Organization'],
@@ -7420,10 +7420,10 @@
     return this
   };
 
-  const api$8 = function (View) {
+  const api$c = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$9 = api$8;
+  var api$d = api$c;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7505,7 +7505,7 @@
   };
   var typeahead = {
     model: model$3,
-    api: api$9,
+    api: api$d,
     lib,
     compute,
     hooks: ['typeahead']
@@ -7570,6 +7570,7 @@
     x: '×ΧχϗϰХхҲҳӼӽӾӿ',
     y: 'ÝýÿŶŷŸƳƴȲȳɎɏΎΥΫγψϒϓϔЎУучўѰѱҮүҰұӮӯӰӱӲӳ',
     z: 'ŹźŻżŽžƵƶȤȥɀΖ',
+    oe: 'œ',
   };
   //decompress data into two hashes
   let unicode = {};
@@ -7756,129 +7757,129 @@
   var packed = {
     "noun": {
       "plural": {
-        "rules": "ercheur|6ses,aucheur|6ses,aneur|4ses,eilleur|6ses,oyageur|6ses,rencier|5ères,ucateur|4rices,nnateur|4rices,dacteur|4rices,réateur|4rices,venteur|4rices,oniteur|4rices,ileur|4ses,ordeur|5ses,apetier|5ères,rceleur|6ses,œur|oeurs,r|1s,ravail|4ux,sionnel|7les,incipal|6ux,mercial|6ux,otal|3ux,heval|4ux,-verbal|6ux,ormal|5es,déal|3ux,ittoral|6ux,arginal|7es,cal|2ux,mal|2ux,pital|4ux,étal|3ux,éral|3ux,nal|2ux,l|1s,tudiant|7es,tituant|7es,rvenant|7es,current|7es,sentant|7es,icipant|7es,lient|5es,lescent|7es,andidat|7es,résent|6e,rigeant|7es,mbulant|7es,prenant|7es,inquant|7es,stulant|7es,onjoint|7es,evenant|7es,rvivant|7es,ignant|6es,t|1s,rindien|7nes,ncien|5nes,itoyen|6nes,ardien|6nes,esbien|6nes,édian|5es,tralien|7nes,fghan|5es,ugustin|7es,n|1s,ribu|4s,œu|oeux,ajou|4s,ertu|4s,issu|4s,lu|2s,étenu|5es,aribou|6s,outou|5s,neu|3s,ccru|4s,meu|3s,abou|4s,inou|4s,ïnou|4s,mprévu|6s,leu|3s,ndou|4s,çu|2s,écu|3s,rou|3s,enu|3s,du|2s,u|1x,élégué|6es,mployé|6es,îné|3es,ccusé|5es,ostitué|7es,iplômé|6es,ussigné|7es,référé|6es,é|1s,œurs|oeurs,is|2es,pprenti|7es,i|1s,ketch|5es,h|1s,aptif|4ves,œuf|oeufs,f|1s,anœuvre|2oeuvres,e-ville|1s-villes,œuvre|oeuvre,e|1s,terview|7s,eux|2ses,nœud|1oeuds,d|1s,ub|2s,y|1s,k|1s,g|1s,p|1s,m|1s,a|1s,o|1s,c|1s",
-        "exceptions": "un|2es,œil|yeux,consommateur|9rices,producteur|7rices,agriculteur|8rices,résident|8es,demandeur|8ses,distributeur|9rices,immigrant|9es,utilisateur|8rices,boulangerie-pâtisserie|11s-pâtisseries,coréen|6nes,administrateur|11rices,répondant|9es,petit|5es,match|5es,joueur|5ses,américain|9es,lauréat|7es,praticien|9nes,interlocuteur|10rices,réalisateur|8rices,néo-canadien|12nes,migrant|7es,garant|6es,tisseur|6ses,œillet|oeillets,œilleton|oeilletons,pondeur|6ses,œstrogène|oestrogènes,cou|3s,rival|4ux,informateur|8rices,revendicateur|10rices,amérindien|10nes,citoyen|7nes,adolescent|10es,mœurs|1oeurs,éducateur|6rices,gardien|7nes,coordonnateur|10rices,australien|10nes,créateur|5rices,centre-ville|6s-villes,papetier|6ères,augustin|8es",
-        "rev": "ravaux|4il,ncipaux|5l,oeux|œu,erciaux|5l,verbaux|5l,déaux|3l,caux|2l,maux|2l,vaux|2l,raux|2l,taux|2l,naux|2l,ux|1,diantes|5,nnelles|4,ltrices|2eur,identes|5,rrentes|5,ntantes|5,ipantes|5,lientes|5,léguées|5,ployées|5,didates|5,réennes|4,aneuses|4r,ndantes|5,etites|4,geantes|5,lleuses|4r,ageuses|4r,ncières|3er,renties|5,înées|3,oueuses|4r,icaines|5,uréates|5,étenues|5,jointes|5,biennes|4,ccusées|5,tituées|5,plômées|5,ormales|5,édianes|5,aptives|4f,onaises|5,oeuvres|œuvre,fghanes|5,signées|5,ntrices|2eur,itrices|2eur,ileuses|4r,ivantes|5,ineuses|4x,sseuses|4r,ginales|5,gieuses|4x,éférées|5,uvaises|5,eleuses|4r,écoises|5,cheuses|4r,uantes|4,ciennes|4,ctrices|2eur,utrices|2eur,tches|3,ulantes|5,oeufs|œuf,noeuds|1œud,deuses|3r,rantes|4,oeurs|œur,nantes|4,s|,résente|6,oeuvre|œuvre"
+        "rules": "ercheur|6ses,aucheur|6ses,aneur|4ses,eilleur|6ses,oyageur|6ses,rencier|5ères,ucateur|4rices,nnateur|4rices,dacteur|4rices,réateur|4rices,venteur|4rices,oniteur|4rices,ileur|4ses,ordeur|5ses,apetier|5ères,rceleur|6ses,œur|oeurs,r|1s,ravail|4ux,sionnel|7les,incipal|6ux,mercial|6ux,otal|3ux,heval|4ux,ormal|5es,déal|3ux,ittoral|6ux,arginal|7es,cal|2ux,mal|2ux,pital|4ux,étal|3ux,éral|3ux,nal|2ux,l|1s,tudiant|7es,tituant|7es,rvenant|7es,current|7es,sentant|7es,icipant|7es,lient|5es,lescent|7es,andidat|7es,résent|6e,etit|4es,rigeant|7es,mbulant|7es,prenant|7es,inquant|7es,stulant|7es,onjoint|7es,evenant|7es,rvivant|7es,ignant|6es,t|1s,rindien|7nes,ncien|5nes,itoyen|6nes,oréen|5nes,éricain|7es,ardien|6nes,esbien|6nes,édian|5es,tralien|7nes,fghan|5es,ugustin|7es,n|1s,ribu|4s,œu|oeux,ajou|4s,ertu|4s,issu|4s,lu|2s,étenu|5es,aribou|6s,outou|5s,neu|3s,ccru|4s,meu|3s,abou|4s,inou|4s,ïnou|4s,mprévu|6s,leu|3s,ndou|4s,çu|2s,écu|3s,rou|3s,enu|3s,du|2s,u|1x,élégué|6es,mployé|6es,îné|3es,ccusé|5es,ostitué|7es,iplômé|6es,ussigné|7es,référé|6es,é|1s,œurs|oeurs,is|2es,pprenti|7es,i|1s,œud|oeuds,d|1s,ketch|5es,h|1s,aptif|4ves,œuf|oeufs,f|1s,anœuvre|2oeuvres,e|1s,terview|7s,ub|2s,eux|2ses,y|1s,k|1s,g|1s,p|1s,m|1s,a|1s,o|1s,c|1s",
+        "exceptions": "un|2es,œil|yeux,consommateur|9rices,producteur|7rices,agriculteur|8rices,résident|8es,demandeur|8ses,distributeur|9rices,immigrant|9es,utilisateur|8rices,administrateur|11rices,répondant|9es,match|5es,joueur|5ses,œuvre|oeuvre,lauréat|7es,praticien|9nes,interlocuteur|10rices,réalisateur|8rices,migrant|7es,garant|6es,tisseur|6ses,œillet|oeillets,œilleton|oeilletons,pondeur|6ses,œstrogène|oestrogènes,cou|3s,rival|4ux,informateur|8rices,revendicateur|10rices,amérindien|10nes,citoyen|7nes,adolescent|10es,mœurs|1oeurs,éducateur|6rices,gardien|7nes,coordonnateur|10rices,australien|10nes,créateur|5rices,papetier|6ères,augustin|8es",
+        "rev": "ravaux|4il,ncipaux|5l,oeux|œu,erciaux|5l,déaux|3l,caux|2l,maux|2l,vaux|2l,raux|2l,taux|2l,naux|2l,ux|1,diantes|5,nnelles|4,ltrices|2eur,identes|5,rrentes|5,ntantes|5,ipantes|5,lientes|5,léguées|5,ployées|5,didates|5,réennes|4,aneuses|4r,ndantes|5,etites|4,geantes|5,lleuses|4r,ageuses|4r,ncières|3er,renties|5,înées|3,oueuses|4r,icaines|5,oeuds|œud,uréates|5,étenues|5,jointes|5,biennes|4,ccusées|5,tituées|5,plômées|5,ormales|5,édianes|5,aptives|4f,onaises|5,oeuvres|œuvre,fghanes|5,signées|5,ntrices|2eur,itrices|2eur,ileuses|4r,ivantes|5,ineuses|4x,sseuses|4r,ginales|5,gieuses|4x,éférées|5,uvaises|5,eleuses|4r,écoises|5,cheuses|4r,uantes|4,ciennes|4,ctrices|2eur,utrices|2eur,tches|3,ulantes|5,oeufs|œuf,deuses|3r,rantes|4,oeurs|œur,nantes|4,s|,résente|6"
       }
     },
     "adjective": {
       "female": {
-        "rules": "ndalou|6se,eau|1lle,igu|3ë,u|1e,énin|3gne,ouffon|6ne,aysan|5ne,olisson|7ne,saxon|5ne,ignon|5ne,illon|5ne,chon|4ne,ron|3ne,ton|3ne,en|2ne,n|1e,êta|3sse,ympa|4,oulot|5te,ésuet|3ète,âlot|4te,eplet|3ète,ieillot|7te,complet|5ète,quiet|3ète,cret|2ète,et|2te,t|1e,ref|1ève,f|ve,hic|3,rec|3que,aïc|3,ublic|4que,urc|2que,anc|3he,oi|2te,avori|5te,i|1e, retour|7,agyar|5e,artyr|5e,ûr|2e,or|2,ir|2e,ur|2e,er|ère,û|ue,aux|3,aloux|5,eux|2se,entil|5le,eil|3le,el|2le,l|1e,nouï|4e,igolo|5te,o|1,p|1,aître|5sse,e|1,long|4ue,m|1,s|1,d|1e,é|1e",
-        "exceptions": "bon|3ne,con|3ne,doux|3ce,fou|2lle,malin|4gne,sec|1èche,sot|3te,tout-puissant|4e-puissante,apte|4,beau|2lle,coi|3te,continue|8,dû|1ue,fonde|5,raide|5,rare|4,sale|4,vide|4",
-        "rev": "bsurde|6,dulte|5,dalouse|5,spire|5,thée|4,ugmente|7,veugle|6,énigne|3n,izarre|6,rève|1ef,ronze|5,rûle|4,hauve|5,houette|7,lasse|5,ommande|7,omplexe|7,oupe|4,mocrate|7,sparate|7,ivise|5,ouce|2x,rôle|4,goïste|6,lite|4,nceinte|7,mplaire|7,avorite|5,ertile|6,olle|1u,ragile|6,rivole|6,recque|3,âte|3,onnête|6,ostile|6,ybride|6,tiative|7,aune|4,eune|4,iciaire|7,uste|4,uvénile|7,isse|4,ucide|5,aligne|3n,odeste|6,essaire|7,ouvelle|4au,âle|3,atriote|7,importe|7,ropre|5,rospère|7,ublique|4c,ucelle|3au,igolote|5,ose|3,èche|ec,évère|5,incère|6,lendide|7,térile|6,angelle|4au,nquille|7,urque|2c,ulgaire|7,anche|3,be|2,cile|4,dre|3,aste|4,ade|3,èle|3,rigide|6,mide|4,mature|6,utile|5,vre|3,aigre|5,cule|4,onte|4,longue|4,maire|5,sse|,bre|3,bile|4,ense|4,gne|3,gue|3,daire|5,pide|4,lide|4,ple|3,raire|5,tre|3,rne|3,toire|5,naire|5,ulaire|6,ge|2,he|2,ce|2,iste|4,ète|et,taire|5,me|2,euse|2x,tte|1,ère|er,ble|3,que|3,lle|1,nne|1,ve|f,e|,ympa|4,p|1,c|1,ux|2,m|1,r|1,iguë|3,o|1,s|1"
+        "rules": "ndalou|6se,eau|1lle,igu|3ë,u|1e,énin|3gne,ouffon|6ne,aysan|5ne,olisson|7ne,axon|4ne,ignon|5ne,illon|5ne,chon|4ne,ron|3ne,ton|3ne,en|2ne,n|1e,êta|3sse,ympa|4,oulot|5te,ésuet|3ète,âlot|4te,eplet|3ète,ieillot|7te,complet|5ète,quiet|3ète,cret|2ète,et|2te,t|1e,ref|1ève,f|ve,amp|3,hic|3,rec|3que,aïc|2que,ublic|4que,urc|2que,anc|3he,oi|2te,avori|5te,i|1e,û|ue,aux|2sse,ux|1se,rais|2îche,ros|3se,as|2se,s|1e,entil|5le,eil|3le,el|2le,l|1e,nouï|4e,agyar|5e,artyr|5e,nior|4,ûr|2e,ir|2e,ur|2e,er|ère,igolo|5te,o|1,m|1,aître|5sse,e|1,long|4ue,d|1e,é|1e",
+        "exceptions": "bon|3ne,con|3ne,doux|3ce,fou|2lle,malin|4gne,sec|1èche,sot|3te,apte|4,bas|3se,beau|2lle,coi|3te,continue|8,digne|5,dû|1ue,fonde|5,jaloux|5se,raide|5,rare|4,sale|4,vide|4",
+        "rev": "bsurde|6,dulte|5,dalouse|5,thée|4,veugle|6,êtasse|3,izarre|6,rève|1ef,ronze|5,hauve|5,houette|7,lasse|5,ommande|7,omplexe|7,oupe|4,mocrate|7,sparate|7,ouce|2x,rôle|4,goïste|6,lite|4,nceinte|7,mplaire|7,ausse|2x,avorite|5,ertile|6,olle|1u,ragile|6,raîche|2is,rivole|6,rasse|3,recque|3,rosse|3,âte|3,onnête|6,ostile|6,ybride|6,tiative|7,aune|4,eune|4,iciaire|7,uste|4,uvénile|7,aïque|2c,isse|4,ucide|5,odeste|6,essaire|7,ouvelle|4au,âle|3,atriote|7,ropre|5,rospère|7,ublique|4c,ucelle|3au,igolote|5,ose|3,èche|ec,évère|5,incère|6,lendide|7,térile|6,endre|5,angelle|4au,nquille|7,urque|2c,ulgaire|7,igne|1n,anche|3,be|2,cile|4,aste|4,ade|3,èle|3,rigide|6,mide|4,mature|6,utile|5,vre|3,aigre|5,îtresse|4,cule|4,longue|4,maire|5,bre|3,bile|4,ense|4,gue|3,daire|5,pide|4,lide|4,ple|3,raire|5,tre|3,rne|3,toire|5,naire|5,ulaire|6,ce|2,ge|2,he|2,iste|4,ète|et,me|2,taire|5,euse|2x,tte|1,ère|er,ble|3,que|3,lle|1,nne|1,ve|f,e|,amp|3,hic|3,ympa|4,m|1,nior|4,o|1,iguë|3"
       },
       "plural": {
-        "rules": "ancal|5s,orfal|5s,naval|5s,ol|2s,ul|2s,il|2s,el|2s,al|1ux,êta|3s,ympa|4,û|us,nouï|4s,igolo|5s,o|1,p|1,aître|5s,e|1,long|4s,m|1,eau|3x,u|1s,c|1s,ux|2,s|1,r|1s,d|1s,i|1s,f|1s,n|1s,t|1s,é|1s",
-        "exceptions": "fatal|5s,natal|5s,contrefaits|11,dû|1us,faux|4,frais|5,gris|4,moins|5,plus|4,précis|6",
-        "rev": "ompris|6,onfus|5,ehors|5,n cours|7,xpress|6,xquis|5,ras|3,ros|3,nsoumis|7,rès|3,uelques|7,bas|3,sous|4,s|,ympa|4,p|1,oux|3,eaux|3,eux|3,aux|1l,m|1,o|1,e|1"
+        "rules": "ancal|5s,orfal|5s,naval|5s,ol|2s,ul|2s,il|2s,el|2s,al|1ux,amp|3s,û|us,nouï|4s,a|1s,m|1s,long|4s,eau|3x,u|1s,o|1s,c|1s,s|1,ux|2,r|1s,d|1s,i|1s,f|1s,n|1s,e|1s,t|1s,é|1s",
+        "exceptions": "fatal|5s,natal|5s,bas|3,dû|1us,faux|4,frais|5,gris|4,précis|6",
+        "rev": "ompris|6,onfus|5,xquis|5,ras|3,ros|3,nsoumis|7,s|,oux|3,eaux|3,eux|3,aux|1l"
       },
       "femalePlural": {
-        "rules": "ndalou|6ses,eau|1lles,igu|3ës,u|1es,énin|3gnes,ouffon|6nes,aysan|5nes,olisson|7nes,saxon|5nes,ignon|5nes,illon|5nes,chon|4nes,ron|3nes,ton|3nes,en|2nes,n|1es,êta|3sses,ympa|4,oulot|5tes,ésuet|3ètes,âlot|4tes,eplet|3ètes,ieillot|7tes,complet|5ètes,quiet|3ètes,cret|2ètes,et|2tes,t|1es,ref|1èves,f|ves,hic|3,rec|3ques,aïc|3,ublic|4ques,urc|2ques,anc|3hes,oi|2tes,avori|5tes,i|1es, retour|7,agyar|5es,artyr|5es,ûr|2es,or|2,ir|2es,ur|2es,er|ères,û|ues,aux|3,aloux|5,eux|2ses,entil|5les,eil|3les,el|2les,l|1es,nouï|4es,igolo|5tes,o|1,p|1,aître|5sses,e|1,long|4ues,m|1,s|1,d|1es,é|1es",
-        "exceptions": "bon|3nes,con|3nes,doux|3ces,fou|2lles,malin|4gnes,sec|1èches,sot|3tes,tout-puissant|4es-puissantes,beau|2lles,coi|3tes,dû|1ues",
-        "rev": "alouses|4,rèves|1ef,refaits|7,ouces|2x,xpress|6,vorites|4,olles|1u,recques|3,ros|3,oins|4,uvelles|3au,rès|3,bliques|3c,ucelles|3au,uelques|7,golotes|4,èches|ec,ngelles|3au,urques|2c,ignes|1n,anches|3,rs|2,longues|4,as|2,sses|,us|2,iguës|3,is|2,ètes|et,euses|2x,ttes|1,ères|er,lles|1,nnes|1,ves|f,es|,ympa|4,p|1,c|1,ux|2,m|1,r|1,o|1,e|1"
+        "rules": "ndalou|6ses,eau|1lles,igu|3ës,u|1es,énin|3gnes,ouffon|6nes,aysan|5nes,olisson|7nes,axon|4nes,ignon|5nes,illon|5nes,chon|4nes,ron|3nes,ton|3nes,en|2nes,n|1es,êta|3sses,ympa|4s,oulot|5tes,ésuet|3ètes,âlot|4tes,eplet|3ètes,ieillot|7tes,complet|5ètes,quiet|3ètes,cret|2ètes,et|2tes,t|1es,ref|1èves,f|ves,amp|3s,hic|3s,rec|3ques,aïc|2ques,ublic|4ques,urc|2ques,anc|3hes,oi|2tes,avori|5tes,i|1es,û|ues,aux|2sses,ux|1ses,rais|2îches,ros|3ses,as|2ses,s|1es,entil|5les,eil|3les,el|2les,l|1es,nouï|4es,agyar|5es,artyr|5es,nior|4s,ûr|2es,ir|2es,ur|2es,er|ères,igolo|5tes,o|1s,m|1s,aître|5sses,e|1s,long|4ues,d|1es,é|1es",
+        "exceptions": "bon|3nes,con|3nes,doux|3ces,fou|2lles,malin|4gnes,sec|1èches,sot|3tes,andalou|7ses,apte|4s,bas|3ses,beau|2lles,coi|3tes,continue|8s,digne|5s,dû|1ues,fonde|5s,jaloux|5ses,raide|5s,rare|4s,sale|4s,vide|4s",
+        "rev": "bsurdes|6,dultes|5,thées|4,veugles|6,êtasses|3,izarres|6,rèves|1ef,ronzes|5,amps|3,hauves|5,hics|3,ouettes|6,lasses|5,mmandes|6,mplexes|6,oupes|4,ocrates|6,parates|6,ouces|2x,rôles|4,goïstes|6,lites|4,ceintes|6,plaires|6,ausses|2x,vorites|4,ertiles|6,olles|1u,ragiles|6,raîches|2is,rivoles|6,rasses|3,recques|3,rosses|3,âtes|3,onnêtes|6,ostiles|6,ybrides|6,iatives|6,aunes|4,eunes|4,ciaires|6,ustes|4,véniles|6,aïques|2c,isses|4,ucides|5,odestes|6,ssaires|6,uvelles|3au,âles|3,triotes|6,ropres|5,ospères|6,bliques|3c,ucelles|3au,golotes|4,oses|3,èches|ec,évères|5,incères|6,endides|6,tériles|6,ympas|4,endres|5,ngelles|3au,quilles|6,urques|2c,lgaires|6,ignes|1n,anches|3,bes|2,ciles|4,astes|4,ades|3,ms|1,èles|3,rigides|6,mides|4,matures|6,utiles|5,vres|3,niors|4,aigres|5,tresses|3,cules|4,longues|4,maires|5,bres|3,biles|4,enses|4,gues|3,daires|5,pides|4,lides|4,ples|3,raires|5,os|1,tres|3,rnes|3,iguës|3,toires|5,naires|5,ulaires|6,ces|2,ges|2,hes|2,istes|4,ètes|et,mes|2,taires|5,euses|2x,ttes|1,ères|er,bles|3,ques|3,lles|1,nnes|1,ves|f,es|"
       }
     },
     "futureTense": {
       "je": {
-        "rules": "cheter|2èterai,eser|èserai,evrer|èvrerai,ppuyer|3ierai,eborder|éborderai,echirer|échirerai,emarrer|émarrerai,ueillir|5erai,uérir|1errai,ssener|2ènerai,ujettir|1,elleter|5terai,rturber|1,epartir|épartirai,ieillir|2,oleter|4terai,filtrer|1,illeter|,acturer|2,ureter|2èterai,aleter|2èterai,arteler|3èlerai,odeler|2èlerai,precier|2écierai,ssieger|3égerai,reer|1éerai,rreter|2êterai,eplacer|éplacerai,eresser|éresserai,referer|1éférerai,ucceder|3éderai,eunir|éunirai,eussir|éussirai,cquerir|5rai,uïr|irai,ecer|ècerai,mouvoir|4rai,avoir|1urai,nturer|1,mener|1ènerai,envoyer|3errai,vouloir|3drai,iliser|,iliter|,choir|2errai,faillir|2udrai,erer|érerai,valoir|2udrai,evoir|2rai,ever|èverai,ourir|3rai,eler|2lerai,iller|,enir|iendrai,oyer|1ierai,r|1ai,ariâtre|5trai,araitre|3îtrai,epondre|épondrai,faire|1erai,re|1ai",
-        "exceptions": "geler|1èlerai,aller|irai,jeter|3terai,montrer|4erai,declencher|1éclencherai,elancer|élancerai,pouvoir|3rrai,voir|1errai,être|serai,peler|1èlerai,revoir|3errai,familiariser|3,ecouter|écouterai,eclaircir|éclaircirai,etablir|établirai,reflechir|1éfléchirai,ecrire|écrirai,ouir|2ïrai,eteindre|éteindrai,deborder|1éborderai,dechirer|1échirerai,demarrer|1émarrerai,circonvenir|7iendrai,convenir|4iendrai,quérir|2errai,venir|1iendrai,frire|4ai,boire|4ai,dire|3ai,lire|3ai,luire|4ai,rire|3ai,uire|3ai,atteler|5lerai,babiller|3,bateler|5lerai,devenir|3iendrai,disconvenir|7iendrai,parvenir|4iendrai,pelleter|6terai,renouveler|8lerai,repartir|1épartirai,retenir|3iendrai,revenir|3iendrai,veiller|2,voleter|5terai,faciliter|3,ficeler|5lerai,habiliter|3,harceler|6lerai,interdire|8ai,intervenir|6iendrai,maintenir|5iendrai,nuire|4ai,niveler|5lerai,obtenir|3iendrai,appeler|5lerai,deplacer|1éplacerai,interesser|3éresserai,preferer|2éférerai,rappeler|6lerai,succeder|4éderai,reussir|1éussirai,acquerir|6rai,cuire|4ai,tenir|1iendrai,repondre|1épondrai,ouïr|1irai",
-        "rev": "èserai|eser,èvrerai|evrer,puierai|2yer,illerai|3ir,iâttrai|3re,oncirai|5e,audirai|5e,roirai|4e,everrai|2oir,truirai|5e,écierai|ecier,iégerai|1eger,réerai|1eer,rêterai|1eter,éunirai|eunir,uïrai|1ir,raîtrai|2itre,ourirai|5e,ècerai|ecer,nverrai|2oyer,aurai|1voir,clorai|4e,firai|3e,aincrai|5e,ferai|1aire,voudrai|3loir,cherrai|2oir,faudrai|2illir,èterai|eter,érerai|erer,vaudrai|2loir,airai|3e,ivrai|3e,èverai|ever,ènerai|ener,duirai|4e,crirai|4e,omprai|4e,èlerai|eler,clurai|4e,ourrai|3ir,vrai|1oir,oierai|1yer,trai|2e,drai|2e,rai|1,ssu|3jettir,eu|2illeter,u|1iller,sc|2iller,rac|3turer,er|2turber,t|1iliser,ie|2illir,xf|2iltrer,am|2iliariser,oss|3iliser,asp|3iller,n|1turer,a|1iller"
+        "rules": "cheter|2èterai,eser|èserai,evrer|èvrerai,ppuyer|3ierai,ueillir|5erai,uérir|1errai,ssener|2ènerai,epartir|épartirai,ureter|2èterai,aleter|2èterai,arteler|3èlerai,odeler|2èlerai,precier|2écierai,ssieger|3égerai,reer|1éerai,rreter|2êterai,flechir|2échirai,cquerir|5rai,ecer|ècerai,mouvoir|4rai,avoir|1urai,mener|1ènerai,leter|3terai,envoyer|3errai,vouloir|3drai,choir|2errai,faillir|2udrai,valoir|2udrai,evoir|2rai,ever|èverai,ourir|3rai,eler|2lerai,enir|iendrai,oyer|1ierai,r|1ai,ariâtre|5trai,araitre|3îtrai,faire|1erai,re|1ai",
+        "exceptions": "geler|1èlerai,aller|irai,jeter|3terai,montrer|4erai,pouvoir|3rrai,voir|1errai,être|serai,peler|1èlerai,revoir|3errai,circonvenir|7iendrai,convenir|4iendrai,cueillir|6erai,quérir|2errai,venir|1iendrai,frire|4ai,boire|4ai,dire|3ai,lire|3ai,luire|4ai,rire|3ai,uire|3ai,atteler|5lerai,bateler|5lerai,devenir|3iendrai,disconvenir|7iendrai,parvenir|4iendrai,pelleter|6terai,renouveler|8lerai,repartir|1épartirai,retenir|3iendrai,revenir|3iendrai,voleter|5terai,ficeler|5lerai,harceler|6lerai,interdire|8ai,intervenir|6iendrai,maintenir|5iendrai,nuire|4ai,niveler|5lerai,obtenir|3iendrai,appeler|5lerai,rappeler|6lerai,acquerir|6rai,cuire|4ai,tenir|1iendrai",
+        "rev": "èserai|eser,èvrerai|evrer,puierai|2yer,iâttrai|3re,oncirai|5e,audirai|5e,roirai|4e,everrai|2oir,truirai|5e,écierai|ecier,iégerai|1eger,réerai|1eer,rêterai|1eter,échirai|echir,raîtrai|2itre,ourirai|5e,ècerai|ecer,nverrai|2oyer,aurai|1voir,clorai|4e,firai|3e,aincrai|5e,ferai|1aire,voudrai|3loir,cherrai|2oir,faudrai|2illir,èterai|eter,vaudrai|2loir,airai|3e,ivrai|3e,èverai|ever,ènerai|ener,duirai|4e,omprai|4e,èlerai|eler,clurai|4e,crirai|4e,ourrai|3ir,vrai|1oir,oierai|1yer,trai|2e,drai|2e,rai|1"
       },
       "tu": {
-        "rules": "cheter|2èteras,eser|èseras,evrer|èvreras,ppuyer|3ieras,eborder|éborderas,echirer|échireras,emarrer|émarreras,ueillir|5eras,uérir|1erras,ssener|2èneras,elleter|5teras,epartir|épartiras,oleter|4teras,ureter|2èteras,aleter|2èteras,arteler|3èleras,odeler|2èleras,precier|2écieras,ssieger|3égeras,reer|1éeras,rreter|2êteras,eplacer|éplaceras,eresser|éresseras,referer|1éféreras,ucceder|3éderas,eunir|éuniras,eussir|éussiras,cquerir|5ras,uïr|rras,ecer|èceras,mouvoir|4ras,avoir|1uras,mener|1èneras,envoyer|3erras,vouloir|3dras,choir|2erras,faillir|2udras,erer|éreras,valoir|2udras,evoir|2ras,ever|èveras,ourir|3ras,eler|2leras,enir|iendras,oyer|1ieras,r|1as,ariâtre|5tras,araitre|3îtras,epondre|épondras,faire|1eras,re|1as",
-        "exceptions": "geler|1èleras,aller|iras,jeter|3teras,montrer|4eras,declencher|1éclencheras,elancer|élanceras,pouvoir|3rras,voir|1erras,être|seras,assujettir|ttirai,aventurer|rerai,babiller|lerai,peler|1èleras,perturber|rberai,revoir|3erras,utiliser|iserai,vieillir|lirai,exfiltrer|trerai,faciliter|iterai,familiariser|iariserai,feuilleter|letterai,ecouter|écouteras,eclaircir|éclairciras,etablir|établiras,reflechir|1éfléchiras,ecrire|écriras,ouir|2ïras,eteindre|éteindras,deborder|1éborderas,dechirer|1échireras,demarrer|1émarreras,circonvenir|7iendras,convenir|4iendras,quérir|2erras,venir|1iendras,frire|4as,boire|4as,dire|3as,lire|3as,luire|4as,rire|3as,uire|3as,atteler|5leras,bateler|5leras,devenir|3iendras,disconvenir|7iendras,parvenir|4iendras,pelleter|6teras,renouveler|8leras,repartir|1épartiras,retenir|3iendras,revenir|3iendras,voleter|5teras,ficeler|5leras,harceler|6leras,interdire|8as,intervenir|6iendras,maintenir|5iendras,nuire|4as,niveler|5leras,obtenir|3iendras,appeler|5leras,deplacer|1éplaceras,interesser|3éresseras,preferer|2éféreras,rappeler|6leras,succeder|4éderas,reussir|1éussiras,acquerir|6ras,cuire|4as,tenir|1iendras,repondre|1épondras,ouïr|1rras",
-        "rev": "èseras|eser,èvreras|evrer,puieras|2yer,illeras|3ir,iâttras|3re,onciras|5e,audiras|5e,roiras|4e,everras|2oir,truiras|5e,écieras|ecier,iégeras|1eger,réeras|1eer,rêteras|1eter,éuniras|eunir,uïras|1ir,raîtras|2itre,ouriras|5e,èceras|ecer,nverras|2oyer,auras|1voir,cloras|4e,firas|3e,aincras|5e,feras|1aire,voudras|3loir,cherras|2oir,faudras|2illir,èteras|eter,éreras|erer,vaudras|2loir,airas|3e,ivras|3e,èveras|ever,èneras|ener,duiras|4e,criras|4e,ompras|4e,èleras|eler,cluras|4e,ourras|3ir,vras|1oir,oieras|1yer,tras|2e,dras|2e,ras|1"
+        "rules": "cheter|2èteras,eser|èseras,evrer|èvreras,ppuyer|3ieras,ueillir|5eras,uérir|1erras,ssener|2èneras,epartir|épartiras,ureter|2èteras,aleter|2èteras,arteler|3èleras,odeler|2èleras,precier|2écieras,ssieger|3égeras,reer|1éeras,rreter|2êteras,flechir|2échiras,cquerir|5ras,ecer|èceras,mouvoir|4ras,avoir|1uras,mener|1èneras,leter|3teras,envoyer|3erras,vouloir|3dras,choir|2erras,faillir|2udras,valoir|2udras,evoir|2ras,ever|èveras,ourir|3ras,eler|2leras,enir|iendras,oyer|1ieras,r|1as,ariâtre|5tras,araitre|3îtras,faire|1eras,re|1as",
+        "exceptions": "geler|1èleras,aller|iras,jeter|3teras,montrer|4eras,pouvoir|3rras,voir|1erras,être|seras,peler|1èleras,revoir|3erras,circonvenir|7iendras,convenir|4iendras,cueillir|6eras,quérir|2erras,venir|1iendras,frire|4as,boire|4as,dire|3as,lire|3as,luire|4as,rire|3as,uire|3as,atteler|5leras,bateler|5leras,devenir|3iendras,disconvenir|7iendras,parvenir|4iendras,pelleter|6teras,renouveler|8leras,repartir|1épartiras,retenir|3iendras,revenir|3iendras,voleter|5teras,ficeler|5leras,harceler|6leras,interdire|8as,intervenir|6iendras,maintenir|5iendras,nuire|4as,niveler|5leras,obtenir|3iendras,appeler|5leras,rappeler|6leras,acquerir|6ras,cuire|4as,tenir|1iendras",
+        "rev": "èseras|eser,èvreras|evrer,puieras|2yer,iâttras|3re,onciras|5e,audiras|5e,roiras|4e,everras|2oir,truiras|5e,écieras|ecier,iégeras|1eger,réeras|1eer,rêteras|1eter,échiras|echir,raîtras|2itre,ouriras|5e,èceras|ecer,nverras|2oyer,auras|1voir,cloras|4e,firas|3e,aincras|5e,feras|1aire,voudras|3loir,cherras|2oir,faudras|2illir,èteras|eter,vaudras|2loir,airas|3e,ivras|3e,èveras|ever,èneras|ener,duiras|4e,ompras|4e,èleras|eler,cluras|4e,criras|4e,ourras|3ir,vras|1oir,oieras|1yer,tras|2e,dras|2e,ras|1"
       },
       "il": {
-        "rules": "cheter|2ètera,eser|èsera,evrer|èvrera,ppuyer|3iera,eborder|ébordera,echirer|échirera,emarrer|émarrera,ueillir|5era,uérir|1erra,ssener|2ènera,ujettir|1,elleter|5tera,rturber|1,epartir|épartira,ieillir|2,oleter|4tera,filtrer|1,illeter|,acturer|2,ureter|2ètera,aleter|2ètera,arteler|3èlera,odeler|2èlera,precier|2éciera,ssieger|3égera,reer|1éera,rreter|2êtera,eplacer|éplacera,eresser|éressera,referer|1éférera,ucceder|3édera,eunir|éunira,eussir|éussira,cquerir|5ra,uïr|rra,ecer|ècera,mouvoir|4ra,avoir|1ura,nturer|1,mener|1ènera,envoyer|3erra,vouloir|3dra,iliser|,iliter|,choir|2erra,faillir|2udra,erer|érera,valoir|2udra,evoir|2ra,ever|èvera,ourir|3ra,eler|2lera,iller|,enir|iendra,oyer|1iera,r|1a,ariâtre|5tra,araitre|3îtra,epondre|épondra,faire|1era,re|1a",
-        "exceptions": "geler|1èlera,aller|ira,jeter|3tera,montrer|4era,declencher|1éclenchera,elancer|élancera,pouvoir|3rra,voir|1erra,être|sera,peler|1èlera,revoir|3erra,familiariser|3,ecouter|écoutera,eclaircir|éclaircira,etablir|établira,reflechir|1éfléchira,ecrire|écrira,ouir|2ïra,eteindre|éteindra,deborder|1ébordera,dechirer|1échirera,demarrer|1émarrera,quérir|2erra,frire|4a,boire|4a,dire|3a,lire|3a,luire|4a,rire|3a,uire|3a,babiller|3,bailler|2,repartir|1épartira,veiller|2,faciliter|3,habiliter|3,nuire|4a,appeler|5lera,deplacer|1éplacera,interesser|3éressera,rappeler|6lera,cuire|4a,ouïr|1rra",
-        "rev": "èsera|eser,èvrera|evrer,ppuiera|3yer,eillera|4ir,riâttra|4re,concira|6e,audira|5e,roira|4e,everra|2oir,struira|6e,terdira|6e,réciera|1ecier,siégera|2eger,réera|1eer,rrêtera|2eter,éférera|eferer,ccédera|2eder,rava|4iller,éunira|eunir,éussira|eussir,cquerra|5ir,uïra|1ir,araîtra|3itre,épondra|epondre,ourira|5e,ècera|ecer,aura|1voir,clora|4e,fira|3e,tellera|3er,fera|1aire,lettera|3er,vellera|3er,enverra|3oyer,voudra|3loir,cellera|3er,vaincra|6e,cherra|2oir,faudra|2illir,ètera|eter,érera|erer,vaudra|2loir,aira|3e,ivra|3e,èvera|ever,ènera|ener,duira|4e,crira|4e,ompra|4e,èlera|eler,clura|4e,tiendra|1enir,ourra|3ir,vra|1oir,viendra|1enir,oiera|1yer,tra|2e,dra|2e,ra|1,ssu|3jettir,eu|2illeter,u|1iller,sc|2iller,rac|3turer,er|2turber,t|1iliser,ie|2illir,xf|2iltrer,am|2iliariser,oss|3iliser,asp|3iller,n|1turer"
+        "rules": "cheter|2ètera,eser|èsera,evrer|èvrera,ppuyer|3iera,ueillir|5era,uérir|1erra,ssener|2ènera,epartir|épartira,ureter|2ètera,aleter|2ètera,arteler|3èlera,odeler|2èlera,precier|2éciera,ssieger|3égera,reer|1éera,rreter|2êtera,flechir|2échira,cquerir|5ra,ecer|ècera,mouvoir|4ra,avoir|1ura,mener|1ènera,leter|3tera,envoyer|3erra,vouloir|3dra,choir|2erra,faillir|2udra,valoir|2udra,evoir|2ra,ever|èvera,ourir|3ra,eler|2lera,enir|iendra,oyer|1iera,r|1a,ariâtre|5tra,araitre|3îtra,faire|1era,re|1a",
+        "exceptions": "geler|1èlera,aller|ira,jeter|3tera,montrer|4era,pouvoir|3rra,voir|1erra,être|sera,peler|1èlera,revoir|3erra,quérir|2erra,frire|4a,boire|4a,dire|3a,lire|3a,luire|4a,rire|3a,uire|3a,repartir|1épartira,nuire|4a,appeler|5lera,rappeler|6lera,cuire|4a",
+        "rev": "èsera|eser,èvrera|evrer,ppuiera|3yer,eillera|4ir,riâttra|4re,concira|6e,audira|5e,roira|4e,everra|2oir,struira|6e,terdira|6e,réciera|1ecier,siégera|2eger,réera|1eer,rrêtera|2eter,léchira|1echir,cquerra|5ir,araîtra|3itre,ourira|5e,ècera|ecer,aura|1voir,clora|4e,fira|3e,tellera|3er,fera|1aire,lettera|3er,vellera|3er,enverra|3oyer,voudra|3loir,cellera|3er,vaincra|6e,cherra|2oir,faudra|2illir,ètera|eter,vaudra|2loir,aira|3e,ivra|3e,èvera|ever,ènera|ener,duira|4e,ompra|4e,èlera|eler,clura|4e,tiendra|1enir,crira|4e,ourra|3ir,vra|1oir,viendra|1enir,oiera|1yer,tra|2e,dra|2e,ra|1"
       },
       "nous": {
-        "rules": "cheter|2èterons,eser|èserons,evrer|èvrerons,ppuyer|3ierons,eborder|éborderons,echirer|échirerons,emarrer|émarrerons,ueillir|5erons,uérir|1errons,ssener|2ènerons,elleter|5terons,epartir|épartirons,oleter|4terons,ureter|2èterons,aleter|2èterons,arteler|3èlerons,odeler|2èlerons,precier|2écierons,ssieger|3égerons,reer|1éerons,rreter|2êterons,eplacer|éplacerons,eresser|éresserons,referer|1éférerons,ucceder|3éderons,eunir|éunirons,eussir|éussirons,cquerir|5rons,uïr|rrons,ecer|ècerons,mouvoir|4rons,avoir|1urons,mener|1ènerons,envoyer|3errons,vouloir|3drons,choir|2errons,erer|érerons,valoir|2udrons,evoir|2rons,ever|èverons,ourir|3rons,eler|2lerons,enir|iendrons,oyer|1ierons,r|1ons,ariâtre|5trons,araitre|3îtrons,epondre|épondrons,faire|1erons,re|1ons",
-        "exceptions": "geler|1èlerons,aller|irons,jeter|3terons,montrer|4erons,declencher|1éclencherons,elancer|élancerons,pouvoir|3rrons,voir|1errons,être|serons,assujettir|ttiras,aventurer|reras,babiller|leras,peler|1èlerons,perturber|rberas,revoir|3errons,utiliser|iseras,vieillir|liras,exfiltrer|treras,faciliter|iteras,familiariser|iariseras,feuilleter|letteras,ecouter|écouterons,eclaircir|éclaircirons,etablir|établirons,reflechir|1éfléchirons,ecrire|écrirons,ouir|2ïrons,eteindre|éteindrons,envoyer|3errons,sevrer|1èvrerons,deborder|1éborderons,dechirer|1échirerons,demarrer|1émarrerons,circonvenir|7iendrons,convenir|4iendrons,cueillir|6erons,quérir|2errons,venir|1iendrons,vouloir|3drons,circoncire|9ons,frire|4ons,boire|4ons,dire|3ons,lire|3ons,luire|4ons,rire|3ons,uire|3ons,atteler|5lerons,bateler|5lerons,devenir|3iendrons,disconvenir|7iendrons,parvenir|4iendrons,pelleter|6terons,renouveler|8lerons,renvoyer|4errons,repartir|1épartirons,retenir|3iendrons,revenir|3iendrons,revouloir|5drons,voleter|5terons,ficeler|5lerons,harceler|6lerons,interdire|8ons,intervenir|6iendrons,maintenir|5iendrons,nuire|4ons,niveler|5lerons,obtenir|3iendrons,apprecier|4écierons,assieger|4égerons,appeler|5lerons,deplacer|1éplacerons,interesser|3éresserons,preferer|2éférerons,rappeler|6lerons,succeder|4éderons,reunir|1éunirons,reussir|1éussirons,acquerir|6rons,cuire|4ons,tenir|1iendrons,paraitre|4îtrons,repondre|1épondrons,sourire|6ons,ouïr|1rrons",
-        "rev": "èserons|eser,uierons|1yer,âttrons|2re,udirons|4e,roirons|4e,ruirons|4e,réerons|1eer,êterons|eter,uïrons|1ir,ècerons|ecer,aurons|1voir,clorons|4e,firons|3e,incrons|4e,ferons|1aire,herrons|1oir,èterons|eter,érerons|erer,audrons|1loir,airons|3e,ivrons|3e,èverons|ever,ènerons|ener,duirons|4e,crirons|4e,omprons|4e,èlerons|eler,clurons|4e,ourrons|3ir,vrons|1oir,oierons|1yer,trons|2e,drons|2e,rons|1"
+        "rules": "cheter|2èterons,eser|èserons,evrer|èvrerons,ppuyer|3ierons,ueillir|5erons,uérir|1errons,ssener|2ènerons,epartir|épartirons,ureter|2èterons,aleter|2èterons,arteler|3èlerons,odeler|2èlerons,precier|2écierons,ssieger|3égerons,reer|1éerons,rreter|2êterons,flechir|2échirons,cquerir|5rons,ecer|ècerons,mouvoir|4rons,avoir|1urons,mener|1ènerons,leter|3terons,envoyer|3errons,vouloir|3drons,choir|2errons,valoir|2udrons,evoir|2rons,ever|èverons,ourir|3rons,eler|2lerons,enir|iendrons,oyer|1ierons,r|1ons,ariâtre|5trons,araitre|3îtrons,faire|1erons,re|1ons",
+        "exceptions": "geler|1èlerons,aller|irons,jeter|3terons,montrer|4erons,pouvoir|3rrons,voir|1errons,être|serons,peler|1èlerons,revoir|3errons,envoyer|3errons,sevrer|1èvrerons,circonvenir|7iendrons,convenir|4iendrons,cueillir|6erons,quérir|2errons,venir|1iendrons,vouloir|3drons,circoncire|9ons,frire|4ons,boire|4ons,dire|3ons,lire|3ons,luire|4ons,rire|3ons,uire|3ons,atteler|5lerons,bateler|5lerons,devenir|3iendrons,disconvenir|7iendrons,parvenir|4iendrons,pelleter|6terons,renouveler|8lerons,renvoyer|4errons,repartir|1épartirons,retenir|3iendrons,revenir|3iendrons,revouloir|5drons,voleter|5terons,ficeler|5lerons,harceler|6lerons,interdire|8ons,intervenir|6iendrons,maintenir|5iendrons,nuire|4ons,niveler|5lerons,obtenir|3iendrons,apprecier|4écierons,assieger|4égerons,appeler|5lerons,rappeler|6lerons,réflechir|4échirons,acquerir|6rons,cuire|4ons,tenir|1iendrons,paraitre|4îtrons,sourire|6ons",
+        "rev": "èserons|eser,uierons|1yer,âttrons|2re,udirons|4e,roirons|4e,ruirons|4e,réerons|1eer,êterons|eter,ècerons|ecer,aurons|1voir,clorons|4e,firons|3e,incrons|4e,ferons|1aire,herrons|1oir,èterons|eter,audrons|1loir,airons|3e,ivrons|3e,èverons|ever,ènerons|ener,duirons|4e,omprons|4e,èlerons|eler,clurons|4e,crirons|4e,ourrons|3ir,vrons|1oir,oierons|1yer,trons|2e,drons|2e,rons|1"
       },
       "vous": {
-        "rules": "cheter|2èterez,eser|èserez,evrer|èvrerez,ppuyer|3ierez,eborder|éborderez,echirer|échirerez,emarrer|émarrerez,ueillir|5erez,uérir|1errez,ssener|2ènerez,ujettir|1,elleter|5terez,rturber|1,epartir|épartirez,ieillir|2,oleter|4terez,filtrer|1,illeter|,acturer|2,ureter|2èterez,aleter|2èterez,arteler|3èlerez,odeler|2èlerez,precier|2écierez,ssieger|3égerez,reer|1éerez,rreter|2êterez,eplacer|éplacerez,eresser|éresserez,referer|1éférerez,ucceder|3éderez,eunir|éunirez,eussir|éussirez,cquerir|5rez,uïr|rrez,ecer|ècerez,mouvoir|4rez,avoir|1urez,nturer|1,mener|1ènerez,envoyer|3errez,vouloir|3drez,iliser|,iliter|,choir|2errez,erer|érerez,valoir|2udrez,evoir|2rez,ever|èverez,ourir|3rez,eler|2lerez,iller|,enir|iendrez,oyer|1ierez,r|1ez,ariâtre|5trez,araitre|3îtrez,epondre|épondrez,faire|1erez,re|2z",
-        "exceptions": "geler|1èlerez,aller|irez,jeter|3terez,montrer|4erez,declencher|1éclencherez,elancer|élancerez,pouvoir|3rrez,voir|1errez,être|serez,peler|1èlerez,revoir|3errez,familiariser|3,ecouter|écouterez,eclaircir|éclaircirez,etablir|établirez,reflechir|1éfléchirez,ecrire|écrirez,ouir|2ïrez,eteindre|éteindrez,deborder|1éborderez,dechirer|1échirerez,demarrer|1émarrerez,circonvenir|7iendrez,convenir|4iendrez,quérir|2errez,venir|1iendrez,frire|5z,boire|5z,dire|4z,lire|4z,luire|5z,rire|4z,uire|4z,atteler|5lerez,babiller|3,bateler|5lerez,devenir|3iendrez,disconvenir|7iendrez,parvenir|4iendrez,pelleter|6terez,renouveler|8lerez,repartir|1épartirez,retenir|3iendrez,revenir|3iendrez,veiller|2,voleter|5terez,faciliter|3,ficeler|5lerez,habiliter|3,harceler|6lerez,interdire|9z,intervenir|6iendrez,maintenir|5iendrez,nuire|5z,niveler|5lerez,obtenir|3iendrez,appeler|5lerez,deplacer|1éplacerez,interesser|3éresserez,preferer|2éférerez,rappeler|6lerez,succeder|4éderez,reussir|1éussirez,acquerir|6rez,cuire|5z,tenir|1iendrez,repondre|1épondrez,ouïr|1rrez",
-        "rev": "èserez|eser,èvrerez|evrer,puierez|2yer,illerez|3ir,iâttrez|3re,oncirez|6,audirez|6,roirez|5,everrez|2oir,truirez|6,écierez|ecier,iégerez|1eger,réerez|1eer,rêterez|1eter,éunirez|eunir,uïrez|1ir,raîtrez|2itre,ourirez|6,ècerez|ecer,nverrez|2oyer,aurez|1voir,clorez|5,firez|4,aincrez|6,ferez|1aire,voudrez|3loir,cherrez|2oir,èterez|eter,érerez|erer,vaudrez|2loir,airez|4,ivrez|4,èverez|ever,ènerez|ener,duirez|5,crirez|5,omprez|5,èlerez|eler,clurez|5,ourrez|3ir,vrez|1oir,oierez|1yer,trez|3,drez|3,rez|1,ssu|3jettir,eu|2illeter,u|1iller,sc|2iller,rac|3turer,er|2turber,t|1iliser,ie|2illir,xf|2iltrer,am|2iliariser,oss|3iliser,asp|3iller,n|1turer,a|1iller"
+        "rules": "cheter|2èterez,eser|èserez,evrer|èvrerez,ppuyer|3ierez,ueillir|5erez,uérir|1errez,ssener|2ènerez,epartir|épartirez,ureter|2èterez,aleter|2èterez,arteler|3èlerez,odeler|2èlerez,precier|2écierez,ssieger|3égerez,reer|1éerez,rreter|2êterez,flechir|2échirez,cquerir|5rez,ecer|ècerez,mouvoir|4rez,avoir|1urez,mener|1ènerez,leter|3terez,envoyer|3errez,vouloir|3drez,choir|2errez,valoir|2udrez,evoir|2rez,ever|èverez,ourir|3rez,eler|2lerez,enir|iendrez,oyer|1ierez,r|1ez,ariâtre|5trez,araitre|3îtrez,faire|1erez,re|2z",
+        "exceptions": "geler|1èlerez,aller|irez,jeter|3terez,montrer|4erez,pouvoir|3rrez,voir|1errez,être|serez,peler|1èlerez,revoir|3errez,circonvenir|7iendrez,convenir|4iendrez,cueillir|6erez,quérir|2errez,venir|1iendrez,frire|5z,boire|5z,dire|4z,lire|4z,luire|5z,rire|4z,uire|4z,atteler|5lerez,bateler|5lerez,devenir|3iendrez,disconvenir|7iendrez,parvenir|4iendrez,pelleter|6terez,renouveler|8lerez,repartir|1épartirez,retenir|3iendrez,revenir|3iendrez,voleter|5terez,ficeler|5lerez,harceler|6lerez,interdire|9z,intervenir|6iendrez,maintenir|5iendrez,nuire|5z,niveler|5lerez,obtenir|3iendrez,appeler|5lerez,rappeler|6lerez,acquerir|6rez,cuire|5z,tenir|1iendrez",
+        "rev": "èserez|eser,èvrerez|evrer,puierez|2yer,iâttrez|3re,oncirez|6,audirez|6,roirez|5,everrez|2oir,truirez|6,écierez|ecier,iégerez|1eger,réerez|1eer,rêterez|1eter,échirez|echir,raîtrez|2itre,ourirez|6,ècerez|ecer,nverrez|2oyer,aurez|1voir,clorez|5,firez|4,aincrez|6,ferez|1aire,voudrez|3loir,cherrez|2oir,èterez|eter,vaudrez|2loir,airez|4,ivrez|4,èverez|ever,ènerez|ener,duirez|5,omprez|5,èlerez|eler,clurez|5,crirez|5,ourrez|3ir,vrez|1oir,oierez|1yer,trez|3,drez|3,rez|1"
       },
       "ils": {
-        "rules": "cheter|2èteront,eser|èseront,evrer|èvreront,ppuyer|3ieront,eborder|éborderont,echirer|échireront,emarrer|émarreront,ueillir|5eront,uérir|1erront,ssener|2èneront,elleter|5teront,epartir|épartiront,oleter|4teront,ureter|2èteront,aleter|2èteront,arteler|3èleront,odeler|2èleront,precier|2écieront,ssieger|3égeront,reer|1éeront,rreter|2êteront,eplacer|éplaceront,eresser|éresseront,referer|1éféreront,ucceder|3éderont,eunir|éuniront,eussir|éussiront,cquerir|5ront,uïr|rront,ecer|èceront,mouvoir|4ront,avoir|1uront,mener|1èneront,envoyer|3erront,vouloir|3dront,choir|2erront,erer|éreront,valoir|2udront,evoir|2ront,ever|èveront,ourir|3ront,eler|2leront,enir|iendront,oyer|1ieront,r|1ont,ariâtre|5tront,araitre|3îtront,epondre|épondront,faire|1eront,re|1ont",
-        "exceptions": "geler|1èleront,aller|iront,jeter|3teront,montrer|4eront,declencher|1éclencheront,elancer|élanceront,pouvoir|3rront,voir|1erront,être|seront,assujettir|ttira,aventurer|rera,babiller|lera,peler|1èleront,perturber|rbera,revoir|3erront,utiliser|isera,vieillir|lira,exfiltrer|trera,faciliter|itera,familiariser|iarisera,feuilleter|lettera,ecouter|écouteront,eclaircir|éclairciront,etablir|établiront,reflechir|1éfléchiront,ecrire|écriront,ouir|2ïront,eteindre|éteindront,envoyer|3erront,sevrer|1èvreront,deborder|1éborderont,dechirer|1échireront,demarrer|1émarreront,circonvenir|7iendront,convenir|4iendront,cueillir|6eront,quérir|2erront,venir|1iendront,vouloir|3dront,circoncire|9ont,frire|4ont,boire|4ont,dire|3ont,lire|3ont,luire|4ont,rire|3ont,uire|3ont,atteler|5leront,bateler|5leront,devenir|3iendront,disconvenir|7iendront,parvenir|4iendront,pelleter|6teront,renouveler|8leront,renvoyer|4erront,repartir|1épartiront,retenir|3iendront,revenir|3iendront,revouloir|5dront,voleter|5teront,ficeler|5leront,harceler|6leront,interdire|8ont,intervenir|6iendront,maintenir|5iendront,nuire|4ont,niveler|5leront,obtenir|3iendront,apprecier|4écieront,assieger|4égeront,appeler|5leront,deplacer|1éplaceront,interesser|3éresseront,preferer|2éféreront,rappeler|6leront,succeder|4éderont,reunir|1éuniront,reussir|1éussiront,acquerir|6ront,cuire|4ont,tenir|1iendront,paraitre|4îtront,repondre|1épondront,sourire|6ont,ouïr|1rront",
-        "rev": "èseront|eser,uieront|1yer,âttront|2re,udiront|4e,roiront|4e,ruiront|4e,réeront|1eer,êteront|eter,uïront|1ir,èceront|ecer,auront|1voir,cloront|4e,firont|3e,incront|4e,feront|1aire,herront|1oir,èteront|eter,éreront|erer,audront|1loir,airont|3e,ivront|3e,èveront|ever,èneront|ener,duiront|4e,criront|4e,ompront|4e,èleront|eler,cluront|4e,ourront|3ir,vront|1oir,oieront|1yer,tront|2e,dront|2e,ront|1"
+        "rules": "cheter|2èteront,eser|èseront,evrer|èvreront,ppuyer|3ieront,ueillir|5eront,uérir|1erront,ssener|2èneront,enturer|7ent,epartir|épartiront,acturer|7ent,ureter|2èteront,aleter|2èteront,arteler|3èleront,odeler|2èleront,precier|2écieront,ssieger|3égeront,reer|1éeront,rreter|2êteront,flechir|2échiront,cquerir|5ront,ecer|èceront,mouvoir|4ront,avoir|1uront,mener|1èneront,leter|3teront,envoyer|3erront,vouloir|3dront,choir|2erront,valoir|2udront,evoir|2ront,ever|èveront,iller|5ent,ourir|3ront,eler|2leront,enir|iendront,oyer|1ieront,r|1ont,ariâtre|5tront,araitre|3îtront,faire|1eront,re|1ont",
+        "exceptions": "geler|1èleront,aller|iront,jeter|3teront,montrer|4eront,pouvoir|3rront,voir|1erront,être|seront,peler|1èleront,revoir|3erront,envoyer|3erront,sevrer|1èvreront,circonvenir|7iendront,convenir|4iendront,cueillir|6eront,quérir|2erront,venir|1iendront,vouloir|3dront,circoncire|9ont,frire|4ont,boire|4ont,dire|3ont,lire|3ont,luire|4ont,rire|3ont,uire|3ont,atteler|5leront,bateler|5leront,devenir|3iendront,disconvenir|7iendront,parvenir|4iendront,pelleter|6teront,renouveler|8leront,renvoyer|4erront,repartir|1épartiront,retenir|3iendront,revenir|3iendront,revouloir|5dront,voleter|5teront,ficeler|5leront,harceler|6leront,interdire|8ont,intervenir|6iendront,maintenir|5iendront,nuire|4ont,niveler|5leront,obtenir|3iendront,apprecier|4écieront,assieger|4égeront,appeler|5leront,rappeler|6leront,réflechir|4échiront,acquerir|6ront,cuire|4ont,tenir|1iendront,paraitre|4îtront,sourire|6ont",
+        "rev": "èseront|eser,uieront|1yer,âttront|2re,udiront|4e,roiront|4e,ruiront|4e,réeront|1eer,êteront|eter,èceront|ecer,auront|1voir,cloront|4e,firont|3e,incront|4e,feront|1aire,herront|1oir,èteront|eter,audront|1loir,airont|3e,ivront|3e,èveront|ever,èneront|ener,duiront|4e,ompront|4e,èleront|eler,cluront|4e,criront|4e,ourront|3ir,vront|1oir,erent|2,oieront|1yer,tront|2e,dront|2e,ront|1"
       }
     },
     "imperfect": {
       "je": {
-        "rules": "énir|3ssais,ésir|isais,révoir|4yais,urseoir|3oyais,ssoir|3yais,aïr|2ssais,ourvoir|5yais,sombrir|6ssais,ssoupir|6ssais,ssouvir|6ssais,tendrir|6ssais,epartir|épartissais,etentir|6ssais,ouiller|2,ieillir|2,omir|3ssais,leurir|5ssais,arantir|6ssais,ravir|4ssais,luminer|,nvestir|6ssais,aigrir|5ssais,eurtrir|6ssais,precier|2éciais,ssieger|3égeais,reer|1éais,rreter|2êtais,eplacer|éplaçais,eresser|éressais,referer|1éférais,ucceder|3édais,eunir|éunissais,eussir|éussissais,ubir|3ssais,cquerir|3érais,sortir|4ais,vêtir|3ais,inir|3ssais,utir|3ssais,anchir|5ssais,unir|3ssais,uir|2ssais,erer|érais,partir|4ais,dormir|4ais,rrir|3ssais,vertir|5ssais,nnir|3ssais,servir|4ais,rnir|3ssais,entir|3ais,gir|2ssais,illir|3ais,cir|2ssais,sir|2ssais,dir|2ssais,lir|2ssais,rir|1ais,oir|ais,enir|2ais,ger|2ais,cer|çais,er|ais,ariâtre|5tais,mbatre|4ais,audire|4ssais,épandre|5ais,roire|2yais,outre|3ais,raire|2yais,araitre|4ssais,epondre|épondais,ourire|4ais,rdre|2ais,ondre|3ais,vaincre|4quais,soudre|2lvais,ivre|2ais,crire|3vais,ompre|3ais,clure|3ais,prendre|4ais,ttre|2ais,ître|issais,endre|3ais,indre|1gnais,ire|1sais",
-        "exceptions": "asservir|7ssais,fuir|2yais,voir|2yais,être|étais,iendre|2gnais,boire|1uvais,coudre|3sais,moudre|3lais,rire|2ais,assortir|7ssais,revoir|4yais,ecouter|écoutais,eclaircir|éclaircissais,etablir|établissais,reflechir|1éfléchissais,ecrire|écrivais,eteindre|éteignais,avoir|2ais,gésir|1isais,mentir|4ais,pouvoir|4ais,devoir|3ais,pourvoir|6yais,quérir|4ais,savoir|3ais,servir|4ais,valoir|3ais,croître|3issais,maudire|5ssais,paître|2issais,recroître|5issais,renaître|4issais,repaître|4issais,aindre|2gnais,connaître|5issais,croire|3yais,accroître|5issais,foutre|4ais,lire|2sais,naître|2issais,cloître|3issais,braire|3yais,abolir|5ssais,accomplir|8ssais,assouplir|8ssais,assouvir|7ssais,astreindre|6gnais,atteindre|5gnais,desservir|7ais,embellir|7ssais,emplir|5ssais,empreindre|6gnais,peindre|3gnais,plaindre|4gnais,polir|4ssais,pondre|4ais,repartir|1épartissais,repeindre|5gnais,ressentir|7ais,resservir|7ais,restreindre|7gnais,faiblir|6ssais,feindre|3gnais,geindre|3gnais,gravir|5ssais,mollir|5ssais,mordre|4ais,morfondre|7ais,deplacer|1éplaçais,gerer|1érais,interesser|3éressais,remplir|6ssais,reunir|1éunissais,reussir|1éussissais,acquerir|4érais,craindre|4gnais,sentir|4ais,paraitre|5ssais,repondre|1épondais",
-        "rev": "évalais|4oir,évoyais|3ir,pentais|4ir,rsoyais|2eoir,ssoyais|3ir,aïssais|2r,iâttais|3re,ncisais|3re,mbatais|4re,egnais|1ndre,pandais|4re,uivais|3re,pissais|2r,erdais|3re,evoyais|3ir,missais|2r,ffrais|3ir,réciais|1ecier,iégeais|1eger,réais|1eer,rrêtais|2eter,éférais|eferer,ccédais|2eder,sférais|2erer,bissais|2r,ouriais|4re,sortais|4ir,cevais|3oir,mouvais|4oir,vêtais|3ir,fisais|2re,inquais|2cre,hissais|2r,vivais|3re,voulais|4oir,disais|2re,uissais|2r,battais|4re,partais|4ir,dormais|4ir,solvais|2udre,crivais|3re,ompais|3re,cluais|3re,aisais|2re,oignais|2ndre,gissais|2r,prenais|4dre,tenais|3ir,ouvrais|4ir,illais|3ir,ourais|3ir,cissais|2r,mettais|4re,sissais|2r,dissais|2r,venais|3ir,uisais|2re,rissais|2r,tissais|2r,endais|3re,nissais|2r,geais|2r,çais|cer,ais|er,errou|5iller,ie|2illir,l|1luminer"
+        "rules": "ésir|isais,révoir|4yais,epentir|5ais,urseoir|3oyais,ssoir|3yais,aïr|2ssais,ourvoir|5yais,uérir|3ais,epartir|épartissais,ffrir|3ais,precier|2éciais,ssieger|3égeais,reer|1éais,rreter|2êtais,eresser|éressais,referer|1éférais,ucceder|3édais,nsferer|3érais,cquerir|3érais,vêtir|3ais,sentir|4ais,partir|4ais,dormir|4ais,ouvrir|4ais,illir|3ais,ourir|3ais,oir|ais,enir|2ais,ger|2ais,cer|çais,ir|1ssais,er|ais,ariâtre|5tais,mbatre|4ais,audire|4ssais,épandre|5ais,roire|2yais,outre|3ais,raire|2yais,araitre|4ssais,ourire|4ais,rdre|2ais,vaincre|4quais,soudre|2lvais,ivre|2ais,ondre|3ais,ompre|3ais,clure|3ais,prendre|4ais,crire|3vais,ttre|2ais,ître|issais,endre|3ais,indre|1gnais,ire|1sais",
+        "exceptions": "mentir|4ais,ressortir|7ais,sortir|4ais,fuir|2yais,servir|4ais,voir|2yais,être|étais,iendre|2gnais,boire|1uvais,coudre|3sais,moudre|3lais,rire|2ais,desservir|7ais,resservir|7ais,revoir|4yais,asservir|7ssais,avoir|2ais,gésir|1isais,pouvoir|4ais,devoir|3ais,pourvoir|6yais,quérir|4ais,savoir|3ais,valoir|3ais,croître|3issais,maudire|5ssais,paître|2issais,recroître|5issais,renaître|4issais,repaître|4issais,aindre|2gnais,connaître|5issais,croire|3yais,accroître|5issais,foutre|4ais,lire|2sais,naître|2issais,cloître|3issais,braire|3yais,abolir|5ssais,accomplir|8ssais,assouplir|8ssais,assouvir|7ssais,astreindre|6gnais,atteindre|5gnais,embellir|7ssais,emplir|5ssais,empreindre|6gnais,peindre|3gnais,plaindre|4gnais,polir|4ssais,repartir|1épartissais,repeindre|5gnais,ressentir|7ais,restreindre|7gnais,faiblir|6ssais,feindre|3gnais,geindre|3gnais,gravir|5ssais,mollir|5ssais,mordre|4ais,morfondre|7ais,interesser|3éressais,établir|6ssais,remplir|6ssais,acquerir|4érais,craindre|4gnais,sentir|4ais,éteindre|4gnais,paraitre|5ssais",
+        "rev": "évalais|4oir,évoyais|3ir,pentais|4ir,rsoyais|2eoir,ssoyais|3ir,aïssais|2r,iâttais|3re,ncisais|3re,mbatais|4re,egnais|1ndre,pandais|4re,uivais|3re,pissais|2r,erdais|3re,evoyais|3ir,missais|2r,ffrais|3ir,réciais|1ecier,iégeais|1eger,réais|1eer,rrêtais|2eter,éférais|eferer,ccédais|2eder,sférais|2erer,bissais|2r,ouriais|4re,sortais|4ir,cevais|3oir,mouvais|4oir,vêtais|3ir,fisais|2re,inquais|2cre,vivais|3re,voulais|4oir,disais|2re,uissais|2r,battais|4re,pondais|4re,partais|4ir,dormais|4ir,solvais|2udre,hissais|2r,ompais|3re,cluais|3re,aisais|2re,oignais|2ndre,gissais|2r,prenais|4dre,tenais|3ir,crivais|3re,ouvrais|4ir,illais|3ir,ourais|3ir,mettais|4re,cissais|2r,sissais|2r,dissais|2r,venais|3ir,uisais|2re,rissais|2r,tissais|2r,endais|3re,nissais|2r,geais|2r,çais|cer,ais|er"
       },
       "tu": {
-        "rules": "énir|3ssais,ésir|isais,révoir|4yais,urseoir|3oyais,ssoir|3yais,aïr|2ssais,ourvoir|5yais,sombrir|6ssais,ssoupir|6ssais,ssouvir|6ssais,tendrir|6ssais,epartir|épartissais,etentir|6ssais,omir|3ssais,leurir|5ssais,arantir|6ssais,ravir|4ssais,nvestir|6ssais,aigrir|5ssais,eurtrir|6ssais,precier|2éciais,ssieger|3égeais,reer|1éais,rreter|2êtais,eplacer|éplaçais,eresser|éressais,referer|1éférais,ucceder|3édais,eunir|éunissais,eussir|éussissais,ubir|3ssais,cquerir|3érais,sortir|4ais,vêtir|3ais,inir|3ssais,utir|3ssais,anchir|5ssais,unir|3ssais,uir|2ssais,erer|érais,partir|4ais,dormir|4ais,rrir|3ssais,vertir|5ssais,nnir|3ssais,servir|4ais,rnir|3ssais,entir|3ais,gir|2ssais,illir|3ais,cir|2ssais,sir|2ssais,dir|2ssais,lir|2ssais,rir|1ais,oir|ais,enir|2ais,ger|2ais,cer|çais,er|ais,ariâtre|5tais,mbatre|4ais,audire|4ssais,épandre|5ais,roire|2yais,outre|3ais,raire|2yais,araitre|4ssais,epondre|épondais,ourire|4ais,rdre|2ais,ondre|3ais,vaincre|4quais,soudre|2lvais,ivre|2ais,crire|3vais,ompre|3ais,clure|3ais,prendre|4ais,ttre|2ais,ître|issais,endre|3ais,indre|1gnais,ire|1sais",
-        "exceptions": "asservir|7ssais,fuir|2yais,voir|2yais,être|étais,iendre|2gnais,boire|1uvais,coudre|3sais,moudre|3lais,rire|2ais,assortir|7ssais,revoir|4yais,verrouiller|lais,vieillir|lissais,illuminer|tu,ecouter|écoutais,eclaircir|éclaircissais,etablir|établissais,reflechir|1éfléchissais,ecrire|écrivais,eteindre|éteignais,avoir|2ais,gésir|1isais,mentir|4ais,pouvoir|4ais,devoir|3ais,pourvoir|6yais,quérir|4ais,savoir|3ais,servir|4ais,valoir|3ais,croître|3issais,maudire|5ssais,paître|2issais,recroître|5issais,renaître|4issais,repaître|4issais,aindre|2gnais,connaître|5issais,croire|3yais,accroître|5issais,foutre|4ais,lire|2sais,naître|2issais,cloître|3issais,braire|3yais,abolir|5ssais,accomplir|8ssais,assouplir|8ssais,assouvir|7ssais,astreindre|6gnais,atteindre|5gnais,desservir|7ais,embellir|7ssais,emplir|5ssais,empreindre|6gnais,peindre|3gnais,plaindre|4gnais,polir|4ssais,pondre|4ais,repartir|1épartissais,repeindre|5gnais,ressentir|7ais,resservir|7ais,restreindre|7gnais,faiblir|6ssais,feindre|3gnais,geindre|3gnais,gravir|5ssais,mollir|5ssais,mordre|4ais,morfondre|7ais,deplacer|1éplaçais,gerer|1érais,interesser|3éressais,remplir|6ssais,reunir|1éunissais,reussir|1éussissais,acquerir|4érais,craindre|4gnais,sentir|4ais,paraitre|5ssais,repondre|1épondais",
-        "rev": "évalais|4oir,évoyais|3ir,pentais|4ir,rsoyais|2eoir,ssoyais|3ir,aïssais|2r,iâttais|3re,ncisais|3re,mbatais|4re,egnais|1ndre,pandais|4re,uivais|3re,pissais|2r,erdais|3re,evoyais|3ir,missais|2r,ffrais|3ir,réciais|1ecier,iégeais|1eger,réais|1eer,rrêtais|2eter,éférais|eferer,ccédais|2eder,sférais|2erer,bissais|2r,ouriais|4re,sortais|4ir,cevais|3oir,mouvais|4oir,vêtais|3ir,fisais|2re,inquais|2cre,hissais|2r,vivais|3re,voulais|4oir,disais|2re,uissais|2r,battais|4re,partais|4ir,dormais|4ir,solvais|2udre,crivais|3re,ompais|3re,cluais|3re,aisais|2re,oignais|2ndre,gissais|2r,prenais|4dre,tenais|3ir,ouvrais|4ir,illais|3ir,ourais|3ir,cissais|2r,mettais|4re,sissais|2r,dissais|2r,venais|3ir,uisais|2re,rissais|2r,tissais|2r,endais|3re,nissais|2r,geais|2r,çais|cer,ais|er"
+        "rules": "ésir|isais,révoir|4yais,epentir|5ais,urseoir|3oyais,ssoir|3yais,aïr|2ssais,ourvoir|5yais,uérir|3ais,epartir|épartissais,ffrir|3ais,precier|2éciais,ssieger|3égeais,reer|1éais,rreter|2êtais,eresser|éressais,referer|1éférais,ucceder|3édais,nsferer|3érais,cquerir|3érais,vêtir|3ais,sentir|4ais,partir|4ais,dormir|4ais,ouvrir|4ais,illir|3ais,ourir|3ais,oir|ais,enir|2ais,ger|2ais,cer|çais,ir|1ssais,er|ais,ariâtre|5tais,mbatre|4ais,audire|4ssais,épandre|5ais,roire|2yais,outre|3ais,raire|2yais,araitre|4ssais,ourire|4ais,rdre|2ais,vaincre|4quais,soudre|2lvais,ivre|2ais,ondre|3ais,ompre|3ais,clure|3ais,prendre|4ais,crire|3vais,ttre|2ais,ître|issais,endre|3ais,indre|1gnais,ire|1sais",
+        "exceptions": "mentir|4ais,ressortir|7ais,sortir|4ais,fuir|2yais,servir|4ais,voir|2yais,être|étais,iendre|2gnais,boire|1uvais,coudre|3sais,moudre|3lais,rire|2ais,desservir|7ais,resservir|7ais,revoir|4yais,asservir|7ssais,avoir|2ais,gésir|1isais,pouvoir|4ais,devoir|3ais,pourvoir|6yais,quérir|4ais,savoir|3ais,valoir|3ais,croître|3issais,maudire|5ssais,paître|2issais,recroître|5issais,renaître|4issais,repaître|4issais,aindre|2gnais,connaître|5issais,croire|3yais,accroître|5issais,foutre|4ais,lire|2sais,naître|2issais,cloître|3issais,braire|3yais,abolir|5ssais,accomplir|8ssais,assouplir|8ssais,assouvir|7ssais,astreindre|6gnais,atteindre|5gnais,embellir|7ssais,emplir|5ssais,empreindre|6gnais,peindre|3gnais,plaindre|4gnais,polir|4ssais,repartir|1épartissais,repeindre|5gnais,ressentir|7ais,restreindre|7gnais,faiblir|6ssais,feindre|3gnais,geindre|3gnais,gravir|5ssais,mollir|5ssais,mordre|4ais,morfondre|7ais,interesser|3éressais,établir|6ssais,remplir|6ssais,acquerir|4érais,craindre|4gnais,sentir|4ais,éteindre|4gnais,paraitre|5ssais",
+        "rev": "évalais|4oir,évoyais|3ir,pentais|4ir,rsoyais|2eoir,ssoyais|3ir,aïssais|2r,iâttais|3re,ncisais|3re,mbatais|4re,egnais|1ndre,pandais|4re,uivais|3re,pissais|2r,erdais|3re,evoyais|3ir,missais|2r,ffrais|3ir,réciais|1ecier,iégeais|1eger,réais|1eer,rrêtais|2eter,éférais|eferer,ccédais|2eder,sférais|2erer,bissais|2r,ouriais|4re,sortais|4ir,cevais|3oir,mouvais|4oir,vêtais|3ir,fisais|2re,inquais|2cre,vivais|3re,voulais|4oir,disais|2re,uissais|2r,battais|4re,pondais|4re,partais|4ir,dormais|4ir,solvais|2udre,hissais|2r,ompais|3re,cluais|3re,aisais|2re,oignais|2ndre,gissais|2r,prenais|4dre,tenais|3ir,crivais|3re,ouvrais|4ir,illais|3ir,ourais|3ir,mettais|4re,cissais|2r,sissais|2r,dissais|2r,venais|3ir,uisais|2re,rissais|2r,tissais|2r,endais|3re,nissais|2r,geais|2r,çais|cer,ais|er"
       },
       "il": {
-        "rules": "énir|3ssait,ésir|isait,révoir|4yait,urseoir|3oyait,ssoir|3yait,aïr|2ssait,ourvoir|5yait,sombrir|6ssait,ssoupir|6ssait,ssouvir|6ssait,tendrir|6ssait,epartir|épartissait,etentir|6ssait,ouiller|2,ieillir|2,omir|3ssait,leurir|5ssait,arantir|6ssait,ravir|4ssait,nvestir|6ssait,aigrir|5ssait,eurtrir|6ssait,precier|2éciait,ssieger|3égeait,reer|1éait,rreter|2êtait,eplacer|éplaçait,eresser|éressait,referer|1éférait,ucceder|3édait,eunir|éunissait,eussir|éussissait,ubir|3ssait,cquerir|3érait,vêtir|3ait,inir|3ssait,utir|3ssait,anchir|5ssait,unir|3ssait,uir|2ssait,erer|érait,dormir|4ait,rrir|3ssait,nnir|3ssait,servir|4ait,rnir|3ssait,entir|3ait,gir|2ssait,illir|3ait,rtir|3ssait,cir|2ssait,sir|2ssait,dir|2ssait,lir|2ssait,rir|1ait,oir|ait,enir|2ait,ger|2ait,cer|çait,er|ait,ariâtre|5tait,mbatre|4ait,audire|4ssait,épandre|5ait,roire|2yait,outre|3ait,raire|2yait,araitre|4ssait,epondre|épondait,ourire|4ait,rdre|2ait,ondre|3ait,vaincre|4quait,soudre|2lvait,ivre|2ait,crire|3vait,ompre|3ait,clure|3ait,prendre|4ait,ttre|2ait,ître|issait,endre|3ait,indre|1gnait,ire|1sait",
-        "exceptions": "asservir|7ssait,partir|4ait,ressortir|7ait,sortir|4ait,fuir|2yait,voir|2yait,être|était,iendre|2gnait,boire|1uvait,coudre|3sait,moudre|3lait,rire|2ait,revoir|4yait,illuminer|luminais,illusionner|lusionnais,illustrer|lustrais,ecouter|écoutait,eclaircir|éclaircissait,etablir|établissait,reflechir|1éfléchissait,ecrire|écrivait,eteindre|éteignait,avoir|2ait,gésir|1isait,mentir|4ait,pouvoir|4ait,devoir|3ait,pourvoir|6yait,quérir|4ait,savoir|3ait,servir|4ait,valoir|3ait,croître|3issait,maudire|5ssait,paître|2issait,recroître|5issait,renaître|4issait,repaître|4issait,aindre|2gnait,connaître|5issait,croire|3yait,accroître|5issait,foutre|4ait,lire|2sait,naître|2issait,cloître|3issait,braire|3yait,abolir|5ssait,accomplir|8ssait,assouplir|8ssait,assouvir|7ssait,astreindre|6gnait,atteindre|5gnait,desservir|7ait,embellir|7ssait,emplir|5ssait,empreindre|6gnait,peindre|3gnait,plaindre|4gnait,polir|4ssait,pondre|4ait,repartir|1épartissait,repeindre|5gnait,ressentir|7ait,resservir|7ait,restreindre|7gnait,faiblir|6ssait,feindre|3gnait,geindre|3gnait,gravir|5ssait,mollir|5ssait,mordre|4ait,morfondre|7ait,deplacer|1éplaçait,gerer|1érait,interesser|3éressait,remplir|6ssait,reunir|1éunissait,reussir|1éussissait,acquerir|4érait,craindre|4gnait,sentir|4ait,paraitre|5ssait,repondre|1épondait",
-        "rev": "artait|3ir,évalait|4oir,évoyait|3ir,pentait|4ir,rsoyait|2eoir,ssoyait|3ir,aïssait|2r,iâttait|3re,ncisait|3re,mbatait|4re,egnait|1ndre,pandait|4re,uivait|3re,pissait|2r,erdait|3re,evoyait|3ir,missait|2r,ffrait|3ir,réciait|1ecier,iégeait|1eger,réait|1eer,rrêtait|2eter,éférait|eferer,ccédait|2eder,sférait|2erer,bissait|2r,ouriait|4re,sortait|4ir,cevait|3oir,mouvait|4oir,vêtait|3ir,fisait|2re,inquait|2cre,hissait|2r,vivait|3re,voulait|4oir,disait|2re,uissait|2r,battait|4re,dormait|4ir,solvait|2udre,crivait|3re,ompait|3re,cluait|3re,aisait|2re,oignait|2ndre,gissait|2r,prenait|4dre,tenait|3ir,ouvrait|4ir,illait|3ir,ourait|3ir,cissait|2r,mettait|4re,sissait|2r,dissait|2r,venait|3ir,uisait|2re,rissait|2r,endait|3re,tissait|2r,nissait|2r,geait|2r,çait|cer,ait|er,errou|5iller,ie|2illir"
+        "rules": "ésir|isait,révoir|4yait,epentir|5ait,urseoir|3oyait,ssoir|3yait,aïr|2ssait,ourvoir|5yait,uérir|3ait,epartir|épartissait,ffrir|3ait,precier|2éciait,ssieger|3égeait,reer|1éait,rreter|2êtait,eresser|éressait,referer|1éférait,ucceder|3édait,nsferer|3érait,cquerir|3érait,vêtir|3ait,sentir|4ait,dormir|4ait,ouvrir|4ait,illir|3ait,ourir|3ait,oir|ait,enir|2ait,ger|2ait,cer|çait,ir|1ssait,er|ait,ariâtre|5tait,mbatre|4ait,audire|4ssait,épandre|5ait,roire|2yait,outre|3ait,raire|2yait,araitre|4ssait,ourire|4ait,rdre|2ait,vaincre|4quait,soudre|2lvait,ivre|2ait,ondre|3ait,ompre|3ait,clure|3ait,prendre|4ait,crire|3vait,ttre|2ait,ître|issait,endre|3ait,indre|1gnait,ire|1sait",
+        "exceptions": "mentir|4ait,partir|4ait,ressortir|7ait,sortir|4ait,fuir|2yait,servir|4ait,voir|2yait,être|était,iendre|2gnait,boire|1uvait,coudre|3sait,moudre|3lait,rire|2ait,desservir|7ait,resservir|7ait,revoir|4yait,asservir|7ssait,avoir|2ait,gésir|1isait,pouvoir|4ait,devoir|3ait,pourvoir|6yait,quérir|4ait,savoir|3ait,valoir|3ait,croître|3issait,maudire|5ssait,paître|2issait,recroître|5issait,renaître|4issait,repaître|4issait,aindre|2gnait,connaître|5issait,croire|3yait,accroître|5issait,foutre|4ait,lire|2sait,naître|2issait,cloître|3issait,braire|3yait,abolir|5ssait,accomplir|8ssait,assouplir|8ssait,assouvir|7ssait,astreindre|6gnait,atteindre|5gnait,embellir|7ssait,emplir|5ssait,empreindre|6gnait,peindre|3gnait,plaindre|4gnait,polir|4ssait,repartir|1épartissait,repeindre|5gnait,ressentir|7ait,restreindre|7gnait,faiblir|6ssait,feindre|3gnait,geindre|3gnait,gravir|5ssait,mollir|5ssait,mordre|4ait,morfondre|7ait,interesser|3éressait,établir|6ssait,remplir|6ssait,acquerir|4érait,craindre|4gnait,sentir|4ait,éteindre|4gnait,paraitre|5ssait",
+        "rev": "artait|3ir,évalait|4oir,évoyait|3ir,pentait|4ir,rsoyait|2eoir,ssoyait|3ir,aïssait|2r,iâttait|3re,ncisait|3re,mbatait|4re,egnait|1ndre,pandait|4re,uivait|3re,pissait|2r,erdait|3re,evoyait|3ir,missait|2r,ffrait|3ir,réciait|1ecier,iégeait|1eger,réait|1eer,rrêtait|2eter,éférait|eferer,ccédait|2eder,sférait|2erer,bissait|2r,ouriait|4re,sortait|4ir,cevait|3oir,mouvait|4oir,vêtait|3ir,fisait|2re,inquait|2cre,vivait|3re,voulait|4oir,disait|2re,uissait|2r,battait|4re,pondait|4re,dormait|4ir,solvait|2udre,hissait|2r,ompait|3re,cluait|3re,aisait|2re,oignait|2ndre,gissait|2r,prenait|4dre,tenait|3ir,crivait|3re,ouvrait|4ir,illait|3ir,ourait|3ir,mettait|4re,cissait|2r,sissait|2r,dissait|2r,venait|3ir,uisait|2re,rissait|2r,endait|3re,tissait|2r,nissait|2r,geait|2r,çait|cer,ait|er"
       },
       "nous": {
-        "rules": "énir|3ssions,ésir|isions,révoir|4yions,urseoir|3oyions,ssoir|3yions,aïr|2ssions,ourvoir|5yions,sombrir|6ssions,ssoupir|6ssions,ssouvir|6ssions,tendrir|6ssions,epartir|épartissions,etentir|6ssions,omir|3ssions,leurir|5ssions,arantir|6ssions,ravir|4ssions,luminer|,nvestir|6ssions,aigrir|5ssions,eurtrir|6ssions,precier|2éciions,ssieger|3égions,reer|1éions,rreter|2êtions,eplacer|éplacions,eresser|éressions,referer|1éférions,ucceder|3édions,eunir|éunissions,eussir|éussissions,ubir|3ssions,cquerir|3érions,sortir|5ons,vêtir|4ons,inir|3ssions,utir|3ssions,anchir|5ssions,unir|3ssions,uir|2ssions,erer|érions,partir|5ons,dormir|5ons,rrir|3ssions,vertir|5ssions,nnir|3ssions,servir|5ons,rnir|3ssions,entir|4ons,gir|2ssions,illir|4ons,cir|2ssions,sir|2ssions,dir|2ssions,lir|2ssions,rir|2ons,oir|ions,enir|3ons,er|ions,ariâtre|5tions,mbatre|4ions,audire|4ssions,épandre|5ions,roire|2yions,outre|3ions,raire|2yions,araitre|4ssions,epondre|épondions,ourire|4ions,rdre|2ions,ondre|3ions,vaincre|4quions,soudre|2lvions,ivre|2ions,crire|3vions,ompre|3ions,clure|3ions,prendre|4ions,ttre|2ions,ître|issions,endre|3ions,indre|1gnions,ire|1sions",
-        "exceptions": "asservir|7ssions,fuir|2yions,voir|2yions,être|étions,iendre|2gnions,boire|1uvions,coudre|3sions,moudre|3lions,rire|2ions,assortir|7ssions,revoir|4yions,verrouiller|lais,vieillir|lissais,ecouter|écoutions,eclaircir|éclaircissions,etablir|établissions,reflechir|1éfléchissions,ecrire|écrivions,eteindre|éteignions,choisir|6ssions,avoir|2ions,bénir|4ssions,gésir|1isions,mentir|5ons,mouvoir|4ions,pouvoir|4ions,prévaloir|6ions,prévoir|5yions,repentir|7ons,ressortir|8ons,sortir|5ons,surseoir|4oyions,assoir|4yions,devoir|3ions,endormir|7ons,dormir|5ons,promouvoir|7ions,pourvoir|6yions,quérir|5ons,savoir|3ions,servir|5ons,valoir|3ions,finir|4ssions,croître|3issions,maudire|5ssions,oindre|2gnions,paître|2issions,recroître|5issions,renaître|4issions,repaître|4issions,aindre|2gnions,battre|4ions,répandre|6ions,connaître|5issions,crire|3vions,croire|3yions,accroître|5issions,foutre|4ions,lire|2sions,mettre|4ions,naître|2issions,joindre|3gnions,cloître|3issions,braire|3yions,vaincre|4quions,abolir|5ssions,aboutir|6ssions,abrutir|6ssions,accomplir|8ssions,approfondir|10ssions,arrondir|7ssions,assagir|6ssions,assainir|7ssions,assombrir|8ssions,assoupir|7ssions,assouplir|8ssions,assouvir|7ssions,astreindre|6gnions,atteindre|5gnions,attendrir|8ssions,atterrir|7ssions,avertir|6ssions,bannir|5ssions,barrir|5ssions,blanchir|7ssions,dessaisir|8ssions,desservir|8ons,disjoindre|6gnions,divertir|7ssions,durcir|5ssions,embellir|7ssions,emplir|5ssions,empreindre|6gnions,omettre|5ions,ourdir|5ssions,peindre|3gnions,permettre|7ions,plaindre|4gnions,polir|4ssions,pondre|4ions,rendormir|8ons,repartir|1épartissions,repeindre|5gnions,resplendir|9ssions,ressaisir|8ssions,ressentir|8ons,resservir|8ons,restreindre|7gnions,retentir|7ssions,retranscrire|10vions,retransmettre|11ions,rougir|5ssions,vagir|4ssions,verdir|5ssions,vernir|5ssions,vomir|4ssions,faiblir|6ssions,farcir|5ssions,feindre|3gnions,fleurir|6ssions,fournir|6ssions,franchir|7ssions,garantir|7ssions,garnir|5ssions,geindre|3gnions,grandir|6ssions,gravir|5ssions,grossir|6ssions,hennir|5ssions,honnir|5ssions,inscrire|6vions,interagir|8ssions,intervertir|10ssions,investir|7ssions,jaunir|5ssions,jouir|4ssions,languir|6ssions,maigrir|6ssions,meurtrir|7ssions,mincir|5ssions,moisir|5ssions,mollir|5ssions,mordre|4ions,morfondre|7ions,munir|4ssions,noircir|6ssions,nourrir|6ssions,obscurcir|8ssions,deplacer|1éplacions,gerer|1érions,interesser|3éressions,preferer|2éférions,succeder|4édions,transferer|6érions,rebondir|7ssions,remplir|6ssions,reunir|1éunissions,reussir|1éussissions,saisir|5ssions,subir|4ssions,acquerir|4érions,craindre|4gnions,sentir|5ons,convaincre|7quions,paraitre|5ssions,rabattre|6ions,rejoindre|5gnions,remettre|6ions,repondre|1épondions",
-        "rev": "ïssions|1r,âttions|2re,cisions|2re,bations|3re,egnions|1ndre,uivions|3re,erdions|3re,ffrions|4r,éciions|ecier,iégions|1eger,réions|1eer,rêtions|1eter,uriions|3re,artions|4r,cevions|3oir,oulions|3oir,vêtions|4r,fisions|2re,vivions|3re,disions|2re,olvions|1udre,ompions|3re,uvrions|4r,cluions|3re,aisions|2re,renions|3dre,tenions|4r,illions|4r,ourions|4r,venions|4r,uisions|2re,endions|3re,ions|er,l|1luminer"
+        "rules": "ésir|isions,révoir|4yions,epentir|6ons,urseoir|3oyions,ssoir|3yions,aïr|2ssions,ourvoir|5yions,uérir|4ons,epartir|épartissions,ffrir|4ons,precier|2éciions,ssieger|3égions,reer|1éions,rreter|2êtions,eresser|éressions,referer|1éférions,ucceder|3édions,nsferer|3érions,cquerir|3érions,vêtir|4ons,sentir|5ons,partir|5ons,dormir|5ons,ouvrir|5ons,illir|4ons,ourir|4ons,oir|ions,enir|3ons,ir|1ssions,er|ions,ariâtre|5tions,mbatre|4ions,audire|4ssions,épandre|5ions,roire|2yions,outre|3ions,raire|2yions,araitre|4ssions,ourire|4ions,rdre|2ions,vaincre|4quions,soudre|2lvions,ivre|2ions,ondre|3ions,ompre|3ions,clure|3ions,prendre|4ions,crire|3vions,ttre|2ions,ître|issions,endre|3ions,indre|1gnions,ire|1sions",
+        "exceptions": "mentir|5ons,ressortir|8ons,sortir|5ons,fuir|2yions,servir|5ons,voir|2yions,être|étions,iendre|2gnions,boire|1uvions,coudre|3sions,moudre|3lions,rire|2ions,desservir|8ons,resservir|8ons,revoir|4yions,choisir|6ssions,asservir|7ssions,avoir|2ions,bénir|4ssions,gésir|1isions,mouvoir|4ions,pouvoir|4ions,prévaloir|6ions,prévoir|5yions,repentir|7ons,surseoir|4oyions,assoir|4yions,devoir|3ions,endormir|7ons,dormir|5ons,promouvoir|7ions,pourvoir|6yions,quérir|5ons,savoir|3ions,valoir|3ions,finir|4ssions,croître|3issions,maudire|5ssions,oindre|2gnions,paître|2issions,recroître|5issions,renaître|4issions,repaître|4issions,aindre|2gnions,battre|4ions,répandre|6ions,connaître|5issions,crire|3vions,croire|3yions,accroître|5issions,foutre|4ions,lire|2sions,mettre|4ions,naître|2issions,joindre|3gnions,cloître|3issions,braire|3yions,vaincre|4quions,abolir|5ssions,aboutir|6ssions,abrutir|6ssions,accomplir|8ssions,approfondir|10ssions,arrondir|7ssions,assagir|6ssions,assainir|7ssions,assombrir|8ssions,assortir|7ssions,assoupir|7ssions,assouplir|8ssions,assouvir|7ssions,astreindre|6gnions,atteindre|5gnions,attendrir|8ssions,atterrir|7ssions,avertir|6ssions,bannir|5ssions,barrir|5ssions,blanchir|7ssions,dessaisir|8ssions,disjoindre|6gnions,divertir|7ssions,durcir|5ssions,embellir|7ssions,emplir|5ssions,empreindre|6gnions,omettre|5ions,ourdir|5ssions,peindre|3gnions,permettre|7ions,plaindre|4gnions,polir|4ssions,pondre|4ions,rendormir|8ons,repartir|1épartissions,repeindre|5gnions,resplendir|9ssions,ressaisir|8ssions,ressentir|8ons,restreindre|7gnions,retentir|7ssions,retranscrire|10vions,retransmettre|11ions,rougir|5ssions,vagir|4ssions,verdir|5ssions,vernir|5ssions,vomir|4ssions,faiblir|6ssions,farcir|5ssions,feindre|3gnions,fleurir|6ssions,fournir|6ssions,franchir|7ssions,garantir|7ssions,garnir|5ssions,geindre|3gnions,grandir|6ssions,gravir|5ssions,grossir|6ssions,hennir|5ssions,honnir|5ssions,inscrire|6vions,interagir|8ssions,intervertir|10ssions,investir|7ssions,jaunir|5ssions,jouir|4ssions,languir|6ssions,maigrir|6ssions,meurtrir|7ssions,mincir|5ssions,moisir|5ssions,mollir|5ssions,mordre|4ions,morfondre|7ions,munir|4ssions,noircir|6ssions,nourrir|6ssions,obscurcir|8ssions,interesser|3éressions,preferer|2éférions,succeder|4édions,transferer|6érions,éclaircir|8ssions,établir|6ssions,rebondir|7ssions,réfléchir|8ssions,remplir|6ssions,réunir|5ssions,réussir|6ssions,saisir|5ssions,subir|4ssions,acquerir|4érions,craindre|4gnions,écrire|4vions,sentir|5ons,convaincre|7quions,éteindre|4gnions,paraitre|5ssions,rabattre|6ions,rejoindre|5gnions,remettre|6ions,répondre|6ions",
+        "rev": "ïssions|1r,âttions|2re,cisions|2re,bations|3re,egnions|1ndre,uivions|3re,erdions|3re,ffrions|4r,éciions|ecier,iégions|1eger,réions|1eer,rêtions|1eter,uriions|3re,artions|4r,cevions|3oir,oulions|3oir,vêtions|4r,fisions|2re,vivions|3re,disions|2re,olvions|1udre,ompions|3re,uvrions|4r,cluions|3re,aisions|2re,renions|3dre,tenions|4r,illions|4r,ourions|4r,venions|4r,uisions|2re,endions|3re,ions|er"
       },
       "vous": {
-        "rules": "énir|3ssiez,ésir|isiez,révoir|4yiez,urseoir|3oyiez,ssoir|3yiez,aïr|2ssiez,ourvoir|5yiez,sombrir|6ssiez,ssoupir|6ssiez,ssouvir|6ssiez,tendrir|6ssiez,epartir|épartissiez,etentir|6ssiez,ouiller|2,ieillir|2,omir|3ssiez,leurir|5ssiez,arantir|6ssiez,ravir|4ssiez,nvestir|6ssiez,aigrir|5ssiez,eurtrir|6ssiez,precier|2éciiez,ssieger|3égiez,reer|1éiez,rreter|2êtiez,eplacer|éplaciez,eresser|éressiez,referer|1éfériez,ucceder|3édiez,eunir|éunissiez,eussir|éussissiez,ubir|3ssiez,cquerir|3ériez,sortir|5ez,vêtir|4ez,inir|3ssiez,utir|3ssiez,anchir|5ssiez,unir|3ssiez,uir|2ssiez,erer|ériez,partir|5ez,dormir|5ez,rrir|3ssiez,vertir|5ssiez,nnir|3ssiez,servir|5ez,rnir|3ssiez,entir|4ez,gir|2ssiez,illir|4ez,cir|2ssiez,sir|2ssiez,dir|2ssiez,lir|2ssiez,rir|2ez,oir|iez,enir|3ez,er|iez,ariâtre|5tiez,mbatre|4iez,audire|4ssiez,épandre|5iez,roire|2yiez,outre|3iez,raire|2yiez,araitre|4ssiez,epondre|épondiez,ourire|4iez,rdre|2iez,ondre|3iez,vaincre|4quiez,soudre|2lviez,ivre|2iez,crire|3viez,ompre|3iez,clure|3iez,prendre|4iez,ttre|2iez,ître|issiez,endre|3iez,indre|1gniez,ire|1siez",
-        "exceptions": "asservir|7ssiez,fuir|2yiez,voir|2yiez,être|étiez,iendre|2gniez,boire|1uviez,coudre|3siez,moudre|3liez,rire|2iez,assortir|7ssiez,revoir|4yiez,illuminer|nous,ecouter|écoutiez,eclaircir|éclaircissiez,etablir|établissiez,reflechir|1éfléchissiez,ecrire|écriviez,eteindre|éteigniez,avoir|2iez,gésir|1isiez,mentir|5ez,pouvoir|4iez,devoir|3iez,pourvoir|6yiez,quérir|5ez,savoir|3iez,servir|5ez,valoir|3iez,croître|3issiez,maudire|5ssiez,paître|2issiez,recroître|5issiez,renaître|4issiez,repaître|4issiez,aindre|2gniez,connaître|5issiez,croire|3yiez,accroître|5issiez,foutre|4iez,lire|2siez,naître|2issiez,cloître|3issiez,braire|3yiez,abolir|5ssiez,accomplir|8ssiez,assouplir|8ssiez,assouvir|7ssiez,astreindre|6gniez,atteindre|5gniez,desservir|8ez,embellir|7ssiez,emplir|5ssiez,empreindre|6gniez,peindre|3gniez,plaindre|4gniez,polir|4ssiez,pondre|4iez,repartir|1épartissiez,repeindre|5gniez,ressentir|8ez,resservir|8ez,restreindre|7gniez,faiblir|6ssiez,feindre|3gniez,geindre|3gniez,gravir|5ssiez,mollir|5ssiez,mordre|4iez,morfondre|7iez,deplacer|1éplaciez,gerer|1ériez,interesser|3éressiez,remplir|6ssiez,reunir|1éunissiez,reussir|1éussissiez,acquerir|4ériez,craindre|4gniez,sentir|5ez,paraitre|5ssiez,repondre|1épondiez",
-        "rev": "évaliez|4oir,évoyiez|3ir,pentiez|5r,rsoyiez|2eoir,ssoyiez|3ir,aïssiez|2r,iâttiez|3re,ncisiez|3re,mbatiez|4re,egniez|1ndre,pandiez|4re,uiviez|3re,pissiez|2r,erdiez|3re,evoyiez|3ir,missiez|2r,ffriez|4r,réciiez|1ecier,siégiez|2eger,réiez|1eer,rrêtiez|2eter,éfériez|eferer,ccédiez|2eder,sfériez|2erer,bissiez|2r,ouriiez|4re,sortiez|5r,ceviez|3oir,mouviez|4oir,vêtiez|4r,fisiez|2re,inquiez|2cre,hissiez|2r,viviez|3re,vouliez|4oir,disiez|2re,uissiez|2r,battiez|4re,partiez|5r,dormiez|5r,solviez|2udre,criviez|3re,ompiez|3re,cluiez|3re,aisiez|2re,oigniez|2ndre,gissiez|2r,preniez|4dre,teniez|4r,ouvriez|5r,illiez|4r,ouriez|4r,cissiez|2r,mettiez|4re,sissiez|2r,dissiez|2r,veniez|4r,uisiez|2re,rissiez|2r,tissiez|2r,endiez|3re,nissiez|2r,iez|er,errou|5iller,ie|2illir"
+        "rules": "ésir|isiez,révoir|4yiez,epentir|6ez,urseoir|3oyiez,ssoir|3yiez,aïr|2ssiez,ourvoir|5yiez,uérir|4ez,epartir|épartissiez,ffrir|4ez,precier|2éciiez,ssieger|3égiez,reer|1éiez,rreter|2êtiez,eresser|éressiez,referer|1éfériez,ucceder|3édiez,nsferer|3ériez,cquerir|3ériez,vêtir|4ez,sentir|5ez,partir|5ez,dormir|5ez,ouvrir|5ez,illir|4ez,ourir|4ez,oir|iez,enir|3ez,ir|1ssiez,er|iez,ariâtre|5tiez,mbatre|4iez,audire|4ssiez,épandre|5iez,roire|2yiez,outre|3iez,raire|2yiez,araitre|4ssiez,ourire|4iez,rdre|2iez,vaincre|4quiez,soudre|2lviez,ivre|2iez,ondre|3iez,ompre|3iez,clure|3iez,prendre|4iez,crire|3viez,ttre|2iez,ître|issiez,endre|3iez,indre|1gniez,ire|1siez",
+        "exceptions": "mentir|5ez,ressortir|8ez,sortir|5ez,fuir|2yiez,servir|5ez,voir|2yiez,être|étiez,iendre|2gniez,boire|1uviez,coudre|3siez,moudre|3liez,rire|2iez,desservir|8ez,resservir|8ez,revoir|4yiez,asservir|7ssiez,avoir|2iez,gésir|1isiez,pouvoir|4iez,devoir|3iez,pourvoir|6yiez,quérir|5ez,savoir|3iez,valoir|3iez,croître|3issiez,maudire|5ssiez,paître|2issiez,recroître|5issiez,renaître|4issiez,repaître|4issiez,aindre|2gniez,connaître|5issiez,croire|3yiez,accroître|5issiez,foutre|4iez,lire|2siez,naître|2issiez,cloître|3issiez,braire|3yiez,abolir|5ssiez,accomplir|8ssiez,assouplir|8ssiez,assouvir|7ssiez,astreindre|6gniez,atteindre|5gniez,embellir|7ssiez,emplir|5ssiez,empreindre|6gniez,peindre|3gniez,plaindre|4gniez,polir|4ssiez,repartir|1épartissiez,repeindre|5gniez,ressentir|8ez,restreindre|7gniez,faiblir|6ssiez,feindre|3gniez,geindre|3gniez,gravir|5ssiez,mollir|5ssiez,mordre|4iez,morfondre|7iez,interesser|3éressiez,établir|6ssiez,remplir|6ssiez,acquerir|4ériez,craindre|4gniez,sentir|5ez,éteindre|4gniez,paraitre|5ssiez",
+        "rev": "évaliez|4oir,évoyiez|3ir,pentiez|5r,rsoyiez|2eoir,ssoyiez|3ir,aïssiez|2r,iâttiez|3re,ncisiez|3re,mbatiez|4re,egniez|1ndre,pandiez|4re,uiviez|3re,pissiez|2r,erdiez|3re,evoyiez|3ir,missiez|2r,ffriez|4r,réciiez|1ecier,siégiez|2eger,réiez|1eer,rrêtiez|2eter,éfériez|eferer,ccédiez|2eder,sfériez|2erer,bissiez|2r,ouriiez|4re,sortiez|5r,ceviez|3oir,mouviez|4oir,vêtiez|4r,fisiez|2re,inquiez|2cre,viviez|3re,vouliez|4oir,disiez|2re,uissiez|2r,battiez|4re,pondiez|4re,partiez|5r,dormiez|5r,solviez|2udre,hissiez|2r,ompiez|3re,cluiez|3re,aisiez|2re,oigniez|2ndre,gissiez|2r,preniez|4dre,teniez|4r,criviez|3re,ouvriez|5r,illiez|4r,ouriez|4r,mettiez|4re,cissiez|2r,sissiez|2r,dissiez|2r,veniez|4r,uisiez|2re,rissiez|2r,tissiez|2r,endiez|3re,nissiez|2r,iez|er"
       },
       "ils": {
-        "rules": "énir|3ssaient,ésir|isaient,révoir|4yaient,urseoir|3oyaient,ssoir|3yaient,aïr|2ssaient,ourvoir|5yaient,sombrir|6ssaient,ssoupir|6ssaient,ssouvir|6ssaient,tendrir|6ssaient,epartir|épartissaient,etentir|6ssaient,omir|3ssaient,leurir|5ssaient,arantir|6ssaient,ravir|4ssaient,nvestir|6ssaient,aigrir|5ssaient,eurtrir|6ssaient,precier|2éciaient,ssieger|3égeaient,reer|1éaient,rreter|2êtaient,eplacer|éplaçaient,eresser|éressaient,referer|1éféraient,ucceder|3édaient,eunir|éunissaient,eussir|éussissaient,ubir|3ssaient,cquerir|3éraient,sortir|4aient,vêtir|3aient,inir|3ssaient,utir|3ssaient,anchir|5ssaient,unir|3ssaient,uir|2ssaient,erer|éraient,partir|4aient,dormir|4aient,rrir|3ssaient,vertir|5ssaient,nnir|3ssaient,servir|4aient,rnir|3ssaient,entir|3aient,gir|2ssaient,illir|3aient,cir|2ssaient,sir|2ssaient,dir|2ssaient,lir|2ssaient,rir|1aient,oir|aient,enir|2aient,ger|2aient,cer|çaient,er|aient,ariâtre|5taient,mbatre|4aient,audire|4ssaient,épandre|5aient,roire|2yaient,outre|3aient,raire|2yaient,araitre|4ssaient,epondre|épondaient,ourire|4aient,rdre|2aient,ondre|3aient,vaincre|4quaient,soudre|2lvaient,ivre|2aient,crire|3vaient,ompre|3aient,clure|3aient,prendre|4aient,ttre|2aient,ître|issaient,endre|3aient,indre|1gnaient,ire|1saient",
-        "exceptions": "asservir|7ssaient,fuir|2yaient,voir|2yaient,être|étaient,iendre|2gnaient,boire|1uvaient,coudre|3saient,moudre|3laient,rire|2aient,assortir|7ssaient,revoir|4yaient,verrouiller|lait,vieillir|lissait,illuminer|luminions,illusionner|lusionnions,illustrer|lustrions,ecouter|écoutaient,eclaircir|éclaircissaient,etablir|établissaient,reflechir|1éfléchissaient,ecrire|écrivaient,eteindre|éteignaient,choisir|6ssaient,avoir|2aient,bénir|4ssaient,circonvenir|9aient,convenir|6aient,défaillir|7aient,faillir|5aient,gésir|1isaient,mentir|4aient,mourir|4aient,mouvoir|4aient,partir|4aient,pouvoir|4aient,prévaloir|6aient,prévoir|5yaient,repentir|6aient,ressortir|7aient,sortir|4aient,surseoir|4oyaient,assoir|4yaient,bouillir|6aient,recevoir|5aient,courir|4aient,cueillir|6aient,devoir|3aient,endormir|6aient,dormir|4aient,haïr|3ssaient,promouvoir|7aient,ouvrir|4aient,pourvoir|6yaient,quérir|4aient,assaillir|7aient,savoir|3aient,servir|4aient,valoir|3aient,venir|3aient,vouloir|4aient,finir|4ssaient,acariâtre|7taient,circoncire|8saient,croître|3issaient,embatre|5aient,inclure|5aient,maudire|5ssaient,oindre|2gnaient,paître|2issaient,recroître|5issaient,renaître|4issaient,repaître|4issaient,suffire|5saient,taire|3saient,aindre|2gnaient,battre|4aient,prendre|4aient,répandre|6aient,clure|3aient,confire|5saient,connaître|5issaient,crire|3vaient,croire|3yaient,accroître|5issaient,dire|2saient,faire|3saient,foutre|4aient,lire|2saient,luire|3saient,mettre|4aient,naître|2issaient,joindre|3gnaient,ompre|3aient,cloître|3issaient,plaire|4saient,braire|3yaient,suivre|4aient,uire|2saient,vaincre|4quaient,vivre|3aient,abolir|5ssaient,aboutir|6ssaient,abrutir|6ssaient,accomplir|8ssaient,accourir|6aient,approfondir|10ssaient,arrondir|7ssaient,assagir|6ssaient,assainir|7ssaient,assombrir|8ssaient,assoupir|7ssaient,assouplir|8ssaient,assouvir|7ssaient,astreindre|6gnaient,atteindre|5gnaient,attendre|6aient,attendrir|8ssaient,atterrir|7ssaient,avertir|6ssaient,bannir|5ssaient,barrir|5ssaient,blanchir|7ssaient,descendre|7aient,dessaisir|8ssaient,desservir|7aient,devenir|5aient,disconvenir|9aient,discourir|7aient,disjoindre|6gnaient,divertir|7ssaient,durcir|5ssaient,embellir|7ssaient,emplir|5ssaient,empreindre|6gnaient,omettre|5aient,ourdir|5ssaient,parcourir|7aient,parfaire|6saient,parvenir|6aient,peindre|3gnaient,pendre|4aient,percevoir|6aient,perdre|4aient,permettre|7aient,plaindre|4gnaient,polir|4ssaient,pondre|4aient,rendre|4aient,rendormir|7aient,repartir|1épartissaient,repeindre|5gnaient,rependre|6aient,reprendre|6aient,reproduire|8saient,resplendir|9ssaient,ressaisir|8ssaient,ressentir|7aient,resservir|7aient,restreindre|7gnaient,retenir|5aient,retentir|7ssaient,retranscrire|10vaient,retransmettre|11aient,revenir|5aient,revivre|5aient,revouloir|6aient,revendre|6aient,rompre|4aient,rouvrir|5aient,rougir|5ssaient,vagir|4ssaient,vendre|4aient,verdir|5ssaient,vernir|5ssaient,vomir|4ssaient,exclure|5aient,faiblir|6ssaient,farcir|5ssaient,feindre|3gnaient,fendre|4aient,fleurir|6ssaient,fournir|6ssaient,franchir|7ssaient,garantir|7ssaient,garnir|5ssaient,geindre|3gnaient,grandir|6ssaient,gravir|5ssaient,grossir|6ssaient,hennir|5ssaient,honnir|5ssaient,induire|5saient,inscrire|6vaient,instruire|7saient,interagir|8ssaient,interdire|7saient,interrompre|9aient,intervenir|8aient,intervertir|10ssaient,introduire|8saient,investir|7ssaient,jaunir|5ssaient,jouir|4ssaient,languir|6ssaient,maigrir|6ssaient,maintenir|7aient,meurtrir|7ssaient,mincir|5ssaient,moisir|5ssaient,mollir|5ssaient,mordre|4aient,morfondre|7aient,munir|4ssaient,nuire|3saient,noircir|6ssaient,nourrir|6ssaient,obscurcir|8ssaient,obtenir|5aient,apprecier|4éciaient,assieger|4égeaient,arreter|3êtaient,deplacer|1éplaçaient,gerer|1éraient,interesser|3éressaient,preferer|2éféraient,succeder|4édaient,transferer|6éraient,rebondir|7ssaient,remplir|6ssaient,reunir|1éunissaient,reussir|1éussissaient,saisir|5ssaient,subir|4ssaient,acquerir|4éraient,cuire|3saient,conclure|6aient,couvrir|5aient,craindre|4gnaient,sentir|4aient,tenir|3aient,apprendre|6aient,comprendre|7aient,convaincre|7quaient,entendre|6aient,paraitre|5ssaient,rabattre|6aient,recouvrir|7aient,rejoindre|5gnaient,remettre|6aient,repondre|1épondaient,sourire|5aient,départir|6aient",
+        "rules": "ésir|isaient,révoir|4yaient,epentir|5aient,urseoir|3oyaient,ssoir|3yaient,aïr|2ssaient,ourvoir|5yaient,uérir|3aient,epartir|épartissaient,ffrir|3aient,precier|2éciaient,ssieger|3égeaient,reer|1éaient,rreter|2êtaient,eresser|éressaient,referer|1éféraient,ucceder|3édaient,nsferer|3éraient,cquerir|3éraient,vêtir|3aient,sentir|4aient,partir|4aient,dormir|4aient,ouvrir|4aient,illir|3aient,ourir|3aient,oir|aient,enir|2aient,ger|2aient,cer|çaient,ir|1ssaient,er|aient,ariâtre|5taient,mbatre|4aient,audire|4ssaient,épandre|5aient,roire|2yaient,outre|3aient,raire|2yaient,araitre|4ssaient,ourire|4aient,rdre|2aient,vaincre|4quaient,soudre|2lvaient,ivre|2aient,ondre|3aient,ompre|3aient,clure|3aient,prendre|4aient,crire|3vaient,ttre|2aient,ître|issaient,endre|3aient,indre|1gnaient,ire|1saient",
+        "exceptions": "mentir|4aient,ressortir|7aient,sortir|4aient,fuir|2yaient,servir|4aient,voir|2yaient,être|étaient,iendre|2gnaient,boire|1uvaient,coudre|3saient,moudre|3laient,rire|2aient,desservir|7aient,resservir|7aient,revoir|4yaient,choisir|6ssaient,asservir|7ssaient,avoir|2aient,bénir|4ssaient,circonvenir|9aient,convenir|6aient,défaillir|7aient,faillir|5aient,gésir|1isaient,mourir|4aient,mouvoir|4aient,partir|4aient,pouvoir|4aient,prévaloir|6aient,prévoir|5yaient,repentir|6aient,surseoir|4oyaient,assoir|4yaient,bouillir|6aient,recevoir|5aient,courir|4aient,cueillir|6aient,devoir|3aient,endormir|6aient,dormir|4aient,haïr|3ssaient,promouvoir|7aient,ouvrir|4aient,pourvoir|6yaient,quérir|4aient,assaillir|7aient,savoir|3aient,valoir|3aient,venir|3aient,vouloir|4aient,finir|4ssaient,acariâtre|7taient,circoncire|8saient,croître|3issaient,embatre|5aient,inclure|5aient,maudire|5ssaient,oindre|2gnaient,paître|2issaient,recroître|5issaient,renaître|4issaient,repaître|4issaient,suffire|5saient,taire|3saient,aindre|2gnaient,battre|4aient,prendre|4aient,répandre|6aient,clure|3aient,confire|5saient,connaître|5issaient,crire|3vaient,croire|3yaient,accroître|5issaient,dire|2saient,faire|3saient,foutre|4aient,lire|2saient,luire|3saient,mettre|4aient,naître|2issaient,joindre|3gnaient,ompre|3aient,cloître|3issaient,plaire|4saient,braire|3yaient,suivre|4aient,uire|2saient,vaincre|4quaient,vivre|3aient,abolir|5ssaient,aboutir|6ssaient,abrutir|6ssaient,accomplir|8ssaient,accourir|6aient,approfondir|10ssaient,arrondir|7ssaient,assagir|6ssaient,assainir|7ssaient,assombrir|8ssaient,assortir|7ssaient,assoupir|7ssaient,assouplir|8ssaient,assouvir|7ssaient,astreindre|6gnaient,atteindre|5gnaient,attendre|6aient,attendrir|8ssaient,atterrir|7ssaient,avertir|6ssaient,bannir|5ssaient,barrir|5ssaient,blanchir|7ssaient,descendre|7aient,dessaisir|8ssaient,devenir|5aient,disconvenir|9aient,discourir|7aient,disjoindre|6gnaient,divertir|7ssaient,durcir|5ssaient,embellir|7ssaient,emplir|5ssaient,empreindre|6gnaient,omettre|5aient,ourdir|5ssaient,parcourir|7aient,parfaire|6saient,parvenir|6aient,peindre|3gnaient,pendre|4aient,percevoir|6aient,perdre|4aient,permettre|7aient,plaindre|4gnaient,polir|4ssaient,pondre|4aient,rendre|4aient,rendormir|7aient,repartir|1épartissaient,repeindre|5gnaient,rependre|6aient,reprendre|6aient,reproduire|8saient,resplendir|9ssaient,ressaisir|8ssaient,ressentir|7aient,restreindre|7gnaient,retenir|5aient,retentir|7ssaient,retranscrire|10vaient,retransmettre|11aient,revenir|5aient,revivre|5aient,revouloir|6aient,revendre|6aient,rompre|4aient,rouvrir|5aient,rougir|5ssaient,vagir|4ssaient,vendre|4aient,verdir|5ssaient,vernir|5ssaient,vomir|4ssaient,exclure|5aient,faiblir|6ssaient,farcir|5ssaient,feindre|3gnaient,fendre|4aient,fleurir|6ssaient,fournir|6ssaient,franchir|7ssaient,garantir|7ssaient,garnir|5ssaient,geindre|3gnaient,grandir|6ssaient,gravir|5ssaient,grossir|6ssaient,hennir|5ssaient,honnir|5ssaient,induire|5saient,inscrire|6vaient,instruire|7saient,interagir|8ssaient,interdire|7saient,interrompre|9aient,intervenir|8aient,intervertir|10ssaient,introduire|8saient,investir|7ssaient,jaunir|5ssaient,jouir|4ssaient,languir|6ssaient,maigrir|6ssaient,maintenir|7aient,meurtrir|7ssaient,mincir|5ssaient,moisir|5ssaient,mollir|5ssaient,mordre|4aient,morfondre|7aient,munir|4ssaient,nuire|3saient,noircir|6ssaient,nourrir|6ssaient,obscurcir|8ssaient,obtenir|5aient,apprecier|4éciaient,assieger|4égeaient,arreter|3êtaient,interesser|3éressaient,preferer|2éféraient,succeder|4édaient,transferer|6éraient,éclaircir|8ssaient,établir|6ssaient,rebondir|7ssaient,réfléchir|8ssaient,remplir|6ssaient,réunir|5ssaient,réussir|6ssaient,saisir|5ssaient,subir|4ssaient,acquerir|4éraient,cuire|3saient,conclure|6aient,couvrir|5aient,craindre|4gnaient,écrire|4vaient,sentir|4aient,tenir|3aient,apprendre|6aient,comprendre|7aient,convaincre|7quaient,entendre|6aient,éteindre|4gnaient,paraitre|5ssaient,rabattre|6aient,recouvrir|7aient,rejoindre|5gnaient,remettre|6aient,répondre|6aient,sourire|5aient,départir|6aient",
         "rev": "fraient|2ir,réaient|1eer,êtaient|2ir,lvaient|udre,geaient|2r,çaient|cer,aient|er"
       }
     },
     "pastParticiple": {
       "prt": {
-        "rules": "éer|2,baturer|4,icher|3u,énir|3t,assir|4s,leuvoir|1u,uérir|1is,ujettir|1,rturber|1,epartir|éparti,ieillir|2,filtrer|1,illeter|,ilmer|,umilier|2,ortuner|2,ffrir|2ert,precier|2écié,ssieger|3égé,reer|1éé,rreter|2êté,eplacer|éplacé,eresser|éressé,referer|1éféré,ucceder|3édé,eunir|éuni,eussir|éussi,cquerir|3is,etir|ê,ïr|1,cevoir|çu,vêtir|3u,iliser|,iliter|,erer|éré,ouvoir|u,seoir|1is,turer|,courir|4u,ouvrir|3ert,enir|2u,iller|,oir|u,ir|1,er|é,ariâtre|5tu,mbatre|4u,eclure|4s,uffire|4,istre|2su,épandre|5u,outre|3u,bsoudre|4t,araitre|2u,abattre|4,epondre|épondu,ourire|4,cire|2s,suivre|4i,croître|2û,aître|u,soudre|2lu,oire|u,rdre|2u,vivre|1écu,vaincre|5u,ondre|3u,ompre|3u,clure|3,prendre|2is,clore|3s,mettre|1is,endre|3u,indre|2t,ire|1t",
-        "exceptions": "avoir|eu,férir|3u,issir|3u,mourir|2rt,devoir|1û,savoir|1u,bruire|4,inclure|5s,taire|1u,être|été,battre|4u,iendre|3t,coudre|3su,accroître|4u,lire|1u,luire|3,moudre|3lu,naître|1é,rire|2,arriver|suis arrivé,devenir|suis devenu,parvenir|suis parvenu,rester|suis resté,retomber|suis retombé,revenir|suis revenu,familiariser|3,intervenir|suis intervenu,jaillir|2,ecouter|écouté,eclaircir|éclairci,etablir|établi,reflechir|1éfléchi,ecrire|écrit,naitre|suis né,eteindre|éteint,pouvoir|1u,rassir|5s,pleuvoir|2u,quérir|2is,tistre|3su,boire|1u,croire|2u,assujettir|4,babiller|3,repartir|1éparti,utiliser|2,veiller|2,faciliter|3,feuilleter|3,filmer|1,habiliter|3",
-        "rev": "ée|2r,ie|2illir,ourbatu|7rer,ichu|3er,allu|3oir,ariâttu|5re,mbatu|4re,epu|2aître,attu|3re,onnu|3aître,ousu|2dre,ccru|3oître,outu|3re,aqu|3iller,aru|2aitre,épondu|epondre,valu|3oir,çu|cevoir,mu|1ouvoir,vêtu|3ir,solu|2udre,vécu|1ivre,voulu|4oir,vaincu|5re,chu|2oir,ompu|3re,ou|2iller,clu|3re,vu|1oir,ru|1ir,enu|2ir,du|1re,énit|3r,ort|1urir,bsout|4dre,abat|4tre,ert|rir,nt|1dre,it|1re,rui|3re,uffi|4re,éfléchi|eflechir,éuni|eunir,éussi|eussir,ouri|4re,suivi|4re,i|1r,sc|2iller,rac|3turer,er|2turber,mpor|4tuner,xf|2iltrer,am|2iliariser,um|2ilier,oss|3iliser,cquis|3erir,cis|2re,clus|3re,sis|1eoir,pris|2endre,clos|3re,mis|1ettre,asp|3iller,pprécié|3ecier,ssiégé|3eger,réé|1eer,rrêté|2eter,éplacé|eplacer,téressé|1eresser,référé|1eferer,uccédé|3eder,éré|erer,é|er,ê|etir,ï|1r,crû|2oître,n|1turer,a|1iller"
+        "rules": "éer|2,baturer|4,icher|3u,énir|3t,assir|4s,leuvoir|1u,uérir|1is,ujettir|1,rturber|1,epartir|éparti,ieillir|2,filtrer|1,illeter|,umilier|2,ortuner|2,ffrir|2ert,precier|2écié,ssieger|3égé,reer|1éé,rreter|2êté,eresser|éressé,referer|1éféré,flechir|2échi,cquerir|3is,etir|ê,ïr|1,cevoir|çu,vêtir|3u,iliser|,iliter|,ouvoir|u,seoir|1is,turer|,courir|4u,ouvrir|3ert,enir|2u,iller|,oir|u,ir|1,er|é,ariâtre|5tu,mbatre|4u,eclure|4s,uffire|4,istre|2su,épandre|5u,outre|3u,bsoudre|4t,araitre|2u,abattre|4,ourire|4,cire|2s,suivre|4i,croître|2û,aître|u,soudre|2lu,oire|u,rdre|2u,vivre|1écu,vaincre|5u,ompre|3u,clure|3,ondre|3u,prendre|2is,clore|3s,mettre|1is,endre|3u,indre|2t,ire|1t",
+        "exceptions": "avoir|eu,férir|3u,issir|3u,mourir|2rt,devoir|1û,savoir|1u,bruire|4,inclure|5s,taire|1u,être|été,battre|4u,iendre|3t,coudre|3su,accroître|4u,lire|1u,luire|3,moudre|3lu,naître|1é,rire|2,familiariser|3,jaillir|2,gerer|1éré,pouvoir|1u,rassir|5s,pleuvoir|2u,quérir|2is,tistre|3su,boire|1u,croire|2u,assujettir|4,babiller|3,repartir|1éparti,utiliser|2,veiller|2,faciliter|3,feuilleter|3,habiliter|3",
+        "rev": "ée|2r,ie|2illir,ourbatu|7rer,ichu|3er,allu|3oir,ariâttu|5re,mbatu|4re,epu|2aître,attu|3re,onnu|3aître,ousu|2dre,ccru|3oître,outu|3re,aqu|3iller,aru|2aitre,valu|3oir,çu|cevoir,mu|1ouvoir,vêtu|3ir,solu|2udre,vécu|1ivre,voulu|4oir,vaincu|5re,chu|2oir,ompu|3re,ou|2iller,clu|3re,vu|1oir,ru|1ir,enu|2ir,du|1re,énit|3r,ort|1urir,bsout|4dre,abat|4tre,ert|rir,nt|1dre,it|1re,rui|3re,uffi|4re,éfléchi|3echir,ouri|4re,suivi|4re,i|1r,sc|2iller,rac|3turer,er|2turber,mpor|4tuner,xf|2iltrer,am|2iliariser,um|2ilier,oss|3iliser,cquis|3erir,cis|2re,clus|3re,sis|1eoir,pris|2endre,clos|3re,mis|1ettre,asp|3iller,pprécié|3ecier,ssiégé|3eger,réé|1eer,rrêté|2eter,téressé|1eresser,référé|1eferer,é|er,ê|etir,ï|1r,crû|2oître,n|1turer,a|1iller"
       }
     },
     "presentTense": {
       "je": {
-        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,éder|ède,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,eborder|éborde,echirer|échire,emarrer|émarre,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5e,aïr|1is,uérir|1iers,saillir|5e,ssener|2ène,inturer|2,elleter|5te,rturber|1,epartir|épartis,ieillir|2,oleter|4te,filtrer|1,illeter|,acturer|2,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,precier|2écie,ssieger|3ège,reer|1ée,rreter|2ête,eplacer|éplace,eresser|éresse,referer|1éfère,ucceder|3ède,eunir|éunis,eussir|éussis,cquerir|3iers,épartir|4s,ecer|èce,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ène,sentir|3s,vouloir|1eux,iliser|,iliter|,erer|ère,dormir|3s,ever|ève,courir|4s,ouvrir|4e,eler|2le,enir|iens,oyer|1ie,ir|1s,er|1,outre|2s,araitre|4s,epondre|éponds,vivre|2s,soudre|3s,ttre|1s,ître|is,indre|2s,re|s",
-        "exceptions": "être|suis,avoir|1i,geler|1èle,aller|vais,jeter|3te,montrer|4e,declencher|1éclenche,elancer|élance,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,savoir|2is,servir|3s,croître|4s,iendre|3s,desservir|6s,peler|1èle,resservir|6s,familiariser|3,ecouter|écoute,eclaircir|éclaircis,etablir|établis,reflechir|1éfléchis,ecrire|écris,eteindre|éteins,défaillir|4us,faillir|2ux,céder|1ède,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,uire|2s,vivre|2s,vieillir|3,faciliter|3,nuire|3s,cuire|3s",
-        "rev": "i|voir,apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,éborde|eborder,échire|echirer,émarre|emarrer,ffre|3ir,pprécie|3ecier,ssiège|3eger,rée|1eer,rrête|2eter,éplace|eplacer,téresse|1eresser,réfère|1eferer,uccède|3eder,èce|ecer,ille|3ir,telle|3er,lette|3er,velle|3er,celle|3er,appelle|5er,ète|eter,ère|erer,ève|ever,ène|ener,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,épartis|epartir,evis|3vre,oss|3iliser,nstruis|6re,nterdis|6re,éunis|eunir,éussis|eussir,cquiers|3erir,arais|4tre,éponds|epondre,ouris|4re,éfaus|3illir,lais|3re,sors|3tir,çois|cevoir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,sens|3tir,vaincs|5re,pars|3tir,dors|3mir,nais|2ître,sous|3dre,sers|3vir,duis|3re,cris|3re,omps|3re,clus|3re,cours|4ir,ts|1tre,iens|enir,ins|2dre,ds|1re,is|1r,ein|3turer,er|2turber,t|1iliser,xf|2iltrer,am|2iliariser,eu|2illeter,rac|3turer,ab|2iliter,vaux|2loir,veux|1ouloir"
+        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5e,aïr|1is,uérir|1iers,saillir|5e,ssener|2ène,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,rreter|2ête,nsferer|3ère,flechir|2échis,cquerir|3iers,ecer|èce,érer|ère,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ène,sentir|3s,vouloir|1eux,céder|1ède,dormir|3s,ever|ève,leter|3te,courir|4s,ouvrir|4e,eler|2le,enir|iens,oyer|1ie,ir|1s,er|1,outre|2s,araitre|4s,vivre|2s,soudre|3s,ttre|1s,ître|is,indre|2s,re|s",
+        "exceptions": "être|suis,avoir|1i,geler|1èle,aller|vais,jeter|3te,montrer|4e,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,savoir|2is,servir|3s,croître|4s,iendre|3s,desservir|6s,peler|1èle,resservir|6s,défaillir|4us,départir|5s,faillir|2ux,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,uire|2s,vivre|2s,nuire|3s,gérer|1ère,cuire|3s",
+        "rev": "i|voir,apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,nsidère|4érer,ffre|3ir,rrête|2eter,ansfère|4erer,èce|ecer,ille|3ir,telle|3er,velle|3er,celle|3er,appelle|5er,cède|1éder,ète|eter,ève|ever,ène|ener,lette|3er,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,evis|3vre,nstruis|6re,nterdis|6re,fléchis|2echir,cquiers|3erir,arais|4tre,ouris|4re,éfaus|3illir,lais|3re,sors|3tir,çois|cevoir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,sens|3tir,vaincs|5re,pars|3tir,dors|3mir,nais|2ître,sous|3dre,sers|3vir,duis|3re,omps|3re,clus|3re,cours|4ir,cris|3re,ts|1tre,iens|enir,ins|2dre,ds|1re,is|1r,vaux|2loir,veux|1ouloir"
       },
       "tu": {
-        "rules": "cheter|2ètes,apiécer|3èces,eser|èses,evrer|èvres,élébrer|2èbres,éder|èdes,brécher|2èches,égler|ègles,rotéger|3èges,théquer|2èques,ppuyer|3ies,eborder|ébordes,echirer|échires,emarrer|émarres,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5es,aïr|1is,uérir|1iers,saillir|5es,ssener|2ènes,elleter|5tes,epartir|épartis,oleter|4tes,ureter|2ètes,aleter|2ètes,arteler|3èles,odeler|2èles,ffrir|3es,precier|2écies,ssieger|3èges,reer|1ées,rreter|2êtes,eplacer|éplaces,eresser|éresses,referer|1éfères,ucceder|3èdes,eunir|éunis,eussir|éussis,cquerir|3iers,épartir|4s,ecer|èces,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ènes,sentir|3s,vouloir|1eux,erer|ères,dormir|3s,ever|èves,courir|4s,ouvrir|4es,eler|2les,enir|iens,oyer|1ies,r|s,outre|2s,araitre|4s,epondre|éponds,soudre|3s,ivre|1s,ttre|1s,ître|is,indre|2s,re|s",
-        "exceptions": "être|es,avoir|1s,geler|1èles,aller|vas,jeter|3tes,montrer|4es,declencher|1éclenches,elancer|élances,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,savoir|2is,servir|3s,croître|4s,iendre|3s,desservir|6s,peler|1èles,peinturer|re,perturber|rbe,resservir|6s,utiliser|ise,exfiltrer|tre,faciliter|ite,familiariser|iarise,feuilleter|lette,ecouter|écoutes,eclaircir|éclaircis,etablir|établis,reflechir|1éfléchis,ecrire|écris,eteindre|éteins,défaillir|4us,faillir|2ux,céder|1èdes,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,suivre|3s,uire|2s,vivre|2s,nuire|3s,cuire|3s",
-        "rev": "apièces|3écer,èses|eser,èvres|evrer,élèbres|2ébrer,brèches|2écher,ègles|égler,rotèges|3éger,thèques|2équer,ppuies|3yer,ébordes|eborder,échires|echirer,émarres|emarrer,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,épartis|epartir,evis|3vre,nstruis|6re,nterdis|6re,ffres|3ir,précies|2ecier,ssièges|3eger,rées|1eer,rrêtes|2eter,éplaces|eplacer,éresses|eresser,réfères|1eferer,uccèdes|3eder,éunis|eunir,éussis|eussir,cquiers|3erir,arais|4tre,éponds|epondre,ouris|4re,éfaus|3illir,lais|3re,èces|ecer,sors|3tir,çois|cevoir,illes|3ir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,telles|3er,lettes|3er,velles|3er,sens|3tir,celles|3er,ppelles|4er,vaincs|5re,pars|3tir,ètes|eter,ères|erer,dors|3mir,nais|2ître,sous|3dre,èves|ever,ènes|ener,sers|3vir,duis|3re,cris|3re,omps|3re,èles|eler,clus|3re,cours|4ir,ouvres|4ir,ts|1tre,iens|enir,ins|2dre,oies|1yer,ds|1re,s|r,vaux|2loir,veux|1ouloir"
+        "rules": "cheter|2ètes,apiécer|3èces,eser|èses,evrer|èvres,élébrer|2èbres,brécher|2èches,égler|ègles,rotéger|3èges,théquer|2èques,ppuyer|3ies,ésir|is,uïr|is,epentir|4s,urseoir|3ois,ouillir|2s,ueillir|5es,aïr|1is,uérir|1iers,saillir|5es,ssener|2ènes,ureter|2ètes,aleter|2ètes,arteler|3èles,odeler|2èles,ffrir|3es,rreter|2êtes,nsferer|3ères,flechir|2échis,cquerir|3iers,ecer|èces,érer|ères,valoir|2ux,cevoir|çois,mouvoir|1eus,vêtir|3s,mener|1ènes,sentir|3s,vouloir|1eux,céder|1èdes,dormir|3s,ever|èves,leter|3tes,courir|4s,ouvrir|4es,eler|2les,enir|iens,oyer|1ies,r|s,outre|2s,araitre|4s,soudre|3s,ivre|1s,ttre|1s,ître|is,indre|2s,re|s",
+        "exceptions": "être|es,avoir|1s,geler|1èles,aller|vas,jeter|3tes,montrer|4es,mentir|3s,mourir|1eurs,partir|3s,pouvoir|1eux,ressortir|6s,sortir|3s,devoir|1ois,savoir|2is,servir|3s,croître|4s,iendre|3s,desservir|6s,peler|1èles,resservir|6s,défaillir|4us,départir|5s,faillir|2ux,gésir|1is,ouïr|1is,bouillir|3s,haïr|2is,quérir|2iers,taire|3s,boire|3s,croire|4s,dire|2s,foutre|3s,lire|2s,luire|3s,braire|4s,rire|2s,suivre|3s,uire|2s,vivre|2s,nuire|3s,gérer|1ères,cuire|3s",
+        "rev": "apièces|3écer,èses|eser,èvres|evrer,élèbres|2ébrer,brèches|2écher,ègles|égler,rotèges|3éger,thèques|2équer,ppuies|3yer,sidères|3érer,eurs|ourir,epens|4tir,ursois|3eoir,cariâts|6re,rconcis|6re,roîs|3tre,nclos|4re,audis|4re,lois|2ître,evis|3vre,nstruis|6re,nterdis|6re,ffres|3ir,rrêtes|2eter,nsfères|3erer,fléchis|2echir,cquiers|3erir,arais|4tre,ouris|4re,éfaus|3illir,lais|3re,èces|ecer,sors|3tir,çois|cevoir,illes|3ir,meus|1ouvoir,vêts|3ir,fais|3re,crois|3ître,pais|2ître,fis|2re,telles|3er,velles|3er,sens|3tir,celles|3er,ppelles|4er,cèdes|1éder,vaincs|5re,pars|3tir,ètes|eter,dors|3mir,nais|2ître,sous|3dre,èves|ever,ènes|ener,sers|3vir,lettes|3er,duis|3re,omps|3re,èles|eler,clus|3re,cours|4ir,cris|3re,ouvres|4ir,ts|1tre,iens|enir,oies|1yer,ins|2dre,ds|1re,s|r,vaux|2loir,veux|1ouloir"
       },
       "il": {
-        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,éder|ède,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,eborder|éborde,echirer|échire,emarrer|émarre,ésir|ît,uïr|it,epentir|5,urseoir|3oit,ouillir|2t,ueillir|5e,aïr|1it,uérir|1iert,saillir|5e,ssener|2ène,inturer|2,elleter|5te,rturber|1,epartir|épartit,ieillir|2,oleter|4te,filtrer|1,illeter|,acturer|2,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,precier|2écie,ssieger|3ège,reer|1ée,rreter|2ête,eplacer|éplace,eresser|éresse,referer|1éfère,ucceder|3ède,eunir|éunit,eussir|éussit,cquerir|3iert,échoir|3et,ecer|èce,valoir|2ut,cevoir|çoit,vêtir|3,mener|1ène,sentir|4,vouloir|1eut,iliser|,iliter|,faillir|2ut,erer|ère,ouvoir|eut,dormir|3t,ever|ève,courir|4t,ouvrir|4e,eler|2le,enir|ient,oyer|1ie,ir|1t,er|1,ariâtre|5,nclore|4t,outre|3,araitre|3ît,epondre|épond,laire|2ît|plait,vaincre|5,soudre|3t,ivre|1t,ompre|3t,clure|3t,ttre|1,ître|2,indre|2t,dre|1,ire|1t",
-        "exceptions": "être|est,avoir|1,geler|1èle,aller|va,jeter|3te,montrer|4e,declencher|1éclenche,elancer|élance,mentir|4,mourir|1eurt,partir|4,ressortir|7,sortir|4,devoir|1oit,savoir|2it,servir|3t,iendre|3t,accroître|5it,desservir|6t,peler|1èle,resservir|6t,familiariser|3,ecouter|écoute,eclaircir|éclaircit,etablir|établit,reflechir|1éfléchit,ecrire|écrit,eteindre|éteint,céder|1ède,gésir|1ît,ouïr|1it,bouillir|3t,haïr|2it,quérir|2iert,boire|3t,croire|4t,dire|2t,foutre|4,lire|2t,luire|3t,rire|2t,suivre|3t,uire|2t,vivre|2t,repartir|1épartit,utiliser|2,vieillir|3,faciliter|3,nuire|3t,cuire|3t,plaire|3ît|plait",
-        "rev": "apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,éborde|eborder,échire|echirer,émarre|emarrer,ffre|3ir,pprécie|3ecier,ssiège|3eger,rée|1eer,rrête|2eter,éplace|eplacer,téresse|1eresser,réfère|1eferer,uccède|3eder,èce|ecer,ille|3ir,telle|3er,lette|3er,velle|3er,celle|3er,appelle|5er,ète|eter,ère|erer,ève|ever,ène|ener,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurt|ourir,art|3ir,epent|5ir,ursoit|3eoir,cariât|6re,rconcit|6re,nclot|4re,audit|4re,ccroit|4ître,evit|3vre,nstruit|6re,nterdit|6re,éunit|eunir,éussit|eussir,cquiert|3erir,araît|3itre,ourit|4re,échet|3oir,vaut|2loir,sort|4ir,çoit|cevoir,vêt|3ir,fit|2re,sent|4ir,veut|1ouloir,bat|3tre,faut|2illir,eut|ouvoir,dort|3mir,sout|3dre,sert|3vir,duit|3re,crit|3re,ompt|3re,clut|3re,ait|2re,court|4ir,met|3tre,ît|2re,ient|enir,int|2dre,it|1r,ein|3turer,er|2turber,xf|2iltrer,am|2iliariser,eu|2illeter,oss|3iliser,rac|3turer,vainc|5re,ab|2iliter,épond|epondre,d|1re"
+        "rules": "cheter|2ète,apiécer|3èce,eser|èse,evrer|èvre,élébrer|2èbre,brécher|2èche,égler|ègle,rotéger|3ège,théquer|2èque,ppuyer|3ie,ésir|ît,uïr|it,epentir|5,urseoir|3oit,ouillir|2t,ueillir|5e,aïr|1it,uérir|1iert,saillir|5e,ssener|2ène,ureter|2ète,aleter|2ète,arteler|3èle,odeler|2èle,ffrir|3e,rreter|2ête,nsferer|3ère,flechir|2échit,cquerir|3iert,échoir|3et,ecer|èce,érer|ère,valoir|2ut,cevoir|çoit,vêtir|3,mener|1ène,sentir|4,vouloir|1eut,céder|1ède,faillir|2ut,ouvoir|eut,dormir|3t,ever|ève,leter|3te,courir|4t,ouvrir|4e,eler|2le,enir|ient,oyer|1ie,ir|1t,er|1,ariâtre|5,nclore|4t,outre|3,araitre|3ît,laire|2ît|plait,vaincre|5,soudre|3t,ivre|1t,ompre|3t,clure|3t,ttre|1,ître|2,indre|2t,dre|1,ire|1t",
+        "exceptions": "être|est,avoir|1,geler|1èle,aller|va,jeter|3te,montrer|4e,mentir|4,mourir|1eurt,partir|4,ressortir|7,sortir|4,devoir|1oit,savoir|2it,servir|3t,iendre|3t,accroître|5it,desservir|6t,peler|1èle,resservir|6t,gésir|1ît,ouïr|1it,bouillir|3t,haïr|2it,quérir|2iert,boire|3t,croire|4t,dire|2t,foutre|4,lire|2t,luire|3t,rire|2t,suivre|3t,uire|2t,vivre|2t,nuire|3t,gérer|1ère,cuire|3t,plaire|3ît|plait",
+        "rev": "apièce|3écer,èse|eser,èvre|evrer,élèbre|2ébrer,brèche|2écher,ègle|égler,rotège|3éger,othèque|3équer,ppuie|3yer,nsidère|4érer,ffre|3ir,rrête|2eter,ansfère|4erer,èce|ecer,ille|3ir,telle|3er,velle|3er,celle|3er,appelle|5er,cède|1éder,ète|eter,ève|ever,ène|ener,lette|3er,èle|eler,ouvre|4ir,oie|1yer,e|1r,eurt|ourir,art|3ir,epent|5ir,ursoit|3eoir,cariât|6re,rconcit|6re,nclot|4re,audit|4re,ccroit|4ître,evit|3vre,nstruit|6re,nterdit|6re,fléchit|2echir,cquiert|3erir,araît|3itre,ourit|4re,échet|3oir,vaut|2loir,sort|4ir,çoit|cevoir,vêt|3ir,fit|2re,sent|4ir,veut|1ouloir,bat|3tre,faut|2illir,eut|ouvoir,dort|3mir,sout|3dre,sert|3vir,duit|3re,ompt|3re,clut|3re,ait|2re,court|4ir,crit|3re,met|3tre,ît|2re,ient|enir,int|2dre,it|1r,vainc|5re,d|1re"
       },
       "nous": {
-        "rules": "eborder|ébordons,echirer|échirons,emarrer|émarrons,énir|3ssons,ésir|isons,mpartir|6ssons,révoir|4yons,urseoir|3oyons,ssoir|3yons,aïr|2ssons,ourvoir|5yons,sombrir|6ssons,ssoupir|6ssons,ssouvir|6ssons,tendrir|6ssons,epartir|épartissons,etentir|6ssons,omir|3ssons,leurir|5ssons,arantir|6ssons,ravir|4ssons,nvestir|6ssons,aigrir|5ssons,eurtrir|6ssons,precier|2écions,ssieger|3égeons,reer|1éons,rreter|2êtons,eplacer|éplaçons,eresser|éressons,referer|1éférons,ucceder|3édons,eunir|éunissons,eussir|éussissons,ubir|3ssons,cquerir|3érons,échoir|4yons,épartir|5ons,sortir|4ons,vêtir|3ons,inir|3ssons,utir|3ssons,anchir|5ssons,unir|3ssons,erer|érons,uir|2ssons,dormir|4ons,rrir|3ssons,vertir|5ssons,nnir|3ssons,servir|4ons,rnir|3ssons,entir|3ons,gir|2ssons,illir|3ons,cir|2ssons,sir|2ssons,dir|2ssons,lir|2ssons,rir|1ons,enir|2ons,oir|1ns,ger|2ons,cer|çons,er|ons,ariâtre|5tons,nclore|4sons,audire|4ssons,épandre|5ons,roire|2yons,outre|3ons,araitre|4ssons,epondre|épondons,ourire|4ons,rdre|2ons,ondre|3ons,vaincre|4quons,soudre|2lvons,ivre|2ons,crire|3vons,ompre|3ons,clure|3ons,prendre|4ons,ttre|2ons,ître|issons,endre|3ons,indre|1gnons,ire|1sons",
-        "exceptions": "être|sommes,montrer|4ons,declencher|1éclenchons,elancer|élançons,asservir|7ssons,partir|4ons,fuir|2yons,voir|2yons,iendre|2gnons,boire|1uvons,coudre|3sons,moudre|3lons,rire|2ons,assortir|7ssons,peinturer|res,perturber|rbes,revoir|4yons,utiliser|ises,vieillir|lis,exfiltrer|tres,faciliter|ites,familiariser|iarises,feuilleter|lettes,ecouter|écoutons,eclaircir|éclaircissons,etablir|établissons,reflechir|1éfléchissons,ecrire|écrivons,eteindre|éteignons,avoir|3ns,deborder|1ébordons,dechirer|1échirons,demarrer|1émarrons,choir|3ns,gésir|1isons,mentir|4ons,pouvoir|5ns,devoir|4ns,pourvoir|6yons,quérir|4ons,savoir|4ns,servir|4ons,valoir|4ns,croître|3issons,maudire|5ssons,paître|2issons,recroître|5issons,renaître|4issons,repaître|4issons,aindre|2gnons,connaître|5issons,croire|3yons,accroître|5issons,foutre|4ons,lire|2sons,naître|2issons,cloître|3issons,abolir|5ssons,accomplir|8ssons,assouplir|8ssons,assouvir|7ssons,astreindre|6gnons,atteindre|5gnons,desservir|7ons,embellir|7ssons,emplir|5ssons,empreindre|6gnons,peindre|3gnons,plaindre|4gnons,polir|4ssons,pondre|4ons,repartir|1épartissons,repeindre|5gnons,ressentir|7ons,resservir|7ons,restreindre|7gnons,faiblir|6ssons,feindre|3gnons,geindre|3gnons,gravir|5ssons,mollir|5ssons,mordre|4ons,morfondre|7ons,deplacer|1éplaçons,gerer|1érons,interesser|3éressons,remplir|6ssons,reunir|1éunissons,reussir|1éussissons,acquerir|4érons,craindre|4gnons,sentir|4ons,paraitre|5ssons,repondre|1épondons,déchoir|5yons",
-        "rev": "idérons|2erer,évalons|5ir,évoyons|3ir,pentons|4ir,rsoyons|2eoir,ssoyons|3ir,aïssons|2r,iâttons|3re,ncisons|3re,closons|3re,egnons|1ndre,pandons|4re,uivons|3re,pissons|2r,erdons|3re,evoyons|3ir,missons|2r,ffrons|3ir,récions|1ecier,iégeons|1eger,réons|1eer,rrêtons|2eter,éférons|eferer,ccédons|2eder,sférons|2erer,bissons|2r,ourions|4re,sortons|4ir,cevons|4ir,mouvons|5ir,vêtons|3ir,fisons|2re,inquons|2cre,hissons|2r,vivons|3re,voulons|5ir,disons|2re,battons|4re,partons|4ir,uissons|2r,dormons|4ir,solvons|2udre,oignons|2ndre,crivons|3re,ompons|3re,cluons|3re,aisons|2re,gissons|2r,prenons|4dre,tenons|3ir,ouvrons|4ir,ourons|3ir,illons|3ir,cissons|2r,mettons|4re,sissons|2r,dissons|2r,venons|3ir,uisons|2re,rissons|2r,endons|3re,tissons|2r,nissons|2r,geons|2r,çons|cer,ons|er"
+        "rules": "ésir|isons,révoir|4yons,epentir|5ons,urseoir|3oyons,ssoir|3yons,ouillir|5ons,ueillir|5ons,aïr|2ssons,ourvoir|5yons,uérir|3ons,ffrir|3ons,ssièger|3égeons,rreter|2êtons,réfèrer|3érons,nsferer|3érons,flechir|2échissons,cquerir|3érons,échoir|4yons,vêtir|3ons,sentir|4ons,dormir|4ons,aillir|4ons,ouvrir|4ons,ourir|3ons,enir|2ons,oir|1ns,ger|2ons,cer|çons,ir|1ssons,er|ons,ariâtre|5tons,nclore|4sons,audire|4ssons,épandre|5ons,roire|2yons,outre|3ons,araitre|4ssons,ourire|4ons,rdre|2ons,vaincre|4quons,soudre|2lvons,ivre|2ons,ondre|3ons,ompre|3ons,clure|3ons,prendre|4ons,crire|3vons,ttre|2ons,ître|issons,endre|3ons,indre|1gnons,ire|1sons",
+        "exceptions": "être|sommes,montrer|4ons,mentir|4ons,partir|4ons,ressortir|7ons,sortir|4ons,fuir|2yons,servir|4ons,voir|2yons,iendre|2gnons,boire|1uvons,coudre|3sons,moudre|3lons,rire|2ons,desservir|7ons,resservir|7ons,revoir|4yons,départir|6ons,avoir|3ns,asservir|7ssons,choir|3ns,gésir|1isons,pouvoir|5ns,devoir|4ns,pourvoir|6yons,quérir|4ons,savoir|4ns,valoir|4ns,croître|3issons,maudire|5ssons,paître|2issons,recroître|5issons,renaître|4issons,repaître|4issons,aindre|2gnons,connaître|5issons,croire|3yons,accroître|5issons,foutre|4ons,lire|2sons,naître|2issons,cloître|3issons,abolir|5ssons,accomplir|8ssons,assouplir|8ssons,assouvir|7ssons,astreindre|6gnons,atteindre|5gnons,embellir|7ssons,emplir|5ssons,empreindre|6gnons,peindre|3gnons,plaindre|4gnons,polir|4ssons,repeindre|5gnons,ressentir|7ons,restreindre|7gnons,vieillir|7ssons,faiblir|6ssons,feindre|3gnons,geindre|3gnons,gravir|5ssons,mollir|5ssons,mordre|4ons,morfondre|7ons,établir|6ssons,réflechir|4échissons,remplir|6ssons,acquerir|4érons,craindre|4gnons,sentir|4ons,éteindre|4gnons,paraitre|5ssons,déchoir|5yons",
+        "rev": "évalons|5ir,évoyons|3ir,pentons|4ir,rsoyons|2eoir,ssoyons|3ir,aïssons|2r,iâttons|3re,ncisons|3re,closons|3re,egnons|1ndre,pandons|4re,uivons|3re,pissons|2r,erdons|3re,evoyons|3ir,missons|2r,ffrons|3ir,iégeons|1èger,rrêtons|2eter,éférons|2èrer,sférons|2erer,bissons|2r,ourions|4re,sortons|4ir,cevons|4ir,mouvons|5ir,vêtons|3ir,fisons|2re,inquons|2cre,hissons|2r,vivons|3re,voulons|5ir,disons|2re,battons|4re,pondons|4re,partons|4ir,uissons|2r,dormons|4ir,solvons|2udre,oignons|2ndre,ompons|3re,cluons|3re,aisons|2re,gissons|2r,prenons|4dre,tenons|3ir,crivons|3re,ouvrons|4ir,ourons|3ir,illons|3ir,mettons|4re,cissons|2r,sissons|2r,dissons|2r,venons|3ir,uisons|2re,rissons|2r,endons|3re,tissons|2r,nissons|2r,geons|2r,çons|cer,ons|er"
       },
       "vous": {
-        "rules": "eborder|ébordez,echirer|échirez,emarrer|émarrez,énir|3ssez,ésir|isez,mpartir|6ssez,révoir|4yez,urseoir|3oyez,ssoir|3yez,aïr|2ssez,ourvoir|5yez,sombrir|6ssez,ssoupir|6ssez,ssouvir|6ssez,tendrir|6ssez,inturer|2,rturber|1,epartir|épartissez,etentir|6ssez,ieillir|2,omir|3ssez,filtrer|1,illeter|,leurir|5ssez,acturer|2,arantir|6ssez,ravir|4ssez,nvestir|6ssez,aigrir|5ssez,eurtrir|6ssez,precier|2éciez,ssieger|3égez,reer|1éez,rreter|2êtez,eplacer|éplacez,eresser|éressez,referer|1éférez,ucceder|3édez,eunir|éunissez,eussir|éussissez,ubir|3ssez,cquerir|3érez,échoir|4yez,épartir|5ez,sortir|4ez,vêtir|3ez,inir|3ssez,utir|3ssez,anchir|5ssez,iliser|,iliter|,unir|3ssez,erer|érez,uir|2ssez,dormir|4ez,rrir|3ssez,vertir|5ssez,nnir|3ssez,servir|4ez,rnir|3ssez,entir|3ez,gir|2ssez,illir|3ez,cir|2ssez,sir|2ssez,dir|2ssez,lir|2ssez,rir|1ez,oir|ez,enir|2ez,er|1z,ariâtre|5tez,nclore|4sez,audire|4ssez,épandre|5ez,roire|2yez,outre|3ez,araitre|4ssez,epondre|épondez,ourire|4ez,faire|3tes,rdre|2ez,ondre|3ez,dire|2tes,vaincre|4quez,soudre|2lvez,ivre|2ez,crire|3vez,ompre|3ez,clure|3ez,prendre|4ez,ttre|2ez,ître|issez,endre|3ez,ire|1sez,indre|1gnez",
-        "exceptions": "être|2es,montrer|4ez,declencher|1éclenchez,elancer|élancez,asservir|7ssez,partir|4ez,fuir|2yez,voir|2yez,iendre|2gnez,boire|1uvez,coudre|3sez,moudre|3lez,rire|2ez,assortir|7ssez,revoir|4yez,familiariser|3,ecouter|écoutez,eclaircir|éclaircissez,etablir|établissez,reflechir|1éfléchissez,ecrire|écrivez,eteindre|éteignez,avoir|2ez,gésir|1isez,mentir|4ez,pouvoir|4ez,devoir|3ez,pourvoir|6yez,quérir|4ez,savoir|3ez,servir|4ez,valoir|3ez,croître|3issez,recroître|5issez,aindre|2gnez,croire|3yez,accroître|5issez,foutre|4ez,lire|2sez,atteindre|5gnez,pondre|4ez,repartir|1épartissez,faciliter|3,faiblir|6ssez,feindre|3gnez,geindre|3gnez,mordre|4ez,gerer|1érez,reunir|1éunissez,reussir|1éussissez,sentir|4ez",
-        "rev": "sidérez|3erer,ébordez|eborder,échirez|echirer,émarrez|emarrer,rvissez|3r,révalez|5oir,révoyez|4ir,epentez|5ir,ursoyez|3eoir,ssoyez|3ir,aïssez|2r,riâttez|4re,oncisez|4re,nclosez|4re,udissez|3re,egnez|1ndre,épandez|5re,loissez|2ître,uivez|3re,upissez|3r,uvissez|3r,erdez|3re,laignez|3ndre,ssentez|5ir,evoyez|3ir,omissez|3r,avissez|3r,rfondez|5re,ffrez|3ir,préciez|2ecier,ssiégez|3eger,réez|1eer,rrêtez|2eter,éplacez|eplacer,éressez|eresser,référez|1eferer,uccédez|3eder,nsférez|3erer,ubissez|3r,cquérez|3erir,raignez|3ndre,raissez|3tre,épondez|epondre,ouriez|4re,échoyez|4ir,sortez|4ir,cevez|3oir,mouvez|4oir,vêtez|3ir,paissez|2ître,fisez|2re,aisez|2re,ainquez|3cre,olissez|3r,chissez|3r,sservez|5ir,llissez|3r,peignez|3ndre,vivez|3re,voulez|4oir,battez|4re,partez|4ir,uissez|2r,dormez|4ir,naissez|2ître,solvez|2udre,reignez|3ndre,joignez|3ndre,crivez|3re,ompez|3re,cluez|3re,plissez|3r,gissez|2r,prenez|4dre,tenez|3ir,ouvrez|4ir,ourez|3ir,illez|3ir,cissez|2r,mettez|4re,sissez|2r,dissez|2r,venez|3ir,uisez|2re,rissez|2r,endez|3re,tissez|2r,nissez|2r,ez|1r,ein|3turer,er|2turber,t|1iliser,ie|2illir,xf|2iltrer,am|2iliariser,eu|2illeter,oss|3iliser,ites|1re,rac|3turer,ab|2iliter"
+        "rules": "ésir|isez,révoir|4yez,epentir|5ez,urseoir|3oyez,ssoir|3yez,aïr|2ssez,ourvoir|5yez,uérir|3ez,ieillir|6sez,ffrir|3ez,ssièger|3égez,rreter|2êtez,réfèrer|3érez,nsferer|3érez,flechir|2échissez,cquerir|3érez,échoir|4yez,vêtir|3ez,sentir|4ez,dormir|4ez,ouvrir|4ez,ourir|3ez,illir|3ez,oir|ez,enir|2ez,ir|1ssez,er|1z,ariâtre|5tez,nclore|4sez,audire|4ssez,épandre|5ez,roire|2yez,outre|3ez,araitre|4ssez,ourire|4ez,faire|3tes,rdre|2ez,dire|2tes,vaincre|4quez,soudre|2lvez,ivre|2ez,ondre|3ez,ompre|3ez,clure|3ez,prendre|4ez,crire|3vez,ttre|2ez,ître|issez,endre|3ez,ire|1sez,indre|1gnez",
+        "exceptions": "être|2es,montrer|4ez,mentir|4ez,partir|4ez,ressortir|7ez,sortir|4ez,fuir|2yez,servir|4ez,voir|2yez,iendre|2gnez,boire|1uvez,coudre|3sez,moudre|3lez,rire|2ez,desservir|7ez,resservir|7ez,revoir|4yez,départir|6ez,avoir|2ez,gésir|1isez,pouvoir|4ez,devoir|3ez,pourvoir|6yez,quérir|4ez,savoir|3ez,valoir|3ez,croître|3issez,recroître|5issez,aindre|2gnez,croire|3yez,accroître|5issez,foutre|4ez,lire|2sez,feindre|3gnez,geindre|3gnez,mordre|4ez,réflechir|4échissez,sentir|4ez",
+        "rev": "rvissez|3r,révalez|5oir,révoyez|4ir,epentez|5ir,ursoyez|3eoir,ssoyez|3ir,aïssez|2r,riâttez|4re,oncisez|4re,nclosez|4re,udissez|3re,egnez|1ndre,épandez|5re,loissez|2ître,uivez|3re,upissez|3r,uvissez|3r,erdez|3re,laignez|3ndre,ssentez|5ir,evoyez|3ir,illisez|4r,omissez|3r,avissez|3r,rfondez|5re,ffrez|3ir,ssiégez|3èger,rrêtez|2eter,référez|3èrer,nsférez|3erer,ubissez|3r,cquérez|3erir,raignez|3ndre,raissez|3tre,ouriez|4re,échoyez|4ir,sortez|4ir,cevez|3oir,mouvez|4oir,vêtez|3ir,paissez|2ître,fisez|2re,aisez|2re,ainquez|3cre,olissez|3r,teignez|3ndre,chissez|3r,sservez|5ir,llissez|3r,peignez|3ndre,vivez|3re,voulez|4oir,blissez|3r,battez|4re,pondez|4re,partez|4ir,uissez|2r,dormez|4ir,naissez|2ître,solvez|2udre,reignez|3ndre,joignez|3ndre,ompez|3re,cluez|3re,plissez|3r,gissez|2r,prenez|4dre,tenez|3ir,crivez|3re,ouvrez|4ir,ourez|3ir,illez|3ir,mettez|4re,cissez|2r,sissez|2r,dissez|2r,venez|3ir,uisez|2re,rissez|2r,endez|3re,tissez|2r,nissez|2r,ez|1r,ites|1re"
       },
       "ils": {
-        "rules": "cheter|2ètent,apiécer|3ècent,eser|èsent,evrer|èvrent,élébrer|2èbrent,éder|èdent,brécher|2èchent,égler|èglent,rotéger|3ègent,théquer|2èquent,ppuyer|3ient,eborder|ébordent,echirer|échirent,emarrer|émarrent,énir|3ssent,ésir|isent,mpartir|6ssent,révoir|5ent,urseoir|3oient,ssoir|4ent,aïr|2ssent,ourvoir|6ent,uérir|1ièrent,ssener|2ènent,sombrir|6ssent,ssoupir|6ssent,ssouvir|6ssent,tendrir|6ssent,elleter|5tent,epartir|épartissent,etentir|6ssent,oleter|4tent,omir|3ssent,leurir|5ssent,ureter|2ètent,arantir|6ssent,ravir|4ssent,aleter|2ètent,nvestir|6ssent,aigrir|5ssent,arteler|3èlent,eurtrir|6ssent,odeler|2èlent,ffrir|3ent,precier|2écient,ssieger|3ègent,reer|1éent,rreter|2êtent,eplacer|éplacent,eresser|éressent,referer|1éfèrent,ucceder|3èdent,eunir|éunissent,eussir|éussissent,ubir|3ssent,cquerir|3ièrent,échoir|5ent,épartir|5ent,ecer|ècent,valoir|3ent,sortir|4ent,cevoir|çoivent,vêtir|3ent,inir|3ssent,utir|3ssent,anchir|5ssent,mener|1ènent,vouloir|1eulent,unir|3ssent,erer|èrent,uir|2ssent,ouvoir|euvent,dormir|4ent,ever|èvent,rrir|3ssent,vertir|5ssent,nnir|3ssent,servir|4ent,rnir|3ssent,entir|3ent,courir|4ent,gir|2ssent,ouvrir|4ent,illir|3ent,cir|2ssent,sir|2ssent,dir|2ssent,eler|2lent,lir|2ssent,enir|iennent,oyer|1ient,er|1nt,ariâtre|5tent,nclore|4sent,audire|4ssent,épandre|5ent,roire|3ent,outre|3ent,raire|3ent,araitre|4ssent,epondre|épondent,ourire|4ent,faire|1ont,rdre|2ent,ondre|3ent,vaincre|4quent,soudre|2lvent,ivre|2ent,crire|3vent,ompre|3ent,clure|3ent,prendre|4nent,ttre|2ent,ître|issent,endre|3ent,indre|1gnent,ire|1sent",
-        "exceptions": "être|sont,avoir|ont,geler|1èlent,aller|vont,jeter|3tent,montrer|4ent,declencher|1éclenchent,elancer|élancent,asservir|7ssent,mourir|1eurent,partir|4ent,devoir|1oivent,fuir|3ent,savoir|3ent,voir|3ent,iendre|2gnent,boire|3vent,coudre|3sent,moudre|3lent,rire|2ent,assortir|7ssent,peler|1èlent,peinturer|re,perturber|rbe,revoir|5ent,utiliser|ise,vieillir|lit,exfiltrer|tre,faciliter|ite,familiariser|iarise,feuilleter|lette,ecouter|écoutent,eclaircir|éclaircissent,etablir|établissent,reflechir|1éfléchissent,ecrire|écrivent,eteindre|éteignent,céder|1èdent,deborder|1ébordent,dechirer|1échirent,demarrer|1émarrent,gésir|1isent,mentir|4ent,pouvoir|1euvent,pourvoir|7ent,quérir|2ièrent,servir|4ent,valoir|3ent,croître|3issent,maudire|5ssent,paître|2issent,recroître|5issent,renaître|4issent,repaître|4issent,aindre|2gnent,connaître|5issent,croire|4ent,accroître|5issent,foutre|4ent,lire|2sent,naître|2issent,cloître|3issent,abolir|5ssent,accomplir|8ssent,assouplir|8ssent,assouvir|7ssent,astreindre|6gnent,atteindre|5gnent,desservir|7ent,embellir|7ssent,emplir|5ssent,empreindre|6gnent,peindre|3gnent,plaindre|4gnent,polir|4ssent,pondre|4ent,repartir|1épartissent,repeindre|5gnent,ressentir|7ent,resservir|7ent,restreindre|7gnent,faiblir|6ssent,feindre|3gnent,geindre|3gnent,gravir|5ssent,mollir|5ssent,mordre|4ent,morfondre|7ent,appeler|5lent,deplacer|1éplacent,gerer|1èrent,interesser|3éressent,rappeler|6lent,remplir|6ssent,reunir|1éunissent,reussir|1éussissent,acquerir|4ièrent,craindre|4gnent,sentir|4ent,paraitre|5ssent,repondre|1épondent,déchoir|6ent",
-        "rev": "piècent|2écer,èsent|eser,èvrent|evrer,lèbrent|1ébrer,rèchent|1écher,èglent|égler,otègent|2éger,hèquent|1équer,ppuient|3yer,idèrent|2erer,évalent|4oir,évoient|4r,pentent|4ir,rsoient|2eoir,ssoient|4r,aïssent|2r,iâttent|3re,ncisent|3re,closent|3re,egnent|1ndre,pandent|4re,oulent|2dre,raient|3re,uivent|3re,pissent|2r,erdent|3re,evoient|4r,missent|2r,ffrent|3ir,récient|1ecier,siègent|2eger,réent|1eer,rrêtent|2eter,éfèrent|eferer,ccèdent|2eder,sfèrent|2erer,bissent|2r,ourient|4re,ècent|ecer,sortent|4ir,çoivent|cevoir,meuvent|1ouvoir,vêtent|3ir,font|1aire,fisent|2re,aisent|2re,inquent|2cre,tellent|3er,hissent|2r,lettent|3er,vellent|3er,vivent|3re,veulent|1ouloir,cellent|3er,disent|2re,battent|4re,partent|4ir,ètent|eter,uissent|2r,dorment|4ir,solvent|2udre,oignent|2ndre,èvent|ever,ènent|ener,crivent|3re,ompent|3re,èlent|eler,cluent|3re,rennent|3dre,courent|4ir,gissent|2r,ouvrent|4ir,illent|3ir,cissent|2r,mettent|4re,sissent|2r,dissent|2r,uisent|2re,rissent|2r,endent|3re,tissent|2r,nissent|2r,iennent|enir,oient|1yer,ent|1r"
+        "rules": "cheter|2ètent,apiécer|3ècent,eser|èsent,evrer|èvrent,élébrer|2èbrent,brécher|2èchent,égler|èglent,rotéger|3ègent,théquer|2èquent,ppuyer|3ient,ésir|isent,révoir|5ent,epentir|5ent,urseoir|3oient,ssoir|4ent,aïr|2ssent,ourvoir|6ent,uérir|1ièrent,ssener|2ènent,ieillir|6sent,ureter|2ètent,aleter|2ètent,arteler|3èlent,odeler|2èlent,ffrir|3ent,rreter|2êtent,nsferer|3èrent,flechir|2échissent,cquerir|3ièrent,échoir|5ent,ecer|ècent,érer|èrent,valoir|3ent,cevoir|çoivent,vêtir|3ent,mener|1ènent,sentir|4ent,vouloir|1eulent,céder|1èdent,ouvoir|euvent,dormir|4ent,ever|èvent,leter|3tent,courir|4ent,ouvrir|4ent,illir|3ent,eler|2lent,enir|iennent,oyer|1ient,ir|1ssent,er|1nt,ariâtre|5tent,nclore|4sent,audire|4ssent,épandre|5ent,roire|3ent,outre|3ent,raire|3ent,araitre|4ssent,ourire|4ent,faire|1ont,rdre|2ent,vaincre|4quent,soudre|2lvent,ivre|2ent,ondre|3ent,ompre|3ent,clure|3ent,prendre|4nent,crire|3vent,ttre|2ent,ître|issent,endre|3ent,indre|1gnent,ire|1sent",
+        "exceptions": "être|sont,avoir|ont,geler|1èlent,aller|vont,jeter|3tent,montrer|4ent,mentir|4ent,mourir|1eurent,partir|4ent,ressortir|7ent,sortir|4ent,devoir|1oivent,fuir|3ent,savoir|3ent,servir|4ent,voir|3ent,iendre|2gnent,boire|3vent,coudre|3sent,moudre|3lent,rire|2ent,desservir|7ent,peler|1èlent,resservir|7ent,revoir|5ent,départir|6ent,asservir|7ssent,gésir|1isent,pouvoir|1euvent,pourvoir|7ent,quérir|2ièrent,valoir|3ent,croître|3issent,maudire|5ssent,paître|2issent,recroître|5issent,renaître|4issent,repaître|4issent,aindre|2gnent,connaître|5issent,croire|4ent,accroître|5issent,foutre|4ent,lire|2sent,naître|2issent,cloître|3issent,abolir|5ssent,accomplir|8ssent,assouplir|8ssent,assouvir|7ssent,astreindre|6gnent,atteindre|5gnent,embellir|7ssent,emplir|5ssent,empreindre|6gnent,peindre|3gnent,plaindre|4gnent,polir|4ssent,repeindre|5gnent,ressentir|7ent,restreindre|7gnent,faiblir|6ssent,feindre|3gnent,geindre|3gnent,gravir|5ssent,mollir|5ssent,mordre|4ent,morfondre|7ent,appeler|5lent,gérer|1èrent,rappeler|6lent,établir|6ssent,réflechir|4échissent,remplir|6ssent,acquerir|4ièrent,craindre|4gnent,sentir|4ent,éteindre|4gnent,paraitre|5ssent,déchoir|6ent",
+        "rev": "piècent|2écer,èsent|eser,èvrent|evrer,lèbrent|1ébrer,rèchent|1écher,èglent|égler,otègent|2éger,hèquent|1équer,ppuient|3yer,idèrent|2érer,évalent|4oir,évoient|4r,pentent|4ir,rsoient|2eoir,ssoient|4r,aïssent|2r,iâttent|3re,ncisent|3re,closent|3re,egnent|1ndre,pandent|4re,oulent|2dre,raient|3re,uivent|3re,pissent|2r,erdent|3re,evoient|4r,llisent|3r,missent|2r,ffrent|3ir,rrêtent|2eter,sfèrent|2erer,bissent|2r,ourient|4re,ècent|ecer,sortent|4ir,çoivent|cevoir,meuvent|1ouvoir,vêtent|3ir,font|1aire,fisent|2re,aisent|2re,inquent|2cre,tellent|3er,hissent|2r,vellent|3er,vivent|3re,veulent|1ouloir,cellent|3er,disent|2re,cèdent|1éder,battent|4re,pondent|4re,partent|4ir,ètent|eter,uissent|2r,dorment|4ir,solvent|2udre,oignent|2ndre,èvent|ever,ènent|ener,lettent|3er,ompent|3re,èlent|eler,cluent|3re,rennent|3dre,courent|4ir,gissent|2r,crivent|3re,ouvrent|4ir,illent|3ir,mettent|4re,cissent|2r,sissent|2r,dissent|2r,uisent|2re,rissent|2r,endent|3re,tissent|2r,nissent|2r,iennent|enir,oient|1yer,ent|1r"
       }
     }
   };
@@ -7923,7 +7924,7 @@
     fromPlural: fromPlural$1,
     fromFemalePlural,
   };
-  // console.log(fromFemale('douce'))
+  // console.log(conjugate('frais'))
 
   let pRev = reverse$1(model$2.noun.plural);
   const toPlural = (str) => convert$1(str, model$2.noun.plural);
@@ -7991,7 +7992,16 @@
   const fromParticiple = reverse$1(model$2.pastParticiple.prt);
   const fromPastParticiple = (str) => convert$1(str, fromParticiple);
 
-  var verb = { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple };
+  // do this one manually
+  const fromPassive = function (str) {
+    str = str.replace(/ées$/, 'er');
+    str = str.replace(/ée$/, 'er');
+    str = str.replace(/és$/, 'er');
+    str = str.replace(/é$/, 'er');
+    return str
+  };
+
+  var verb = { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive };
 
   // console.log(presentTense('marcher'))
   // console.log(futureTense('marcher'))
@@ -8017,17 +8027,17 @@
     "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
     "LastName": "true¦0:34;1:3B;2:39;3:2Y;4:2E;5:30;a3Bb31c2Od2Ee2Bf25g1Zh1Pi1Kj1Ek17l0Zm0Nn0Jo0Gp05rYsMtHvFwCxBy8zh6;a6ou,u;ng,o;a6eun2Uoshi1Kun;ma6ng;da,guc1Zmo27sh21zaR;iao,u;a7eb0il6o3right,u;li3Bs2;gn0lk0ng,tanabe;a6ivaldi;ssilj37zqu1;a9h8i2Go7r6sui,urn0;an,ynisJ;lst0Prr1Uth;at1Uomps2;kah0Vnaka,ylor;aEchDeChimizu,iBmiAo9t7u6zabo;ar1lliv2AzuE;a6ein0;l23rm0;sa,u3;rn4th;lva,mmo24ngh;mjon4rrano;midt,neid0ulz;ito,n7sa6to;ki;ch1dLtos,z;amBeag1Zi9o7u6;bio,iz,sD;b6dri1MgIj0Tme24osevelt,ssi,ux;erts,ins2;c6ve0F;ci,hards2;ir1os;aEeAh8ic6ow20;as6hl0;so;a6illips;m,n1T;ders5et8r7t6;e0Nr4;ez,ry;ers;h21rk0t6vl4;el,te0J;baBg0Blivei01r6;t6w1O;ega,iz;a6eils2guy5ix2owak,ym1E;gy,ka6var1K;ji6muW;ma;aEeCiBo8u6;ll0n6rr0Bssolini,ñ6;oz;lina,oKr6zart;al0Me6r0U;au,no;hhail4ll0;rci0ssi6y0;!er;eWmmad4r6tsu07;in6tin1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n0Qr6w0J;oy;bv6v6;re;mmy,rs5u;aBennedy,imuAle0Lo8u7wo6;k,n;mar,znets4;bay6vacs;asY;ra;hn,rl9to,ur,zl4;aAen9ha3imen1o6u3;h6nYu3;an6ns2;ss2;ki0Es5;cks2nsse0D;glesi9ke8noue,shik7to,vano6;u,v;awa;da;as;aBe8itchcock,o7u6;!a3b0ghNynh;a3ffmann,rvat;mingw7nde6rN;rs2;ay;ns5rrQs7y6;asDes;an4hi6;moJ;a9il,o8r7u6;o,tierr1;ayli3ub0;m1nzal1;nd6o,rcia;hi;erAis9lor8o7uj6;ita;st0urni0;es;ch0;nand1;d7insteHsposi6vaL;to;is2wards;aCeBi9omin8u6;bo6rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw7vi6;es,s;in;aFhBlarkAo6;h5l6op0rbyn,x;em7li6;ns;an;!e;an8e7iu,o6ristens5u3we;i,ng,u3w,y;!n,on6u3;!g;mpb7rt0st6;ro;ell;aBe8ha3lanco,oyko,r6yrne;ooks,yant;ng;ck7ethov5nnett;en;er,ham;ch,h8iley,rn6;es,i0;er;k,ng;dDl9nd6;ers6rA;en,on,s2;on;eks7iy8var1;ez;ej6;ev;ams",
     "MaleName": "true¦0:CD;1:BK;2:C1;3:BS;4:B4;5:BY;6:AS;7:9U;8:BC;9:AW;A:AN;aB3bA7c96d86e7Ff6Xg6Fh5Vi5Hj4Kk4Al3Qm2On2Do27p21qu1Zr1As0Qt06u05v00wNxavi3yGzB;aBor0;cBh8Hne;hCkB;!aB0;ar50eAZ;ass2i,oCuB;sDu24;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAO;lfgang,odrow;lBn1N;bDey,frBIlB;aA4iB;am,e,s;e88ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a92y;aEern1iB;cCha0nceBrg9Ava0;!nt;ente,t59;lentin48n8Xughn;lyss4Lsm0;aTeOhKiIoErCyB;!l3ro8s1;av9PeBist0oy,um0;nt9Hv53y;bDd7WmBny;!as,mBoharu;aAXie,y;i82y;mBt9;!my,othy;adDeoCia7ComB;!as;!do7L;!de9;dErB;en8GrB;an8FeBy;ll,n8E;!dy;dgh,ic9Snn3req,ts44;aRcotPeNhJiHoFpenc3tBur1Nylve8Gzym1;anDeBua7A;f0phAEvBwa79;e56ie;!islaw,l6;lom1nA2uB;leyma8ta;dBl7Im1;!n6;aDeB;lBrm0;d1t1;h6Rne,qu0Tun,wn,y8;aBbasti0k1Wl40rg3Zth,ymo9H;m9n;!tB;!ie,y;lCmBnti20q4Hul;!mAu4;ik,vato6U;aVeRhe91iNoFuCyB;an,ou;b6KdCf9pe6PssB;!elAH;ol2Ty;an,bHcGdFel,geEh0landA8meo,nDry,sCyB;!ce;coe,s;!a94nA;l3Jr;e4Qg3n6olfo,ri68;co,ky;bAe9U;cBl6;ar5Oc5NhCkBo;!ey,ie,y;a85ie;gCid,ub5x,yBza;ansh,nS;g8WiB;na8Ss;ch5Yfa4lDmCndBpha4sh6Uul,ymo70;al9Yol2By;i9Ion;f,ph;ent2inB;cy,t1;aFeDhilCier62ol,reB;st1;!ip,lip;d9Brcy,tB;ar,e2V;b3Sdra6Ft44ul;ctav2Vliv3m96rFsCtBum8Uw5;is,to;aCc8SvB;al52;ma;i,l49vJ;athJeHiDoB;aBel,l0ma0r2X;h,m;cCg4i3IkB;h6Uola;hol5XkBol5X;!ol5W;al,d,il,ls1vB;il50;anBy;!a4i4;aWeTiKoFuCyB;l21r1;hamCr5ZstaB;fa,p4G;ed,mF;dibo,e,hamDis1XntCsBussa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a78ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOrHs1tDuricCxB;!imilian8Cwe7;e,io;eo,hCi52tB;!eo,hew,ia;eBis;us,w;cDio,k86lCqu6Gsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6RrenDuBwe7;!iB;e,s;!zo;am,on4;a7Bevi,la4SnDoBst3vi;!nB;!a60el;!ny;mCnBr67ur4Twr4T;ce,d1;ar,o4N;aIeDhaled,iBrist4Vu48y3B;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5C;e0Yy;a7ri4N;r,th;na68rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Bue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4X;!ath4Wie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5JemCmai8oBry;me,ni0O;i6Uy;!e58rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4M;e4Zod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Fma4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu52;!r;nacBor;io;im;in,n;aJeFina4VoDuByd56;be25gBmber4CsD;h,o;m3ra33sBwa3X;se2;aDctCitCn4ErB;be20m0;or;th;bKlJmza,nIo,rDsCyB;a43d5;an,s0;lEo4FrDuBv6;hi40ki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h57nt;nzaBrd1;lo;!n;lbe4Qno,ovan4R;ne,oDrB;aBry;ld,rd4U;ffr6rge;bri4l5rBv2;la1Zr3Eth,y;aReNiLlJorr0IrB;anDedBitz;!dAeBri24;ri23;cDkB;!ie,lB;in,yn;esJisB;!co,zek;etch3oB;yd;d4lBonn;ip;deriDliCng,rnB;an01;pe,x;co;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;!dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;!edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
-    "MaleAdjective": "true¦0:033;1:035;2:021;3:02U;4:015;5:025;6:039;7:03A;8:01W;9:02O;A:01B;B:02I;C:UC;D:02Y;E:02E;F:00L;G:023;H:YV;I:032;J:Z7;K:02S;L:00B;aY4bW5cRJdNYeLGfJNgIIhHXiEZjETlE8mC9nBKoAPp7Tqu7Sr5Ks3Ht2Bu24v11zé10â012éMô4;b0Wc0Ld0Kg0Ihon4l0Cm08n07oYHp03qu01r00tSvM;aPeNiHBoM;ca005l9;il5ntM;ré,uGé;c9nMpo2s035;es028o015;aSeRhQinceEoOrMudJ;angMiq9oK;er,l02S;fYQi5nn3uM;fUXrYO;iopiFé2;i0rnG;b01Sgé;a01Cein4o02FudK;ar017iM;disClNSvaRZ;aOerQ5iNlo2ouMrouv3uis3;stoufEvMM;cé,scop1;no00Qrp016ta0;amou2erv3;aOiGVoMu,écH;ti6CuM;s7va0;cJil5nciZD;aQePimOoNu,éM;ga0vaZF;ig6qSC;i6é;ct9Cvé;bo2nXH;aMrilVSypU0;l,ré;en4ifSUuc01E;aVerUhSlaRoOrNuM;lé,ma0;as3it;euIrNuM;lé,r4;cHné;boI3ir3t3;aMeN;nc2pYV;ve5;il5rtQ4;aNerl9l4MouMrécH;illLTrifXO;hi,ucH;b2lé;a0Ie09iYoRrai,u,éMê02C;cu,gétaPhéme0nNrM;ifJo5;al,iMérI0;el,tiF;l,riFt8;cRiQlOt8uNyaMû4;geBnt;lu,é;aMeBé;nt,tHQ;lé,sA;al,i9K;bIcVdé,eTf,giElSnd4TolRrQsPtNvM;a0ifS0;aMré;l,mi6;cTVsé,uGé;al,g01Ril,tuGuQJ;aWFeUB;!aA;illMtnamiF;i01Got;eUNtoZ2;in0WlTnQrMspTOuf,x3;b1dOmNnFUrZMsé,tM;!-de-gNFic1ébr1;eH9ouSY;i,oWE;dNgeBtMu;i5ru;u,éF;ou4u;cQgPiNll01GntaVKrJuM;dY3t2;lEnM;!cu;aHFin1;a0haVFilE;kraiWBlQniPrOsNtM;iYPérA;aYHuGé;baAge0;!latT5versG;cé2tM;raviolYUérX9;a0Me0Gh0Fi0Co04rQuOyroVSâtUWéMê012;léMnu,t87;pho6vi7;!a0méfJniSVrMé;buPNc,gZI;aTemRiPoNuq9éM;buY4pi00P;mp005nq9pX6uM;bl3vé,é;b1cYOmestETomphaMvi1;l,nt;blMpé;a0oCé;ceBdZFhi,itW1nOpNumatiDvaillZZîM;na0tA4;u,ézoïd1;ch3quilliDsM;cW1i,pMvers1;aYRlJY;caUOléImb3nSquRrPscYOt1uM;ch3ffu,lousaArMt-puWE;ang4SbillUBmL3nM;a0oVAé;dUDrQBtuM;!r3;aUIé;du,itrR9na0;béRFg2mNntinnabuEré,ssTFtM;ré,uba0;b2o2;e72éâWZ;i0mpQnPrMutWTxYC;m003ni,rM;iMoLY;en,fi3toNJ;du,taPLu;or77é2;bWQil5mi7nPpOquArNs7tM;illWMo9;abisco4d8i,é;ageBé;ge0né;a18c16e10i0TnobiS2o0Lp0Ht0BuSyPéMûr;dMlectiUTmZSpa2roposVP;at8uM;cW9i1B;mpathiDnMriF;coW3diM;c1q9;a0b01cZd-XffWggeN1iVjXGpRrNspeM;ct,nMK;aObaDUdévelJYfaKge5huFAme6naturGpNvM;iva0ol4;eup5reU2;igu,n6;erNpMérVP;lPKo7;fMpo7;iUZlu;ciYInCvi;iDoca0;aMc7F;fW0méW0;cMeBré;eX7uNZ;conscOVit,jePWlimZ6merWJordZAsNtEXurbaAveM;nP7rs8;tanP4éqOL;aQimuEomac1rOupéfNy5érM;iWMéotyVH;aKia0;esDiMucUV;ct,de0é;biWIliU3ndardi7;aSTecVRiriP4oOécM;iMulXL;alWNfJ;n8Brt8;ci1ign3leXOmnoNLnSphistUYrCt,uM;dQfOleXVrNs94teMveO6;nu,rO5;d,ia0;fMré;lé,ra0;aAé;geBn3;bRciTEdEMgnPmNnMt9;guV5i5V;plWDulM;ta6é;a5ifiMé;a0cX5;yMSéVV;cQigneuLWmpiOAnNrMul,xuGya0;eApeR1ré,vi;sNtiM;!meOQ;atX4it8oCDuGé;!oVOrW3;andaVSel5intXHulptMélérWT;ur1é;b5cZhaVMiWlVngTouSrrasAtPuNvMxUV;a0oyaSD;greRUtM;ilEé;a6iMu2;né,sfaiM;sa0t;diFl;la0uinM;!oMP;i6Fé;gSFlEnNsM;iXNonPR;!t;caWYerdot1rM;ifJo-sai0é;a1De0Ki0Ho09u06ythX6âU5éMêvX3ôUQ;a04barbWEc02duKel,f01gZjYn1pUsRtOusP1vM;olMélNC;t3u;iNrM;ospeOBéGY;ce0f;erWMiMoOZ;dMg6sC;enNHuG;aOuNétM;it8é;bliVKgRYté;nKCraTW;ouiX5;lé,ulMéIW;aTTiL;lécG9orWPrigér3ugJ;alcitIeMhaufSKonforCurVI;nt,pt8;ct8li7;bicoUKgT4iNr1sMtiE;taLQé;né,sseE;mRnQtVRuMy1;couEgNl3maAquAsODtiM;er,niL;eMisD;aLKoRV;d,fEgeBrQU;aMpu;in,n;a0caNdé,golMngaR2sq9tuGv1;aR1o;in,na0;b0Dc06do05f04je4l01m00nZpVsRtPvMçu;enMu,êWT;dMu;icVD;arVTenMi2rous7;tSLu;caT0pOseNtM;a0rei0;mbEnTJr2;eUXlendSH;entOlUBoNrMtiRAu;odK4ésentTO;sa0usD;a0i;aSCcont2du,omVTtIvLI;pUUua0;aMeVEié,uiDâcHég9;tiMxa0;f,oV4;aKou5roiSCu7;nW3ub5;hercHoOrNuM;eilUNit,lé;oquevU7u;mmV8nNuM;rG2veKK;nMstitN1;aRZu;atW2onRAuC;b00cZdiYfXgWilQ1mVnTpRsPtOvNyM;onQHé;agV9iVP;aAXioUQé;a0sM;asJuI;ide,pM;or4rocH;cMgé;i,uNM;as7ifJolU6pa0;eBoûC;fi6raîchRL;al,c1n,oaMB;i1oPN;atVMelaiNIougTI;alNBiTCotiSG;a1Te1Kh1Ii1Gl14o0QrXuSyramid1âlD6éM;cTEda0jLZnPriUWtM;aNilErMuEé;ifJoRZ;nt,raV9;aMétI;l,rd;a0bPcOdiBHisDni,rMtasNBérB1;!iMpurAuK1;ficaRRtaA;eau;iFlic;e0Ci07oUuTéMêtQK;cQdesA6fPmOnat1oc7Epo7sNtenI3vMétabTM;eOToQ0;e0idL1uUI;aGAédi4;abrR5é2;iMé8N;pi4té;de0sMW;ba0chaAduXfWgramUChiEWlVmUnonPLpSsRtPuTZvMémi8Q;enç1iNoM;ca0q9;dKSnR4;eMubéIéS5;cRAsC;crKt2;oMrSJ;rKQsé;etR6pt,u;i29onRZétaS2;essTFoS0;ctIPit;mPnNsM7vM;at8ilégJé;ciMtaME;er,p1;it8ordi1é;miLna0ssM;a0enRDé;cHiXlVmp01nUrtTsPtNuM;d2rS6ssTX;agLeM;lé,nK9;it8sOtMé;al,éM;!rQF;eS5éTB;at8eBoQV;cKAdé2tifQH;iMynéM1;!cOCssQQtiRA;gOKlu,ntMv2;eBu,é;aTeQiPoOuIVéM;bMniL;éiF;mDVnS8;a0s7;in,urM;a0nichM;aNZeB;cé,iOnNq9tM;!i6;!a0q9té;nt8sa0;afL6caNUmMqu3voCétQB;en4pa0;ilippAosphorS7énM;iQSomén1;ct01inTlé,nSrNsMtKup5;a0tilJG;cuCdu,forPlé,ma7ApéJNsNtMverQGçNH;i79urDF;an,isCoS9uaFJéM;cu4véI;a0ma0é;aHXcHdu,sa0tu;aNIt;i08lpiCn07rXsRtNuSPvé,yMïF;a0sRGé;aHTeOie0rM;iMon1;arc1ciF;ntOJrnG;sNtM;or1;aOiMé;f,onnM;a0el,é;gLnt;aTcheFYeSfRiQl3oissi1tMveMNé;aOiM;al,cMel,sR3;iP6uPF;gé,nt;gAHsiF;aKuS7;il,ntLI;dox1guayFlys3noM;rm1;su,teEé;ll1Sr;b0Cc09dor07ff05is8lfaJBm04nd03pYrRsé,ttomQTuMxygé6;a4blJtOvM;eH1rM;aPViL;il5rM;aQTecuiSCé;aRbI7cheQdPgOiMné,phelA;eAEginM;al,el;ani7;on6u7E;st2;l,nPM;alApNt4UuH0érM;atR1é;oNrM;esDiRL;r4Dsé;oN0ul3;b0Gniprése0;ensMiNNra0usq9;a0if,é;a0iM;féI;cMtogFH;asQQiMup3;deIApHN;jeIKlOsMéNT;cBeMti6éd3;rQVssQM;igJHong;a01e00iZoPuOéM;!gMvro7;at8liP1;!anMClKOméro4pLJtrNK;c8irUmSnchaErOté,uMvaO5yé;rriMé;!ciLsD;d-NmaMvéJU;l,nd;afO8cM;oréF;inaMmé;l,t8;!aFZci;cke5ppO1;stoORt,urEV;c2iTpolSrrPZsRtPuNvMzi,ïf;al,r3;fMséa7F;raOK;al,iMurG;f,on1;al,ilK5;iIAéoM8;n,sD;a12e0Ui0Mo02uVéNûrM;!isD;cSdNfH4l47nagLpriDriMtropoliI6;diEIta0;iMu7;aOcNtMév1;at8erranéF;al,in1o-lég1;n,teB;ha0onH2;et,gMQltiRnicip1rQsOtM;a0iMuG;lé,n;c5icMq9ulmOW;al,iF;al,muI;na2FplJ;biN5d04i02llOEm00nVqueBrStRuMyF;chPil5lOra0sNtKGvM;a0emB7;su,tacES;a0u,é;aKNe4;eBiPHoCA;al,dNf1i6KmN2tM;!-6el,ifGH;a0o2u;dPgolOopareGPtMuGO;aMé;gIHnt;!iF;aAi1;enMifJ;ta6;ndMré,si;re;ifJé2;gQliCnOroNtM;oyFé;boEiC;eBiMér1;er,m1sté3Z;nMraME;aK2onM;!nNN;ilJVnPsOuMxiNY;b5rtriMsiF;!er;quAu2;aOsNtMu;al,eB;ongLtruGuG;cé,ça0;boul,chPKg02igr01jeBlXmeH0nUrQsPtNudKîtrM;e,i7;eFFin1riMutPIé3L;ciGmoni1;culAq9s8;b2chaMUgPFiOoNLqu3ra0tM;iMyr;al,en;t1é;ié2qu3uM;el,sM;crK;aNfJ2in,oMsaAveOH;doIuA;dMi7;if,roK;elMYichLT;isLXyar;aZeYiToPuOâcHéM;cHgMn16zarO7;al,er,islNP;!brGScrNOiDminNMst2théMFxurF4;calMQinG5mbaJ6nNrECti,uMy1;rdDHé;doK1gM;!itudOV;bOgo4mNp18tMé;tGWuaJY;i4ousA;ertAidORérM;a3Mé;nt,vé;bi1cRiQnPq9rOsNtMvé,xND;e0in,ér1;c8sa0;g9moJI;ciJ4guKJ;d,tiL;rym1é2;aQePoNuM;biEif,ré;i0li,ncHuMvi1;eBffFUiMErnaKZé;té,unM7;casDillKBuniO5;di60gnor3ll2Hm1TnRrOsNtM;aJ3inéI;o5raéJ2su;aJDi7rM;atN1iCéM;el,guKRsoFM;a1Hc16d0Ye0Tf0Mg0Lh0Ki0HjustFYn0Go0Cqui0Bs02tRuQvNéM;dKg1;aincu,estiNiMé1I;o5t3;!gaKK;si4tiLK;aNWePo87rOuJWéM;gr5ZrM;eKKieB;ansiM9i5T;llRmpeBAnQrMstinGN;allJcontineE9dKlB0mitE4nNpo7roM;gMIm07;aMé;tiBB;s8tiNU;ecDWiB2;atisfaKcrKen7iSoQpir3tNuM;ffiDlC;antNinECruM;ct8it;!a6;le0uM;cDNpçNM;gnMnEHsC;ifDL;et,siAWéC;cOffeDQnMKpMuï;porMéI;tun;cuJQ;oM0é;ntMti1;erromMéresD;pu;abitCDos1Lu2WéLG;rLQéGV;aKQeRiniPlCLoMérJD;nM9rM;mMtu6;aIJel,é;!tésM;im1;ctIDrn1;mploIXxM;aMTisCpM;lMreKVérim7K;iq9oM;i4ré;iPoOuNéM;ce0fi82pIAter9S;!lA3st0T;-eurALle0;caJ7en,fféKYgOq9reMLsMviduG;cMtinMK;i9VrKG;e0né;aUeThSiRli6oMurLN;héKTmplKDnM;dLBg9Nnu,sNtMveH2;i0Brô5;cC5iMo5;dé2sC;de0s8;anJQ;ndJrDJsD;ndKYrM;cé2né;cQdPlOniLPpNrticu5ssouHNttenMvo9;du,t8;erçu,proprJ;té2;ap4éKP;heL7t8;ag08b07i4m00pM;aXerVlUoSrOuNérM;at8i1;de0isDls8r;essiFWoOuNéM;g6vu;de0;duCMmpLZvi7;ll9rtMs3te0;a0un,é;an4oI;soKNtiM;ne0;ir,rMtBFyé;faKti1;aQerJ1iPoNéM;diK8mo95ri4;biI7dé2rM;al,tG;g2ne0;cu5téM;riG;i5Hu;inK5é;imi4uMég1;mi6st2;aZeXiWoRuPydraCâOéMôteHY;bé4rMsiCtérU;is7;lé,t8;i5mMpHOrE;aAili3;llywooI5mPrNsM;pitaHR;izoBKm8PriM;fJpiE;oseES;laIndHUtléIIvern1;rMur4xag8L;bu,culéF;biPcHgaF7lOnNrMuC6;aHLceEdi,n4R;dicaHCté;eCluc5D;lNtM;uKDé;i4lé;a0Ke0Hi0Fl0Co09rWuQâ4éMên3;a0mGQnMorD2;iNéraM;l,teB;al,t1;erQiMtGIéIM;llNnM;dé,éF;erIEoM;ti6;riL;aUeTiPoMéco-ro07;ndeBssiNuM;ilEpé;er,sD;ffDKllOmNnIHsM;a0onEWé;aIFpa0;aHNé;c,lotCnu;is7mmatGMndNssoui6TtuKvM;e,itatJ1é;!iM;loq9MsD;gueCDnNuM;aE5drK7lu,rHHverneAH;do5fl3;aNisDoMua0;usD;cé,pFY;rondMtI6v2;!in;igC5ntNrMsticuE;maA;il;gn3iQlOmAn4rMuf2;antCLdMni;iFé;a0bé,oM;n6pa0;!lCP;a14e0Zi0Ul0Ko08rXuQâcHéMê5;cOdNlAmMod1ru;inAor1;ér1L;al,oGY;gRlQm3rOsNtMya0;ur,é;e5il5;eFYiMt8;boGT;guImiDX;it8ueB;aUeTiRoOuNéMôDE;mF9quentEPtIJ;g1itDKst2;iNnMufrouC;cé,taFS;d,s7;aGKgorAYn12pé,q9sM;sD1é;la4uG1;cMgm3Rnco-aFSpp3te8Z;aFOtu2;c1et1llGUnTrOuM;!droDWisseBrMtu;bu,c79ni,ré;aAcPesBCmOtM;ifJuM;it,né;el,u5é;e6é;cOdM;aMé;ment,nt,teB;iLtHJé;aQePi9ZoNuMâneBécH;et,orHAvi1;rMtCu;al,eB9isD;mmaCSuGJ;gOmMpi,tF2;aFXbM;a0oDE;eMra0;l5oE;cPer,gOli1nMsc1xé;!aMiI6;l,nciL;urFJé;e5hu,t8;i0n58rOsAAuM;illMt2;e4u;mMré,ve0;en4é;ci1go4iUlTmRnQrPsciCOtNuMvoG3;bouFJcHt8;al,igM;a0ué;ci,fe9G;farEOé;iliMé;al,er;ot;nBOsH0t;ff1Wm1In0Drr0Cs07ur5QxM;a04c00eZiXorbiCpRtNuM;béIlC;erminaEAraNéM;nu3rDZ;conjug1vaM;ga0;a7Ze65lPo7reFNul7éM;dDJrimeM;ntM;al,é;icG8oM;i4raE1s8;gMlé,sC;ea0u;mpt,rC4;eNit3luM;!s8;l64ptMss8;ioG6é;cMgé2lt3spéI;er19t;carDNpaPsNtM;iv1omDMudia9V;eMouff5;n75u5;cé,gnol;a0o6;c0Kd0Ef0Ag08ivIj07l06n04rZsVtOvM;a01elopp3iMoûC;rAXsaED;aF2eRiLou2rMurXêt3;'oPaOeMoP;bâF0couDClaBMpMteAN;o7reBG;nt,vé,î6;uve5C;n3Sr2;aOeNoM;leEUmmeEUrce5;igBAveF8;b5ngl06;aPegistB2huG4icOoNuM;ban6;bé,ué;hiGE;ci6gé;eMuCJ;iDVmi;eFKu3I;o9ôAJ;ag85l9oM;rDRurCI;a91erFTiOlNoMuFT;nB1ui;amFRé;lé,év2;euECiOoNurM;ci;loE6mmaDKrmi;aMma1P;b5mM;an4;aQhOlNoMr44u5;mbr3uraEF;e1Kin;aMevêt2;ntFCî6;is7st2;bSmRpM;aOe7ier2loBWoNrMâ4êt2;es7isFZun4;r4ussié2;il5nMq21;acH;erd7Eito8Xu2ê5;aRouPrNuMêC;sq9é;asMouDRuF4;sé,é;cHrM;bé;l5rraC7;aPeOiNlanq9ond2rM;ay3on4é6;c56lé;ct8rvE3;cé,rM;a0oMé;ucH;a34e2Xi21o1Vr1Tu1RéMû;b1Nc19dicaA0f11g0Vha0Ul0Rm0Ln0Jp09r06sVtQvMçu;ast4YeNoM;lu,ra0t,ué,yé;lMrgonEE;opBM;aPeMo4Eraq9;nNrmM;in3;du,teBu;cHil5;aVeUhTiRoOuNéquilM;ib2;et,ni;bliDBeuv2l3piErM;dF1iM;en4;g6nMré;car6téres7;abCWonoIydra4éri4;mpa2rtA7spé2;bu7ffec4pprobaBArE7;aNiDToMég5;bé,uC;ci6ng6E;aTeRlPoNrM;aDPeCMim3;itraCOli,r4uM;il5rvu;aMoAJ;cé,iD;i0nMup5;aCJda0;rMs7;eCHte4S;aMuDJ;tu2;eOoNuM;ni;dé,n4raBT;ntMsu2;!iM;!el;aNiM;bé2cCPnq54ra0é;b2is7vé;ncH;aBEingD6ling9oPrOuNéM;né2;enC2i7;ad3os5A;nf5uMût3;li8GrA0tC;aQenPiNoMraîcC7u0éC5;n8Jrm3;c3Igu2niM;!t8;du,s8;iNvoM;ri7;lEt;aYeXhTiSla2oOrMulot4éCT;iMo9LépK;t,é;lOmpo7nNrASuM;pé,rag59su,ve21;cerCtrac4;le4o2;dé,s8;aOiMu;qMr3;ue4;r6us7î6;nt,va0;de0lé;aNorD5rMuC;aBBiCE;rq9ucH;bitBVc1rMve4;!ci;aco89es7oMu;g9it;du,le0mPn6rOté,uM;a4Yb5iMé;llAU;ma0s1é;inMp4;a2Iic1;a0Fcta0Dffér0Cg0Al08m07plôCCr06sPt,vM;erNiMor7K;n,sé;ge0t8S;cZgracJjoi0lYpWqual4LsStM;a0enQinOrM;aMib9;it,ya0;ctMg9;!if;du;iOolNéM;mi6;u,va0;de0mul26pé;aMer7o7ropor2Ju4;ru;oq9;iNoMrA8;nti63rC9;pli6;ect11ig41;ensB4in9;a4iM;ge0;eMit1;st8;e0é;toM;ri1;gMma4Q;on1;mRntQr3XsM;cOsa5tM;i6rM;uc8G;enBSript8;e5é;eu2i;ctylogra6Xlto6YmMnD;as7né;a3Me3Ih2Wi2Tl2Lo07rTuOyclNâlAéréMô46;a8Bbr1;opéF;baAiNltMrADta6;iAQurG;rNsMt,v2;a0i6;as7;aXiVoRuPéM;atNne5pM;iCu;eBif;!ciMel;al,fJ;cOisNq2Dt4uMya0;la0stAL;sa0é;hu;a5HminGstaM;llA;int8moi2JquM;a0e5;c1Ydé,gn72hé9Fi1Xl1Sm1Dn00opér9UquZrSsQté,uM;cHl4Jp3rNsu,tumiLveM;rt;bé,on6tMu;!aN;su,taM;ud;di1n45pPrMsé,t7CéF;eMi8Aos8;ctMsponAS;!eBio9Q;orNuM;le0;at8el;et,in;!c0Td0Rf0Kg0Hj0Gnu,quéIs05tTvMçu;aReNiMulsAB;vi1;nNrM;ge0ti;tMu;io9FuG;inc4Kl96;eTiRoQrM;aNit,ovM;er7;ctMi0ri3s4;uGé;ur6;gu,nM;e0Qge0uG;mpNnM;t,u;l8XoM;raA;ac2cVeTiSolQtOéM;cut8qM;ue0;a0ern3ituMru0T;a0t8Wé;aMi97;nt,teB;g6sC;nCrvM;a6Gé;ie0;oi0ug1;eNénM;it1;lé,sU;iPlicYond3SrM;aMon4;teM;rnG;a0dMné,r93sq9t;enM;tiG;am6iMuc63;ti9N;eOilNl0Ior9Er7CuM;pis87r7R;ia0;nt2pMr4;tuG;bZmVpMé6B;aTen7lSoPrNuls8éM;te0;es7i8QometCéheM;ns8;rteMs3;meM;nt1;aiDet,iq9;ct,r6Cs7t53;an89eNun1VémM;or7R;n75rM;ci1ça0;atCi6lé;lNoM;ni1ré,ss1;aNeMégi1;ct8;nt,t0X;!f45n3I;ardiLh5Hu;aQiPoNéM;me0r54;is8TuMît2;té,é;gnoCma45nqNqueC;irNndestAqMs7;ua0;!on34se80;nNrconspe8Gse5tMvil6B;adAé;gl3t2;aYeViToQréPuchoCâNéM;ri,t8;taA;ta0;tiF;cola4iNqu3r1uMyé;ca2I;si;a0ffMliFrurg4M;on6ré;nu,rNveM;lu;!c62;grAm1UnSpeau4rOs7to30uM;d,fMs7;fa0;bOgé,mNnM;el,u;a0eB;onU;ceEgMta0;ea0é;nOrM;né,tMv47;ifJ;d2sé,tr1;botAch04de03l02mYnne5outchou4pWrOsMtal5YuDva4B;aMq9s3till5X;niL;aRcQd7NesDiPmi6nNré,téM;siF;asMé;siL;ca3Et68;ér1;ctériMmé51;el,sé;itMt8;al,on6;bNpagMé;na1K;odMré;giF;ci6ifor2Eé;n1Xt;otMé;tiL;a14e10i0Sl0Mo07rVuUyzaTâRéNêM;c52ta;aOdouAga20nMt77;iMédictA;n,t;nt,t;cHtM;a16i;ntA;cc1ri6té;aUeTiSoPuMési1Oûl3;isDnNtMya0;!al;!i;cHdé,nzé,uMyé;illMteB;on,é;dé,lEnguebaEsa0;ss4Vt3Cve4;ilNnM;cHla0;la0S;i7mbZnXr6ssWt4uMvA;cUdTffSillRlQrMs4Lt6M;d0Eguign36rOsM;iLoM;uf5;u,é;evers3ot;a0i,on0W;a0eBi,on;eBi6;hé,lé;e5u;!dMna0F;isDé;ar5Bé;aPeNin5AoM;nd,q9t33;ss3t,uM;!i,té;fa08ncMsé;!hi5S;enQgPrm46sM;corNeM;xuG;nu;ar2;-ai59fNsMve52;éa0;aiD;auOdNlligéIrceBsMur2;ti1;on08;!cer2C;fo9gZlVnTptism1rRsQtMvaU;aNtM;a0u;ilM;leB;a6é;bMio5ré;a0e5ou3Iu;c1d3lieusaMni;rd;aOeinNlMza2L;a0on6;iLé;deBnY;arMué;reB;b4Rc42d3Pf3Bg32hu31i2Wj2Ul2Am21n1Cp12r0Qs0Ct00uWvOzu2érMî6;iFoMé;nav1por4;aRePiOoMé2;isiMr4ué;na0;l0Zné,sé;nMr1ZugE;a0tu2;c39nMrJ;cé;d0Sr20straOtMvergn3G;oMrichiF;colEma0Bri7;liF;héWroVtM;aTePiOrMén9;aMib9;ya0;ra0t2;i0nM;dNtiM;f,on6;r0Iu;b5cHr3O;phJ;niF;cYeWo0QpVsNtrM;al,ei0;assinSerRiQoMu2y1T;cJifOm1Yr1CuM;pi,rM;di43;fé;du,mi5s4é1L;vi;!é;hyxJir3;pMx9;ti7;en3Y;chitecWdVgentUméTq9rOtiMyF;cu5fiMsan1;ciG;aOiNoMê4;ga0n01sé;vé,é2;cHn28;hé;!niF;in,é;e0u;tur1;aiDeu2la0PpNérM;it8;a1XlSrOuNétM;isD;yé;oMê4;fonNprJu2Mxim28;ié;di;iq9;al,c08dal07g01imZkylo7nWoVtM;iOéM;diluviFrM;ieB;aé0RcOdéraNsoM;ci1;pa0;iNlérM;ic1;pé;dArm1;e5onciaNuM;el,lé;teB;aMé;liL;lo-NoiM;ss3;aNsaxM;on;méM;ri10;ou;esMiFré;tr1;aig0LbSer,iRorQpPuDéM;lio2riM;caAnM;diF;ou5u4;ti;!c1nci2D;iMré,uE;a0gu;a02c00eZgéXig6lRpAsaQtNvM;éo5;ernNiLé2;er;at8é;ciF;ePié,onOuNéM;cha0;mé,s8;gé;maM;nd;riF;en;r4xandrAz0B;alAooM;li7;ngNrM;ma0;ui;ouMus4;ré,té;gMlé,m3sé;rNuM;!i7;elMi;et;ri1J;aTenRi4oniDrePuM;erNicM;heB;ri;ss8;té;ouM;il5;ça0;fPghOriM;caA;in;an;aSeRilQliPol3rNéM;re0;ancMioE;hi;gea0;ié,é;ct0S;iMmé;bMré;li;dVhéTjaSmiQoOroKéM;quM;at;lMpt0L;esO;nistrMrM;at8;ce0;re0s8;if;itM;ioM;nnG;cWhRidu5tNé2;ré;iNuG;el;f,vé;lé;aNeM;vé;lMr6;anM;dé;abl3ent9identXoTrPuM;eMsé;ilE;la0;oMu;chMupi;eBé;ur;mNrt,utuM;mé;mo00pM;ag6li;el,é;ué;a02dom00erIjeXoVrRsNusM;if,é;e0oNtraK;it;lu,rb3;a0é;acadabIuM;pt,tiM;!sD;sa0;li,nM;da0;ct;ra0;nt;in1;al;is7ndNtM;tu;on6;né;sé",
+    "MaleAdjective": "true¦0:033;1:035;2:021;3:02U;4:015;5:025;6:039;7:03A;8:01W;9:02O;A:01B;B:02I;C:UC;D:02Y;E:02E;F:00L;G:023;H:YV;I:032;J:Z7;K:02S;L:00B;aY4bW5cRJdNYeLGfJNgIIhHXiEZjETlE8mC9nBKoAPp7Squ7Rr5Js3Ht2Bu24v11zé10â012éMô4;b0Wc0Ld0Kg0Ihon4l0Cm08n07oYHp03qu01r00tSvM;aPeNiHBoM;ca005l9;il5ntM;ré,uGé;c9nMpo2s035;es028o015;aSeRhQinceEoOrMudJ;angMiq9oK;er,l02S;fYQi5nn3uM;fUXrYO;iopiFé2;i0rnG;b01Sgé;a01Cein4o02FudK;ar017iM;disClNSvaRZ;aOerQ5iNlo2ouMrouv3uis3;stoufEvMM;cé,scop1;no00Qrp016ta0;amou2erv3;aOiGVoMu,écH;ti6BuM;s7va0;cJil5nciZD;aQePimOoNu,éM;ga0vaZF;ig6qSC;i6é;ct9Cvé;bo2nXH;aMrilVSypU0;l,ré;en4ifSUuc01E;aVerUhSlaRoOrNuM;lé,ma0;as3it;euIrNuM;lé,r4;cHné;boI3ir3t3;aMeN;nc2pYV;ve5;il5rtQ4;aNerl9l4LouMrécH;illLTrifXO;hi,ucH;b2lé;a0Ie09iYoRrai,u,éMê02C;cu,gétaPhéme0nNrM;ifJo5;al,iMérI0;el,tiF;l,riFt8;cRiQlOt8uNyaMû4;geBnt;lu,é;aMeBé;nt,tHQ;lé,sA;al,i9K;bIcVdé,eTf,giElSnd4SolRrQsPtNvM;a0ifS0;aMré;l,mi6;cTVsé,uGé;al,g01Ril,tuGuQJ;aWFeUB;!aA;illMtnamiF;i01Got;eUNtoZ2;in0WlTnQrMspTOuf,x3;b1dOmNnFUrZMsé,tM;!-de-gNFic1ébr1;eH9ouSY;i,oWE;dNgeBtMu;i5ru;u,éF;ou4u;cQgPiNll01GntaVKrJuM;dY3t2;lEnM;!cu;aHFin1;a0haVFilE;kraiWBlQniPrOsNtM;iYPérA;aYHuGé;baAge0;!latT5versG;cé2tM;raviolYUérX9;a0Me0Gh0Fi0Co04rQuOyroVSâtUWéMê012;léMnu,t87;pho6vi7;!a0méfJniSVrMé;buPNc,gZI;aTemRiPoNuq9éM;buY4pi00P;mp005nq9pX6uM;bl3vé,é;b1cYOmestETomphaMvi1;l,nt;blMpé;a0oCé;ceBdZFhi,itW1nOpNumatiDvaillZZîM;na0tA4;u,ézoïd1;ch3quilliDsM;cW1i,pMvers1;aYRlJY;caUOléImb3nSquRrPscYOt1uM;ch3ffu,lousaArMt-puWE;ang4RbillUBmL3nM;a0oVAé;dUDrQBtuM;!r3;aUIé;du,itrR9na0;béRFg2mNntinnabuEré,ssTFtM;ré,uba0;b2o2;e72éâWZ;i0mpQnPrMutWTxYC;m003ni,rM;iMoLY;en,fi3toNJ;du,taPLu;or77é2;bWQil5mi7nPpOquArNs7tM;illWMo9;abisco4d8i,é;ageBé;ge0né;a18c16e10i0TnobiS2o0Lp0Ht0BuSyPéMûr;dMlectiUTmZSpa2roposVP;at8uM;cW9i1B;mpathiDnMriF;coW3diM;c1q9;a0b01cZd-XffWggeN1iVjXGpRrNspeM;ct,nMK;aObaDUdévelJYfaKge5huFAme6naturGpNvM;iva0ol4;eup5reU2;igu,n6;erNpMérVP;lPKo7;fMpo7;iUZlu;ciYInCvi;iDoca0;aMc7F;fW0méW0;cMeBré;eX7uNZ;conscOVit,jePWlimZ6merWJordZAsNtEXurbaAveM;nP7rs8;tanP4éqOL;aQimuEomac1rOupéfNy5érM;iWMéotyVH;aKia0;esDiMucUV;ct,de0é;biWIliU3ndardi7;aSTecVRiriP4oOécM;iMulXL;alWNfJ;n8Brt8;ci1ign3leXOmnoNLnSphistUYrCt,uM;dQfOleXVrNs94teMveO6;nu,rO5;d,ia0;fMré;lé,ra0;aAé;geBn3;bRciTEdEMgnPmNnMt9;guV5i5V;plWDulM;ta6é;a5ifiMé;a0cX5;yMSéVV;cQigneuLWmpiOAnNrMul,xuGya0;eApeR1ré,vi;sNtiM;!meOQ;atX4it8oCDuGé;!oVOrW3;andaVSel5intXHulptMélérWT;ur1é;b5cYhaVMiWlVngTouSrrasAtPuNvMxUV;a0oyaSD;greRUtM;ilEé;a6iMu2;né,sfaiM;sa0t;diFl;la0uinM;!oMP;i6Fé;gSFlEn2RsM;iXNonPR;caWZerdot1rM;ifJo-sai0é;a1De0Ki0Ho09u06ythX7âU6éMêvX4ôUR;a04barbWFc02duKel,f01gZjYn1pUsRtOusP2vM;olMélND;t3u;iNrM;ospeOCéGZ;ce0f;erWNiMoP0;dMg6sC;enNIuG;aOuNétM;it8é;bliVLgRZté;nKDraTX;ouiX6;lé,ulMéIX;aTUiL;lécGAorWQrigér3ugJ;alcitIeMhaufSLonforCurVJ;nt,pt8;ct8li7;bicoULgT5iNr1sMtiE;taLRé;né,sseE;mRnQtVSuMy1;couEgNl3maAquAsOEtiM;er,niL;eMisD;aLLoRW;d,fEgeBrQV;aMpu;in,n;a0caNdé,golMngaR3sq9tuGv1;aR2o;in,na0;b0Dc06do05f04je4l01m00nZpVsRtPvMçu;enMu,êWU;dMu;icVE;arVUenMi2rous7;tSMu;caT1pOseNtM;a0rei0;mbEnTKr2;eUYlendSI;entOlUCoNrMtiRBu;odK5ésentTP;sa0usD;a0i;aSDcont2du,omVUtIvLJ;pUVua0;aMeVFié,uiDâcHég9;tiMxa0;f,oV5;aKou5roiSDu7;nW4ub5;hercHoOrNuM;eilUOit,lé;oquevU8u;mmV9nNuM;rG3veKL;nMstitN2;aS0u;atW3onRBuC;b00cZdiYfXgWilQ2mVnTpRsPtOvNyM;onQIé;agVAiVQ;aAYioURé;a0sM;asJuI;ide,pM;or4rocH;cMgé;i,uNN;as7ifJolU7pa0;eBoûC;fi6raîchRM;al,c1n,oaMC;i1oPO;atVNelaiNJougTJ;alNCiTDotiSH;a1Ue1Lh1Ji1Hl15o0RrXuSyramid1âlD7éM;cTFda0jM0nPriUXtM;aNilErMuEé;ifJoS0;nt,raVA;aMétI;l,rd;a0bPcOdiBIisDni,rMtasNCérB2;!iMpurAuK2;ficaRStaA;eau;iFlic;e0Di08oUuTéMêtQL;cQdesA7fPmOnat1oc7Fpo7sNtenI4vMétabTN;eOUoQ1;e0idL2uUJ;aGBédi4;abrR6é2;iMé8O;pi4té;de0sMX;ba0chaAduYfXgramUDhiEXlWmVnonPMpSsRtPuU0vMémi8R;enç1iNoM;ca0q9;dKTnR5;eMubéIéS6;cRBsC;crKt2;oNreM;!t;rKQsé;etR6pt,u;i29onRZétaS2;essTFoS0;ctIPit;mPnNsM7vM;at8ilégJé;ciMtaME;er,p1;it8ordi1é;miLna0ssM;a0enRDé;cHiXlVmp01nUrtTsPtNuM;d2rS6ssTX;agLeM;lé,nK9;it8sOtMé;al,éM;!rQF;eS5éTB;at8eBoQV;cKAdé2tifQH;iMynéM1;!cOCssQQtiRA;gOKlu,ntMv2;eBu,é;aTeQiPoOuIVéM;bMniL;éiF;mDVnS8;a0s7;in,urM;a0nichM;aNZeB;cé,iOnNq9tM;!i6;!a0q9té;nt8sa0;afL6caNUmMqu3voCétQB;en4pa0;ilippAosphorS7énM;iQSomén1;ct01inTlé,nSrNsMtKup5;a0tilJG;cuCdu,forPlé,ma7ApéJNsNtMverQGçNH;i79urDF;an,isCoS9uaFJéM;cu4véI;a0ma0é;aHXcHdu,sa0tu;aNIt;i08lpiCn07rXsRtNuSPvé,yMïF;a0sRGé;aHTeOie0rM;iMon1;arc1ciF;ntOJrnG;sNtM;or1;aOiMé;f,onnM;a0el,é;gLnt;aTcheFYeSfRiQl3oissi1tMveMNé;aOiM;al,cMel,sR3;iP6uPF;gé,nt;gAHsiF;aKuS7;il,ntLI;dox1guayFlys3noM;rm1;su,teEé;ll1Sr;b0Cc09dor07ff05is8lfaJBm04nd03pYrRsé,ttomQTuMxygé6;a4blJtOvM;eH1rM;aPViL;il5rM;aQTecuiSCé;aRbI7cheQdPgOiMné,phelA;eAEginM;al,el;ani7;on6u7E;st2;l,nPM;alApNt4UuH0érM;atR1é;oNrM;esDiRL;r4Dsé;oN0ul3;b0Gniprése0;ensMiNNra0usq9;a0if,é;a0iM;féI;cMtogFH;asQQiMup3;deIApHN;jeIKlOsMéNT;cBeMti6éd3;rQVssQM;igJHong;a01e00iZoPuOéM;!gMvro7;at8liP1;!anMClKOméro4pLJtrNK;c8irUmSnchaErOté,uMvaO5yé;rriMé;!ciLsD;d-NmaMvéJU;l,nd;afO8cM;oréF;inaMmé;l,t8;!aFZci;cke5ppO1;stoORt,urEV;c2iTpolSrrPZsRtPuNvMzi,ïf;al,r3;fMséa7F;raOK;al,iMurG;f,on1;al,ilK5;iIAéoM8;n,sD;a12e0Ui0Mo02uVéNûrM;!isD;cSdNfH4l47nagLpriDriMtropoliI6;diEIta0;iMu7;aOcNtMév1;at8erranéF;al,in1o-lég1;n,teB;ha0onH2;et,gMQltiRnicip1rQsOtM;a0iMuG;lé,n;c5icMq9ulmOW;al,iF;al,muI;na2FplJ;biN5d04i02llOEm00nVqueBrStRuMyF;chPil5lOra0sNtKGvM;a0emB7;su,tacES;a0u,é;aKNe4;eBiPHoCA;al,dNf1i6KmN2tM;!-6el,ifGH;a0o2u;dPgolOopareGPtMuGO;aMé;gIHnt;!iF;aAi1;enMifJ;ta6;ndMré,si;re;ifJé2;gQliCnOroNtM;oyFé;boEiC;eBiMér1;er,m1sté3Z;nMraME;aK2onM;!nNN;ilJVnPsOuMxiNY;b5rtriMsiF;!er;quAu2;aOsNtMu;al,eB;ongLtruGuG;cé,ça0;boul,chPKg02igr01jeBlXmeH0nUrQsPtNudKîtrM;e,i7;eFFin1riMutPIé3L;ciGmoni1;culAq9s8;b2chaMUgPFiOoNLqu3ra0tM;iMyr;al,en;t1é;ié2qu3uM;el,sM;crK;aNfJ2in,oMsaAveOH;doIuA;dMi7;if,roK;elMYichLT;isLXyar;aZeYiToPuOâcHéM;cHgMn16zarO7;al,er,islNP;!brGScrNOiDminNMst2théMFxurF4;calMQinG5mbaJ6nNrECti,uMy1;rdDHé;doK1gM;!itudOV;bOgo4mNp18tMé;tGWuaJY;i4ousA;ertAidORérM;a3Mé;nt,vé;bi1cRiQnPq9rOsNtMvé,xND;e0in,ér1;c8sa0;g9moJI;ciJ4guKJ;d,tiL;rym1é2;aQePoNuM;biEif,ré;i0li,ncHuMvi1;eBffFUiMErnaKZé;té,unM7;casDillKBuniO5;di60gnor3ll2Hm1TnRrOsNtM;aJ3inéI;o5raéJ2su;aJDi7rM;atN1iCéM;el,guKRsoFM;a1Hc16d0Ye0Tf0Mg0Lh0Ki0HjustFYn0Go0Cqui0Bs02tRuQvNéM;dKg1;aincu,estiNiMé1I;o5t3;!gaKK;si4tiLK;aNWePo87rOuJWéM;gr5ZrM;eKKieB;ansiM9i5T;llRmpeBAnQrMstinGN;allJcontineE9dKlB0mitE4nNpo7roM;gMIm07;aMé;tiBB;s8tiNU;ecDWiB2;atisfaKcrKen7iSoQpir3tNuM;ffiDlC;antNinECruM;ct8it;!a6;le0uM;cDNpçNM;gnMnEHsC;ifDL;et,siAWéC;cOffeDQnMKpMuï;porMéI;tun;cuJQ;oM0é;ntMti1;erromMéresD;pu;abitCDos1Lu2WéLG;rLQéGV;aKQeRiniPlCLoMérJD;nM9rM;mMtu6;aIJel,é;!tésM;im1;ctIDrn1;mploIXxM;aMTisCpM;lMreKVérim7K;iq9oM;i4ré;iPoOuNéM;ce0fi82pIAter9S;!lA3st0T;-eurALle0;caJ7en,fféKYgOq9reMLsMviduG;cMtinMK;i9VrKG;e0né;aUeThSiRli6oMurLN;héKTmplKDnM;dLBg9Nnu,sNtMveH2;i0Brô5;cC5iMo5;dé2sC;de0s8;anJQ;ndJrDJsD;ndKYrM;cé2né;cQdPlOniLPpNrticu5ssouHNttenMvo9;du,t8;erçu,proprJ;té2;ap4éKP;heL7t8;ag08b07i4m00pM;aXerVlUoSrOuNérM;at8i1;de0isDls8r;essiFWoOuNéM;g6vu;de0;duCMmpLZvi7;ll9rtMs3te0;a0un,é;an4oI;soKNtiM;ne0;ir,rMtBFyé;faKti1;aQerJ1iPoNéM;diK8mo95ri4;biI7dé2rM;al,tG;g2ne0;cu5téM;riG;i5Hu;inK5é;imi4uMég1;mi6st2;aZeXiWoRuPydraCâOéMôteHY;bé4rMsiCtérU;is7;lé,t8;i5mMpHOrE;aAili3;llywooI5mPrNsM;pitaHR;izoBKm8PriM;fJpiE;oseES;laIndHUtléIIvern1;rMur4xag8L;bu,culéF;biPcHgaF7lOnNrMuC6;aHLceEdi,n4R;dicaHCté;eCluc5D;lNtM;uKDé;i4lé;a0Ke0Hi0Fl0Co09rWuQâ4éMên3;a0mGQnMorD2;iNéraM;l,teB;al,t1;erQiMtGIéIM;llNnM;dé,éF;erIEoM;ti6;riL;aUeTiPoMéco-ro07;ndeBssiNuM;ilEpé;er,sD;ffDKllOmNnIHsM;a0onEWé;aIFpa0;aHNé;c,lotCnu;is7mmatGMndNssoui6TtuKvM;e,itatJ1é;!iM;loq9MsD;gueCDnNuM;aE5drK7lu,rHHverneAH;do5fl3;aNisDoMua0;usD;cé,pFY;rondMtI6v2;!in;igC5ntNrMsticuE;maA;il;gn3iQlOmAn4rMuf2;antCLdMni;iFé;a0bé,oM;n6pa0;!lCP;a14e0Zi0Ul0Ko08rXuQâcHéMê5;cOdNlAmMod1ru;inAor1;ér1L;al,oGY;gRlQm3rOsNtMya0;ur,é;e5il5;eFYiMt8;boGT;guImiDX;it8ueB;aUeTiRoOuNéMôDE;mF9quentEPtIJ;g1itDKst2;iNnMufrouC;cé,taFS;d,s7;aGKgorAYn12pé,q9sM;sD1é;la4uG1;cMgm3Ris,nco-aFSpp3te8Z;aFOtu2;c1et1llGUnTrOuM;!droDWisseBrMtu;bu,c79ni,ré;aAcPesBCmOtM;ifJuM;it,né;el,u5é;e6é;cOdM;aMé;ment,nt,teB;iLtHJé;aQePi9ZoNuMâneBécH;et,orHAvi1;rMtCu;al,eB9isD;mmaCSuGJ;gOmMpi,tF2;aFXbM;a0oDE;eMra0;l5oE;cPer,gOli1nMsc1xé;!aMiI6;l,nciL;urFJé;e5hu,t8;i0n58rOsAAuM;illMt2;e4u;mMré,ve0;en4é;ci1go4iUlTmRnQrPsciCOtNuMvoG3;bouFJcHt8;al,igM;a0ué;ci,fe9G;farEOé;iliMé;al,er;ot;nBOsH0t;ff1Wm1In0Drr0Cs07ur5QxM;a04c00eZiXorbiCpRtNuM;béIlC;erminaEAraNéM;nu3rDZ;conjug1vaM;ga0;a7Ze65lPo7reFNul7éM;dDJrimeM;ntM;al,é;icG8oM;i4raE1s8;gMlé,sC;ea0u;mpt,rC4;eNit3luM;!s8;l64ptMss8;ioG6é;cMgé2lt3spéI;er19t;carDNpaPsNtM;iv1omDMudia9V;eMouff5;n75u5;cé,gnol;a0o6;c0Kd0Ef0Ag08ivIj07l06n04rZsVtOvM;a01elopp3iMoûC;rAXsaED;aF2eRiLou2rMurXêt3;'oPaOeMoP;bâF0couDClaBMpMteAN;o7reBG;nt,vé,î6;uve5C;n3Sr2;aOeNoM;leEUmmeEUrce5;igBAveF8;b5ngl06;aPegistB2huG4icOoNuM;ban6;bé,ué;hiGE;ci6gé;eMuCJ;iDVmi;eFKu3I;o9ôAJ;ag85l9oM;rDRurCI;a91erFTiOlNoMuFT;nB1ui;amFRé;lé,év2;euECiOoNurM;ci;loE6mmaDKrmi;aMma1P;b5mM;an4;aQhOlNoMr44u5;mbr3uraEF;e1Kin;aMevêt2;ntFCî6;is7st2;bSmRpM;aOe7ier2loBWoNrMâ4êt2;es7isFZun4;r4ussié2;il5nMq21;acH;erd7Eito8Xu2ê5;aRouPrNuMêC;sq9é;asMouDRuF4;sé,é;cHrM;bé;l5rraC7;aPeOiNlanq9ond2rM;ay3on4é6;c56lé;ct8rvE3;cé,rM;a0oMé;ucH;a34e2Xi21o1Vr1Tu1RéMû;b1Nc19dicaA0f11g0Vha0Ul0Rm0Ln0Jp09r06sVtQvMçu;ast4YeNoM;lu,ra0t,ué,yé;lMrgonEE;opBM;aPeMo4Eraq9;nNrmM;in3;du,teBu;cHil5;aVeUhTiRoOuNéquilM;ib2;et,ni;bliDBeuv2l3piErM;dF1iM;en4;g6nMré;car6téres7;abCWonoIydra4éri4;mpa2rtA7spé2;bu7ffec4pprobaBArE7;aNiDToMég5;bé,uC;ci6ng6E;aTeRlPoNrM;aDPeCMim3;itraCOli,r4uM;il5rvu;aMoAJ;cé,iD;i0nMup5;aCJda0;rMs7;eCHte4S;aMuDJ;tu2;eOoNuM;ni;dé,n4raBT;ntMsu2;!iM;!el;aNiM;bé2cCPnq54ra0é;b2is7vé;ncH;aBEingD6ling9oPrOuNéM;né2;enC2i7;ad3os5A;nf5uMût3;li8GrA0tC;aQenPiNoMraîcC7u0éC5;n8Jrm3;c3Igu2niM;!t8;du,s8;iNvoM;ri7;lEt;aYeXhTiSla2oOrMulot4éCT;iMo9LépK;t,é;lOmpo7nNrASuM;pé,rag59su,ve21;cerCtrac4;le4o2;dé,s8;aOiMu;qMr3;ue4;r6us7î6;nt,va0;de0lé;aNorD5rMuC;aBBiCE;rq9ucH;bitBVc1rMve4;!ci;aco89es7oMu;g9it;du,le0mPn6rOté,uM;a4Yb5iMé;llAU;ma0s1é;inMp4;a2Iic1;a0Fcta0Dffér0Cg0Al08m07plôCCr06sPt,vM;erNiMor7K;n,sé;ge0t8S;cZgracJjoi0lYpWqual4LsStM;a0enQinOrM;aMib9;it,ya0;ctMg9;!if;du;iOolNéM;mi6;u,va0;de0mul26pé;aMer7o7ropor2Ju4;ru;oq9;iNoMrA8;nti63rC9;pli6;ect11ig41;ensB4in9;a4iM;ge0;eMit1;st8;e0é;toM;ri1;gMma4Q;on1;mRntQr3XsM;cOsa5tM;i6rM;uc8G;enBSript8;e5é;eu2i;ctylogra6Xlto6YmMnD;as7né;a3Me3Ih2Wi2Tl2Lo07rTuOyclNâlAéréMô46;a8Bbr1;opéF;baAiNltMrADta6;iAQurG;rNsMt,v2;a0i6;as7;aXiVoRuPéM;atNne5pM;iCu;eBif;!ciMel;al,fJ;cOisNq2Dt4uMya0;la0stAL;sa0é;hu;a5HminGstaM;llA;int8moi2JquM;a0e5;c1Ydé,gn72hé9Fi1Xl1Sm1Dn00opér9UquZrSsQté,uM;cHl4Jp3rNsu,tumiLveM;rt;bé,on6tMu;!aN;su,taM;ud;di1n45pPrMsé,t7CéF;eMi8Aos8;ctMsponAS;!eBio9Q;orNuM;le0;at8el;et,in;!c0Td0Rf0Kg0Hj0Gnu,quéIs05tTvMçu;aReNiMulsAB;vi1;nNrM;ge0ti;tMu;io9FuG;inc4Kl96;eTiRoQrM;aNit,ovM;er7;ctMi0ri3s4;uGé;ur6;gu,nM;e0Qge0uG;mpNnM;t,u;l8XoM;raA;ac2cVeTiSolQtOéM;cut8qM;ue0;a0ern3ituMru0T;a0t8Wé;aMi97;nt,teB;g6sC;nCrvM;a6Gé;ie0;oi0ug1;eNénM;it1;lé,sU;iPlicYond3SrM;aMon4;teM;rnG;a0dMné,r93sq9t;enM;tiG;am6iMuc63;ti9N;eOilNl0Ior9Er7CuM;pis87r7R;ia0;nt2pMr4;tuG;bZmVpMé6B;aTen7lSoPrNuls8éM;te0;es7i8QometCéheM;ns8;rteMs3;meM;nt1;aiDet,iq9;ct,r6Cs7t53;an89eNun1VémM;or7R;n75rM;ci1ça0;atCi6lé;lNoM;ni1ré,ss1;aNeMégi1;ct8;nt,t0X;!f45n3I;ardiLh5Hu;aQiPoNéM;me0r54;is8TuMît2;té,é;gnoCma45nqNqueC;irNndestAqMs7;ua0;!on34se80;nNrconspe8Gse5tMvil6B;adAé;gl3t2;aYeViToQréPuchoCâNéM;ri,t8;taA;ta0;tiF;cola4iNqu3r1uMyé;ca2I;si;a0ffMliFrurg4M;on6ré;nu,rNveM;lu;!c62;grAm1UnSpeau4rOs7to30uM;d,fMs7;fa0;bOgé,mNnM;el,u;a0eB;onU;ceEgMta0;ea0é;nOrM;né,tMv47;ifJ;d2sé,tr1;botAch04de03l02mYnne5outchou4pWrOsMtal5YuDva4B;aMq9s3till5X;niL;aRcQd7NesDiPmi6nNré,téM;siF;asMé;siL;ca3Et68;ér1;ctériMmé51;el,sé;itMt8;al,on6;bNpagMé;na1K;odMré;giF;ci6ifor2Eé;n1Xt;otMé;tiL;a14e10i0Sl0Mo07rVuUyzaTâRéNêM;c52ta;aOdouAga20nMt77;iMédictA;n,t;nt,t;cHtM;a16i;ntA;cc1ri6té;aUeTiSoPuMési1Oûl3;isDnNtMya0;!al;!i;cHdé,nzé,uMyé;illMteB;on,é;dé,lEnguebaEsa0;ss4Vt3Cve4;ilNnM;cHla0;la0S;i7mbZnXr6ssWt4uMvA;cUdTffSillRlQrMs4Lt6M;d0Eguign36rOsM;iLoM;uf5;u,é;evers3ot;a0i,on0W;a0eBi,on;eBi6;hé,lé;e5u;!dMna0F;isDé;ar5Bé;aPeNin5AoM;nd,q9t33;ss3t,uM;!i,té;fa08ncMsé;!hi5S;enQgPrm46sM;corNeM;xuG;nu;ar2;-ai59fNsMve52;éa0;aiD;auOdNlligéIrceBsMur2;ti1;on08;!cer2C;fo9gZlVnTptism1rRsQtMvaU;aNtM;a0u;ilM;leB;a6é;bMio5ré;a0e5ou3Iu;c1d3lieusaMni;rd;aOeinNlMza2L;a0on6;iLé;deBnY;arMué;reB;b4Rc42d3Pf3Bg32hu31i2Wj2Ul2Am21n1Cp12r0Qs0Ct00uWvOzu2érMî6;iFoMé;nav1por4;aRePiOoMé2;isiMr4ué;na0;l0Zné,sé;nMr1ZugE;a0tu2;c39nMrJ;cé;d0Sr20straOtMvergn3G;oMrichiF;colEma0Bri7;liF;héWroVtM;aTePiOrMén9;aMib9;ya0;ra0t2;i0nM;dNtiM;f,on6;r0Iu;b5cHr3O;phJ;niF;cYeWo0QpVsNtrM;al,ei0;assinSerRiQoMu2y1T;cJifOm1Yr1CuM;pi,rM;di43;fé;du,mi5s4é1L;vi;!é;hyxJir3;pMx9;ti7;en3Y;chitecWdVgentUméTq9rOtiMyF;cu5fiMsan1;ciG;aOiNoMê4;ga0n01sé;vé,é2;cHn28;hé;!niF;in,é;e0u;tur1;aiDeu2la0PpNérM;it8;a1XlSrOuNétM;isD;yé;oMê4;fonNprJu2Mxim28;ié;di;iq9;al,c08dal07g01imZkylo7nWoVtM;iOéM;diluviFrM;ieB;aé0RcOdéraNsoM;ci1;pa0;iNlérM;ic1;pé;dArm1;e5onciaNuM;el,lé;teB;aMé;liL;lo-NoiM;ss3;aNsaxM;on;méM;ri10;ou;esMiFré;tr1;aig0LbSer,iRorQpPuDéM;lio2riM;caAnM;diF;ou5u4;ti;!c1nci2D;iMré,uE;a0gu;a02c00eZgéXig6lRpAsaQtNvM;éo5;ernNiLé2;er;at8é;ciF;ePié,onOuNéM;cha0;mé,s8;gé;maM;nd;riF;en;r4xandrAz0B;alAooM;li7;ngNrM;ma0;ui;ouMus4;ré,té;gMlé,m3sé;rNuM;!i7;elMi;et;ri1J;aTenRi4oniDrePuM;erNicM;heB;ri;ss8;té;ouM;il5;ça0;fPghOriM;caA;in;an;aSeRilQliPol3rNéM;re0;ancMioE;hi;gea0;ié,é;ct0S;iMmé;bMré;li;dVhéTjaSmiQoOroKéM;quM;at;lMpt0L;esO;nistrMrM;at8;ce0;re0s8;if;itM;ioM;nnG;cWhRidu5tNé2;ré;iNuG;el;f,vé;lé;aNeM;vé;lMr6;anM;dé;abl3ent9identXoTrPuM;eMsé;ilE;la0;oMu;chMupi;eBé;ur;mNrt,utuM;mé;mo00pM;ag6li;el,é;ué;a02dom00erIjeXoVrRsNusM;if,é;e0oNtraK;it;lu,rb3;a0é;acadabIuM;pt,tiM;!sD;sa0;li,nM;da0;ct;ra0;nt;in1;al;is7ndNtM;tu;on6;né;sé",
     "FemaleName": "true¦0:FU;1:FY;2:FN;3:F9;4:F8;5:FO;6:EN;7:EL;8:EV;9:GB;A:G7;B:E1;C:G4;D:FK;E:FH;F:EC;aDZbD2cB5dAGe9Ef8Zg8Gh82i7Rj6Tk5Zl4Nm37n2So2Pp2Equ2Dr1Ns0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7DeHol1SvG;et7onB6;le0sen3;an8endBLhiB1iG;lInG;if39niGo0;e,f38;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9VenFX;da,l8Unus,rG;a,nGoniD0;a,iDA;leGnesE9;nDIrG;i1y;aSePhNiMoJrGu6y4;acG0iGu0E;c3na,sG;h9Lta;nHrG;a,i;i9Iya;a5IffaCFna,s5;al3eGomasi0;a,l8Fo6Xres1;g7To6WrHssG;!a,ie;eFi,ri9;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a05carlet2Ye04hUiSkye,oQtMuHyG;bFGlvi1;e,sHzG;an2Tet7ie,y;anGi9;!a,e,nG;aEe;aIeG;fGl3DphG;an2;cF5r6;f3nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBT;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;l5Yre0;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBLome;e,ie;in1ri0;a02eXhViToHuG;by,thBI;bQcPlOnNsHwe0xG;an92ie,y;aHeGie,lC;ann9ll1marBDtB;!lGnn1;iGyn;e,nG;a,d7V;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBWki;ea,iannDUoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;cAPkaE;chGe,i0mo0n5EquCAvDy0;aC9elGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAU;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaB8tHulG;a,et7in1;ricGsy,tA7;a,e,ia;ctav3deHfATlGphAT;a,ga,iv3;l3t7;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoAZk8AolG;a,eBE;!mh;l7Rna,risF;dIi5OnHo23taG;li1s5;cy,et7;eAiCL;a01ckenz2eViLoIrignayani,uriBDyG;a,rG;a,na,tAP;i4ll9VnG;a,iG;ca,ka,qB1;a,chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi9HlG;iGy;cent,e;red;!e6;ae6el3G;ag4JgKi,lHrG;edi60isFyl;an2iGliF;nGsAJ;a,da;!an,han;b08c9Cd06e,g04i03l01nZrKtJuHv6Qx86yGz2;a,bell,ra;de,rG;a,eD;h73il8t2;a,cSgOiJjor2l6Gn2s5tIyG;!aGbe5PjaAlou;m,n9P;a,ha,i0;!aIbAIeHja,lCna,sGt52;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri7;!t;!ry;et3IiB;elGi5Zy;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBDon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9PnGsAN;!a,e9O;a,sAL;aAYcJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi9na,rG;a6Yi9;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Jet7z2;a,et7;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8De;!n4E;b7Rerty;!n5P;aNda,e0iLla,nKoIslAOtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4L;cNdon7Qi6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5A;a,en,iGy;!e,n46;ri,urtn97;aMerLl96mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6NiJlInHrG;a,i,ri;d4na;ey,i,l9Ns2y;ra,s5;c8Ti5WlOma6nyakumari,rMss5KtJviByG;!e,lG;a,eG;e,i75;a5DeHhGi3NlCri0y;ar5Ber5Bie,leDr9Cy;!lyn70;a,en,iGl4Tyn;!ma,n30sF;ei6Zi,l2;a04eVilToMuG;anKdJliGst55;aHeGsF;!nAt0W;!n8U;i2Qy;a,iB;!anLcelCd5Uel6Yhan6GlJni,sHva0yG;a,ce;eGie;fi0lCph4W;eGie;en,n1;!a,e,n34;!i0ZlG;!i0Y;anLle0nIrHsG;i5Osi5O;i,ri;!a,el6Mif1QnG;a,et7iGy;!e,f1O;a,e6ZiHnG;a,e6YiG;e,n1;cLd1mi,nHqueliAsmin2Svie4yAzG;min9;a9eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6R;do4;!belGdo4;!a,e,l2E;en1i0ma;a,di4es,gr5O;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1M;ll2rten1G;aHdGlaH;a,egard;ry;ath0ViHlGnrietBrmiAst0V;en22ga;di;il72lKnJrGtt2yl72z6A;iGmo4Eri4F;etG;!te;aEnaE;ey,l2;aXeSiNlLold11rIwG;enGyne17;!dolC;acieHetGisel8;a,chD;!la;adys,enGor3yn1X;a,da,na;aJgi,lHna,ov6ZselG;a,e,le;da,liG;an;!n0;mYnIorgHrG;ald35i,m2Stru71;et7i0;a,eGna;s1Mvieve;briel3Fil,le,rnet,yle;aReOio0loMrG;anHe8iG;da,e8;!cG;esHiGoi0G;n1s3U;!ca;!rG;a,en42;lHrnG;!an8;ec3ic3;rHtiGy9;ma;ah,rah;d0FileDkBl00mUn48rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2H;geni1la,ni3Q;h50ta;meral8peranJtG;eHhGrel6;er;l2Pr;za;iGma,nest29yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;a,en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aVeKiJoGul2T;lor4Zminiq3Wn2ZrGtt2;a,eDis,la,othGthy;ea,y;an08naEonAx2;anObNde,eMiLlImetr3nGsir4S;a,iG;ce,se;a,iHla,orGphiA;es,is;a,l5H;d0Grd0G;!d4Lna;!b2CoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1XyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et7iG;!ca,el1Bka;arGia;is;a0Re0Nh05i03lUoJrHynG;di,th3;istGy05;al,i0;lOnLrHurG;tn1E;aId27iGn27riA;!nG;a,e,n1;!l1S;n2sG;tanGuelo;ce,za;eGleD;en,t7;aIeoHotG;il4A;!pat4;iKrIudG;et7iG;a,ne;a,e,iG;ce,sY;re;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;i9yl;a,y;nLrG;isJlHmG;aiA;a,eGot7;n1t7;!sa;d4el1NtG;al,el1M;cHlG;es7i3D;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2EsG;a2Die;a,iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Ci0C;a,e,l1;isBl2;tlG;in,yn;arb0BeXianWlVoTrG;andRePiIoHyG;an0nn;nwCok9;an2LdgKg0GtG;n25tG;!aHnG;ey,i,y;ny;etG;!t9;an0e,nG;da,na;i9y;bbi9nG;iBn2;anGossom,ythe;ca;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Yy9;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et7iA;!triG;ce,z;a4ie,ra;aliy28b23d1Kg1Gi18l0Rm0Mn00rVsMthe0uIva,yG;anGes5;a,na;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi9yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t7;an19elG;le;aYdWeUgQiOja,nHtoGya;inet7n3;!aJeHiGmI;e,ka;!mGt7;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t7;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,ta,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i9y;!e;il;ah",
     "Month": "true¦a6déc4févr3j1ma0nov4octo5sept4;i,rs;anv1ui0;llet,n;ier;em0;bre;out,vril",
     "Country": "true¦0:3I;1:2Q;a31b2Hc25d21e1Tf1Ng1Ch1Ai13j10k0Yl0Tm0Fn04om3MpZqat1KrXsKtCu6v4wal3yemTz2;a28imbabwe;es,lis and futu33;a2enezue38ietnam;nuatu,tican city;.5gTkrai3Cnited 3ruXs2zbeE;a,sr;arab emirat0Jkingdom,states2;! of amer31;k.,s.2; 2Ba.;a7haBimor-les0Ao6rinidad4u2;nis0rk2valu;ey,me37s and caic1X; and 2-2;toba1N;go,kel0Znga;iw35ji2nz31;ki33;aCcotl1eBi8lov7o5pa2Gri lanka,u4w2yr0;az2ed9itzerl1;il1;d30isse,riname;lomon1Zmal0uth 2;afr2LkKsud2Y;ak0en0;erra leo2Rn2;gapo2Lt maart2;en;negJrb0ychellX;int 2moa,n marino,udi arab0;hele2Aluc0mart24;epublic of ir0Dom2Mussi27w2;an2B;a3eGhilippinSitcairn1Oo2uerto riL;l1rtugD;ki2Ll3nama,pua new0Xra2;gu5;au,esti2F;aAe8i6or2;folk1Mth3w2;ay; k2ern mariana1G;or0R;caragua,ger2ue;!ia;p2ther1Dw zeal1;al;mib0u2;ru;a6exi5icro0Co2yanm06;ldova,n2roc4zamb9;a3gol0t2;enegro,serrat;co;c9dagasc01l6r4urit3yot2;te;an0i1A;shall10tin2;iq1R;a3div2i,ta;es;wi,ys0;ao,ed05;a5e4i2uxembourg;b2echtenste16thu1P;er0ya;ban0Lsotho;os,tv0;azakh1Oe2iriba07osovo,uwait,yrgyz1O;eling0Onya;a2erH;ma19p2;an,on;c7nd6r4s3tal2vory coast;ie,y;le of m1Irael;a2el1;n,q;ia,oJ;el1;aiVon2ungary;dur0Qg kong;aBeAha0Uibralt9re7u2;a5ern4inea2ya0T;!-biss2;au;sey;deloupe,m,tema0V;e2na0R;ce,nl1;ar;orgie,rmany;bVmb0;a6i5r2;ance,ench 2;guia0Hpoly2;nes0;ji,nl1;lklandVroeV;ast tim8cu7gypt,l salv7ngl1quatorial5ritr6s3t2;ats unis,hiop0;p0Mt2;on0; guin2;ea;ad2;or;enmark,jibou4ominica3r con2;go;!n B;ti;aAentral african 9h7o4roat0u3yprRzech2; 8ia;ba,racao;c3lo2morQngo-brazzaville,okFsta r02te d'ivoi05;mb0;osD;i2ristmasG;le,nS;republic;m2naVpe verde,yman9;bod0ero2;on;aGeChut06o9r4u2;lgar0r2;kina faso,ma,undi;az5etXitish 2unei,és5;virgin2; is2;lands;il;liv0naiOsnia and herzegoviHtswaHuvet2; isl1;and;l2n8rmuH;ar3gi2ize;qLum;us;h3ngladesh,rbad2;os;am3ra2;in;as;fghaKlFmeriDn6r4ustr2zerbaijM;ali2ia;a,e;genti2men0uba;na;dorra,g5t2;arct3igua and barbu2;da;ica;leter3o2uil2;la;re;ca,q2;ue;b4ger0lem2;ag2;ne;an0;ia;ni2;st2;an",
     "Region": "true¦a20b1Sc1Id1Des1Cf19g13h10i0Xj0Vk0Tl0Qm0FnZoXpSqPrMsDtAut9v5w2y0zacatec22;o05u0;cat18kZ;a0est vir4isconsin,yomi14;rwick1Qshington0;! dc;er2i0;ctor1Sr0;gin1R;acruz,mont;ah,tar pradesh;a1e0laxca1Cusca9;nnessee,x1Q;bas0Jmaulip1PsmI;a5i3o1taf0Nu0ylh12;ffUrrZs0X;me0Zno19uth 0;cRdQ;ber1Hc0naloa;hu0Rily;n1skatchew0Qxo0;ny; luis potosi,ta catari1H;a0hode6;j0ngp01;asth0Lshahi;inghai,u0;e0intana roo;bec,ensVreta0D;ara3e1rince edward0; isT;i,nnsylv0rnambu01;an13;!na;axa0Mdisha,h0klaho1Antar0reg3x03;io;ayarit,eAo2u0;evo le0nav0K;on;r0tt0Qva scot0W;f5mandy,th0; 0ampton0P;c2d1yo0;rk0N;ako0X;aroli0U;olk;bras0Wva00w0; 1foundland0;! and labrador;brunswick,hamp0Gjers0mexiIyork state;ey;a5i1o0;nta0Mrelos;ch2dlanAn1ss0;issippi,ouri;as geraFneso0L;igPoacP;dhya,harasht03ine,ni2r0ssachusetts;anhao,y0;land;p0toba;ur;anca03e0incoln03ouis7;e0iG;ds;a0entucky,hul09;ns07rnata0Cshmir;alis0iangxi;co;daho,llino1nd0owa;ia04;is;a1ert0idalDun9;fordS;mpRwaii;ansu,eorgVlou4u0;an1erre0izhou,jarat;ro;ajuato,gdo0;ng;cesterL;lori1uji0;an;da;sex;e3o1uran0;go;rs0;et;lawaDrbyC;a7ea6hi5o0umbrG;ahui3l2nnectic1rsi0ventry;ca;ut;iLorado;la;apDhuahua;ra;l7m0;bridge2peche;a4r3uck0;ingham0;shi0;re;emen,itish columb2;h1ja cal0sque,var1;iforn0;ia;guascalientes,l3r0;izo1kans0;as;na;a1ber0;ta;ba1s0;ka;ma",
     "Honorific": "true¦aPbrigadiOcHdGexcellency,fiBjudge,king,liDmaAofficOp6queen,r3s0taoiseach,vice5;e0ultK;c0rgeaC;ond liAretary;abbi,e0;ar0verend; adK;astGr0;eside6i0ofessF;me ministFnce0;!ss;gistrate,r4yC;eld mar3rst l0;ady,i0;eutena0;nt;shB;oct6utchess;aptain,hance4o0;lonel,ngress1un0;ci2t;m0wom0;an;ll0;or;er;d0yatullah;mir0;al",
-    "Infinitive": "true¦0:MV;1:MR;2:MF;3:MM;4:K8;5:JJ;6:MN;7:MU;8:L9;9:LI;A:MT;B:M2;C:JS;D:LM;E:EI;F:MI;aJFbIEcFQdD4eBHfAHgA2h9Ti94j8ZkidnaLTl8Nm80n7To7Ip64qu62r2Os1Nt0Pu0Nv0BéGêt2ôt0;b06cYdu4ga3jeJ2lWmouKVnVpQquOtKvG;aIeHit0oG;lu0qu0;i9nt83;cu0lu0n2W;aIeALoGr2Ou47;nn0uG;ff0rd1;bl1l0;aLHiG;p0vaB3;aIel0iHlu5oGroMNu8;ng0us0;er,ngl0;iDQn2MrG;gn0pi9;e7BumB;aGev0imCoiM7;bo3gu0rg1;arMhJlHoGras0;nom8p0r5ut0;aGips0o2;irBYt0;aHoG;ir,u0;ng0pp0uI9;qL5t0;aHl29rG;uEé5;h1uG;b1d1;aPeMiJoHromb1éGêt1;g8JnBriK9;iGl0m1t0uAGyDM;l0r;d0eiLJol0re6sGv2;er,iG;oAt0;i9nHrGx0;d1n1roKSs0;g0ir;g1inc2lGnt0;o1s0;i2n1rGs0tEN;g0in0;a08e04i01oYrKuJâIéG;léGt0;chaDCg5Sphon0;ch0t0;er,tJG;aMeKiIoGu4ébu5;mp0ttGuv0;er,in0;cGmbal0n4omph0;h0ot0;mGssaiKZ;bl0p0;cLfi4h1it0nIqu0vGînL;ai9eG;rs0st1;ch0sG;fGg7Lir,poFD;o7Rè2ér0;a7er;lBmb0p0rHuG;ch0rn0ss0;ch0tu3;rHsGtub0éd1;s0t2;ai9e6;mpHOnEKrGst0;giveDDmCn1rG;er,iG;fi0r;bJch0iIpHrGss0;d0ir,t1;er,ir,ot0;ll0re;a7l0;a09c08e06hoFMi03oWtTuIyHéG;ch0jouJ5pa3v1;mpath8nchron8;bPccOer,ffNggBiMpKrGspeGS;enchEEf0g1ir,moJOpa7sIvG;eGol0;i9n1;aJ6eo1;erv8pG;li0oEMr95;c6Bv2;i2o4;o9Véd0;ir,stiE2ve6S;aHimGMoGupéf8B;ck0pp0;bD7tHV;iK0ll7UmLnKrt1uGûl0;ci0d2ffIhaElHpGrd2s-est8WtFvF;er,i3çoA;ag0ev0iJX;l0r1;d0g0n0;b3m0;gnHlFNmGrEYtu0ég0;pI8ul0;al0er;cou37mGnt1o1rCOvr0;bl0er;aAe9rIK;bLcKiJlInctHHoG6uHvoG;ir,u3;poud3rFRt0v0;er,ir,u0;gn0ll1s1;cBDriHZ;ot0re6;a24e07hA7i06o04u03éHêv0ôG;d0t1;a00cXdCYeVfUgTinRjQpNquisitH8sKtIuHvG;ei9is0oD9él0;n1ss1;aIRrG;éc1;e4CiHoud2uG;lt0m0;d0gn0st0;aGroJGuJ6ét0;nd2rG;e6t1;ou1;sta9tGvest1;èg2égr0;al0ir,l0n0;léDugi0;nvah1ss9CxG;amCpé0L;apitFFhaHit0lIYoGupB;lt0m1Inci49;pp0uF4;g1l8n7Qp8Bs9O;g1in0;id1s1uG;g1ir,l0s49vr1;gEPm0poHKre,s4;-1Bb1Ac10d0Tf0Rg0Mj0Ll0Jm0Bn07p00quCPreZsQtLvG;a7CeHoGêt1;ir,m1u7B;nHrG;d1n1;di4ir;aEZenJi3oIrG;aGoIR;c0n5;mb0uH4;ir,t1;al1erv1pNsHtGurg1;au3iCA;aKeIoHuG;rg1scE;rt1uvF;mFOnt1rG;re6v1;is1ss0;eEJi3leG0;m8Xs8Z;aKeGClJoIrHè2éG;r0tr1;o5éseHC;rt0s0u7;ac0i0;rGss0ît2;coGXl0t1;aBZcIdo12foAEi0oHseiHWt3vGâ7Y;eAJoy0;nc0uvBY;hBUont3;aLbKerDKis0oJpHu0éG;di0;lGoFM;ac0ir;nt0r4;ouABr1C;iG9rG;i0qu0;aGev0â5;nc0x0y0;aiHCet0ou0;aIrG;eH4imp0oG;ss1up0;gn0rG;d0n1;e45leGCo45rGus0;anDoid1;eKiffus0oIre7éG;couFBf0ZmG;ar3ol1;nn0rm1uG;bl0t0;maEXvG;en1o1;eFAhNlu2oIrHtiFKuG;eiGWl0;oB4ut0ép1;mInHuG;p0r1vr1;quAZve7U;mGpt0;aEOeF8;aGer5;mp1rg0;lanDoEOrou7ât1;pe1Q;bo03cYdouc1fWgaillaH7iVjUlSmQnPpNqu0sKtIvGy0;al0iGo1;r,tC2;er,i7tG;a5rap0;er,sG;eGir,o7Hu3;mE0o1;eti7iéc0oiESpG;el0oEEro5;c1g0im0;a7eGoGAp0;n0r,ut0;eENlG;i0um0;e01oF8;d1re,soA;feGr7V;rm1;cHkeFWoG;nt0rn1;oGro5;mGu1D;mG5paG4;nn1uEQ;adri9eGiFQér1;re9stDV;a0Me0Ghotog0Fi0Dl08o03rKuJâIéGê5;nAZr1tG;er,r1;l1t1;b1Ais0lvér8n1riED;ati4eWiVoOéGêt0ôn0;cLdéfKfBlev0mJoccup0pa3sHvGétaFA;a4Ien1o1;eGid0um0;nt0rv0;un1;in1;iGonDUéd0;pEs0;cLfKgrJj47loEDmInoDYp52steEBtHuv0vG;en1o4;eEFég0;en0ouDQ;amm0e7;e7it0è2ér0;lFIu3éd0;er,s0v0;nd2sseG;nt1r;inJl1mp0rt0sIuG;rGss0vo1;cha7r1vo1;er,séd0t0;d2t0;aHeuGi0oDY;re6vo1;c0iHnG;er,iDLqu0t0;d0re,saEE;g0ll0nc0queGss0étC;-ni4r;raphi0;iKlA4nJrGs0;ceHfo3mett2sGve5U;iDSonnAEuBJévB;r,vo1;ch0s0;gn0n0;ct8lp0nLrIss0tGv9Zy0ît2;aug0iGroDZ;eE2n0;achDMcoDQdoAf2Yi0l0tGvF;ag0iG;cCYr;i4s0;bMccLe0HffJi1Pmp2pIrHs0uGy0;bZrd1vr1ïr;doAgan8;p3Zè2ér0;eGiAAr1;ns0;i2up0;jeATl7ZsHteGé1;mpBn1;cuLeGtC;rv0;aLeKi8UoHégG;l7UoA2;iHmm0n-saCGtGuDBy0;er,iCP;rc1;ig0ttCBu9M;g0nt1r6Zvi6Zît2;aUeQiOoJuHâ5éGêl0ûr1;dEfi0laCUpr8rEtamorph3J;g1ltipGn1rmu3;li0;b76diCHiJll1ntIqu0uG;ch0d2fGi9r1vo1;et0t0;er,re6;s1t1;j90nGs0;c1im8;nHsGtt2urtr1;seo1u3;ac0di0er,tiG;oAr;gn0iMnJqCWrHsGt9Vudi2îtr8;sac3ti4;chGi0qu0re6;aBEer;g0iHoeGqu0;uv3;feCEpA2;gr1ntF;aOeNiKoIuHyn5â5éG;ch0gu0;i2tt0;c8Vg0ng0t1uG;ch0er;bBer,g8HmHquGre,ss0v3;id0;er,it0;ur3v0;i7mHnGr62ss0v0;c0gu1;bCeCH;aJeIoHuG;g0re6;i06u99;t0ûn0;ct0iCVun1;dentiBHe03gno3mXnHrrEsG;ol0s1;cTdi4fQiti0oAQquiPsNtJvG;eGit0o4;nt0rGst1;s0t1;erHéG;re7;ag1ceCVfBrog0veG;n1rt1;iBLpGta9u6Mè2ér0;e93i3;ét0;ilt3lHoG;rm0;ig0éD;aB9lGo2Aulp0;in0u2;agCit0mKpG;a3DlIoHrG;im0ov8;rt3Ss0;aBPi4o3;e4Cob5J;nd2;aLeKi7oIuHypothé4ât0éG;be49rEsE;ir,m0rl0;ch0nG;n1o3;nn1uA2;biGllucCrc69u7ïr;ll0tG;er,u0;aRel0lPoOrIuHâ5è2éGên0;m1nér7Ir0s1;eBOid0ér1;aKiIoG;ss1uG;i9p0;ll0mGnD;ac0p0;nd1tt0v80;b0rg0uveAIût0;aGi7oriA9;c0nd0p1;gHlop0mbe3PrGspi9uDv0z0;a9Yd0e6n1;er,n0;a0Ae07i04lZoQrJuIâ5éGêt0;lGr1;icE;ir,m0si9;aKeJi4ToHéGôl0;m1queAT;iGtt0;d1ss0;doAin0;nDpp0teGy0îD;rn8;c6TnMrIuG;eAZi79l0rGt2;b1n1re6;cIfHmGti9Q;e0Dul0;ai2;er,ir,lo2;cGd0;er,t8Y;aJeA3iIoHéG;ch1tr1;r1tt0;n3Urt0;mb0n4tt0;a9Ach0gu3lHnGx0;a99ir;er,m0;rHst90uillG;et0;m0re6t3Z;bri4cJiIlHn0rc1ti3MuGx0;f94ss0;lo1;bl1ll1re;ilEtu3;ff10m0RnXrr0sQxG;aOcNe34hib0iMorc8pHtGéc9I;a8ZermCrap6L;i3lIo4YrHu4XéG;di0ri7I;im0;i4oG;it0re6s0;g0st0;it0us0;gBmCuc0;ba8BcKpJsItG;imeGourb1;nt,r;ay0uy0;ac0ioAè2ér0;al6ToG;mA9rt0;c03d00fXgWhaALiv3jaVlTnSorguei9Zqu46rRsPtIvG;ah1elo98i0NoG;l0y0;aLer3ou3rGêt0;aIeGou83;pGr,tFvo1;os0;id0pGîn0;er83;m0ss0;eGuiv2;i9Uvel1;eg9DiDôl0;o98uy0;aGev0;c0id1;mb0;ag0end3lo16ouA4rai7ue67;erHil0oGu1;nc0u1;m0re6;oHurG;c1e6;lor1mm1Drm1;aKerJhHlo2ourG;ag0ir;aGér1;nt0în0;cl0;d3i7;bLmJpG;a3il0lHoGru8Lua7Jê5;i99rt0;ir,oy0;eGén12;n0rd0;aGe8Zo0Nra7;ll0r1Bt2uG;ch0m0;ac0ec30o1KrG;ay0;a20e1Vi1Go1Cr1Au19ynamEéGîn0;amb5Ib11c0Pd0Nf0Jg0Dj0Bl09m06n05pYrWsOtKvG;eIiHoGêt1;il0re6;er,s0R;lo7Zrn1;aIeGou7J;ct0n1rGst0;mCre6;ch0i9;aKeIhHiGobé1un1épai06;gn0re6;abi9;mGng92spB;pl1;ct87mo13sGvou0;soG;rt1;a79iv0oG;b0ul0;aLeKlIoGér1ê5;l1s0uG;i9r6L;ac0oG;re6y0;c0ns0;nn0rt1ss0;a6Ii5o6L;aHe6HoGun1én03;l1nt3;nt2Ar3s4;e4JiGog0é0Z;mEv3;eGou0;un0;aKlJoIroHuG;erp1is0st0;ss1;mm0u8E;ut1;g0rn1uD;ai7PiIle6VoHrG;aîD;nc0ul0;er,l0n1;i0oG;mmLu56;aQePhMid0lLoIrG;o5éG;p1t0;d0ll0nne40uG;p0rGvr1;ag0;a3en5in0o2;aHiGo1;ff3re6;rg0;rn0vo1;mp0pEt1;aJouIrHuG;s4t0;an5o6I;c3Hl0;ll0rG;qu0ra7;it0;p0rc1;aGe7;gu0mat8;mCnn0rIuG;bl0cGt0;h0ir;l25m1;aloTct0ffSrRsJvG;erHis0oGulS;rc0;g0t1;cKpIsHtG;a56inOri3X;im3Cé4;eGos0ut0;rs0;oGut0;nGur1;ti3PvF;e,ig0;us0è2ér0;gu0;mJssHvG;a4Ven1in0o1;aXerGin0;re6t1v1;a48eu3;i6Fns0;a1We1Sh1Di19l15oUrLuIéG;d0lG;èb2ébr0;ei65isClG;pabGt5W;il8;aLeKiJoHéG;er,p1;iGqu0up1ît2;re,s0;er,re,ti4;us0v0;ch0mG;oGpoA;is1;exi4Uff3gn0i4Bl0Mm0AnLoKrrJt1uGût0;ch0d2l0p0rGvr1;bGir;atur0er;ig0;pBr6C;c02damn0fYgXnVquUsOtJvG;eGi0o4;n1rG;g0s0t1;a23eIi2Qou4ErG;aGevFi2Rôl0;ct0ri0;mpl0nGr,st0;ir,t0;ac3eKidBoJtHuG;lt0;at0iG;tu0;l0mm0;i9nt1rv0;ér1;aGe1R;ît2;el0;eIiGro4L;er,rGs4;e,m0;ct31ss0;eGo46éd0;nt3rt0vo1;bQmMpG;aJlIoHt0uG;ls0;rt0s0;i4ot0ét0;rGt1;e6o1;a2PeHuniG;er,qu0;nGrc0;c0t0;in0l0;lGmat0on8;abo3eG;ctGr;er,ioA;aHi4OoGu2;re,u0ît2;meGp1qu0ss0;c0r;bl0rGt0;cGe6;onGul0;ci2vF;aPeNiKoHronomGuchLér1;èt2étr0;iHpGqu0;er,p0;r,s1;cHpG;ot0;an0;r5vG;au5ir;lo1mJnIrHss0to3DuG;ff0v1;g0ri0;c1g0t0;ai9;nHrGss0;n0ti2H;trG;al8;ch0lLmKnJpHre7sGus0;s0tr0;it0EtG;er,u3;al8d1toA;briSp0;c0AmXt0;a05e04ienvFlZoTrLut0âJéGû5;er,nG;ir,éfiG;ci0;cl0ilGt1;loA;aLiJoHuGûl0;i2n1s4;n5uiG;ll0r;cGdg0ll0s0;ol0;i2nGss0v0;ch0d1;i2mbaTnKrn0ss0tt0uGx0;cId0ffHg0i35m0r3sG;cTi9;er,ir;h0l0;d1ir,n1;aJeIoHuGâm0êm1;ff0;nd1qu0tt1;ss0tt1u1;gu0nD;ct0;digeoAgar3iOlaNnn1pt8rrKsItt2vG;aGer;rd0;cGer;ul0;e6iG;cGr;ad0;nc0y0;gn0sG;er,s0;b2Vc2Ad26ff1Yg1Qh1Pi1Mj1Jl1Dm14n0Xp0Dr09sWttPuMvGè2ér0;aKeIiHoG;ir,rt0u0;l1s0;ntu3rt1uG;gl0l1;ch1l0nc0;gHtG;or8;me1R;aLeKiJrHéG;nu0;ap0iG;bu0;re6s0éd1;l0n0Urr1;ch0qu0rd0;pi3sGti4;aOeMi12oIuHé5;ch0;jett1m0re6;ci0ir,mIrt1uG;pGrd1v1;ir,l1;br1m0;mGo1rv1;bl0;g1iHssCvo1;in0;ll1n1;bo3ch1Hm0pe16rG;aHiv0oGêt0;nd1s0;ch0ng0;a8erXitWlaVpGâl1;aReQlNoMrGuy0ât0;ivo8oIéGêt0;ci0heG;nd0;ch0foHuv0visG;ioA;nd1;rt0;aHi4;qu0;ud1;l0saO;rHuG;vr1;ei9o1tF;n1t1;oy0;ceG;vo1;alys0esthéLnIo0NticHéaG;nt1;ip0;ihHoGul0;nc0;il0;si0;aMeLinc1oIpGus0élio3;liG;fi0;ch1inHll1rG;c0t1;dr1;n0rr1;iGss0t1;gr1;angu1eKiJlHou17teGun1;rn0;er,oGum0;ng0;gn0meY;nt1rt0;oHuG;st0;ut0;d0gGm0nd2;r1u8;is0;ur1;enoLgrav0iKon1rHueG;rr1;aHe7iGé0;pp0;f0nd1;r,t0;ui9;ll0;aLeKiJol0rG;anDoGét0;nt0;ch1;ch0rm0;ct0rm1;d1iGl0;bl1;a01ir0miHoGre7vF;nn0pt0re6uc1;nGre6;ist3;ariât2cKheJquHtG;iv0;iGér1;tt0;t0v0;aTeSlRoLroKuIéG;d0lB;è2ér0;eiGs0;ll1;ch0i2up1ît2;mHrd0st0urG;c1ir;mIpG;aGl1;gn0;od0;am0;pt0;bl0lm1;re;aNju3oKrIsGus0âtaPêt1îm0;orb0tF;en1;eGit0ut1ég0;uv0;l1rd0ut1;re6;!r;i7nJsG;ouG;rd1;ir;doA;nn0;ss0;er",
+    "Infinitive": "true¦0:N1;1:MX;2:MM;3:KD;4:JO;5:N0;6:LF;7:LO;8:MZ;9:M9;A:JX;B:LS;C:EK;D:MP;E:MB;F:LR;aJKbIIcFSdD6eBHfAHgA2h9Ti94j8ZkidnaLZl8Nm81n7Uo7Jp64qu62r2Os1Nt0Pu0Nv0BéGêt2ôt0;b06cYdu3g6DjeJ6lWmouL0nVpQquOtKvG;aIeHit0oG;lu0qu0;i7nt84;cu0lu0n2W;aIeALoGr2Ou47;nn0uG;ff0rd1;bl1l0;aLNiG;p0vaB3;aIel0iHlu4oGroMUu6;ng0us0;er,ngl0;iDSn2MrG;gn0pi7;e7Cum9;aGev0imAoiME;bKRgu0rg1;arMhJlHoGras0;nom6p0r4ut0;aGips0o2;irC0t0;aHoG;ir,u0;ng0pp0uID;qLBt0;aHl29rG;uCé4;h1uG;b1d1;aPeMiJoHromb1éGêt1;g8Jn9riKF;iGl0m1t0uAGyDO;l0r;d0eiEol0r0sGv2;er,iG;o8t0;i7nHrGx0;d1n1roKYs0;g0ir;g1inc2lGnt0;o1s0;i2n1rGs0tEP;g0in0;a08e04i01oYrKuJâIéG;léGt0;chaDEg5Tphon0;ch0t0;er,tJL;aMeKiIoGu3ébu4;mp0ttGuv0;er,in0;cGmbal0n3omph0;h0ot0;mGssaiE;bl0p0;cLfi3h1it0nIqu0vGînL;ai7eG;rs0st1;ch0sG;fGg7Lir,poFG;o7Rè2ér0;a5er;l9mb0p0rHuG;ch0rn0ss0;ch0tLD;rHsGtub0éd1;s0t2;ai7er;mpHTnEMrGst0;giveDFmAn1rG;er,iG;fi0r;bJch0iIpHrGss0;d0ir,t1;er,ir,ot0;ll0re;a5l0;a09c08e06hoFQi03oWtTuIyHéG;ch0jouJBp45v1;mpath6nchron6;bPccOer,ffNgg9iMpKrGspeGW;enchEHf0g1ir,moFpa5sIvG;eGol0;i7n1;aJCeo1;erv6pG;li0oEPr95;c6Bv2;i2o3;o9Véd0;ir,stiE4ve6S;aHimGQoGupéf8B;ck0pp0;bD9tI0;iK7ll7UmLnKrt1uGûl0;ci0d2ffIhaClHpGrd2s-est8WtDvD;er,ir0ço8;ag0ev0iK4;l0r1;d0g0n0;br0m0;gnHlFRmGrF2tu0ég0;pIEul0;al0er;cou37mGnt1o1rCQvr0;bl0er;a8e7rIQ;bLcKiJlInctHMoGAuHvoG;ir,ur0;pou9ErFVt0v0;er,ir,u0;gn0ll1s1;cBFriI5;ot0r0;a24e07hA9i06o04u03éHêv0ôG;d0t1;a00cXdD0eVfUgTinRjQpNquisitHDsKtIuHvG;ei7is0oDBél0;n1ss1;aIXrG;éc1;e4DiHoud2uG;lt0m0;d0gn0st0;aGroJNuJDét0;nd2rG;er,t1;ou1;sta7tGvest1;èg2égr0;al0ir,l0n0;léBugi0;nvah1ss9ExG;amApé0L;apitFJhaHit0lJ5oGup9;lt0m1Inci4A;pp0uF8;g1l6n7Qp8Bs9Q;g1in0;id1s1uG;g1ir,l0s4Avr1;gETm0poHQre,s3;-1Bb1Ac10d0Tf0Rg0Mj0Ll0Jm0Bn07p00quCSreZsQtLvG;a7CeHoGêt1;ir,m1u7B;nHrG;d1n1;di3ir;aF3enJir0oIrG;aGoIY;c0n4;mb0uHA;ir,t1;al1erv1pNsHtGurg1;aIViCC;aKeIoHuG;rg1scC;rt1uvD;mFTnt1rG;r0v1;is1ss0;eENir0leG5;m8Zs91;aKeGHlJoIrHè2éG;r0tr1;o4éseF;rt0s0u5;ac0i0;rGss0ît2;coH3l0t1;aC2cIdo12foAGi0oHseiI3tr0vGâ80;eALoy0;nc0uvC1;hBXonHK;aLbKerDOis0oJpHu0éG;di0;lGoFR;ac0ir;nt0r3;ouADr1D;iGFrG;i0qu0;aGev0â4;nc0x0y0;aiEet0ou0;aIrG;eHBimp0oG;ss1up0;gn0rG;d0n1;e45leGIo45rGus0;anBoid1;eKiffus0oIre5éG;couFGf10mG;aE2ol1;nn0rm1uG;bl0t0;maF2vG;en1o1;eFFhNlu2oIrHtiFQuG;eiEl0;oB7ut0ép1;mInHuG;p0r1vr1;quB2ve7W;mGpt0;aETeFD;aGer4;mp1rg0;lanBoETrou5ât1;pe1R;bo03cYdouc1fWgaillaHDiVjUlSmQnPpNqu0sKtIvGy0;al0iGo1;r,tC6;er,i5tG;a4rap0;er,sG;eGir,o7Jur0;mE5o1;eti5iéc0oiEXpG;el0oEJro4;c1g0im0;a5eGoEp0;n0r,ut0;eESlG;i0um0;e02oFE;d1re,so8;feGr7X;rm1;cHkeG3oG;nt0rn1;oGro4;mGu1E;mGCpaGB;nn1uEW;adri7eGiFXér1;re7stE0;a0Ne0Hhotog0Gi0El09o04rKuJâIéGê4;nB3r1tG;er,r1;l1t1;b1Bis0lvér6n1riEJ;ati3eXiWoPéGêt0ôn0;cMdéfLf9lev0mKoccup0pJsHvGétaFG;a4Ien1o1;eGid0um0;nt0rv0;ar0;un1;in1;iGonDYéd0;pCs0;cLfKgrJj46loEImInoE2p51steEGtHuv0vG;en1o3;eEKég0;en0ouDU;amm0e5;e5it0è2ér0;lFOur0éd0;er,s0v0;nd2sseG;nt1r;inJl1mp0rt0sIuG;rGss0vo1;cha5r1vo1;er,séd0t0;d2t0;aHeuGi0oE3;r0vo1;c0iHnG;er,iDQqu0t0;d0re,saF;g0ll0nc0queGss0étA;-ni3r;raphi0;iKlA7nJrGs0;ceHfDImett2sGve5V;iDXonnAHuBMév9;r,vo1;ch0s0;gn0n0;ct6lp0nLrIss0tGvA2y0ît2;aug0iGroE4;eFn0;achDRcoDVdo8f2Xi0l0tGvD;ag0iG;cD2r;i3s0;bMccLeu4CffJi1Omp2pIrHs0uGy0;bZrd1vr1ïr;do8gan6;p3Yè2ér0;eGiADr1;ns0;i2up0;jeAWl80sHteGé1;mp9n1;cuLeGtA;rv0;aLeKi8WoHégG;l7VoA5;iHmm0n-saCKtGuDGy0;er,iCU;rc1;ig0ttCFu9P;g0nt1r70vi70ît2;aUeQiOoJuHâ4éGêl0ûr1;dCfi0laCZpr6rCtamorph3I;g1ltipGn1rmEK;li0;b77diCMiJll1ntIqu0uG;ch0d2fGi7r1vo1;et0t0;er,r0;s1t1;j93nGs0;c1im6;nHsGtt2urtr1;seo1ur0;ac0di0er,tiG;o8r;gn0iLnJqD1rHsGt9Yudi2îtr6;sa7Qti3;chGi0qu0r0;aBIer;g0iGoeu3Bqu0;feCKpA6;gr1ntD;aOeNiKoIuHyn4â4éG;ch0gu0;i2tt0;c8Zg0ng0t1uG;ch0er;b9er,g8LmHquGre,ss0vr0;id0;er,it0;uA3v0;i5mHnGr64ss0v0;c0gu1;bAeF;aJeIoHuG;g0r0;i06u9D;t0ûn0;ct0iEun1;dentiBNe03gnBLmXnHrrCsG;ol0s1;cTdi3fQiti0oAVquiPsNtJvG;eGit0o3;nt0rGst1;s0t1;erHéG;re5;ag1ceD2f9rog0veG;n1rt1;iBRpGta7u6Oè2ér0;e97ir0;ét0;ilCElHoG;rm0;ig0éB;aBFlGo2Aulp0;in0u2;agAit0mKpG;a3FlIoHrG;im0ov6;rt3Us0;aFi3or0;e4Eob5L;nd2;aLeKi5oIuHypothé3ât0éG;be4BrCsC;ir,m0rl0;ch0nG;n1or0;nn1uA7;biGllucArc6Cu5ïr;ll0tG;er,u0;aRel0lPoOrIuHâ4è2éGên0;m1nér7Mr0s1;eBVid0ér1;aKiIoG;ss1uG;i7p0;ll0mGnB;ac0p0;nd1tt0v84;b0rg0uveAOût0;aGi5oriAF;c0nd0p1;gHlop0mbe3RrGspi7uBv0z0;aA3d0er,n1;er,n0;a0Ae07i04lZoQrJuIâ4éGêt0;lGr1;icC;ir,m0si7;aKeJi4VoHéGôl0;m1queF;iGtt0;d1ss0;do8in0;nBpp0teGy0îB;rn6;c6XnMrIuG;eB6i7Dl0rGt2;b1n1r0;cIfHmGti9W;e0Dul0;ai2;er,ir,lo2;cGd0;er,t93;aJeA9iIoHéG;ch1tr1;r1tt0;n3Wrt0;mb0n3tt0;a9Fch0gBHlHnGx0;a9Eir;er,m0;rHst95uillG;et0;m0r0t41;bri3cJiIlHn0rc1ti3OuGx0;f99ss0;lo1;bl1ll1re;ilCtB7;ff12m0TnXrr0sQxG;aOcNe36hib0iMorc6pHtGéc9O;a94ermArap6P;ir0lIo51rHu50éG;di0ri7N;im0;i3oG;it0r0s0;g0st0;it0us0;g9mAuc0;ba8GcKpJsItG;imeGourb1;nt,r;ay0uy0;ac0io8è2ér0;al6XoG;mAGrt0;c05d02fZgXhaARiWjaVlTnSorgueiEqu49rRsPtIvG;ah1elo9Ei0PoG;l0y0;aLe6WoALrGêt0;aIeGou88;pGr,tDvo1;os0;id0pGîn0;er88;m0ss0;eGuiv2;iA1vel1;eg9JiBôl0;o9Euy0;aGev0;c0id1;mb0;vr0;ag0enGlo17ouA9rai5ue6A;dr0;erHil0oGu1;nc0u1;m0r0;oHurG;c1er;lor1mm1Drm1;aKerJhHlo2ourG;ag0ir;aGér1;nt0în0;cl0;dr0i5;bLmJpG;ar0il0lHoGruFua7Mê4;i9Ert0;ir,oy0;eGén12;n0rd0;aGeEo0Nra5;ll0r1Bt2uG;ch0m0;ac0ec30o1KrG;ay0;a20e1Vi1Go1Cr1Au19ynamCéGîn0;amb5Kb11c0Pd0Nf0Jg0Dj0Bl09m06n05pYrWsOtKvG;eIiHoGêt1;il0r0;er,s0R;lo83rn1;aIeGou7N;ct0n1rGst0;mAr0;ch0i7;aKeIhHiGobé1un1épai06;gn0r0;abi7;mGng96sp9;pl1;ct8Cmo13sGvou0;soG;rt1;a7Div0oG;b0ul0;aLeKlIoGér1ê4;l1s0uG;i7r6O;ac0oG;r0y0;c0ns0;nn0rt1ss0;a6Li4o6O;aHe6KoGun1én03;l1n7W;nt2Brr0s3;e4LiGog0é0Z;mCvr0;eGou0;un0;aKlJoIroHuG;erp1is0st0;ss1;mm0u8I;ut1;g0rn1uB;aiEiIle6ZoHrG;aîB;nc0ul0;er,l0n1;i0oG;mmLu59;aQePhMid0lLoIrG;o4éG;p1t0;d0ll0nne42uG;p0rGvr1;ag0;ar0en4in0o2;aHiGo1;f29r0;rg0;rn0vo1;mp0pCt1;aJouIrHuG;s3t0;an4o6M;c3Jl0;ll0rG;qu0ra5;it0;p0rc1;aGe5;gu0mat6;mAnn0rIuG;bl0cGt0;h0ir;l27m1;aloTct0ffSrRsJvG;erHis0oGulS;rc0;g0t1;cKpIsHtG;a59inOri40;im3Eé3;eGos0ut0;rs0;oGut0;nGur1;ti3SvD;e,ig0;us0è2ér0;gu0;mJssHvG;a4Yen1in0o1;aXerGin0;r0t1v1;a4Be6X;i6Kns0;a1Ye1Uh1Fi1Bl17oUrLuIéG;d0lG;èb2ébr0;eiEisAlG;pabGt61;il6;aLeKiJoHéG;er,p1;iGqu0up1ît2;re,s0;er,re,ti3;us0v0;ch0mG;oGpo8;is1;exi4Yf0Rgn0i4El0Nm0BnLoKrrJt1uGût0;ch0d2l0p0rGvr1;bGir;at6Der;ig0;p9r6G;c03damn0fZgYnWquVsOtJvG;eGi0o3;n1rG;g0s0t1;a25eIi2Tou4IrG;aGevDi2Uôl0;ct0ri0;mpl0nGr,st0;ir,t0;aLeKid9oJtHuG;lt0;at0iG;tu0;l0mm0;i7nt1rv0;cr0;ér1;aGe1S;ît2;el0;eIiGroF;er,rGs3;e,m0;ct33ss0;eGo49éd0;n4Trt0vo1;bQmMpG;aJlIoHt0uG;ls0;rt0s0;i3ot0ét0;rGt1;er,o1;a2ReHuniG;er,qu0;nGrc0;c0t0;in0l0;lGmat0on6;ab39eG;ctGr;er,io8;fr0;aHi4RoGu2;re,u0ît2;meGp1qu0ss0;c0r;bl0rGt0;cGer;onGul0;ci2vD;aPeNiKoHronomGuchLér1;èt2é42;iHpGqu0;er,p0;r,s1;cHpG;ot0;an0;r4vG;au4ir;lo1mJnIrHss0to3FuG;ff0v1;g0ri0;c1g0t0;ai7;nHrGss0;n0ti2J;trG;al6;ch0lLmKnJpHre5sGus0;s0tr0;it0EtG;er,ur0;al6d1to8;briSp0;c0AmXt0;a05e04ienvDlZoTrLut0âJéGû4;er,nG;ir,éfiG;ci0;cl0ilGt1;lo8;aLiJoHuGûl0;i2n1s3;n4uiG;ll0r;cGdg0ll0s0;ol0;i2nGss0v0;ch0d1;i2mbaTnKrn0ss0tt0uGx0;cId0ffHg0iEm0rr0sG;cTi7;er,ir;h0l0;d1ir,n1;aJeIoHuGâm0êm1;ff0;nd1qu0tt1;ss0tt1u1;gu0nB;ct0;digeo8gaQiOlaNnn1pt6rrKsItt2vG;aGer;rd0;cGer;ul0;er,iG;cGr;ad0;nc0y0;gn0sG;er,s0;rr0;b2Xc2Cd27ff1Zg1Rh1Qi1Nj1Kl1Em14n0Xp0Dr09sWttPuMvGè2ér0;aKeIiHoG;ir,rt0u0;l1s0;nt2Zrt1uG;gl0l1;ch1l0nc0;gHtG;or6;meF;aLeKiJrHéG;nu0;ap0iG;bu0;r0s0éd1;l0n0Vrr1;ch0qu0rd0;pir0sGti3;aOeMi13oIuHé4;ch0;jett1m0r0;ci0ir,mIrt1uG;pGrd1v1;ir,l1;br1m0;mGo1rv1;bl0;g1iHssAvo1;in0;ll1n1;b0Bch1Jm0peFrG;aHiv0oGêt0;nd1s0;ch0ng0;a6erXitWlaVpGâl1;aReQlNoMrGuy0ât0;ivo6oIéGêt0;ci0heG;nd0;ch0foHuv0visG;io8;nd1;rt0;aHi3;qu0;ud1;l0saO;rHuG;vr1;ei7o1tD;n1t1;oy0;ceG;vo1;alys0esthéLnIo0OticHéaG;nt1;ip0;ihHoGul0;nc0;il0;si0;aNeMinc1oJpHus0éliG;or0;liG;fi0;ch1inHll1rG;c0t1;dr1;n0rr1;iGss0t1;gr1;angu1eKiJlHou17teGun1;rn0;er,oGum0;ng0;gn0meF;nt1rt0;oHuG;st0;ut0;d0gGm0nd2;r1u6;is0;ur1;enoLgrav0iKon1rHueG;rr1;aHe5iGé0;pp0;f0nd1;r,t0;ui7;ll0;aLeKiJol0rG;anBoFét0;nt0;ch1;ch0rm0;ct0rm1;d1iGl0;bl1;a02ir0miHoGre5vD;nn0pt0r0uc1;nGr0;isG;tr0;ariât2cKheJquHtG;iv0;iGér1;tt0;t0v0;aTeSlRoLroKuIéG;d0l9;è2ér0;eiEs0;ll1;ch0i2up1ît2;mHrd0st0urG;c1ir;mIpG;aGl1;gn0;od0;am0;pt0;bl0lm1;re;aMjLoKrIsGus0âtaOêt1îm0;orb0tD;en1;eGit0ut1ég0;uv0;l1rd0ut1;ur0;i5nJsG;ouG;rd1;ir;do8;nn0;ss0;er",
     "Person": "true¦ashton kutchSbRcMdKeIgastNhGinez,jEkDleCmBnettJoAp8r4s3t2v0;a0irgin maG;lentino rossi,n go3;heresa may,iger woods,yra banks;addam hussain,carlett johanssJlobodan milosevic,uB;ay romano,eese witherspoIo1ush limbau0;gh;d stewart,nald0;inho,o;a0ipJ;lmIris hiltD;prah winfrFra;essiaen,itt romnEubarek;bron james,e;anye west,iefer sutherland,obe bryant;aime,effers8k rowli0;ng;alle ber0itlBulk hogan;ry;ff0meril lagasse,zekiel;ie;a0enzel washingt2ick wolf;lt1nte;ar1lint0ruz;on;dinal wols1son0;! palm2;ey;arack obama,rock;er",
     "City": "true¦a2Yb28c1Yd1Te1Sf1Qg1Kh1Ci1Ajakar2Jk11l0Um0Gn0Co0ApZquiYrVsLtCuBv8w3y1z0;agreb,uri21;ang1Ve0okohama;katerin1Jrev36;ars3e2i0rocl3;ckl0Xn0;nipeg,terth0Y;llingt1Qxford;aw;a1i0;en2Jlni31;lenc2Wncouv0Hr2I;lan bat0Etrecht;a6bilisi,e5he4i3o2rondheim,u0;nVr0;in,ku;kyo,ronIulouC;anj25l15miso2Lra2C; haJssaloni0Z;gucigalpa,hr2Ql av0N;i0llinn,mpe2Dngi08rtu;chu24n2OpT;a3e2h1kopje,t0ydney;ockholm,uttga14;angh1Henzh1Z;o0Mv00;int peters0Wl3n0ppo1H; 0ti1D;jo0salv2;se;v0z0S;adV;eykjavik,i1o0;me,sario,t27;ga,o de janei19;to;a8e6h5i4o2r0ueb1Syongya1P;a0etor26;gue;rt0zn26; elizabe3o;ls1Irae26;iladelph21nom pe09oenix;r0tah tik1B;th;lerKr0tr12;is;dessa,s0ttawa;a1Jlo;a2ew 0;delVtaip0york;ei;goya,nt0Wpl0Wv1T;a6e5i4o1u0;mb0Nni0K;nt1sco0;u,w;evideo,real;l1Nn02skolc;dellín,lbour0T;drid,l5n3r0;ib1se0;ille;or;chest0dalXi10;er;mo;a5i2o0vBy02;nd0s angel0G;on,r0F;ege,ma0nz,sbZverpo1;!ss0;ol; pla0Iusan0F;a5hark4i3laipeda,o1rak0uala lump2;ow;be,pavog0sice;ur;ev,ng8;iv;b3mpa0Kndy,ohsiu0Hra0un03;c0j;hi;ncheMstanb0̇zmir;ul;a5e3o0; chi mi1ms,u0;stI;nh;lsin0rakliG;ki;ifa,m0noi,va0A;bu0SiltD;alw4dan3en2hent,iza,othen1raz,ua0;dalaj0Gngzhou;bu0P;eUoa,ève;sk;ay;es,rankfu0;rt;dmont4indhovU;a1ha01oha,u0;blRrb0Eshanbe;e0kar,masc0FugavpiJ;gu,je0;on;a7ebu,h2o0raioJuriti01;lo0nstanJpenhagNrk;gFmbo;enn3i1ristchur0;ch;ang m1c0ttagoL;ago;ai;i0lgary,pe town,rac4;ro;aHeBirminghWogoAr5u0;char3dap3enos air2r0sZ;g0sa;as;es;est;a2isba1usse0;ls;ne;silPtisla0;va;ta;i3lgrade,r0;g1l0n;in;en;ji0rut;ng;ku,n3r0sel;celo1ranquil0;la;na;g1ja lu0;ka;alo0kok;re;aBb9hmedabad,l7m4n2qa1sh0thens,uckland;dod,gabat;ba;k0twerp;ara;m5s0;terd0;am;exandr0maty;ia;idj0u dhabi;an;lbo1rh0;us;rg",
     "Place": "true¦aMbKcIdHeFfEgBhAi9jfk,kul,l7m5new eng4ord,p2s1the 0upJyyz;bronx,hamptons;fo,oho,under2yd;acifMek,h0;l,x;land;a0co,idDuc;libu,nhattK;a0gw,hr;s,x;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
-    "Currency": "true¦$,aud,bTcRdMeurLfKgbp,hkd,iJjpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotyTł;en,uanS;af,of;h0t6;e0il6;k0q0;elN;iel,oubleMp,upeeM;e3ound0;! st0s;er0;lingI;n0soH;ceGn0;ies,y;e0i8;i,mpi7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
+    "Currency": "true¦$,aud,bScQdLeurKfJgbp,hkd,inr,jpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotySł;en,uanR;af,of;h0t6;e0il6;k0q0;elM;iel,oubleLp,upeeL;e3ound0;! st0s;er0;lingH;n0soG;ceFn0;ies,y;e0i7;i,mpi6;n,r0wanzaByatB;!onaAw;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
     "Cardinal": "true¦cinqDd7hCnBon8qu4s2tr0vingt,zero;e0ois;i6nD;e0ix,oixB;i4pt;a0in3;r8t0;or1re;eux,ix1ou0;ze;! 0;h1n0sept;euf;uit;!u0;an0;te",
     "Ordinal": "true¦cinquFd8hDnCon9qu4s2tr0uniHvingGzeroiH;e0oisiG;i7nE;e0iBoix4;i5pC;a0in4;r1t0;or2riA;an8;eu5ix1ou0;zi7; 0i6;h1n0sep4;euvi4;ui2;xi2;an0i1;ti0;ème",
     "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
@@ -8035,7 +8045,7 @@
     "Organization": "true¦0:43;a38b2Pc29d21e1Xf1Tg1Lh1Gi1Dj19k17l13m0Sn0Go0Dp07qu06rZsStFuBv8w3y1;amaha,m0Xou1w0X;gov,tu2Q;a3e1orld trade organizati3Y;lls fargo,st1;fie22inghou16;l1rner br3A;-m11gree2Zl street journ24m11;an halNeriz3Tisa,o1;dafo2Fl1;kswagLvo;bs,kip,n2ps,s1;a tod2Pps;es32i1;lev2Vted natio2S; mobi2Iaco bePd bMeAgi frida9h3im horto2Rmz,o1witt2U;shiba,y1;ota,s r Y;e 1in lizzy;b3carpen30daily ma2Uguess w2holli0rolling st1Ms1w2;mashing pumpki2Muprem0;ho;ea1lack eyed pe3Cyrds;ch bo1tl0;ys;l2s1;co,la m12;efoni07us;a6e4ieme2Enp,o2pice gir5ta1ubaru;rbucks,to2K;ny,undgard1;en;a2Ox pisto1;ls;few23insbu24msu1V;.e.m.,adiohead,b6e3oyal 1yan2U;b1dutch she4;ank;/max,aders dige1Dd 1vl2Z;bu1c1Shot chili peppe2Hlobst26;ll;c,s;ant2Sizno2C;an5bs,e3fiz22hilip morrBi2r1;emier24octer & gamb1Pudenti13;nk floyd,zza hut;psi25tro1uge08;br2Nchina,n2N; 2ason1Vda2D;ld navy,pec,range juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,tre dame,vart1;is;ke,ntendo,ss0K;l,s;c,st1Ctflix,w1; 1sweek;kids on the block,york08;a,c;nd1Rs2t1;ional aca2Co,we0P;a,cYd0N;aAcdonald9e5i3lb,o1tv,yspace;b1Knsanto,ody blu0t1;ley crue,or0N;crosoft,t1;as,subisO;dica3rcedes2talli1;ca;!-benz;id,re;'s,s;c's milk,tt11z1V;'ore08a3e1g,ittle caesa1H;novo,x1;is,mark; pres5-z-boy,bour party;atv,fc,kk,m1od1H;art;iffy lu0Jo3pmorgan1sa;! cha1;se;hnson & johns1Py d1O;bm,hop,n1tv;g,te1;l,rpol; & m,asbro,ewlett-packaSi3o1sbc,yundai;me dep1n1G;ot;tac1zbollah;hi;eneral 6hq,l5mb,o2reen d0Gu1;cci,ns n ros0;ldman sachs,o1;dye1g09;ar;axo smith kliYencore;electr0Gm1;oto0S;a3bi,da,edex,i1leetwood mac,oFrito-l08;at,nancial1restoU; tim0;cebook,nnie mae;b04sa,u3xxon1; m1m1;ob0E;!rosceptics;aiml08e5isney,o3u1;nkin donuts,po0Tran dur1;an;j,w j1;on0;a,f leppa2ll,peche mode,r spiegXstiny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eedence clearwater reviv1ossra03;al;ca c5l4m1o08st03;ca2p1;aq;st;dplLgate;ola;a,sco1tigroup;! systems;ev2i1;ck fil-a,na daily;r0Fy;dbury,pital o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,rexiteeV;ei3mbardiJston 1;glo1pizza;be;ng;ack & deckFo2ue c1;roW;ckbuster video,omingda1;le; g1g1;oodriM;cht3e ge0n & jer2rkshire hathaw1;ay;ryG;el;nana republ3s1xt5y5;f,kin robbi1;ns;ic;bWcRdidQerosmith,ig,lKmEnheuser-busDol,pple9r6s3t&t,v2y1;er;is,on;hland1sociated F; o1;il;by4g2m1;co;os; compu2bee1;'s;te1;rs;ch;c,d,erican3t1;!r1;ak; ex1;pre1;ss; 4catel2t1;air;!-luce1;nt;jazeera,qae1;da;as;/dc,a3er,t1;ivisi1;on;demy of scienc0;es;ba,c",
     "FemaleNoun": "true¦ambulance,confiture,géolog1l0poule,rue;ibrair0utte;ie",
     "SportsTeam": "true¦0:1A;1:1H;2:1G;a1Eb16c0Td0Kfc dallas,g0Ihouston 0Hindiana0Gjacksonville jagua0k0El0Bm01newToQpJqueens parkIreal salt lake,sAt5utah jazz,vancouver whitecaps,w3yW;ashington 3est ham0Rh10;natio1Oredski2wizar0W;ampa bay 6e5o3;ronto 3ttenham hotspur;blue ja0Mrapto0;nnessee tita2xasC;buccanee0ra0K;a7eattle 5heffield0Kporting kansas0Wt3;. louis 3oke0V;c1Frams;marine0s3;eah15ounG;cramento Rn 3;antonio spu0diego 3francisco gJjose earthquak1;char08paA; ran07;a8h5ittsburgh 4ortland t3;imbe0rail blaze0;pirat1steele0;il3oenix su2;adelphia 3li1;eagl1philNunE;dr1;akland 3klahoma city thunder,rlando magic;athle0Mrai3;de0; 3castle01;england 7orleans 6york 3;city fc,g4je0FknXme0Fred bul0Yy3;anke1;ian0D;pelica2sain0C;patrio0Brevolut3;ion;anchester Be9i3ontreal impact;ami 7lwaukee b6nnesota 3;t4u0Fvi3;kings;imberwolv1wi2;rewe0uc0K;dolphi2heat,marli2;mphis grizz3ts;li1;cXu08;a4eicesterVos angeles 3;clippe0dodDla9; galaxy,ke0;ansas city 3nE;chiefs,roya0E; pace0polis colU;astr06dynamo,rockeTtexa2;olden state warrio0reen bay pac3;ke0;.c.Aallas 7e3i05od5;nver 5troit 3;lio2pisto2ti3;ge0;broncZnuggeM;cowbo4maver3;ic00;ys; uQ;arCelKh8incinnati 6leveland 5ol3;orado r3umbus crew sc;api5ocki1;brow2cavalie0india2;bengaWre3;ds;arlotte horAicago 3;b4cubs,fire,wh3;iteB;ea0ulR;diff3olina panthe0; c3;ity;altimore 9lackburn rove0oston 5rooklyn 3uffalo bilN;ne3;ts;cel4red3; sox;tics;rs;oriol1rave2;rizona Ast8tlanta 3;brav1falco2h4u3;nited;aw9;ns;es;on villa,r3;os;c5di3;amondbac3;ks;ardi3;na3;ls",
-    "Pronoun": "true¦c2elle1il,j2moi,n0on,t,v0;ous;!s;!e",
+    "Pronoun": "true¦c2elle1il1j2moi,n0on,t,v0;ous;!s;!e",
     "Date": "true¦aujourd hui,demain,heir,weekend",
     "Expression": "true¦a02b01dXeVfuck,gShLlImHnGoDpBshAtsk,u7voi04w3y0;a1eLu0;ck,p;!a,hoo,y;h1ow,t0;af,f;e0oa;e,w;gh,h0;! 0h,m;huh,oh;eesh,hh,it;ff,hew,l0sst;ease,z;h1o0w,y;h,o,ps;!h;ah,ope;eh,mm;m1ol0;!s;ao,fao;a4e2i,mm,oly1urr0;ah;! mo6;e,ll0y;!o;ha0i;!ha;ah,ee,o0rr;l0odbye;ly;e0h,t cetera,ww;k,p;'oh,a0uh;m0ng;mit,n0;!it;ah,oo,ye; 1h0rgh;!em;la",
     "WeekDay": "true¦dimanche,jeu2lun2m0same2vend1;ar1erc0;re0;di"
@@ -8316,7 +8326,7 @@
         Object.keys(res).forEach(k => words[res[k]] = 'Verb');
         // past-participle
         let out = methods$1.verb.pastParticiple(w);
-        words[out] = 'PastTense';
+        words[out] = 'PastParticiple';
       }
     });
   });
@@ -8326,7 +8336,7 @@
   // console.log(lexicon['suis'])
   var words$1 = lexicon$1;
 
-  const verbForm = function (term) {
+  const verbForm$2 = function (term) {
     let want = [
       'FirstPerson',
       'SecondPerson',
@@ -8366,15 +8376,18 @@
         // verbs -> infinitive form
         if (term.tags.has('Verb')) {
           if (term.tags.has('PresentTense')) {
-            let form = verbForm(term);
+            let form = verbForm$2(term);
             term.root = transform.verb.fromPresentTense(str, form);
           }
           if (term.tags.has('FutureTense')) {
-            let form = verbForm(term);
+            let form = verbForm$2(term);
             term.root = transform.verb.fromFutureTense(str, form);
           }
-          if (term.tags.has('PastTense')) {
-            let form = verbForm(term);
+          if (term.tags.has('Passive')) {
+            let form = verbForm$2(term);
+            term.root = transform.verb.fromPassive(str, form);
+          } else if (term.tags.has('PastTense')) {
+            let form = verbForm$2(term);
             term.root = transform.verb.fromPastParticiple(str, form);
           }
           //  fromImperfectTense, fromPastParticiple
@@ -8793,7 +8806,7 @@
     let setTag = world.methods.one.setTag;
     let term = terms[i];
     let tags = term.tags;
-    if (tags.has('Adjective')) {
+    if (tags.has('Adjective') && !tags.has('FemaleAdjective') && !tags.has('#MaleAdjective')) {
       let str = term.implicit || term.normal || term.text || '';
       // i actually think there are no exceptions.
       if (guessGender$2(str) === 'f') {
@@ -8831,14 +8844,64 @@
     'FutureTense',
   ];
 
+
+  let whichTense = [
+
+    //er - present conditional 
+    ['erais', 'ConditionalVerb'],
+    ['erait', 'ConditionalVerb'],
+    ['erions', 'ConditionalVerb'],
+    ['eriez', 'ConditionalVerb'],
+    ['eraient', 'ConditionalVerb'],
+
+    //er- future
+    ['erai', 'FutureTense'],
+    ['era', 'FutureTense'],
+    ['erons', 'FutureTense'],
+    ['erez', 'FutureTense'],
+    ['eront', 'FutureTense'],
+
+    // er - imparfait -> PastTense
+    ['ais', 'PastTense'],
+    ['ait', 'PastTense'],
+    ['ions', 'PastTense'],
+    ['iez', 'PastTense'],
+    ['ient', 'PastTense'],
+
+    // past-participle
+    ['ées', 'PastParticiple'],
+    ['és', 'PastParticiple'],
+    ['ée', 'PastParticiple'],
+    ['é', 'Participle'],
+    ['u', 'Participle'],//entendu
+  ];
+
+
+  // guess a tense tag each Verb
+  const verbTense = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    let tags = term.tags;
+    if (tags.has('Verb')) {
+      // console.log(term)
+      let str = term.implicit || term.normal || term.text || '';
+      // if we have no tense
+      if (!tenses.find(s => tags.has(s))) {
+        let found = whichTense.find(a => str.endsWith(a[0]));
+        if (found) {
+          setTag([term], found[1], world, false, '3-tense-suffix-' + found[1]);
+        } else {
+          setTag([term], 'PresentTense', world, false, '3-tense-fallback');
+        }
+      }
+    }
+    return null
+  };
+  var verbTense$1 = verbTense;
+
   let person = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
 
-  let ends = [
-    // present
-    ['es', 'SecondPerson'],
-    ['ons', 'FirstPersonPlural'],
-    ['ez', 'SecondPersonPlural'],
-    ['ent', 'ThirdPersonPlural'],
+  let whichForm = [
     // future
     ['ai', 'FirstPerson'],
     ['tas', 'SecondPerson'],
@@ -8855,35 +8918,106 @@
     ['asse', 'FirstPerson'],
     ['asses', 'SecondPerson'],
     ['tât', 'ThirdPerson'],
-
+    // present
+    ['es', 'SecondPerson'],
+    ['ons', 'FirstPersonPlural'],
+    ['ez', 'SecondPersonPlural'],
+    ['ent', 'ThirdPersonPlural'],
   ];
+  const pronouns = {
+    je: 'FirstPerson',
+    tu: 'SecondPerson',
+    il: 'ThirdPerson',
+    elle: 'ThirdPerson',
+    nous: 'FirstPersonPlural',
+    vous: 'SecondPersonPlural',
+    ils: 'ThirdPersonPlural',
+  };
+  // can give us a hint to verb person, too
+  const auxiliaries = {
+    // etre
+    suis: 'FirstPerson',
+    es: 'SecondPerson',
+    est: 'ThirdPerson',
+    sommes: 'FirstPersonPlural',
+    êtes: 'SecondPersonPlural',
+    sont: 'ThirdPersonPlural',
+    serai: 'FirstPerson',
+    seras: 'SecondPerson',
+    sera: 'ThirdPerson',
+    serons: 'FirstPersonPlural',
+    serez: 'SecondPersonPlural',
+    seront: 'ThirdPersonPlural',
+    serait: 'ThirdPerson',
+    serions: 'FirstPersonPlural',
+    seriez: 'SecondPersonPlural',
+    seraient: 'ThirdPersonPlural',
+
+    // 'avoir'
+    ai: 'FirstPerson',
+    as: 'SecondPerson',
+    a: 'ThirdPerson',
+    avons: 'FirstPersonPlural',
+    avez: 'SecondPersonPlural',
+    ont: 'ThirdPersonPlural',
+    // future anterior
+    aurai: 'FirstPerson',
+    auras: 'SecondPerson',
+    aura: 'ThirdPerson',
+    aurons: 'FirstPersonPlural',
+    aurez: 'SecondPersonPlural',
+    auront: 'ThirdPersonPlural',
+    // Plus-que-parfait
+    'avait': 'ThirdPerson',
+    'avions': 'FirstPersonPlural',
+    'aviez': 'SecondPersonPlural',
+    'avaient': 'ThirdPersonPlural',
+    // conditional avoir
+    aurait: 'ThirdPerson',
+    aurions: 'FirstPersonPlural',
+    auriez: 'SecondPersonPlural',
+    auraient: 'ThirdPersonPlural',
+  };
 
   // guess a tense tag each Verb
-  const verbTense = function (terms, i, world) {
+  const verbForm = function (terms, i, world) {
     let setTag = world.methods.one.setTag;
     let term = terms[i];
     let tags = term.tags;
     if (tags.has('Verb')) {
       // console.log(term)
       let str = term.implicit || term.normal || term.text || '';
-      // if we have no tense
-      if (!tenses.find(s => tags.has(s))) {
-        if (str.endsWith('é')) {
-          return setTag([term], 'Participle', world, false, '3-Participle-vb')
-        }
-      }
       // if we have no person-tag
       if (!person.find(s => tags.has(s))) {
-        ends.forEach(a => {
-          if (str.endsWith(a[0])) {
-            return setTag([term], a[1], world, false, '3-person-suffix-' + a[1])
+        // look at the word suffix, for clues
+        let found = whichForm.find(a => str.endsWith(a[0]));
+        if (found) {
+          return setTag([term], found[1], world, false, '3-person-suffix-' + found[1])
+        }
+        //look backwards for clues
+        for (let back = 0; back < 3; back += 1) {
+          if (!terms[i - back]) {
+            break
           }
-        });
+          let str = terms[i - back].normal;
+          //look backwards for a pronoun
+          if (terms[i - back].tags.has('Pronoun')) {
+            if (pronouns.hasOwnProperty(str)) {
+              return setTag([term], pronouns[str], world, false, '3-person-pronoun-' + str)
+            }
+          }
+          //look backwards for a auxiliary verb - 'sont'
+          if (terms[i - back].tags.has('Verb')) {
+            if (auxiliaries.hasOwnProperty(str)) {
+              return setTag([term], auxiliaries[str], world, false, '3-person-auxiliary-' + str)
+            }
+          }
+        }
       }
     }
     return null
   };
-  var verbTense$1 = verbTense;
+  var verbForm$1 = verbForm;
 
   // better guesses for 'le/la/les' in l'foo
   const fixContractions = function (terms, i, world) {
@@ -8934,6 +9068,7 @@
       adjPlurals$1(terms, i, world);
       adjGender$1(terms, i, world);
       verbTense$1(terms, i, world);
+      verbForm$1(terms, i, world);
     }
     // (4th pass)
     for (let i = 0; i < terms.length; i += 1) {
@@ -9096,7 +9231,7 @@
   const vb = 'Verb';
   const jj = 'Adjective';
   const inf = 'Infinitive';
-  const pres = 'PresentTense';
+  // const pres = 'PresentTense'
 
 
   var suffixPatterns = [
@@ -9111,7 +9246,7 @@
       er: inf,
       ir: inf,
       ée: vb,
-      és: pres,
+      és: vb,
       sé: vb,
       ré: vb,
       çu: vb,//conçu
@@ -9342,8 +9477,14 @@
     tagVerb(doc.match('(je|tu|il|elle|nous|vous|ils) [#Adjective] (la|le|les)', 0).tag('Verb', 'ils-x-les'));
     // sont interdites par l'interdiction
     tagVerb(doc.match('(est|été|sont|était|serait) [#Adjective] #Preposition', 0).tag('Verb', 'song-x-par'));
+    // a dissimulées
+    tagVerb(doc.match('(ai|as|a|avons|avez|ont) [#Adjective]', 0).tag('PastTense', 'have-adj'));
     // have unpacked
     doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres');
+    // passive voice - est-aimée
+    doc.match('#Copula #Adverb?+ [#PastParticiple]', 0).tag('Passive', 'passive-voice');
+
+    // ==Adjectives==
     // est bien calculée
     tagAdj(doc.match('#Copula (bien|très|pas|plus|tant|presque|seulement)+ [#Verb]', 0).tag('Adjective', 'est-bein-calculee'));
 
@@ -9364,7 +9505,7 @@
 
   const entity = ['Person', 'Place', 'Organization'];
 
-  var nouns = {
+  var nouns$1 = {
     Noun: {
       not: ['Verb', 'Adjective', 'Adverb', 'Value', 'Determiner'],
     },
@@ -9517,6 +9658,9 @@
     },
     PhrasalVerb: {
       is: 'Verb',
+    },
+    Passive: {
+      is: 'PastTense',
     },
     Particle: {
       is: 'PhrasalVerb',
@@ -9743,7 +9887,7 @@
     },
   };
 
-  let tags = Object.assign({}, nouns, verbs$1, values, dates, misc);
+  let tags = Object.assign({}, nouns$1, verbs$1, values, dates, misc);
 
   var tagset = {
     tags
@@ -10069,15 +10213,25 @@
   };
   var toText$2 = toText$1;
 
+  const makeSuffix = function (obj) {
+    return {
+      prefix: obj.prefix || '',
+      suffix: obj.suffix || '',
+    }
+  };
+
   const formatNumber = function (parsed, fmt) {
+    let { prefix, suffix } = makeSuffix(parsed);
     if (fmt === 'TextOrdinal') {
       let words = toText$2(parsed.num);
       let last = words[words.length - 1];
       words[words.length - 1] = toOrdinal[last];
-      return words.join(' ')
+      let num = words.join(' ');
+      return `${prefix}${num}${suffix}`
     }
     if (fmt === 'TextCardinal') {
-      return toText$2(parsed.num).join(' ')
+      let num = toText$2(parsed.num).join(' ');
+      return `${prefix}${num}${suffix}`
     }
     // numeric formats
     // '55e'
@@ -10085,21 +10239,25 @@
       let str = String(parsed.num);
       let last = str.slice(str.length - 1, str.length);
       if (last === '1') {
-        return str += 'er'
+        let num = str += 'er';
+        return `${prefix}${num}${suffix}`
       }
-      return str += 'e'
+      let num = str += 'e';
+      return `${prefix}${num}${suffix}`
     }
     if (fmt === 'Cardinal') {
-      return String(parsed.num)
+      let num = String(parsed.num);
+      return `${prefix}${num}${suffix}`
     }
-    return String(parsed.num || '')
+    let num = String(parsed.num || '');
+    return `${prefix}${num}${suffix}`
   };
   var format = formatNumber;
 
   // return the nth elem of a doc
-  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$3 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$6 = function (View) {
+  const api$a = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -10107,13 +10265,13 @@
         this.viewType = 'Numbers';
       }
       parse(n) {
-        return getNth$1(this, n).map(parse)
+        return getNth$3(this, n).map(parse)
       }
       get(n) {
-        return getNth$1(this, n).map(parse).map(o => o.num)
+        return getNth$3(this, n).map(parse).map(o => o.num)
       }
       json(n) {
-        let doc = getNth$1(this, n);
+        let doc = getNth$3(this, n);
         return doc.map(p => {
           let json = p.toView().json(n)[0];
           let parsed = parse(p);
@@ -10337,16 +10495,16 @@
 
     View.prototype.numbers = function (n) {
       let m = find$1(this);
-      m = getNth$1(m, n);
+      m = getNth$3(m, n);
       return new Numbers(this.document, m.pointer)
     };
     // alias
     View.prototype.values = View.prototype.numbers;
   };
-  var api$7 = api$6;
+  var api$b = api$a;
 
   var numbers = {
-    api: api$7
+    api: api$b
   };
 
   const findPeople = function () {
@@ -10378,16 +10536,16 @@
     return m
   };
 
-  const api$4 = function (View) {
+  const api$8 = function (View) {
     View.prototype.people = findPeople;
     View.prototype.organizations = findOrgs;
     View.prototype.places = findPlaces;
   };
 
-  var api$5 = api$4;
+  var api$9 = api$8;
 
   var topics = {
-    api: api$5
+    api: api$9
   };
 
   const findVerbs = function (doc) {
@@ -10473,7 +10631,7 @@
     return vb.match('#Negative')
   };
 
-  const getRoot = function (view) {
+  const getRoot$2 = function (view) {
     const m = view.methods.two.transform.verb;
     let str = view.text('normal');
     if (view.has('#PastParticiple')) {
@@ -10497,7 +10655,7 @@
   const parseVerb = function (view) {
     let vb = view.clone();
     // vb.contractions().expand()
-    const root = getRoot(vb);
+    const root = getRoot$2(vb);
     let res = {
       root: root,
       prefix: vb.match('#Prefix'),
@@ -10558,19 +10716,19 @@
 
 
   // return the nth elem of a doc
-  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$2 = function (View) {
+  const api$6 = function (View) {
     class Verbs extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
         this.viewType = 'Verbs';
       }
       parse(n) {
-        return getNth(this, n).map(parseVerb$1)
+        return getNth$2(this, n).map(parseVerb$1)
       }
       json(opts, n) {
-        let m = getNth(this, n);
+        let m = getNth$2(this, n);
         let arr = m.map(vb => {
           let json = vb.toView().json(opts)[0] || {};
           json.verb = toJSON$1(vb);
@@ -10637,7 +10795,7 @@
       // }
       conjugate(n) {
         const m = this.methods.two.transform.verb;
-        return getNth(this, n).map(vb => {
+        return getNth$2(this, n).map(vb => {
           let parsed = parseVerb$1(vb);
           let root = parsed.root || '';
           return {
@@ -10686,13 +10844,108 @@
 
     View.prototype.verbs = function (n) {
       let vb = find(this);
-      vb = getNth(vb, n);
+      vb = getNth$2(vb, n);
       return new Verbs(this.document, vb.pointer)
+    };
+  };
+  var api$7 = api$6;
+
+  var verbs = {
+    api: api$7,
+  };
+
+  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot$1 = function (m) {
+    let str = m.text('normal');
+    let isPlural = m.has('PluralAdjective');
+    let isFemale = m.has('FemaleAdjective');
+    if (isPlural && isFemale) {
+      return transform.adjective.fromFemalePlural(str)
+    } else if (isFemale) {
+      return transform.adjective.fromFemale(str)
+    } else if (isPlural) {
+      return transform.adjective.fromPlural(str)
+    }
+    return str
+  };
+
+  const api$4 = function (View) {
+    class Adjectives extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Adjectives';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.adjective;
+        return getNth$1(this, n).map(m => {
+          let adj = getRoot$1(m);
+          return methods.conjugate(adj)
+        }, [])
+      }
+    }
+
+    View.prototype.adjectives = function (n) {
+      let m = this.match('#Adjective');
+      m = getNth$1(m, n);
+      return new Adjectives(this.document, m.pointer)
+    };
+  };
+  var api$5 = api$4;
+
+  var adjectives = {
+    api: api$5,
+  };
+
+  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot = function (m) {
+    let str = m.text('normal');
+    let isPlural = m.has('Plural');
+    if (isPlural) {
+      return transform.adjective.fromPlural(str)
+    }
+    return str
+  };
+
+  const api$2 = function (View) {
+    class Nouns extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Nouns';
+      }
+      isPlural(n) {
+        return getNth(this, n).if('#PluralNoun')
+      }
+      toPlural(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth(this, n).if('#Singular').map(m => {
+          let str = getRoot(m);
+          let plural = methods.toPlural(str);
+          return m.replaceWith(plural)
+        }, [])
+      }
+      toSingular(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth(this, n).if('#PluralNoun').map(m => {
+          let str = getRoot(m);
+          let singular = methods.toSingular(str);
+          return m.replaceWith(singular)
+        }, [])
+      }
+    }
+
+    View.prototype.nouns = function (n) {
+      let m = this.match('#Noun');
+      m = getNth(m, n);
+      return new Nouns(this.document, m.pointer)
     };
   };
   var api$3 = api$2;
 
-  var verbs = {
+  var nouns = {
     api: api$3,
   };
 
@@ -10748,7 +11001,7 @@
     api: api$1
   };
 
-  var version = '0.1.2';
+  var version = '0.2.0';
 
   // import nlp from 'compromise/one'
 
@@ -10760,6 +11013,8 @@
   nlp$1.plugin(numbers);
   nlp$1.plugin(topics);
   nlp$1.plugin(verbs);
+  nlp$1.plugin(adjectives);
+  nlp$1.plugin(nouns);
   nlp$1.plugin(contractions);
 
   const fr = function (txt, lex) {
