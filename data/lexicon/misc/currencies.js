@@ -44,7 +44,6 @@ export default [
   'kn',
   'kr',
   'nis',
-  'ils',
   'krona',
   'kronas',
   'krw',

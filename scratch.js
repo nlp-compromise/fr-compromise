@@ -2,15 +2,13 @@ import nlp from './src/index.js'
 
 nlp.verbose('tagger')
 
-let txt = `Détendez-vous`
+let txt = `ils sont résumés`
 
 
 /*
 
 // ===verbs===
-Détendez-vous et respirez profondément {détendre}
-laissez-les se détendre. {détendre}
-vous détendre un peu {détendre}
+
 Les personnel sont résumés {résumer}
 les doses sont résumées {résumer}
 m'empêchait de lancer {empêcher}
@@ -47,6 +45,6 @@ ses propres règles {règle}
 // console.log(nlp('aboyer').verbs().conjugate())
 let doc = nlp(txt).debug()
 doc.compute('root')
-// console.log(doc.docs[0])
+console.log(doc.docs[0][2])
 // doc.debug()
-doc.match('{détendre} ').debug()
+doc.match('{résumer} ').debug()
