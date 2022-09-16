@@ -2,14 +2,12 @@ import nlp from './src/index.js'
 
 nlp.verbose('tagger')
 
-let txt = `Avant de m'endormir la nuit`
+let txt = `Détendez-vous`
 
 
 /*
 
 // ===verbs===
-Avant de m'endormir la nuit {endormi}
-les violettes ne rôtissent pas {rôtir}
 Détendez-vous et respirez profondément {détendre}
 laissez-les se détendre. {détendre}
 vous détendre un peu {détendre}
@@ -51,4 +49,4 @@ let doc = nlp(txt).debug()
 doc.compute('root')
 // console.log(doc.docs[0])
 // doc.debug()
-doc.match('{endormi} ').debug()
+doc.match('{détendre} ').debug()

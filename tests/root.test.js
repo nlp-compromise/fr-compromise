@@ -95,7 +95,7 @@ test('root-match:', function (t) {
 
 
     // ===verbs===
-    [`Avant de m'endormir la nuit`, `{endormi}`],
+    [`Avant de m'endormir la nuit`, `{endormir}`],
     [`les violettes ne rôtissent pas`, `{rôtir}`],
     [`Détendez-vous et respirez profondément`, `{détendre}`],
     [`laissez-les se détendre.`, `{détendre}`],
