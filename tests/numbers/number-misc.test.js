@@ -5,9 +5,6 @@ let here = '[number-misc] '
 
 test('num equals', function (t) {
   let arr = [
-    ['onzième', 'onzieme'],
-    ['quatorzième', 'quatorzieme'],
-    ['cinquantieme', 'cinquantième'],
     ['un cent', 'cent'],
     ['trois cents', 'trois cent'],
     ['un million', 'million'],
