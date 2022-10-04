@@ -25,7 +25,7 @@ const api = function (View) {
         let str = getRoot(m)
         let plural = methods.toPlural(str)
         return m.replaceWith(plural)
-      }, [])
+      })
     }
     toSingular(n) {
       const methods = this.methods.two.transform.noun
@@ -33,7 +33,7 @@ const api = function (View) {
         let str = getRoot(m)
         let singular = methods.toSingular(str)
         return m.replaceWith(singular)
-      }, [])
+      })
     }
   }
 

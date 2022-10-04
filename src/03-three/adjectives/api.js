@@ -1,17 +1,9 @@
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
 // get root form of adjective
-const getRoot = function (m) {
-  let str = m.text('normal')
-  let isPlural = m.has('PluralAdjective')
-  let isFemale = m.has('FemaleAdjective')
-  if (isPlural && isFemale) {
-    return transform.adjective.fromFemalePlural(str)
-  } else if (isFemale) {
-    return transform.adjective.fromFemale(str)
-  } else if (isPlural) {
-    return transform.adjective.fromPlural(str)
-  }
+const getRoot = function (m, methods) {
+  m.compute('root')
+  let str = m.text('root')
   return str
 }
 
@@ -25,7 +17,7 @@ const api = function (View) {
       const methods = this.methods.two.transform.adjective
       return getNth(this, n).map(m => {
         let adj = getRoot(m)
-        return methods.conjugate(adj)
+        return methods.conjugate(adj, methods)
       }, [])
     }
   }
