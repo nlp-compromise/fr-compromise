@@ -16,9 +16,12 @@ test('noun-conjugate:', function (t) {
   let all = ["cargaison", "cargaisons"]
   let o = nlp(all[0]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
-
   o = nlp(all[1]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-plural')
+
+  all = ["bois", "bois"]
+  o = nlp(all[0]).nouns().conjugate()[0]
+  t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
   t.end()
 })
 

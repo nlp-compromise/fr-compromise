@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 let txt = "et boissons fraîches"
 
@@ -26,8 +26,8 @@ let txt = "et boissons fraîches"
 
 // let doc = nlp(`chaleureux`).debug()
 // console.log(doc.adjectives().conjugate())
-let doc = nlp(`endormez`).debug()
-console.log(doc.verbs().conjugate())
+let doc = nlp(`bois`).debug()
+console.log(doc.nouns().conjugate())
 // let doc = nlp(`j'ai moins quarante dollars`).debug()
 // doc.numbers().add(50)
 // console.log(doc.text())

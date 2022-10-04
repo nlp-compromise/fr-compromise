@@ -27,6 +27,12 @@ const api = function (View) {
             singular: methods.fromPlural(str)
           }
         }
+        if (m.has('#Uncountable')) {
+          return {
+            singular: str,
+            plural: str,
+          }
+        }
         return {
           singular: str,
           plural: methods.toPlural(str)
