@@ -24,8 +24,10 @@ let txt = "et boissons fraîches"
 
 // "sanguin": ["sanguine", "sanguins", "sanguines"],
 
-let doc = nlp(`sanguines`).debug()
-console.log(doc.adjectives().conjugate())
+// let doc = nlp(`chaleureux`).debug()
+// console.log(doc.adjectives().conjugate())
+let doc = nlp(`endormez`).debug()
+console.log(doc.verbs().conjugate())
 // let doc = nlp(`j'ai moins quarante dollars`).debug()
 // doc.numbers().add(50)
 // console.log(doc.text())
