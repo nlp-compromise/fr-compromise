@@ -30,12 +30,14 @@ const fr = function (txt, lex) {
   return dok
 }
 
-fr.world = nlp.world
-fr.model = nlp.model
-fr.methods = nlp.methods
-fr.tokenize = nlp.tokenize
-fr.plugin = nlp.plugin
-fr.extend = nlp.extend
+// copy constructor methods over
+Object.keys(nlp).forEach(k => {
+  if (nlp.hasOwnProperty(k)) {
+    fr[k] = nlp[k]
+  }
+})
+
+fr.world = () => nlp.world()
 
 
 /** log the decision-making to console */

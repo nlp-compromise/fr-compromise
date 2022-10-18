@@ -1,6 +1,9 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+
+console.log(nlp.world().methods.two)
+
+// nlp.verbose('tagger')
 
 let txt = "et boissons fraîches"
 

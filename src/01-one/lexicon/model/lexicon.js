@@ -37,24 +37,24 @@ Object.keys(lexData).forEach(tag => {
     }
     if (tag === 'Infinitive') {
       // do future-tense
-      let res = transform.verb.futureTense(w)
+      let res = transform.verb.toFutureTense(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
           words[res[k]] = [tagMap[k], 'FutureTense']
         }
       })
       // do present-tense
-      res = transform.verb.presentTense(w)
+      res = transform.verb.toPresentTense(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
           words[res[k]] = [tagMap[k], 'PresentTense']
         }
       })
       // do imperfect mood
-      res = transform.verb.imperfect(w)
+      res = transform.verb.toImperfect(w)
       Object.keys(res).forEach(k => words[res[k]] = 'Verb')
       // past-participle
-      let out = transform.verb.pastParticiple(w)
+      let out = transform.verb.toPastParticiple(w)
       words[out] = 'PastParticiple'
     }
   })

@@ -41,10 +41,10 @@ const doOneVerb = function (str, form, m) {
   return str
 }
 
-const presentTense = (str) => doVerb(str, model.presentTense)
-const futureTense = (str) => doVerb(str, model.futureTense)
-const imperfect = (str) => doVerb(str, model.imperfect)
-const pastParticiple = (str) => convert(str, model.pastParticiple.prt)
+const toPresentTense = (str) => doVerb(str, model.presentTense)
+const toFutureTense = (str) => doVerb(str, model.futureTense)
+const toImperfect = (str) => doVerb(str, model.imperfect)
+const toPastParticiple = (str) => convert(str, model.pastParticiple.prt)
 
 const fromPresent = reverseAll(model.presentTense)
 const fromPresentTense = (str, form) => doOneVerb(str, form, fromPresent)
@@ -67,7 +67,7 @@ const fromPassive = function (str) {
   return str
 }
 
-export default { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive }
+export default { toPresentTense, toFutureTense, toImperfect, toPastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive }
 
 // console.log(presentTense('marcher'))
 // console.log(futureTense('marcher'))
