@@ -67,12 +67,26 @@ const fromPassive = function (str) {
   return str
 }
 
+// i don't really know how this works
+const toPassive = function (str) {
+  if (str.endsWith('er')) {
+    return [
+      str.replace(/er$/, 'ées'),
+      str.replace(/er$/, 'ée'),
+      str.replace(/er$/, 'és'),
+      str.replace(/er$/, 'é'),
+    ]
+  }
+  return []
+}
+
 // an array of every inflection, for '{inf}' syntax
 const all = function (str) {
   let arr = [str].concat(
     Object.values(toPresentTense(str)),
     Object.values(toFutureTense(str)),
     Object.values(toImperfect(str)),
+    toPassive(str)
   )
   arr.push(toPastParticiple(str))
   arr = arr.filter(s => s)
