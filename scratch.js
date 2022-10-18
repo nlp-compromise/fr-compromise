@@ -1,7 +1,7 @@
 import nlp from './src/index.js'
 
 
-console.log(nlp.world().methods.two)
+// console.log(nlp.world().methods.two)
 
 // nlp.verbose('tagger')
 
@@ -29,8 +29,9 @@ let txt = "et boissons fraîches"
 
 // let doc = nlp(`chaleureux`).debug()
 // console.log(doc.adjectives().conjugate())
-let doc = nlp(`bois`).debug()
-console.log(doc.nouns().conjugate())
+let doc = nlp(`La production a cessé en octobre.`)
+// console.log(nlp.parseMatch('{cesser}'))
+doc.match('{cesser}').debug()
 // let doc = nlp(`j'ai moins quarante dollars`).debug()
 // doc.numbers().add(50)
 // console.log(doc.text())

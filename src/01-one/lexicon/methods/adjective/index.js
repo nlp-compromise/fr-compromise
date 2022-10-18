@@ -21,7 +21,13 @@ const conjugate = function (str) {
   }
 }
 
+const all = (str) => {
+  let arr = Object.values(conjugate(str))
+  return arr.filter(s => s)
+}
+
 export default {
+  all,
   conjugate,
   toFemale,
   toPlural,

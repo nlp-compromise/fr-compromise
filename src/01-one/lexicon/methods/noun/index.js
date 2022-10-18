@@ -8,4 +8,5 @@ const fromPlural = (str) => convert(str, pRev)
 export default {
   toPlural,
   fromPlural,
+  all: toPlural
 }

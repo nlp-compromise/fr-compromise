@@ -67,7 +67,24 @@ const fromPassive = function (str) {
   return str
 }
 
-export default { toPresentTense, toFutureTense, toImperfect, toPastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive }
+// an array of every inflection, for '{inf}' syntax
+const all = function (str) {
+  let arr = [str].concat(
+    Object.values(toPresentTense(str)),
+    Object.values(toFutureTense(str)),
+    Object.values(toImperfect(str)),
+  )
+  arr.push(toPastParticiple(str))
+  arr = arr.filter(s => s)
+  arr = new Set(arr)
+  return Array.from(arr)
+}
+
+export default {
+  all,
+  toPresentTense, toFutureTense, toImperfect, toPastParticiple,
+  fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive
+}
 
 // console.log(presentTense('marcher'))
 // console.log(futureTense('marcher'))
