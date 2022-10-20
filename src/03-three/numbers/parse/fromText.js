@@ -8,9 +8,12 @@ const multiLeft = {
 }
 
 const multiples = {
+  // cent: 100,//hundred
   mille: 1000,//thousand
+  milles: 1000,//thousand
   million: 1000000,//million
-  milliard: 1000000000//billion
+  millions: 1000000,//million
+  milliards: 1000000000//billion
 }
 
 // greedy scan for multi-word numbers, like 'quatre vingt'
@@ -40,10 +43,10 @@ const parseNumbers = function (terms = []) {
   let sum = 0
   let carry = 0
   let minus = false
+  let sums = []
   for (let i = 0; i < terms.length; i += 1) {
     let { tags, normal } = terms[i]
     let w = normal || ''
-
     if (w === 'moins') {
       minus = true
       continue
@@ -64,6 +67,8 @@ const parseNumbers = function (terms = []) {
         sum = 1
       }
       sum *= multiples[w]
+      sums.push(sum)
+      sum = 0
       continue
     }
     // support 'quatre vingt dix', etc
@@ -72,7 +77,6 @@ const parseNumbers = function (terms = []) {
       if (skip > 0) {
         carry += add
         i += skip
-        // console.log('skip', skip, 'add', add)
         continue
       }
     }
@@ -83,9 +87,6 @@ const parseNumbers = function (terms = []) {
       if (carry === 0) {
         carry = 1
       }
-      // sum += carry
-      // sum = sum* mult
-      // console.log('carry', carry, 'mult', mult, 'sum', sum)
       sum += mult * carry
       carry = 0
       continue
@@ -106,6 +107,10 @@ const parseNumbers = function (terms = []) {
   if (carry !== 0) {
     sum += carry
   }
+  sums.push(sum)
+  sum = sums.reduce((h, n) => {
+    return h + n
+  }, 0)
   if (minus === true) {
     sum *= -1
   }
