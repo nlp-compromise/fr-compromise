@@ -123,6 +123,9 @@ let arr = [
   ['cinq cent soixante cinq', 565],
   ['cinq cent quatre vingt dix huit', 598],
 
+  ['quatre cent quinze', 415],
+  ['quatre cent quinze mille', 415000],
+
   ['mille', 1000],
   ['mille et un', 1001],
   ['mille cinq cents', 1500],

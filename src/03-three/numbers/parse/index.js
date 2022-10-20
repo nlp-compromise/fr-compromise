@@ -9,7 +9,7 @@ const fromNumber = function (m) {
     str = str.replace(/,/g, '')
   }
   // get prefix/suffix
-  let arr = str.split(/([0-9.,]*)/)
+  let arr = str.split(/([-0-9.,]*)/)
   let [prefix, num] = arr
   let suffix = arr.slice(2).join('')
   if (num !== '' && m.length < 2) {

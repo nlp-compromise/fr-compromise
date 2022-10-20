@@ -17,13 +17,9 @@ export default [
   'quatorzième',
   'quinzième',
   'seizième',
-  'dix septième',
-  'dix huitième',
-  'dix neuvième',
   'vingtième',
   'trentième',
   'quarantième',
   'cinquantième',
   'soixantième',
-
 ]

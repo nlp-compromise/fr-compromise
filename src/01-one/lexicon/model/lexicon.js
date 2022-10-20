@@ -30,6 +30,8 @@ Object.keys(lexData).forEach(tag => {
     }
     if (tag === 'Ordinal') {
       words[w] = ['TextValue', 'Ordinal']
+      let norm = w.replace(/è/, 'e')
+      words[norm] = ['TextValue', 'Ordinal']
     }
     if (tag === 'MaleNoun') {
       let p = transform.noun.toPlural(w)
