@@ -12,9 +12,8 @@ let txt = "et boissons fraîches"
 
 // let doc = nlp('moins dix huitieme').debug()
 // let doc = nlp('quatre cent quinze ').debug()
-let doc = nlp('six millions quatre cent quatre vingt douze mille').debug()
-// doc.numbers().toNumber()
-// console.log(doc.text())
+let doc = nlp('33e').debug().numbers().add(1)
+console.log(doc.text())
 console.log(doc.numbers().json())
 
 // let doc = nlp(`18e`).debug()
