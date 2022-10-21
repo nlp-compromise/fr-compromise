@@ -103,4 +103,6 @@ export default ['bateau', 'parapluie',
   'donnée',
   'restaurant',
   'espace',
+
+
 ]

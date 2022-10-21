@@ -10,6 +10,9 @@ Object.keys(data).forEach(k => {
     toCardinal[ord] = w
     toOrdinal[w] = ord
     toNumber[w] = num
+    // add ordinal without accents
+    let norm = ord.replace(/è/, 'e')
+    toNumber[norm] = num
   })
 })
 

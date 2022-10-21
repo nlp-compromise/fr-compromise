@@ -12,9 +12,10 @@ test('num equals', function (t) {
     ['cinquante', 'cinquantième'],
     ['sept', 'septième'],
     ['dix huit', 'dix huitième'],
-    ['moins dix huit', '-18e'],
+    ['moins dix huitième', '-18e'],
+    ['moins dix huit', '-18'],
     ['moins deux centième', '-200'],
-    ['quatorze cent', 'quatorzième cent']
+    ['quatorze cent', 'quatorze centième']
   ]
   arr.forEach(a => {
     let [left, right] = a

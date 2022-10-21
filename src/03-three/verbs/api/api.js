@@ -86,16 +86,16 @@ const api = function (View) {
     //   })
     // }
     conjugate(n) {
-      const m = this.methods.two.transform.verb
+      const { toImperfect, toPresentTense, toFutureTense, toPastParticiple } = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
         let parsed = parseVerb(vb)
         let root = parsed.root || ''
         return {
           Infinitive: root,
-          PastTense: m.imperfect(root),
-          PresentTense: m.presentTense(root),
-          FutureTense: m.futureTense(root),
-          PastParticiple: m.pastParticiple(root),
+          PastTense: toImperfect(root),
+          PresentTense: toPresentTense(root),
+          FutureTense: toFutureTense(root),
+          PastParticiple: toPastParticiple(root),
         }
       }, [])
     }

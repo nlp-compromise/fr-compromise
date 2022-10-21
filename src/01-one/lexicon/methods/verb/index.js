@@ -41,10 +41,10 @@ const doOneVerb = function (str, form, m) {
   return str
 }
 
-const presentTense = (str) => doVerb(str, model.presentTense)
-const futureTense = (str) => doVerb(str, model.futureTense)
-const imperfect = (str) => doVerb(str, model.imperfect)
-const pastParticiple = (str) => convert(str, model.pastParticiple.prt)
+const toPresentTense = (str) => doVerb(str, model.presentTense)
+const toFutureTense = (str) => doVerb(str, model.futureTense)
+const toImperfect = (str) => doVerb(str, model.imperfect)
+const toPastParticiple = (str) => convert(str, model.pastParticiple.prt)
 
 const fromPresent = reverseAll(model.presentTense)
 const fromPresentTense = (str, form) => doOneVerb(str, form, fromPresent)
@@ -67,7 +67,38 @@ const fromPassive = function (str) {
   return str
 }
 
-export default { presentTense, futureTense, imperfect, pastParticiple, fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive }
+// i don't really know how this works
+const toPassive = function (str) {
+  if (str.endsWith('er')) {
+    return [
+      str.replace(/er$/, 'ées'),
+      str.replace(/er$/, 'ée'),
+      str.replace(/er$/, 'és'),
+      str.replace(/er$/, 'é'),
+    ]
+  }
+  return []
+}
+
+// an array of every inflection, for '{inf}' syntax
+const all = function (str) {
+  let arr = [str].concat(
+    Object.values(toPresentTense(str)),
+    Object.values(toFutureTense(str)),
+    Object.values(toImperfect(str)),
+    toPassive(str)
+  )
+  arr.push(toPastParticiple(str))
+  arr = arr.filter(s => s)
+  arr = new Set(arr)
+  return Array.from(arr)
+}
+
+export default {
+  all,
+  toPresentTense, toFutureTense, toImperfect, toPastParticiple,
+  fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive
+}
 
 // console.log(presentTense('marcher'))
 // console.log(futureTense('marcher'))

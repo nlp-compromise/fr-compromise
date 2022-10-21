@@ -1,4 +1,3 @@
-// import getRoot from './root.js'
 import getAdverbs from './adverbs.js'
 
 const getAuxiliary = function (vb, root) {
@@ -16,32 +15,17 @@ const getNegative = function (vb) {
 }
 
 // pull-apart phrasal-verb into verb-particle
-const getPhrasal = function (root) {
-  let particle = root.match('#Particle$')
-  return {
-    verb: root.not(particle),
-    particle: particle,
-  }
-}
+// const getPhrasal = function (root) {
+//   let particle = root.match('#Particle$')
+//   return {
+//     verb: root.not(particle),
+//     particle: particle,
+//   }
+// }
 
 const getRoot = function (view) {
-  const m = view.methods.two.transform.verb
-  let str = view.text('normal')
-  if (view.has('#PastParticiple')) {
-    return m.fromPastParticiple(str)
-  }
-  if (view.has('#PresentTense')) {
-    return m.fromPresentTense(str)
-  }
-  if (view.has('#PastTense')) {
-    return m.fromImperfectTense(str)
-  }
-  if (view.has('#FutureTense')) {
-    return m.fromFutureTense(str)
-  }
-  if (view.has('#ConditionalVerb')) {
-    return m.fromConditional(str)
-  }
+  view.compute('root')
+  let str = view.text('root')
   return str
 }
 

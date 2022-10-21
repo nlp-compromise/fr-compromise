@@ -26,6 +26,7 @@ import sportsTeams from './nouns/sportsTeams.js'
 import organizations from './nouns/organizations.js'
 import possessives from './nouns/possessives.js'
 import pronouns from './nouns/pronouns.js'
+import uncountables from './nouns/uncountables.js'
 
 import masc from './adjectives/masc.js'
 
@@ -65,6 +66,7 @@ const data = [
   [organizations, 'Organization'],
   [possessives, 'Possessive'],
   [pronouns, 'Pronoun'],
+  [uncountables, 'Uncountable'],
 
   [masc, 'MaleAdjective'],
 
