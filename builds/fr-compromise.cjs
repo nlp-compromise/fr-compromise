@@ -391,7 +391,7 @@
   Object.assign(View.prototype, api$n);
   var View$1 = View;
 
-  var version$1 = '14.5.2';
+  var version$1 = '14.6.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1118,6 +1118,7 @@
     if (!m.found) {
       return this
     }
+    this.soften();
     return m.replaceWith(input, keep)
   };
   var replace = fns$2;
@@ -1227,9 +1228,10 @@
         self = this;
         not = this.match(reg);
       }
+      let isFull = !self.ptrs;
       // is it part of a contraction?
-      if (self.has('@hasContraction') && self.contractions) {
-        let more = self.grow('@hasContraction');
+      if (not.has('@hasContraction') && not.contractions) {
+        let more = not.grow('@hasContraction');
         more.contractions().expand();
       }
 
@@ -1244,6 +1246,10 @@
       self.ptrs = ptrs;
       self.document = document;
       self.compute('index');
+      // if we started zoomed-out, try to end zoomed-out
+      if (isFull) {
+        self.ptrs = undefined;
+      }
       if (!reg) {
         this.ptrs = [];
         return self.none()
@@ -1850,7 +1856,10 @@
     'th',
     'am',
     'pm',
-    'max'
+    'max',
+    '°',
+    's', // 1990s
+    'e' // 18e - french/spanish ordinal
   ]);
 
   const numberUnit = function (terms, i) {
@@ -3048,11 +3057,11 @@
 
   // add all conjugations of this verb
   const addVerbs = function (token, world) {
-    let { all, toInfinitive } = world.methods.two.transform.verb || {};
+    let { all } = world.methods.two.transform.verb || {};
     let str = token.root;
-    if (toInfinitive) {
-      str = toInfinitive(str, world.model);
-    }
+    // if (toInfinitive) {
+    //   str = toInfinitive(str, world.model)
+    // }
     if (!all) {
       return []
     }
@@ -3350,7 +3359,7 @@
   const endQuote = /([\u0022\uFF02\u0027\u201D\u2019\u00BB\u203A\u2032\u2033\u2034\u301E\u00B4])/;
 
   const hasHyphen$1 = /^[-–—]$/;
-  const hasDash$1 = / [-–—] /;
+  const hasDash$1 = / [-–—]{1,3} /;
 
   /** search the term's 'post' punctuation  */
   const hasPost = (term, punct) => term.post.indexOf(punct) !== -1;
@@ -3372,6 +3381,8 @@
     hasEllipses: term => hasPost(term, '..') || hasPost(term, '…') || hasPre(term, '..') || hasPre(term, '…'),
     /** is there a semicolon after term word? */
     hasSemicolon: term => hasPost(term, ';'),
+    /** is there a colon after term word? */
+    hasColon: term => hasPost(term, ':'),
     /** is there a slash '/' in term word? */
     hasSlash: term => /\//.test(term.text),
     /** a hyphen connects two words like-term */
@@ -4917,7 +4928,7 @@
       if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
         opts = Object.assign({}, fmts$1[fmt]);
       } else if (fmt && isObject$1(fmt)) {
-        opts = Object.assign({}, fmt, opts);//todo: fixme
+        opts = Object.assign({}, opts, fmt);//todo: fixme
       }
       if (this.pointer) {
         opts.keepSpace = false;
@@ -6512,7 +6523,7 @@
   const isBoundary = /^[!?.]+$/;
   const naiiveSplit = /(\S+)/;
 
-  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`', '«', '»'];
+  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`', '«', '»', '*'];
   notWord = notWord.reduce((h, c) => {
     h[c] = true;
     return h
@@ -6582,13 +6593,14 @@
     '#', //#hastag
     '@', //@atmention
     '_',//underscore
-    '\\-',//-4  (escape)
+    // '\\-',//-4  (escape)
     '+',//+4
     '.',//.4
   ];
   const allowAfter = [
     '%',//88%
     '_',//underscore
+    '°',//degrees, italian ordinal
     // '\'',// \u0027
   ];
 
@@ -6602,6 +6614,7 @@
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const shortYear = /^'[0-9]{2}/;
+  const isNumber = /^-[0-9]/;
 
   const normalizePunctuation = function (str) {
     let original = str;
@@ -6618,6 +6631,10 @@
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
+        return found
+      }
+      // support prefix negative signs like '-45'
+      if (found === '-' && isNumber.test(str)) {
         return found
       }
       pre = found; //keep it
@@ -8354,6 +8371,8 @@
       }
       if (tag === 'Ordinal') {
         words[w] = ['TextValue', 'Ordinal'];
+        let norm = w.replace(/è/, 'e');
+        words[norm] = ['TextValue', 'Ordinal'];
       }
       if (tag === 'MaleNoun') {
         let p = methods$1.noun.toPlural(w);
@@ -10036,6 +10055,9 @@
       toCardinal[ord] = w;
       toOrdinal[w] = ord;
       toNumber[w] = num;
+      // add ordinal without accents
+      let norm = ord.replace(/è/, 'e');
+      toNumber[norm] = num;
     });
   });
 
@@ -10047,11 +10069,20 @@
     milliards: 1000000000,
   });
 
-  const multiNums = {
+  const multiLeft = {
     dix: true,//dix huit
     soixante: true,//soixante dix
     quatre: true,//quatre vingt
     mille: true//mille milliards
+  };
+
+  const multiples$1 = {
+    // cent: 100,//hundred
+    mille: 1000,//thousand
+    milles: 1000,//thousand
+    million: 1000000,//million
+    millions: 1000000,//million
+    milliards: 1000000000//billion
   };
 
   // greedy scan for multi-word numbers, like 'quatre vingt'
@@ -10072,7 +10103,6 @@
       if (toNumber.hasOwnProperty(str)) {
         skip = index;
         add = toNumber[str];
-        // console.log(str)
       }
     }
     return { skip, add }
@@ -10082,20 +10112,10 @@
     let sum = 0;
     let carry = 0;
     let minus = false;
+    let sums = [];
     for (let i = 0; i < terms.length; i += 1) {
       let { tags, normal } = terms[i];
       let w = normal || '';
-
-      // support 'quatre vingt dix', etc
-      if (multiNums.hasOwnProperty(w)) {
-        let { add, skip } = scanAhead(terms, i);
-        if (skip > 0) {
-          carry += add;
-          i += skip;
-          // console.log('skip', skip, 'add', add)
-          continue
-        }
-      }
       if (w === 'moins') {
         minus = true;
         continue
@@ -10108,15 +10128,34 @@
       if (tags.has('Ordinal')) {
         w = toCardinal[w];
       }
+      // add thousand, million
+      if (multiples$1.hasOwnProperty(w)) {
+        sum += carry;
+        carry = 0;
+        if (!sum) {
+          sum = 1;
+        }
+        sum *= multiples$1[w];
+        sums.push(sum);
+        sum = 0;
+        continue
+      }
+      // support 'quatre vingt dix', etc
+      if (multiLeft.hasOwnProperty(w)) {
+        let { add, skip } = scanAhead(terms, i);
+        if (skip > 0) {
+          carry += add;
+          i += skip;
+          continue
+        }
+      }
+
       // 'cent'
       if (tags.has('Multiple')) {
         let mult = toNumber[w] || 1;
         if (carry === 0) {
           carry = 1;
         }
-        // sum += carry
-        // sum = sum* mult
-        // console.log('carry', carry, 'mult', mult, 'sum', sum)
         sum += mult * carry;
         carry = 0;
         continue
@@ -10124,12 +10163,21 @@
       // 'trois'
       if (toNumber.hasOwnProperty(w)) {
         carry += toNumber[w];
+      } else {
+        let n = Number(w);
+        if (n) {
+          carry += n;
+        }
       }
     }
     // include any remaining
     if (carry !== 0) {
       sum += carry;
     }
+    sums.push(sum);
+    sum = sums.reduce((h, n) => {
+      return h + n
+    }, 0);
     if (minus === true) {
       sum *= -1;
     }
@@ -10146,7 +10194,7 @@
       str = str.replace(/,/g, '');
     }
     // get prefix/suffix
-    let arr = str.split(/([0-9.,]*)/);
+    let arr = str.split(/([-0-9.,]*)/);
     let [prefix, num] = arr;
     let suffix = arr.slice(2).join('');
     if (num !== '' && m.length < 2) {
@@ -11079,7 +11127,9 @@
     api: api$1
   };
 
-  var version = '0.2.0';
+  var version = '0.2.1';
+
+  // import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);

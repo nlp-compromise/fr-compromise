@@ -1,5 +1,5 @@
 import fixes from './fixes.js'
-import adj from '/Users/spencer/mountain/fr-compromise/data/models/adjective/index.js'
+import adj from '../../data/models/adjective/index.js'
 
 let data = adj
 //m: [f, p, fp]
