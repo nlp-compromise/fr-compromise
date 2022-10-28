@@ -12,10 +12,37 @@ let txt = "et boissons fraîches"
 
 // let doc = nlp('moins dix huitieme').debug()
 // let doc = nlp('quatre cent quinze ').debug()
-let doc = nlp('33e').debug().numbers().add(1)
-console.log(doc.text())
-console.log(doc.numbers().json())
+// let doc = nlp('33e').debug().numbers().add(1)
+// console.log(doc.text())
+// console.log(doc.numbers().json())
 
+
+const buildNet = function (words) {
+  let matches = words.map(doc => {
+    let w = doc.lemon
+    return { match: `{${w}/${doc.pos}}`, val: doc.id }
+  })
+  console.log(matches)
+  let net = nlp.buildNet(matches)
+  return net
+}
+
+let words = [{
+  "id": "yell-verb-01",
+  "pos": "Verb",
+  "lemon": "crier"
+},
+{
+  "id": "yellow-adjective-01",
+  "pos": "Adjective",
+  "lemon": "jaune"
+},
+{
+  "id": "wire-noun-01",
+  "pos": "Noun",
+  "lemon": "fil"
+}]
+console.log(buildNet(words))
 // let doc = nlp(`18e`).debug()
 
 

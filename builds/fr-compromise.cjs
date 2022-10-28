@@ -7946,13 +7946,13 @@
     }
   };
 
-  const all$1 = (str) => {
+  const all$2 = (str) => {
     let arr = Object.values(conjugate(str));
     return arr.filter(s => s)
   };
 
   var adjective = {
-    all: all$1,
+    all: all$2,
     conjugate,
     toFemale,
     toPlural: toPlural$1,
@@ -7967,10 +7967,17 @@
   const toPlural = (str) => convert$1(str, model$2.noun.plural);
   const fromPlural = (str) => convert$1(str, pRev);
 
+  const all$1 = (str) => {
+    let plr = toPlural(str);
+    if (str === plr) {
+      return [str]
+    }
+    return [str, plr]
+  };
   var noun = {
     toPlural,
     fromPlural,
-    all: toPlural
+    all: all$1
   };
 
   // ---verbs--
@@ -11127,7 +11134,7 @@
     api: api$1
   };
 
-  var version = '0.2.1';
+  var version = '0.2.2';
 
   // import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 
@@ -11155,7 +11162,12 @@
     }
   });
 
-  fr.world = () => nlp$1.world();
+  // this one is hidden
+  Object.defineProperty(fr, '_world', {
+    value: nlp$1._world,
+    writable: true,
+  });
+
 
 
   /** log the decision-making to console */
