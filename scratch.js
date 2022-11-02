@@ -17,32 +17,8 @@ let txt = "et boissons fraîches"
 // console.log(doc.numbers().json())
 
 
-const buildNet = function (words) {
-  let matches = words.map(doc => {
-    let w = doc.lemon
-    return { match: `{${w}/${doc.pos}}`, val: doc.id }
-  })
-  console.log(matches)
-  let net = nlp.buildNet(matches)
-  return net
-}
-
-let words = [{
-  "id": "yell-verb-01",
-  "pos": "Verb",
-  "lemon": "crier"
-},
-{
-  "id": "yellow-adjective-01",
-  "pos": "Adjective",
-  "lemon": "jaune"
-},
-{
-  "id": "wire-noun-01",
-  "pos": "Noun",
-  "lemon": "fil"
-}]
-console.log(buildNet(words))
+txt = `nous détestons le sable`
+nlp(txt).debug()
 // let doc = nlp(`18e`).debug()
 
 
