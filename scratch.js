@@ -18,7 +18,10 @@ let txt = "et boissons fraîches"
 
 
 txt = `nous détestons le sable`
-nlp(txt).debug()
+let doc = nlp(txt).debug()
+doc.verbs().toPastTense()
+
+
 // let doc = nlp(`18e`).debug()
 
 

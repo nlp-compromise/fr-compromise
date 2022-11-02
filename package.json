@@ -25,7 +25,8 @@
     "pack": "node ./scripts/pack.js",
     "watch": "amble ./scratch.js",
     "version": "node ./scripts/version.js",
-    "score": "node ./learn/giga/test.js"
+    "score": "node ./learn/giga/test.js",
+    "stress": "node scripts/stress.js"
   },
   "files": [
     "builds/",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "14.1.0",
     "amble": "1.3.0",
+    "fr-corpus": "^0.0.1",
     "rollup": "2.79.0",
     "rollup-plugin-terser": "7.0.2",
     "tap-dancer": "0.3.4",
