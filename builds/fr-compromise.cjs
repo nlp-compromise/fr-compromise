@@ -251,6 +251,27 @@
       }, 0)
     },
 
+    // is the pointer the full sentence?
+    isFull: function () {
+      let ptrs = this.pointer;
+      if (!ptrs) {
+        return true
+      }
+      let document = this.document;
+      for (let i = 0; i < ptrs.length; i += 1) {
+        let [n, start, end] = ptrs[i];
+        // it's not the start
+        if (n !== i || start !== 0) {
+          return false
+        }
+        // it's too short
+        if (document[n].length > end) {
+          return false
+        }
+      }
+      return true
+    }
+
   };
   utils.group = utils.groups;
   utils.fullSentence = utils.fullSentences;
@@ -391,7 +412,7 @@
   Object.assign(View.prototype, api$n);
   var View$1 = View;
 
-  var version$1 = '14.6.0';
+  var version$1 = '14.7.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1084,6 +1105,9 @@
     // original.freeze()
     let oldTags = (original.docs[0] || []).map(term => Array.from(term.tags));
     // slide this in
+    if (typeof input === 'string') {
+      input = this.fromText(input).compute('id');
+    }
     main.insertAfter(input);
     // are we replacing part of a contraction?
     if (original.has('@hasContraction') && main.contractions) {
@@ -1107,6 +1131,13 @@
     if (keep.case && m.docs[0] && m.docs[0][0] && m.docs[0][0].index[1] === 0) {
       m.docs[0][0].text = titleCase$3(m.docs[0][0].text);
     }
+    // console.log(input.docs[0])
+    // let regs = input.docs[0].map(t => {
+    //   return { id: t.id, optional: true }
+    // })
+    // m.after('(a|hoy)').debug()
+    // m.growRight('(a|hoy)').debug()
+    // console.log(m)
     return m
   };
 
@@ -1555,14 +1586,20 @@
   var concat = {
     // add string as new match/sentence
     concat: function (input) {
-      const { methods, document, world } = this;
       // parse and splice-in new terms
       if (typeof input === 'string') {
-        let json = methods.one.tokenize.fromString(input, world);
-        let ptrs = this.fullPointer;
-        let lastN = ptrs[ptrs.length - 1][0];
-        spliceArr(document, lastN + 1, json);
-        return this.compute('index')
+        let more = this.fromText(input);
+        // easy concat
+        if (!this.found || !this.ptrs) {
+          this.document = this.document.concat(more.document);
+        } else {
+          // if we are in the middle, this is actually a splice operation
+          let ptrs = this.fullPointer;
+          let at = ptrs[ptrs.length - 1][0];
+          this.document.splice(at, 0, ...more.document);
+        }
+        // put the docs
+        return this.all().compute('index')
       }
       // plop some view objects together
       if (typeof input === 'object' && input.isView) {
@@ -2195,7 +2232,7 @@
 
   const tokenize$3 = function (phrase, world) {
     const { methods, model } = world;
-    let terms = methods.one.tokenize.splitTerms(phrase, model).map(methods.one.tokenize.splitWhitespace);
+    let terms = methods.one.tokenize.splitTerms(phrase, model).map(t => methods.one.tokenize.splitWhitespace(t, model));
     return terms.map(term => term.text.toLowerCase())
   };
 
@@ -3421,6 +3458,10 @@
     if (reg.end === true && index !== length - 1) {
       return false
     }
+    // match an id
+    if (reg.id !== undefined && reg.id === term.id) {
+      return true
+    }
     //support a text match
     if (reg.word !== undefined) {
       // check case-sensitivity, etc
@@ -4127,6 +4168,24 @@
   };
   var getGroup$1 = getGroup;
 
+  const notIf = function (results, not, docs) {
+    results = results.filter(res => {
+      let [n, start, end] = res.pointer;
+      let terms = docs[n].slice(start, end);
+      for (let i = 0; i < terms.length; i += 1) {
+        let slice = terms.slice(i);
+        let found = fromHere(slice, not, i, terms.length);
+        if (found !== null) {
+          return false
+        }
+      }
+      return true
+    });
+    return results
+  };
+
+  var notIf$1 = notIf;
+
   // make proper pointers
   const addSentence = function (res, n) {
     res.pointer[0] = n;
@@ -4201,6 +4260,9 @@
         let n = res.pointer[0];
         return docs[n].length === res.pointer[2]
       });
+    }
+    if (todo.notIf) {
+      results = notIf$1(results, todo.notIf, docs);
     }
     // grab the requested group
     results = getGroup$1(results, group);
@@ -4428,6 +4490,7 @@
       form: 'normal',
     },
     machine: {
+      keepSpace: false,
       whitespace: 'some',
       punctuation: 'some',
       case: 'none',
@@ -4435,6 +4498,7 @@
       form: 'machine',
     },
     root: {
+      keepSpace: false,
       whitespace: 'some',
       punctuation: 'some',
       case: 'some',
@@ -4806,6 +4870,7 @@
         if (starts.hasOwnProperty(t.id)) {
           let { fn, end } = starts[t.id];
           let m = doc.update([[n, i, end]]);
+          text += terms[i].pre || '';
           text += fn(m);
           i = end - 1;
           text += terms[i].post || '';
@@ -4909,7 +4974,11 @@
     /** */
     debug: debug$1,
     /** */
-    out: out,
+    out,
+    /** */
+    wrap: function (obj) {
+      return wrap$1(this, obj)
+    },
   };
 
   var out$1 = methods$9;
@@ -4921,25 +4990,29 @@
   var text = {
     /** */
     text: function (fmt) {
-      let opts = {
-        keepSpace: true,
-        keepPunct: true,
-      };
+      let opts = {};
       if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
         opts = Object.assign({}, fmts$1[fmt]);
       } else if (fmt && isObject$1(fmt)) {
-        opts = Object.assign({}, opts, fmt);//todo: fixme
+        opts = Object.assign({}, fmt);//todo: fixme
       }
-      if (this.pointer) {
+      if (opts.keepSpace === undefined && this.pointer) {
         opts.keepSpace = false;
+      }
+      if (opts.keepPunct === undefined && this.pointer) {
         let ptr = this.pointer[0];
         if (ptr && ptr[1]) {
           opts.keepPunct = false;
         } else {
           opts.keepPunct = true;
         }
-      } else {
+      }
+      // set defaults
+      if (opts.keepPunct === undefined) {
         opts.keepPunct = true;
+      }
+      if (opts.keepSpace === undefined) {
+        opts.keepSpace = true;
       }
       return textFromDoc(this.docs, opts)
     },
@@ -5498,6 +5571,9 @@
       if (typeof obj.ifNo === 'string') {
         obj.ifNo = [obj.ifNo];
       }
+      if (obj.notIf) {
+        obj.notIf = parseMatch(obj.notIf, {}, world);
+      }
       // cache any requirements up-front 
       obj.needs = getNeeds(obj.regs);
       let { wants, count } = getWants(obj.regs);
@@ -5625,9 +5701,14 @@
             //     const no = m.ifNo[k]
             //     // quick-check cache
             //     if (docCache[n].has(no)) {
-            //       // console.log(no)
-            //       if (terms.find(t => t.normal === no || t.tags.has(no))) {
-            //         // console.log('+' + no)
+            //       if (no.startsWith('#')) {
+            //         let tag = no.replace(/^#/, '')
+            //         if (terms.find(t => t.tags.has(tag))) {
+            //           console.log('+' + tag)
+            //           return
+            //         }
+            //       } else if (terms.find(t => t.normal === no || t.tags.has(no))) {
+            //         console.log('+' + no)
             //         return
             //       }
             //     }
@@ -6130,6 +6211,7 @@
 
     /** return only the terms that can be this tag  */
     canBe: function (tag) {
+      tag = tag.replace(/^#/, '');
       let tagSet = this.model.one.tagSet;
       // everything can be an unknown tag
       if (!tagSet.hasOwnProperty(tag)) {
@@ -6448,6 +6530,10 @@
     }
     const { prefixes, suffixes } = model.one;
 
+    // l-theanine, x-ray
+    if (parts[0].length === 1 && /[a-z]/i.test(parts[0])) {
+      return false
+    }
     //dont split 're-do'
     if (prefixes.hasOwnProperty(parts[0])) {
       return false
@@ -6589,79 +6675,76 @@
   };
   var splitTerms = splitWords;
 
-  const allowBefore = [
-    '#', //#hastag
-    '@', //@atmention
-    '_',//underscore
-    // '\\-',//-4  (escape)
-    '+',//+4
-    '.',//.4
-  ];
-  const allowAfter = [
-    '%',//88%
-    '_',//underscore
-    '°',//degrees, italian ordinal
-    // '\'',// \u0027
-  ];
-
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
-  let beforeReg = new RegExp(`[${allowBefore.join('')}]+$`, '');
-  let afterReg = new RegExp(`^[${allowAfter.join('')}]+`, '');
 
   //we have slightly different rules for start/end - like #hashtags.
-  const endings = /[\p{Punctuation}\s]+$/u;
-  const startings = /^[\p{Punctuation}\s]+/u;
-  const hasApostrophe$1 = /['’]/;
+  const isLetter = /\p{Letter}/u;
+  const isNumber = /[\p{Number}\p{Currency_Symbol}]/u;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
-  const shortYear = /^'[0-9]{2}/;
-  const isNumber = /^-[0-9]/;
+  const chillin = /[sn]['’]$/;
 
-  const normalizePunctuation = function (str) {
+  const normalizePunctuation = function (str, model) {
+    // quick lookup for allowed pre/post punctuation
+    let { prePunctuation, postPunctuation, emoticons } = model.one;
     let original = str;
     let pre = '';
     let post = '';
-    // adhoc cleanup for pre
-    str = str.replace(startings, found => {
-      // punctuation symboles like '@' to allow at start of term
-      let m = found.match(beforeReg);
-      if (m) {
-        pre = found.replace(beforeReg, '');
-        return m
-      }
-      // support years like '97
-      if (pre === `'` && shortYear.test(str)) {
-        pre = '';
-        return found
-      }
-      // support prefix negative signs like '-45'
-      if (found === '-' && isNumber.test(str)) {
-        return found
-      }
-      pre = found; //keep it
-      return ''
-    });
-    // ad-hoc cleanup for post 
-    str = str.replace(endings, found => {
-      // punctuation symboles like '@' to allow at start of term
-      let m = found.match(afterReg);
-      if (m) {
-        post = found.replace(afterReg, '');
-        return m
-      }
+    let chars = Array.from(str);
 
-      // keep s-apostrophe - "flanders'" or "chillin'"
-      if (hasApostrophe$1.test(found) && /[sn]['’]$/.test(original) && hasApostrophe$1.test(pre) === false) {
-        post = post.replace(hasApostrophe$1, '');
-        return `'`
+    // punctuation-only words, like '<3'
+    if (emoticons.hasOwnProperty(str.trim())) {
+      return { str: str.trim(), pre, post: ' ' } //not great
+    }
+
+    // pop any punctuation off of the start
+    let len = chars.length;
+    for (let i = 0; i < len; i += 1) {
+      let c = chars[0];
+      // keep any declared chars
+      if (prePunctuation[c] === true) {
+        continue//keep it
       }
-      //keep end-period in acronym
-      if (hasAcronym.test(str) === true) {
-        post = found.replace(/^\./, '');
-        return '.'
+      // keep '+' or '-' only before a number
+      if ((c === '+' || c === '-') && isNumber.test(chars[1])) {
+        break//done
       }
-      post = found;//keep it
-      return ''
-    });
+      // '97 - year short-form
+      if (c === "'" && c.length === 3 && isNumber.test(chars[1])) {
+        break//done
+      }
+      // start of word
+      if (isLetter.test(c) || isNumber.test(c)) {
+        break //done
+      }
+      // punctuation
+      pre += chars.shift();//keep going
+    }
+
+    // pop any punctuation off of the end
+    len = chars.length;
+    for (let i = 0; i < len; i += 1) {
+      let c = chars[chars.length - 1];
+      // keep any declared chars
+      if (postPunctuation[c] === true) {
+        continue//keep it
+      }
+      // start of word
+      if (isLetter.test(c) || isNumber.test(c)) {
+        break //done
+      }
+      // F.B.I.
+      if (c === '.' && hasAcronym.test(original) === true) {
+        continue//keep it
+      }
+      //  keep s-apostrophe - "flanders'" or "chillin'"
+      if (c === "'" && chillin.test(original) === true) {
+        continue//keep it
+      }
+      // punctuation
+      post = chars.pop() + post;//keep going
+    }
+
+    str = chars.join('');
     //we went too far..
     if (str === '') {
       // do a very mild parse, and hope for the best.
@@ -6676,9 +6759,9 @@
   };
   var tokenize$2 = normalizePunctuation;
 
-  const parseTerm = txt => {
+  const parseTerm = (txt, model) => {
     // cleanup any punctuation as whitespace
-    let { str, pre, post } = tokenize$2(txt);
+    let { str, pre, post } = tokenize$2(txt, model);
     const parsed = {
       text: str,
       pre: pre,
@@ -6792,7 +6875,7 @@
     input = sentences.map((txt) => {
       let terms = splitTerms(txt, model);
       // split into [pre-text-post]
-      terms = terms.map(splitWhitespace);
+      terms = terms.map(t => splitWhitespace(t, model));
       // add normalized term format, always
       terms.forEach((t) => {
         normal(t, world);
@@ -7137,6 +7220,8 @@
     'tri',
     'un',
     'out', //out-lived
+    'ex',//ex-wife
+
     // 'counter',
     // 'mid',
     // 'out',
@@ -7213,14 +7298,58 @@
   });
   var unicode$3 = unicode$2;
 
+  // https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5Cp%7Bpunctuation%7D
+
+  // punctuation to keep at start of word
+  const prePunctuation = {
+    '#': true, //#hastag
+    '@': true, //@atmention
+    '_': true,//underscore
+    '°': true,
+    // '+': true,//+4
+    // '\\-',//-4  (escape)
+    // '.',//.4
+    // zero-width chars
+    '\u200B': true,
+    '\u200C': true,
+    '\u200D': true,
+    '\uFEFF': true
+  };
+
+  // punctuation to keep at end of word
+  const postPunctuation = {
+    '%': true,//88%
+    '_': true,//underscore
+    '°': true,//degrees, italian ordinal
+    // '\'',// sometimes
+    // zero-width chars
+    '\u200B': true,
+    '\u200C': true,
+    '\u200D': true,
+    '\uFEFF': true
+  };
+
+  const emoticons = {
+    '<3': true,
+    '</3': true,
+    '<\\3': true,
+    ':^P': true,
+    ':^p': true,
+    ':^O': true,
+    ':^3': true,
+  };
+
   var model$4 = {
     one: {
       aliases: aliases$1,
       abbreviations,
       prefixes,
       suffixes,
+      prePunctuation,
+      postPunctuation,
       lexicon: lexicon$2, //give this one forward
       unicode: unicode$3,
+      emoticons
     },
   };
 
@@ -7555,6 +7684,8 @@
   nlp$1.extend(typeahead); //1kb
   nlp$1.extend(lexicon$3); //1kb
   nlp$1.extend(sweep); //1kb
+
+  console.log('local-path');
 
   //a hugely-ignorant, and widely subjective transliteration of latin, cryllic, greek unicode characters to english ascii.
   //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
@@ -10894,6 +11025,7 @@
       //   return getNth(this, n).map(vb => {
       //     let parsed = parseVerb(vb)
       //     let info = getGrammar(vb, parsed)
+      //     console.log(info)
       //     return toPast(vb, parsed, info.form)
       //   })
       // }
@@ -11134,9 +11266,7 @@
     api: api$1
   };
 
-  var version = '0.2.2';
-
-  // import nlp from '/Users/spencer/mountain/compromise/src/one.js'
+  var version = '0.2.3';
 
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
