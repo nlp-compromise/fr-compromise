@@ -7685,8 +7685,6 @@
   nlp$1.extend(lexicon$3); //1kb
   nlp$1.extend(sweep); //1kb
 
-  console.log('local-path');
-
   //a hugely-ignorant, and widely subjective transliteration of latin, cryllic, greek unicode characters to english ascii.
   //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
   //http://en.wikipedia.org/wiki/List_of_Unicode_characters
@@ -11266,7 +11264,7 @@
     api: api$1
   };
 
-  var version = '0.2.3';
+  var version = '0.2.4';
 
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
