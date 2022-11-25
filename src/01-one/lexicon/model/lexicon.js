@@ -21,35 +21,35 @@ Object.keys(lexData).forEach(tag => {
     // expand
     if (tag === 'MaleAdjective') {
       let res = transform.adjective.conjugate(w)
-      words[res.female] = 'FemaleAdjective'
-      words[res.plural] = 'MaleAdjective'
-      words[res.femalePlural] = 'FemaleAdjective'
+      words[res.female] = words[res.female] || 'FemaleAdjective'
+      words[res.plural] = words[res.plural] || 'MaleAdjective'
+      words[res.femalePlural] = words[res.femalePlural] || 'FemaleAdjective'
     }
     if (tag === 'Cardinal') {
-      words[w] = ['TextValue', 'Cardinal']
+      words[w] = words[w] || ['TextValue', 'Cardinal']
     }
     if (tag === 'Ordinal') {
-      words[w] = ['TextValue', 'Ordinal']
+      words[w] = words[w] || ['TextValue', 'Ordinal']
       let norm = w.replace(/è/, 'e')
-      words[norm] = ['TextValue', 'Ordinal']
+      words[norm] = words[norm] || ['TextValue', 'Ordinal']
     }
     if (tag === 'MaleNoun') {
       let p = transform.noun.toPlural(w)
-      words[p] = 'PluralNoun'
+      words[p] = words[p] || 'PluralNoun'
     }
     if (tag === 'Infinitive') {
       // do future-tense
       let res = transform.verb.toFutureTense(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
-          words[res[k]] = [tagMap[k], 'FutureTense']
+          words[res[k]] = words[res[k]] || [tagMap[k], 'FutureTense']
         }
       })
       // do present-tense
       res = transform.verb.toPresentTense(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
-          words[res[k]] = [tagMap[k], 'PresentTense']
+          words[res[k]] = words[res[k]] || [tagMap[k], 'PresentTense']
         }
       })
       // do imperfect mood
@@ -57,12 +57,12 @@ Object.keys(lexData).forEach(tag => {
       Object.keys(res).forEach(k => words[res[k]] = 'Verb')
       // past-participle
       let out = transform.verb.toPastParticiple(w)
-      words[out] = 'PastParticiple'
+      words[out] = words[out] || 'PastParticiple'
     }
   })
 })
 
 let lexicon = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-// console.log(lexicon['suis'])
+// console.log(lexicon['fatigué'])
 export default lexicon

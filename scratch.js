@@ -1,5 +1,5 @@
 import nlp from './src/index.js'
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 let txt = "et boissons fraîches"
 /*
 
@@ -18,9 +18,14 @@ let txt = "et boissons fraîches"
 
 
 txt = `nous détestons le sable`
+txt = `passionné`
 let doc = nlp(txt).debug()
-doc.verbs().toPastTense()
+// doc.verbs().toPastTense()
+// let net = nlp.buildNet([{ match: '{dévoiler/Verb}' }])
+// console.dir(net, { depth: 5 })
 
+// let doc = nlp('c\'est une emergency')
+// doc.match('{emergency/Noun}').debug()
 
 // let doc = nlp(`18e`).debug()
 

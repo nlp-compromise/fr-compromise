@@ -27,6 +27,7 @@ import organizations from './nouns/organizations.js'
 import possessives from './nouns/possessives.js'
 import pronouns from './nouns/pronouns.js'
 import uncountables from './nouns/uncountables.js'
+import nouns from './nouns/nouns.js'
 
 import masc from './adjectives/masc.js'
 
@@ -67,6 +68,7 @@ const data = [
   [possessives, 'Possessive'],
   [pronouns, 'Pronoun'],
   [uncountables, 'Uncountable'],
+  [nouns, 'Noun'],
 
   [masc, 'MaleAdjective'],
 
@@ -94,4 +96,4 @@ for (let i = 0; i < data.length; i++) {
 
 export default lex
 // console.log(Object.keys(lex).length);
-// console.log(lex['suis'])
+// console.log(lex['fatigué'])
