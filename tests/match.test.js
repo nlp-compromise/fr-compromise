@@ -131,7 +131,6 @@ test('match:', function (t) {
     ['dessert', '#Noun'],//dessert
     ['détendre', '#Verb'],//unwind
     ['détenu', '#Noun'],//inmate
-    ['deuxième', '#Noun'],//second
     ['digne', '#Adjective'],//worthy
     ['dingue', '#Adjective'],//kooky
     ['directeur', '#Noun'],//manager

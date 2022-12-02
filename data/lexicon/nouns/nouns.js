@@ -403,7 +403,6 @@ export default [
   'revenu', //revenue
   'risque', //risk
   'sable', //sand
-  'deuxième', //second
   'sœur', //sister
   'taille', //size
   'quelque chose', //something
