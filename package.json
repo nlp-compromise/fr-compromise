@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "fr-compromise",
   "description": "Linguistique computationnelle modeste",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "./builds/fr-compromise.mjs",
   "unpkg": "./builds/fr-compromise.min.js",
   "type": "module",
@@ -33,7 +33,7 @@
     "types.d.ts"
   ],
   "dependencies": {
-    "compromise": "14.7.0",
+    "compromise": "14.8.0",
     "efrt": "2.7.0",
     "suffix-thumb": "4.0.2"
   },
