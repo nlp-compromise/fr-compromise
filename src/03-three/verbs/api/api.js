@@ -68,6 +68,7 @@ const api = function (View) {
     //   return getNth(this, n).map(vb => {
     //     let parsed = parseVerb(vb)
     //     let info = getGrammar(vb, parsed)
+    //     console.log(info)
     //     return toPast(vb, parsed, info.form)
     //   })
     // }

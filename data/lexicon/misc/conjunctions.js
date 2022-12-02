@@ -1,1 +1,1 @@
-export default ['et', 'mais', 'soit', 'puis', 'car', 'or', 'voire', 'sinon', 'comme', 'donc']
+export default ['et', 'mais', 'soit', 'puis', 'car', 'voire', 'sinon', 'comme', 'donc']

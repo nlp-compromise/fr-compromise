@@ -99,7 +99,6 @@ export default [
   "algérien",
   "aligné",
   "allemand",
-  "allié",
   "allongé",
   "allumé",
   "allusif",
@@ -118,7 +117,6 @@ export default [
   "ambré",
   "ambulant",
   "amer",
-  "ami",
   "amical",
   "aminci",
   "amincissant",
@@ -346,7 +344,6 @@ export default [
   "boursouflé",
   "bousillé",
   "boutonné",
-  "bovin",
   "braillard",
   "branché",
   "branlant",
@@ -455,7 +452,6 @@ export default [
   "chaussé",
   "chenu",
   "cher",
-  "chercheur",
   "chevelu",
   "chiant",
   "chiffonné",
@@ -521,7 +517,6 @@ export default [
   "commandé",
   "commençant",
   "commercial",
-  "commerçant",
   "commun",
   "communal",
   "commémoratif",
@@ -725,7 +720,6 @@ export default [
   "diminué",
   "diplômé",
   "direct",
-  "directeur",
   "directionnel",
   "dirigeant",
   "dirigé",
@@ -933,7 +927,6 @@ export default [
   "détaillé",
   "détendu",
   "détenteur",
-  "détenu",
   "déterminant",
   "déterminé",
   "détourné",
@@ -984,7 +977,6 @@ export default [
   "empaqueté",
   "empesé",
   "empierré",
-  "employé",
   "emporté",
   "empoussiéré",
   "empressé",
@@ -1033,7 +1025,6 @@ export default [
   "enlevé",
   "enluminé",
   "enneigé",
-  "ennemi",
   "ennuyé",
   "enraciné",
   "enragé",
@@ -1134,7 +1125,6 @@ export default [
   "fagoté",
   "fainéant",
   "faisandé",
-  "fait",
   "falot",
   "familial",
   "familier",
@@ -1169,7 +1159,6 @@ export default [
   "figuré",
   "figé",
   "filial",
-  "fin",
   "final",
   "financier",
   "fini",
@@ -1621,7 +1610,6 @@ export default [
   "investigateur",
   "inviolé",
   "invitant",
-  "invité",
   "invétéré",
   "inédit",
   "inégal",
@@ -1820,7 +1808,6 @@ export default [
   "mort-né",
   "mortel",
   "mortifiant",
-  "moteur",
   "motivé",
   "motorisé",
   "mouchard",
@@ -1926,7 +1913,6 @@ export default [
   "négatif",
   "négligé",
   "névrosé",
-  "objectif",
   "obligeant",
   "obligé",
   "oblong",
@@ -2006,7 +1992,6 @@ export default [
   "paranormal",
   "parcheminé",
   "pareil",
-  "parent",
   "parental",
   "parfait",
   "parfumé",
@@ -2024,7 +2009,6 @@ export default [
   "partisan",
   "parvenu",
   "paré",
-  "passager",
   "passant",
   "passif",
   "passionnant",
@@ -2066,7 +2050,6 @@ export default [
   "perpétuel",
   "persan",
   "persistant",
-  "personnel",
   "persuadé",
   "persuasif",
   "persécuté",
@@ -2100,7 +2083,7 @@ export default [
   "planqué",
   "planté",
   "plaqué",
-  "plat",
+  // "plat",
   "platiné",
   "plein",
   "pleurant",
@@ -2351,7 +2334,6 @@ export default [
   "retiré",
   "retroussé",
   "revendicatif",
-  "revenu",
   "revu",
   "revêtu",
   "reçu",
@@ -2366,7 +2348,6 @@ export default [
   "rituel",
   "rival",
   "romain",
-  "roman",
   "rompu",
   "rond",
   "ronflant",
@@ -2411,7 +2392,6 @@ export default [
   "réformé",
   "réfrigérant",
   "réfrigéré",
-  "réfugié",
   "réglé",
   "régulateur",
   "régulier",
@@ -2595,7 +2575,6 @@ export default [
   "suintant",
   "suivant",
   "suivi",
-  "sujet",
   "superficiel",
   "superflu",
   "superposé",
@@ -2673,7 +2652,6 @@ export default [
   "timoré",
   "tintinnabulant",
   "tiré",
-  "tissu",
   "tissé",
   "titré",
   "titubant",
@@ -2708,8 +2686,6 @@ export default [
   "traceur",
   "traditionnel",
   "trahi",
-  "trait",
-  "traité",
   "tranchant",
   "tranché",
   "tranquillisant",
@@ -2847,7 +2823,6 @@ export default [
   "vocal",
   "vociférant",
   "voilé",
-  "voisin",
   "volant",
   "volatil",
   "voleur",
@@ -2994,5 +2969,232 @@ export default [
   "évocateur",
   "évolué",
   "ôté",
-  "soudain"
+  "soudain",
+
+
+
+  'anarchiste', //anarchist
+  'endormi', //asleep
+  'réveillé', //awake
+  'chauve', //bald
+  'nul', //blank
+  'aveugle', //blind
+  'large', //broad
+  'négligent', //careless
+  'moche', //cheesy
+  'moche', //chewy
+  'classe', //classy
+  'contrefaits', //counterfeit
+  'fou', //crazy
+  'nul', //dull
+  'hâte', //eager
+  'attachant', //endearing
+  'sympa', //enjoyable
+  'écolo', //environmental
+  'exonéré', //exempt
+  'faux', //fake
+  'nul', //floppy
+  'fou', //frantic
+  'en or', //gold
+  'gras', //greasy
+  'nul', //hollow
+  'fait maison', //homemade
+  'immature', //immature
+  'sous-entendu', //implied
+  'insoumis', //insubordinate
+  'jaloux', //jealous
+  'connu', //known
+  'dingue', //kooky
+  'moins', //least
+  'fidèle', //loyal
+  'doux', //meek
+  'nul', //moot
+  'plus', //more
+  'proche', //near
+  'nouveau', //new
+  'gras', //oily
+  'philosophe', //philosophical
+  'bidon', //phony
+  'pitié', //pitiful
+  'sympa', //pleasant
+  'prédateur', //predatory
+  'pittoresque', //quaint
+  'rouge', //red
+  'peu importe', //regardless
+  'pourri', //rotten
+  'sauf', //safe
+  'même', //same
+  'moche', //shabby
+  'bâclé', //sloppy
+  'doux', //soft
+  'bientôt', //soon
+  'flippant', //spooky
+  'stressé', //stressful
+  'fort', //strong
+  'suivant', //subsequent
+  'chic', //swanky
+  'doux', //sweet
+  'tendre', //tender
+  'actualité', //timely
+  'minuscule', //tiny
+  'fatigué', //tired
+  'ensemble', //together
+  'nul', //trifling
+  'moche', //ugly
+  'nul', //useless
+  'bizarre', //weird
+  'sage', //wise
+  'jaune', //yellow
+  'contre', //against
+  'atroce', //atrocious
+  'autorité', //authoritative
+  'chauve', //bald
+  'aimé', //beloved
+  'contraignant', //binding
+  'fade', //bland
+  'aveugle', //blind
+  'négligent', //careless
+  'fermé', //closed
+  'propice', //conducive
+  'pratique', //convenient
+  'fou', //crazy
+  'mort', //dead
+  'désespéré', //desperate
+  'est', //east
+  'efficace', //effective
+  'efficace', //efficient
+  'attachant', //endearing
+  'énorme', //enormous
+  'enthousiaste', //enthusiastic
+  'fidèle', //faithful
+  'célèbre', //famous
+  'préféré', //favorite
+  'glacial', //frosty
+  'drôle', //funny
+  'sombre', //gloomy
+  'honnête', //honest
+  'faim', //hungry
+  'fou', //insane
+  'connu', //known
+  'moins', //least
+  'obligatoire', //mandatory
+  'plus', //more
+  'nouveau', //new
+  'notoire', //notorious
+  'ordonné', //orderly
+  'parfait', //perfect
+  'rose', //pink
+  'pratique', //practical
+  'pittoresque', //quaint
+  'aléatoire', //random
+  'rouge', //red
+  'pourri', //rotten
+  'triste', //sad
+  'même', //same
+  'rare', //scarce
+  'égoïste', //selfish
+  'louche', //shady
+  'timide', //shy
+  'malade', //sick
+  'triste', //sorrowful
+  'sévère', //stern
+  'chic', //swanky
+  'insipide', //tasteless
+  'rangé', //tidy
+  'fatigué', //tired
+  'ensemble', //together
+  'fidèle', //trusty
+  'inconstitutionnel', //unconstitutional
+  'riche', //wealthy
+  'fatigué', //weary
+  'bizarre', //weird
+  'sage', //wise
+  'digne', //worthy
+  'jaune', //yellow
+  'jeune', //young
+  'au dessus', //above
+  'fâché', //angry
+  'aspire', //aspiring
+  'autorité', //authoritative
+  'réveillé', //awake
+  'chauve', //bald
+  'aimé', //beloved
+  'au delà', //beyond
+  'nul', //blank
+  'aveugle', //blind
+  'calculé', //calculated
+  'fermé', //closed
+  'daté', //dated
+  'nul', //devoid
+  'nul', //dismal
+  'nul', //dull
+  'endurant', //enduring
+  'sympa', //enjoyable
+  'écolo', //environmental
+  'exonéré', //exempt
+  'à la mode', //fashionable
+  'gros', //fat
+  'souple', //flexible
+  'aime', //fond
+  'en avance', //forward
+  'drôle', //funny
+  'sombre', //gloomy
+  'gris', //gray
+  'hybride', //hybrid
+  'infâme', //infamous
+  'jaloux', //jealous
+  'dingue', //kooky
+  'gauche', //left
+  'obligatoire', //mandatory
+  'mathématicien', //mathematical
+  'maximum', //maximum
+  'doux', //meek
+  'en désordre', //messy
+  'nul', //moot
+  'proche', //near
+  'nul', //needless
+  'nouveau', //new
+  'quand même', //nonetheless
+  'notoire', //notorious
+  'nouveau', //novel
+  'bizarre', //odd
+  'ordonné', //orderly
+  'dehors', //outdoor
+  'tranquille', //peaceful
+  'philosophe', //philosophical
+  'pitié', //pitiful
+  'sympa', //pleasant
+  'nul', //pointless
+  'pratique', //practical
+  'pressé', //pushy
+  'raciste', //racist
+  'aléatoire', //random
+  'rouge', //red
+  'risqué', //risky
+  'sauf', //safe
+  'même', //same
+  'moche', //shabby
+  'simple', //simple
+  'bâclé', //sloppy
+  'bientôt', //soon
+  'suivant', //subsequent
+  'doux', //sweet
+  'technique', //technical
+  'fatigué', //tired
+  'ensemble', //together
+  'nul', //trifling
+  'nul', //trivial
+  'fidèle', //trusty
+  'moche', //ugly
+  'inconstitutionnel', //unconstitutional
+  'sous', //under
+  'à venir', //upcoming
+  'nul', //useless
+  'fatigué', //weary
+  'bizarre', //weird
+  'répandu', //widespread
+  'sage', //wise
+  'efficace', //workable
+  'jaune', //yellow
+  'jeune', //young
 ]

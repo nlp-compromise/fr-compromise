@@ -1793,5 +1793,36 @@ export default [
   "vouloir",
   "voyager",
   "vrombir",
-  "endommager"
+  "endommager",
+
+  'attendre', //await
+  'disparaître', //disappear
+  'interdire', //forbid
+  'survivre', //survive
+  'défaire', //undo
+  'disparaître', //vanish
+  'attendre', //wait
+  'déduire', //infer
+  'perdre', //lose
+  'détendre', //relax
+  'personnel', //staff
+  'comprendre', //understand
+  'détendre', //unwind
+  'atteindre', //attain
+  'enfreindre', //breach
+  'déduire', //deduct
+  'déplaire', //displease
+  'entendre', //hear
+  'enfreindre', //infringe
+  'apprendre', //learn
+  'tondre', //mow
+  'poursuivre', //prosecute
+  'atteindre', //reach
+  'répondre', //reply
+  'répondre', //respond
+  'sourire', //smile
+  'survivre', //survive
+  'défaire', //undo
+  'attendre', //wait
+  'écrire', //write
 ]

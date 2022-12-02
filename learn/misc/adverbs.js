@@ -271,7 +271,7 @@ module.exports = [
   'aujourd\'hui',
   'de nos jours',
   'de notre temps',
-  'maintenant',
+  // 'maintenant',
   'présentement',
   'rasibus',
   'gaiement',
