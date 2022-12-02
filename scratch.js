@@ -18,7 +18,7 @@ let txt = "et boissons fraîches"
 
 
 txt = `nous détestons le sable`
-txt = `passionné`
+txt = `septième`
 let doc = nlp(txt).debug()
 // doc.verbs().toPastTense()
 // let net = nlp.buildNet([{ match: '{dévoiler/Verb}' }])

@@ -26,10 +26,10 @@ Object.keys(lexData).forEach(tag => {
       words[res.femalePlural] = words[res.femalePlural] || 'FemaleAdjective'
     }
     if (tag === 'Cardinal') {
-      words[w] = words[w] || ['TextValue', 'Cardinal']
+      words[w] = ['TextValue', 'Cardinal']
     }
     if (tag === 'Ordinal') {
-      words[w] = words[w] || ['TextValue', 'Ordinal']
+      words[w] = ['TextValue', 'Ordinal']
       let norm = w.replace(/è/, 'e')
       words[norm] = words[norm] || ['TextValue', 'Ordinal']
     }

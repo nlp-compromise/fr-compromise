@@ -104,18 +104,14 @@ test('match:', function (t) {
     ['chercheur', '#Noun'],//researcher
     ['chevalier', '#Noun'],//knight
     ['chic', '#Adjective'],//swanky
-    ['civil', '#Noun'],//civilian
     ['classe', '#Adjective'],//classy
     ['cœur', '#Noun'],//heart
     ['colocataire', '#Noun'],//roommate
     ['commerçant', '#Noun'],//tradesman
     ['comportement', '#Noun'],//behavior
-    ['composé', '#Noun'],//compound
     ['comprendre', '#Verb'],//understand
-    ['conjoint', '#Noun'],//spouse
     ['connu', '#Adjective'],//known
     ['contraignant', '#Adjective'],//binding
-    ['contre', '#Adjective'],//against
     ['contrefaits', '#Adjective'],//counterfeit
     ['contribuable', '#Noun'],//taxpayer
     ['courrier', '#Noun'],//mail
@@ -128,7 +124,7 @@ test('match:', function (t) {
     ['défaut', '#Noun'],//flaw
     ['dehors', '#Adjective'],//outdoor
     ['déjeuner', '#Noun'],//lunch
-    ['demain', '#Noun'],//tomorrow
+    // ['demain', '#Noun'],//tomorrow
     ['département', '#Noun'],//department
     ['déplaire', '#Verb'],//displease
     ['désespéré', '#Adjective'],//desperate
@@ -160,8 +156,6 @@ test('match:', function (t) {
     ['enthousiaste', '#Adjective'],//enthusiastic
     ['épée', '#Noun'],//sword
     ['équipe', '#Noun'],//team
-    ['est', '#Adjective'],//east
-    ['été', '#Noun'],//summer
     ['étoile', '#Noun'],//star
     ['exonéré', '#Adjective'],//exempt
     ['exploit', '#Noun'],//feat
@@ -213,7 +207,6 @@ test('match:', function (t) {
     ['lit', '#Noun'],//bed
     ['livre', '#Noun'],//book
     ['louche', '#Adjective'],//shady
-    ['maintenant', '#Noun'],//now
     ['mal', '#Noun'],//harm
     ['malade', '#Adjective'],//sick
     ['manque', '#Noun'],//lack
@@ -221,20 +214,15 @@ test('match:', function (t) {
     ['marche', '#Noun'],//step
     ['mariée', '#Noun'],//bride
     ['mathématicien', '#Adjective'],//mathematical
-    ['matin', '#Noun'],//morning
     ['maximum', '#Adjective'],//maximum
     ['médicament', '#Noun'],//medication
     ['mélange', '#Noun'],//mixture
     ['même', '#Adjective'],//same
     ['meuble', '#Noun'],//furniture
-    ['mille', '#Noun'],//thousand
-    ['milliard', '#Noun'],//billion
     ['minuscule', '#Adjective'],//tiny
     ['miroir', '#Noun'],//mirror
     ['moche', '#Adjective'],//cheesy
     ['moins', '#Adjective'],//least
-    ['mort', '#Adjective'],//dead
-    ['mort', '#Noun'],//death
     ['moteur', '#Noun'],//engine
     ['motif', '#Noun'],//pattern
     ['négligent', '#Adjective'],//careless
@@ -254,11 +242,8 @@ test('match:', function (t) {
     ['parent', '#Noun'],//parent
     ['parfait', '#Adjective'],//perfect
     ['passager', '#Noun'],//passenger
-    ['passionné', '#Noun'],//enthusiast
     ['pensée', '#Noun'],//thought
     ['perdre', '#Verb'],//lose
-    ['personnel', '#Noun'],//staff
-    ['personnel', '#Verb'],//staff
     ['peu', '#Noun'],//bit
     ['philosophe', '#Adjective'],//philosophical
     ['pitié', '#Adjective'],//pitiful
@@ -302,8 +287,6 @@ test('match:', function (t) {
     ['rubrique', '#Noun'],//heading
     ['sable', '#Noun'],//sand
     ['sage', '#Adjective'],//wise
-    ['sauf', '#Adjective'],//safe
-    ['savant', '#Noun'],//scholar
     ['scientifique', '#Noun'],//scientist
     ['serre', '#Noun'],//greenhouse
     ['sévère', '#Adjective'],//stern
@@ -313,9 +296,7 @@ test('match:', function (t) {
     ['soupir', '#Noun'],//sigh
     ['souple', '#Adjective'],//flexible
     ['sourire', '#Verb'],//smile
-    ['sous', '#Adjective'],//under
     ['stressé', '#Adjective'],//stressful
-    ['suivant', '#Adjective'],//subsequent
     ['sujet', '#Noun'],//topic
     ['survivre', '#Verb'],//survive
     ['sympa', '#Adjective'],//pleasant
