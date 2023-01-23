@@ -858,6 +858,11 @@ export default {
   "asseoir": ["assois", "assois", "assoit", "assoyons", "assoyez", "assoient"],
   "plaire": ["plais", "plais", "plaît|plait", "plaisons", "plaisez", "plaisent"],
 
+  "rôtir": ["rôtis", "rôtis", "rôtit", "rôtissons", "rôtissez", "rôtissent"],
+  "réfléchir": ["réfléchis", "réfléchis", "réfléchit", "réfléchissons", "réfléchissez", "réfléchissent"],
+  "envahir": ['envahis', 'envahis', 'envahit', 'envahissons', 'envahissez', 'envahissent'],
+  "vieillir": ['vieillis', 'vieillis', 'vieillit', 'vieillissons', 'vieillissez', 'vieillissent']
+
   // "ayer": ["aie|aye", "aies|ayes", "aie|aye", "ayons", "ayez", "aient|ayent"],
   // "déchoir": ["déchois", "déchois", "déchoit|déchet", "déchoyons", "déchoyez", "déchoient"],
   // "défaillir": ["défaille|défaus", "défailles|défaus", "défaille|défaut", "défaillons", "défaillez", "défaillent"],

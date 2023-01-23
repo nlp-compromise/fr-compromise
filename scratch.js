@@ -19,7 +19,13 @@ let txt = "et boissons fraîches"
 
 txt = `nous détestons le sable`
 txt = `deuxième`
+
+// txt = 'vieillir'
+// txt = 'envahir'
+// txt = 'réfléchir'
+txt = 'rôtir'
 let doc = nlp(txt).debug()
+console.log(doc.verbs().conjugate()[0])
 // doc.verbs().toPastTense()
 // let net = nlp.buildNet([{ match: '{dévoiler/Verb}' }])
 // console.dir(net, { depth: 5 })
