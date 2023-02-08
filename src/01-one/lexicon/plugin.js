@@ -8,11 +8,7 @@ export default {
       transform: methods
     }
   },
-  model: {
-    one: {
-      lexicon: words
-    }
-  },
+  words,
   compute: {
     root: root
   }

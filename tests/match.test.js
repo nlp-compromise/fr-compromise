@@ -322,6 +322,7 @@ test('match:', function (t) {
     ['vote', '#Noun'],//voting
     ['voyage', '#Noun'],//voyage
     ['vue', '#Noun'],//sight
+    ['ho chi minh', '#City+'],
   ]
   arr.forEach(function (a) {
     let [str, match] = a
