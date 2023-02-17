@@ -160,3 +160,14 @@ test('cardinal parse:', function (t) {
 //   t.end()
 // })
 
+
+
+test('misc:', function (t) {
+  let doc = nlp('342').numbers().toOrdinal()
+  t.equal(doc.text(), '342e', here + 'num-ord')
+
+  doc = nlp('trois cent soixante-dixième').numbers().toNumber().toOrdinal()
+  t.equal(doc.text(), '370e', here + 'num-word-ord')
+  t.end()
+})
+
