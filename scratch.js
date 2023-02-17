@@ -23,9 +23,11 @@ txt = `deuxième`
 // txt = 'vieillir'
 // txt = 'envahir'
 // txt = 'réfléchir'
-txt = 'rôtir'
+txt = 'des coûts « démontre que le gouvernement  »'
 let doc = nlp(txt).debug()
-console.log(doc.verbs().conjugate()[0])
+doc.numbers().toNumber()
+doc.debug()
+// console.log(doc.verbs().conjugate()[0])
 // doc.verbs().toPastTense()
 // let net = nlp.buildNet([{ match: '{dévoiler/Verb}' }])
 // console.dir(net, { depth: 5 })

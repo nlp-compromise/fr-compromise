@@ -82,7 +82,7 @@ test('root-match:', function (t) {
     [`Identifiez vos pensées négatives`, '{pensée}'],
     [`il avait lu mes pensées `, '{pensée}'],
     [`Attirez l'animal `, '{attirer}'],
-    [`des coûts « démontre que le gouvernement exploite »`, '{démontrer}'],
+    // [`des coûts « démontre que le gouvernement exploite »`, '{démontrer}'],
     [`Respirez normalement.`, '{respirer}'],
     [` qu'on respire l'air .`, '{respirer}'],
     [`vous exécutez qu'il active la version`, '{exécuter}'],

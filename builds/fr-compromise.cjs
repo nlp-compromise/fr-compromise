@@ -8647,11 +8647,7 @@
         transform: methods$1
       }
     },
-    model: {
-      one: {
-        lexicon: words$1
-      }
-    },
+    words: words$1,
     compute: {
       root: root$1
     }
@@ -10100,7 +10096,7 @@
     },
 
     Determiner: {
-      not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction'], //allow 'a' to be a Determiner/Value
+      not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction', 'Preposition'], //allow 'a' to be a Determiner/Value
     },
     Conjunction: {
       not: anything,
@@ -11300,7 +11296,7 @@
     api: api$1
   };
 
-  var version = '0.2.5';
+  var version = '0.2.6';
 
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
