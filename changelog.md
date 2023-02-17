@@ -1,4 +1,4 @@
-### 0.2.5 [Feb 2023]
+### 0.2.6 [Feb 2023]
 - **[fix]** -  support multi-lexicon
 - **[fix]** -  try new suffix thumb
 - **[fix]** -  conjugation fixes
