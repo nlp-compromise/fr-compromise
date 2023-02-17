@@ -1,3 +1,8 @@
+### 0.2.6 [Feb 2023]
+- **[fix]** -  support multi-lexicon
+- **[fix]** -  try new suffix thumb
+- **[fix]** -  conjugation fixes
+
 ### 0.2.0 [Sept 2022]
 - **[fix]** - inflections+conjugations
 - **[new]** - start of verb, noun, and adjective methods
