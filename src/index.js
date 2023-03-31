@@ -10,6 +10,7 @@ import verbs from './03-three/verbs/plugin.js'
 import adjectives from './03-three/adjectives/plugin.js'
 import nouns from './03-three/nouns/plugin.js'
 import contractions from './03-three/contractions/plugin.js'
+import dates from './03-three/dates/plugin.js'
 import version from './_version.js'
 
 nlp.plugin(tokenize)
@@ -23,6 +24,7 @@ nlp.plugin(verbs)
 nlp.plugin(adjectives)
 nlp.plugin(nouns)
 nlp.plugin(contractions)
+nlp.plugin(dates)
 
 const fr = function (txt, lex) {
   let dok = nlp(txt, lex)
