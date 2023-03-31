@@ -66,5 +66,18 @@ const postTagger = function (doc) {
   doc.match('#Value un').tag('TextValue', 'quatre-vingt-un')
   doc.match('moins #Value').tag('TextValue', 'moins-value')
 
+  // ==Dates==
+  // ambig 'sept'
+  doc.match('le #Value [sept]', 0).tag('Month', 'val-sept')
+  doc.match('[sept] #Year', 0).tag('Month', 'sept-year')
+  doc.match('[sept] (et|ou) #Month', 0).tag('Month', 'sept-et-month')
+  // sept-et-jun
+  doc.match('#Date [et] #Date', 0).tag('Month', 'date-et-date')
+  // courant juin
+  doc.match('(en|entre|depuis|courant|pendant|dans|lorsque|avant|après) #Date').tag('Date', 'depuis-date')
+  // jusque'en juin
+  doc.match('jusque (en|à) #Date').tag('Date', 'jusque-date')
+  // au cours de juin
+  doc.match('au cours de #Date').tag('Date', 'au-cours-de-date')
 }
 export default postTagger
