@@ -31,6 +31,14 @@ const arr = [
   ['11/03/2012 November 3, 2021', ''],
   ['3/11/21', ''],
   ['entre sept et oct', ''],
+  ['demain à 10h', ''], // tomorrow at 10am
+  ['lundi 20', ''], // next monday 20th
+  ['lundi 20 à 10h', ''], // next monday 20th at 10am
+  ['hier soir', ''], // yesterday evening
+  ['semaine prochaine', ''], // next week
+  ['14h30 demain', ''], // 2:30pm tomorow
+  ['demain matin à 9h', ''], // tomorrow morning at 9am
+  ['hier après-midi', ''], //yesterday afternoon
 ]
 test('dates:', function (t) {
   arr.forEach(a => {
