@@ -1,15 +1,19 @@
 import { months, days } from './data.js'
+import { Moment, Month, Day, Week, Year } from './units.js'
+import spacetime from 'spacetime'
+
 
 // some re-used helper functions:
 const parseMonth = function (m) {
   let str = m.text('normal')
   if (months.hasOwnProperty(str)) {
-    return months[str]
+    return months[str] - 1
   }
   return null
 }
 const parseNumber = function (m) {
   let str = m.text('normal')
+  str = str.replace(/e$/, '')//ordinal
   return parseInt(str, 10)
 }
 
@@ -32,19 +36,31 @@ const parseOne = function (m, opts) {
       year: parseNumber(res.groups('year')),
     }
     if (isValid(cal)) {
-      return cal
+      return new Day(cal, opts)
     }
   }
 
   // 'oct 2021'
-  res = m.match('[<month>#Month] [<year>#Year]?')
+  res = m.match('[<month>#Month]  [<year>#Year]')
   if (res.found) {
     let cal = {
       month: parseMonth(res.groups('month')),
-      year: parseNumber(res.groups('year')) || today.year,
+      year: parseNumber(res.groups('year')) || today.year(),
     }
     if (isValid(cal)) {
-      return cal
+      return new Month(cal, opts)
+    }
+  }
+  // 'oct 22nd'
+  res = m.match('[<month>#Month] [<date>#Value] [<year>#Year]?')
+  if (res.found) {
+    let cal = {
+      month: parseMonth(res.groups('month')),
+      date: parseNumber(res.groups('date')) || today.date(),
+      year: parseNumber(res.groups('year')) || today.year(),
+    }
+    if (isValid(cal)) {
+      return new Day(cal, opts)
     }
   }
   // '2021'
@@ -52,7 +68,23 @@ const parseOne = function (m, opts) {
   if (res.found) {
     let cal = { year: parseNumber(res.groups('year')) }
     if (isValid(cal)) {
-      return cal
+      return new Year(cal, opts)
+    }
+  }
+  // 'octobre'
+  res = m.match('[<month>#Month]')
+  if (res.found) {
+    let cal = { month: parseMonth(res.groups('month')), year: today.year() }
+    if (isValid(cal)) {
+      return new Month(cal, opts)
+    }
+  }
+  // '2021-02-12'
+  res = m.match('#Date+')
+  if (res.found) {
+    let s = spacetime(res.text('normal'), opts.timezone)
+    if (s.isValid()) {
+      return new Moment(s.json(), opts)
     }
   }
 
