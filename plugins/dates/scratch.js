@@ -8,6 +8,6 @@ nlp.plugin(plg)
 // let txt = `15/12/2020`
 // let txt = `ta voiture jusqu’à lundi prochain`
 let txt = `entre sept et oct`
-let doc = nlp(txt).debug()
+let doc = nlp(txt)//.debug()
 let json = doc.dates().json({ terms: false })
 console.dir(json, { depth: 5 })
