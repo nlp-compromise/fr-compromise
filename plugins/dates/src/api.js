@@ -1,5 +1,5 @@
 import find from './find.js'
-import parse from './parse/index.js'
+import parse from './phrase/index.js'
 import spacetime from 'spacetime'
 import toJson from './toJson.js'
 

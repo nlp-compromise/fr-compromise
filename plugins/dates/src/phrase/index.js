@@ -1,4 +1,4 @@
-import parseOne from './parseOne.js'
+import parseOne from './date/index.js'
 
 // generic callback
 const startEnd = function (m, opts) {
@@ -26,6 +26,7 @@ const phrases = [
   // 'entre sept et oct'
   { match: 'entre [<start>.*] et [<end>.*]', cb: startEnd },
 
+  // fallback to parsing one date
   { match: '.*', cb: justStart },
 ]
 
