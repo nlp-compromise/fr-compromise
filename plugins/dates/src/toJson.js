@@ -4,7 +4,8 @@ const toJson = function (arr) {
     let res = {
       start: o.start.start().iso()
     }
-    if (o.end && o.end.year) {
+    // either explicit or implicit end date
+    if (o.end) {
       res.end = o.end.end().iso()
     } else {
       res.end = o.start.end().iso()

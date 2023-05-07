@@ -1,10 +1,10 @@
 import spacetime from 'spacetime'
 
 class Moment {
-  constructor(str, opts) {
+  constructor(input, opts) {
     this.unit = 'millisecond'
     this.opts = opts || {}
-    this.s = spacetime(str, opts.timezone)
+    this.s = spacetime(input, opts.timezone)
   }
   start() {
     this.s = this.s.startOf(this.unit)

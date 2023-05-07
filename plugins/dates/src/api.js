@@ -21,7 +21,7 @@ const api = function (View) {
       let arr = m.map(vb => {
         let out = vb.toView().json(opts)[0] || {}
         let res = parse(vb, this.opts)
-        out.date = toJson(res)
+        out.dates = toJson(res)
         return out
       }, [])
       return arr

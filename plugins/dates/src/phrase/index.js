@@ -1,4 +1,6 @@
 import parseOne from './date/index.js'
+import { Moment, Month, Day, Week, Year } from './date/units.js'
+
 
 // generic callback
 const startEnd = function (m, opts) {
@@ -22,10 +24,22 @@ const justStart = function (m, opts) {
   return null
 }
 
+const untilEnd = function (m, opts) {
+  let { end } = m.groups()
+  let out = { start: new Moment(opts.today, opts), end: parseOne(end, opts) }
+  if (out.end) {
+    // until - just before x
+    out.end = new Moment(out.end.s.minus(1, 'millisecond'), opts)
+    return out
+  }
+  return null
+}
+
 const phrases = [
   // 'entre sept et oct'
   { match: 'entre [<start>.*] et [<end>.*]', cb: startEnd },
-
+  // 'jusqu'en juin' (until june)
+  { match: 'jusqu\'en [<end>#Date+]', cb: untilEnd },
   // fallback to parsing one date
   { match: '.*', cb: justStart },
 ]
@@ -45,22 +59,6 @@ const parsePhrase = function (matches, opts) {
       }
     }
 
-    // 'entre sept et oct'
-    // let res = m.match('entre [<start>.*] et [<end>.*]')
-    // if (res.found) {
-    //   let { start, end } = res.groups()
-    //   res = { start: parseOne(start, opts), end: parseOne(end, opts) }
-    //   if (res.start) {
-    //     arr.push(res)
-    //     return
-    //   }
-    // }
-
-    // // finally, support a bare date like 'jun'
-    // res = { start: parseOne(m, opts) }
-    // if (res.start) {
-    //   arr.push(res)
-    // }
 
   })
   return arr
