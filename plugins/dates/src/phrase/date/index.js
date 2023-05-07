@@ -56,7 +56,7 @@ const parseOne = function (m, opts) {
     }
   }
   // 'oct 22nd'
-  res = m.match('[<month>#Month] [<date>#Value] [<year>#Year]?')
+  res = m.match('[<month>#Month] [<date>#Value] [<year>#Year?]')
   if (res.found) {
     let cal = {
       month: parseMonth(res.groups('month')),
@@ -68,7 +68,7 @@ const parseOne = function (m, opts) {
     }
   }
   // '6 avril'
-  res = m.match('[<date>#Value] [<month>#Month] [<year>#Year]?')
+  res = m.match('[<date>#Value] [<month>#Month] [<year>#Year?]')
   if (res.found) {
     let cal = {
       month: parseMonth(res.groups('month')),
@@ -98,9 +98,9 @@ const parseOne = function (m, opts) {
   // '2021-02-12'
   res = m.match('#Date+')
   if (res.found) {
-    let s = spacetime(res.text('normal'), opts.timezone)
+    let s = spacetime(res.text('normal'), opts.timezone, { dmy: true })
     if (s.isValid()) {
-      return new Moment(s.json(), opts)
+      return new Moment(s, opts)
     }
   }
 

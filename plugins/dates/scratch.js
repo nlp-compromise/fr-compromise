@@ -3,6 +3,10 @@ import plg from './src/plugin.js'
 nlp.plugin(plg)
 // nlp.verbose(true)
 let arr = [
+  'Novembre 3, 2021',
+  '12/01/2018',
+  '13/01/2018',
+  '5/2/2020',
   `C'est le quatorze juillet.`,
   'Mercredi 11 mars',
   `Le 6 avril`,
