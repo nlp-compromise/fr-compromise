@@ -1,6 +1,8 @@
 import { months, days } from './data.js'
 import { Moment, Month, Day, Week, Year } from './units.js'
 import spacetime from 'spacetime'
+import normalize from './normalize.js'
+
 
 
 // some re-used helper functions:
@@ -27,6 +29,8 @@ const isValid = function (cal) {
 // pull-apart a spcific date, like 'le 2e oct' independant of a longer phrase
 const parseOne = function (m, opts) {
   const { today } = opts
+  // clean it up a little
+  m = normalize(m)
   // match '2 septembre 1982'
   let res = m.match('[<date>#Value] [<month>#Month] [<year>#Year]')
   if (res.found) {
@@ -53,6 +57,18 @@ const parseOne = function (m, opts) {
   }
   // 'oct 22nd'
   res = m.match('[<month>#Month] [<date>#Value] [<year>#Year]?')
+  if (res.found) {
+    let cal = {
+      month: parseMonth(res.groups('month')),
+      date: parseNumber(res.groups('date')) || today.date(),
+      year: parseNumber(res.groups('year')) || today.year(),
+    }
+    if (isValid(cal)) {
+      return new Day(cal, opts)
+    }
+  }
+  // '6 avril'
+  res = m.match('[<date>#Value] [<month>#Month] [<year>#Year]?')
   if (res.found) {
     let cal = {
       month: parseMonth(res.groups('month')),

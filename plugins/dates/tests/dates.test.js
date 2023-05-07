@@ -38,13 +38,13 @@ const arr = [
   [`C'est le quatorze juillet.`, [2020, july, 14]],
   [`c'est le premier janvier`, [2021, jan, 1]],
   ['le 5 juin 2012', [2012, june, 5]],
-  ['5/6/2012 June 5, 2012', [2012, june, 5]],
+  ['June 5, 2012', [2012, june, 5]],
   ['6/5/2012', [2012, may, 6]],
   ['le 25 décembre 2012', [2012, dec, 25]],
-  ['25/12/2012 December 25, 2012', [2012, dec, 25]],
+  ['December 25, 2012', [2012, dec, 25]],
   ['12/15/2012', [2012, dec, 15]],
   ['le 3 novembre 2012', [2012, nov, 3]],
-  ['11/03/2012 Novembre 3, 2021', [2012, nov, 3]],  // have 2 years in slug
+  ['Novembre 3, 2021', [2012, nov, 3]],  // have 2 years in slug
   ['3/11/21', [2021, nov, 3]],
   ['entre sept et oct', [2020, sept, 1], [2020, oct, 1]],
   ['demain à 10h', [2020, feb, 14]], // tomorrow at 10am

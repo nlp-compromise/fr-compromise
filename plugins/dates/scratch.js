@@ -1,9 +1,11 @@
 import nlp from '../../src/index.js'
 import plg from './src/plugin.js'
 nlp.plugin(plg)
-
+// nlp.verbose(true)
 let arr = [
-  `Je travaille jusqu'en juin.`,
+  `C'est le quatorze juillet.`,
+  'Mercredi 11 mars',
+  `Le 6 avril`,
   `Il n'y a pas d'augmentation prévue jusqu'en 2032`,
   `le 3 novembre 2012`,
   'je suis né le 2 septembre 1982',
