@@ -20,7 +20,7 @@ const nounPlurals = function (terms, i, world) {
   let tags = term.tags
   let str = term.implicit || term.normal || term.text || ''
   if (tags.has('Noun')) {
-    if (tags.has('Pronoun') || tags.has('ProperNoun') || tags.has('Uncountable')) {
+    if (tags.has('Pronoun') || tags.has('ProperNoun') || tags.has('Uncountable') || tags.has('Date')) {
       return null
     }
     if (exceptions.has(str)) {
