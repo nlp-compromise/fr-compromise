@@ -73,6 +73,9 @@ const postTagger = function (doc) {
   doc.match('le #Value [sept]', 0).tag('Month', 'val-sept')
   doc.match('[sept] #Year', 0).tag('Month', 'sept-year')
   doc.match('[sept] (et|ou) #Month', 0).tag('Month', 'sept-et-month')
+  // sept trente
+  doc.match('sept (dix|vingt|trente|quarante|cinquante|soixante|soixante)').tag('TextValue', 'sept-trente')
+  doc.match('(dix|vingt|trente|quarante|cinquante|soixante|soixante) sept').tag('TextValue', 'trente-sept')
   // // sept-et-jun
   // doc.match('#Date [et] #Date', 0).tag('Date', 'date-et-date')
   // // courant juin

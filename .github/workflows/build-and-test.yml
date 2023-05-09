@@ -43,5 +43,4 @@ jobs:
       - name: test
         run: |
           npm run test
-          set TESTENV=prod
-          npm run test
+          npm run testb

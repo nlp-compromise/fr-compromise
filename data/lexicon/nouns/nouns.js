@@ -334,7 +334,6 @@ export default [
   'assemblée', //assembly
   'tante', //aunt
   'récompense', //award
-  'salle de bain', //bathroom
   'lit', //bed
   'anniversaire', //birthday
   'biscuit', //biscuit
@@ -346,7 +345,6 @@ export default [
   'tapis', //carpet
   'bovin', //cattle
   'joue', //cheek
-  'salle de classe', //classroom
   'crocodile', //crocodile
   'mort', //death
   'dessert', //dessert
@@ -374,7 +372,6 @@ export default [
   'chevalier', //knight
   'manque', //lack
   'vie', //life
-  'durée de vie', //lifetime
   'courrier', //mail
   'directeur', //manager
   'marché', //market
@@ -393,7 +390,6 @@ export default [
   'parent', //parent
   'passager', //passenger
   'motif', //pattern
-  'animal de compagnie', //pet
   'téléphone', //phone
   'parcelle', //plot
   'portrait', //portrait
@@ -421,7 +417,6 @@ export default [
   'trait', //trait
   'traité', //treaty
   'voyage', //trip
-  'frais de scolarité', //tuition
   'voyage', //voyage
   'avertissement', //warning
   'atelier', //workshop
@@ -520,14 +515,12 @@ export default [
   'allié', //ally
   'amendement', //amendment
   'tante', //aunt
-  'salle de bain', //bathroom
   'anniversaire', //birthday
   'botte', //boot
   'brique', //brick
   'mariée', //bride
   'cable', //cable
   'tapis', //carpet
-  'salle de classe', //classroom
   'crocodile', //crocodile
   'département', //department
   'plat', //dish
@@ -546,7 +539,6 @@ export default [
   'cœur', //heart
   'ici', //here
   'vie', //life
-  'durée de vie', //lifetime
   'déjeuner', //lunch
   'courrier', //mail
   'marché', //market
