@@ -59,7 +59,7 @@ Object.keys(lexData).forEach(tag => {
       })
       // do imperfect mood
       res = transform.verb.toImperfect(w)
-      Object.keys(res).forEach(k => words[res[k]] = 'Verb')
+      Object.keys(res).forEach(k => words[res[k]] = words[res[k]] || 'Verb')
       // past-participle
       let out = transform.verb.toPastParticiple(w)
       words[out] = words[out] || 'PastParticiple'
@@ -69,5 +69,5 @@ Object.keys(lexData).forEach(tag => {
 
 let lexicon = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-// console.log(lexicon['livres'])
+// console.log(lexicon['ralentir'])
 export default lexicon

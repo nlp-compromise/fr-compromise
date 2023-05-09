@@ -1825,4 +1825,21 @@ export default [
   'défaire', //undo
   'attendre', //wait
   'écrire', //write
+
+  'conduire',
+  'construire',
+  'craindre',
+  'décrire',
+  'défendre',
+  'ecouter',
+  'éteindre',
+  'étendre',
+  'kisser',
+  'peindre',
+  'promettre',
+  'ralentir',
+  'rendre',
+  'rester',
+  'souffrir',
+  'vendre',
 ]

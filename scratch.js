@@ -5,6 +5,9 @@ nlp.verbose('tagger')
 */
 
 let arr = [
+  'marcher',
+  'ralentir',
+  'vendre',
   'hier',
   // 'célèbre',
   // 'très  délicieux ',
@@ -20,6 +23,7 @@ let arr = [
 
 
 let doc = nlp(arr[0]).debug()
+doc.verbs().toPastTense().debug()
 // doc.numbers().toNumber()
 // doc.debug()
 

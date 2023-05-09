@@ -1,3 +1,7 @@
+### 0.2.7 [May 2023]
+- **[fix]** -  tagging
+- **[new]** -  `fr-compromise-dates`
+
 ### 0.2.6 [Feb 2023]
 - **[fix]** -  support multi-lexicon
 - **[fix]** -  try new suffix thumb
