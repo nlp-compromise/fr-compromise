@@ -43,7 +43,6 @@ const parseOne = function (m, opts) {
       return new Day(cal, opts)
     }
   }
-
   // 'oct 2021'
   res = m.match('[<month>#Month]  [<year>#Year]')
   if (res.found) {
@@ -56,24 +55,26 @@ const parseOne = function (m, opts) {
     }
   }
   // 'oct 22nd'
-  res = m.match('[<month>#Month] [<date>#Value] [<year>#Year?]')
+  res = m.match('[<month>#Month] [<date>#Value] #Year?')
   if (res.found) {
     let cal = {
       month: parseMonth(res.groups('month')),
       date: parseNumber(res.groups('date')) || today.date(),
-      year: parseNumber(res.groups('year')) || today.year(),
+      year: parseNumber(res.match('#Year')) || today.year(),
     }
     if (isValid(cal)) {
       return new Day(cal, opts)
     }
   }
   // '6 avril'
-  res = m.match('[<date>#Value] [<month>#Month] [<year>#Year?]')
+  res = m.match('[<date>#Value] [<month>#Month] #Year?')
   if (res.found) {
     let cal = {
-      month: parseMonth(res.groups('month')),
-      date: parseNumber(res.groups('date')) || today.date(),
-      year: parseNumber(res.groups('year')) || today.year(),
+      // month: parseMonth(res.groups('month')),
+      // date: parseNumber(res.groups('date')) || today.date(),
+      month: parseMonth(res.match('#Month')),
+      date: parseNumber(res.match('#Value')) || today.date(),
+      year: parseNumber(res.match('#Year')) || today.year(),
     }
     if (isValid(cal)) {
       return new Day(cal, opts)
@@ -102,6 +103,22 @@ const parseOne = function (m, opts) {
     if (s.isValid()) {
       return new Moment(s, opts)
     }
+  }
+  // known words
+  // yesterday
+  if (m.has('hier')) {
+    let s = spacetime(null, opts.timezone).minus(1, 'day')
+    return new Day(s, opts)
+  }
+  // tomorrow
+  if (m.has('demain')) {
+    let s = spacetime(null, opts.timezone).plus(1, 'day')
+    return new Day(s, opts)
+  }
+  // today
+  if (m.has('aujourd\'hui')) {
+    let s = spacetime(null, opts.timezone)
+    return new Day(s, opts)
   }
 
   // todo: support other forms here! ↓

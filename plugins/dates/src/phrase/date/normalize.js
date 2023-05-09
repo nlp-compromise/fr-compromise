@@ -6,6 +6,7 @@ const normalize = function (m) {
   }
   // quatorze -> 14
   m.numbers().toCardinal().toNumber()
+  // m.compute('index')
   // m.debug()
   return m
 }

@@ -1,6 +1,7 @@
 const months = {
   'janvier': 1, // January
   'février': 2, // February
+  'fevrier': 2, // February
   'mars': 3, // March
   'avril': 4, // April
   'mai': 5, // May
@@ -11,8 +12,10 @@ const months = {
   'octobre': 10, // October
   'novembre': 11, // November
   'décembre': 12, // December
+  'decembre': 12, // December
   'jan': 1,
   'fév': 2,
+  'fev': 2,
   'mar': 3,
   'avr': 4,
   'aou': 8,
@@ -23,6 +26,7 @@ const months = {
   'déc': 12,
   'janv': 1,
   'févr': 2,
+  'fevr': 2,
   'juil': 7,
   'juill': 7,
 }
