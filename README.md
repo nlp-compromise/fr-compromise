@@ -258,6 +258,35 @@ doc.found('{jeter} les {chaussure}')
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
+### Analyse de date:
+à l'aide le plugin `fr-compromise-dates`, il peut transformer des dates en langage naturel en dates au format ISO
+```js
+import plg from 'fr-compromise-dates'
+nlp.plugin(plg)
+let opts = { timezone: 'UTC', today: '2023-03-02' }
+
+let doc=nlp('Je peux emprunter votre voiture entre le 2 mai et le 14 juillets')
+let res=doc.dates().json()[0]
+/*
+  {
+    text: 'entre le 2 mai et le 14 juillet',
+    dates: [
+      {
+        start: '2023-05-02T00:00:00.000Z',
+        end: '2023-07-14T23:59:59.999Z'
+      }
+    ]
+  }
+*/
+// true
+```
+
+<div align="right">
+  <a href="https://docs.compromise.cool/compromise-root">root docs</a>
+</div>
+<!-- spacer -->
+<img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+
 
 ### Contribuant
 Veuillez rejoindre pour aider! - please join to help!

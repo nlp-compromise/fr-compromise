@@ -1,2 +1,2 @@
 // uncontroversial date words
-export default ['aujourd hui', 'demain', 'heir', 'weekend']
+export default ['aujourd\'hui', 'demain', 'hier', 'weekend']

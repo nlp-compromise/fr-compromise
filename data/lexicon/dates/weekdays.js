@@ -6,4 +6,11 @@ export default [
   'vendredi', // - Friday.
   'samedi', // - Saturday.
   'dimanche', // - Sunday.
+  'lun', // 
+  'mar', // 
+  'mer', // 
+  'jeu', // 
+  'ven', // 
+  'sam', // 
+  'dim', // 
 ]

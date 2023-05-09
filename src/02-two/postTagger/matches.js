@@ -66,5 +66,26 @@ const postTagger = function (doc) {
   doc.match('#Value un').tag('TextValue', 'quatre-vingt-un')
   doc.match('moins #Value').tag('TextValue', 'moins-value')
 
+  // ==Dates==
+  doc.match('[#Value] #Month', 0).tag('Date', 'val-month')
+  // ambig 'sept'
+  doc.match('#Month [#Value] #Year', 0).tag('Date', 'mdy')
+  doc.match('[#Value] #Month #Year', 0).tag('Date', 'dmy')
+  doc.match('le #Value [sept]', 0).tag('Month', 'val-sept')
+  doc.match('[sept] #Year', 0).tag('Month', 'sept-year')
+  doc.match('[sept] (et|ou) #Month', 0).tag('Month', 'sept-et-month')
+  doc.match('sept$').tag('TextValue', 'sept-alone')
+  doc.match('et [sept]').tag('TextValue', 'et-sept')
+  // sept trente
+  doc.match('sept (dix|vingt|trente|quarante|cinquante|soixante|soixante|#Multiple)').tag('TextValue', 'sept-trente')
+  doc.match('(dix|vingt|trente|quarante|cinquante|soixante|soixante|#Multiple) sept').tag('TextValue', 'trente-sept')
+  // // sept-et-jun
+  // doc.match('#Date [et] #Date', 0).tag('Date', 'date-et-date')
+  // // courant juin
+  // doc.match('(en|entre|depuis|courant|pendant|dans|lorsque|avant|après) #Date').tag('Date', 'depuis-date')
+  // // jusque'en juin
+  // doc.match('jusque (en|à) #Date').tag('Date', 'jusque-date')
+  // // au cours de juin
+  // doc.match('au cours de #Date').tag('Date', 'au-cours-de-date')
 }
 export default postTagger

@@ -5,7 +5,10 @@
     "plugin:regexp/recommended"
   ],
   "ignorePatterns": [
-    "**/builds/*"
+    "builds/*",
+    "learn/**",
+    "scripts/**",
+    "plugins/dates/**"
   ],
   "env": {
     "es6": true,
@@ -13,7 +16,7 @@
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 2020,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {

@@ -64,14 +64,19 @@ const api = function (View) {
     //     return toPresent(vb, parsed, info.form)
     //   })
     // }
-    // toPastTense(n) {
-    //   return getNth(this, n).map(vb => {
-    //     let parsed = parseVerb(vb)
-    //     let info = getGrammar(vb, parsed)
-    //     console.log(info)
-    //     return toPast(vb, parsed, info.form)
-    //   })
-    // }
+    toPastTense(n) {
+      const methods = this.methods.two.transform.verb
+      return getNth(this, n).map(vb => {
+        // let parsed = parseVerb(vb)
+        let str = vb.compute('root').text('root')//whew
+        let past = methods.toPastParticiple(str)
+        return vb.replaceWith(past).tag('PastTense')
+        // console.log(str, past)
+        // let info = getGrammar(vb, parsed)
+        // console.log(info)
+        // return toPast(vb, parsed, info.form)
+      })
+    }
     // toFutureTense(n) {
     //   return getNth(this, n).map(vb => {
     //     let parsed = parseVerb(vb)

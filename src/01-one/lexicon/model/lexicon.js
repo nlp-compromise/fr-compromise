@@ -28,6 +28,11 @@ Object.keys(lexData).forEach(tag => {
     if (tag === 'Cardinal') {
       words[w] = ['TextValue', 'Cardinal']
     }
+    if (tag === 'Noun' || tag === 'MaleNoun' || tag === 'FemaleNoun') {
+      words[w] = [tag, 'Singular']
+      let plur = transform.noun.toPlural(w)
+      words[plur] = words[plur] || ['Noun', 'Plural']
+    }
     if (tag === 'Ordinal') {
       words[w] = ['TextValue', 'Ordinal']
       let norm = w.replace(/è/, 'e')
@@ -54,7 +59,7 @@ Object.keys(lexData).forEach(tag => {
       })
       // do imperfect mood
       res = transform.verb.toImperfect(w)
-      Object.keys(res).forEach(k => words[res[k]] = 'Verb')
+      Object.keys(res).forEach(k => words[res[k]] = words[res[k]] || 'Verb')
       // past-participle
       let out = transform.verb.toPastParticiple(w)
       words[out] = words[out] || 'PastParticiple'
@@ -64,5 +69,5 @@ Object.keys(lexData).forEach(tag => {
 
 let lexicon = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-// console.log(lexicon['fatigué'])
+// console.log(lexicon['ralentir'])
 export default lexicon

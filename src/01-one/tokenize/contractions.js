@@ -9,10 +9,10 @@ export default [
   { before: 't', out: ['tu'] },
   { before: 'n', out: ['ne'] },
   { before: 'qu', out: ['que'] },//tant qu'étudiant
-  { after: 'puisqu', out: ['puisque'] },
-  { after: 'lorsqu', out: ['lorsque'] },//lorsqu’il
-  { after: 'jusqu', out: ['jusque'] },//jusqu’ici
-  { word: 'quelqu', out: ['quelque'] },//Quelqu'un
+  { before: 'puisqu', out: ['puisque'] },
+  { before: 'lorsqu', out: ['lorsque'] },//lorsqu’il
+  { before: 'jusqu', out: ['jusque'] },//jusqu'en
+  { before: 'quelqu', out: ['quelque'] },//Quelqu'un
 
   { word: 'auquel', out: ['à', 'lequel'] },
   { word: 'auxquels', out: ['à', 'lesquels'] },

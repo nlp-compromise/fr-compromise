@@ -98,17 +98,17 @@ const verbForm = function (terms, i, world) {
         if (!terms[i - back]) {
           break
         }
-        let str = terms[i - back].normal
+        let s = terms[i - back].normal
         //look backwards for a pronoun
         if (terms[i - back].tags.has('Pronoun')) {
-          if (pronouns.hasOwnProperty(str)) {
-            return setTag([term], pronouns[str], world, false, '3-person-pronoun-' + str)
+          if (pronouns.hasOwnProperty(s)) {
+            return setTag([term], pronouns[s], world, false, '3-person-pronoun-' + s)
           }
         }
         //look backwards for a auxiliary verb - 'sont'
         if (terms[i - back].tags.has('Verb')) {
-          if (auxiliaries.hasOwnProperty(str)) {
-            return setTag([term], auxiliaries[str], world, false, '3-person-auxiliary-' + str)
+          if (auxiliaries.hasOwnProperty(s)) {
+            return setTag([term], auxiliaries[s], world, false, '3-person-auxiliary-' + s)
           }
         }
       }

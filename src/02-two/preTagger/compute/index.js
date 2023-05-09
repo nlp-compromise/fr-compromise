@@ -14,6 +14,7 @@ import adjPlurals from './3rd-pass/adj-plurals.js'
 import adjGender from './3rd-pass/adj-gender.js'
 import verbTense from './3rd-pass/verb-tense.js'
 import verbForm from './3rd-pass/verb-form.js'
+import numberTypes from './3rd-pass/number-types.js'
 import fixContractions from './3rd-pass/fix-contractions.js'
 
 // these methods don't care about word-neighbours
@@ -43,6 +44,7 @@ const thirdPass = function (terms, world) {
     adjGender(terms, i, world)
     verbTense(terms, i, world)
     verbForm(terms, i, world)
+    numberTypes(terms, i, world)
   }
   // (4th pass)
   for (let i = 0; i < terms.length; i += 1) {
