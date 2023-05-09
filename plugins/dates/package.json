@@ -1,7 +1,7 @@
 {
   "name": "fr-compromise-dates",
   "description": "plugin for fr-compromise",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "main": "./src/plugin.js",
   "unpkg": "./builds/fr-compromise-dates.min.js",

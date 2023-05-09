@@ -10,14 +10,16 @@
     m = m.growLeft('#Value+$');
     m = m.growRight('^#Value+');
     // pendant juin
-    m = m.growLeft('(en|entre|depuis|courant|pendant|dans|lorsque|avant|après|à)$');
+    m = m.growLeft('(le|la)$');// jusqu'a le
+    m = m.growLeft('(en|entre|depuis|courant|pendant|dans|lorsque|avant|après|à|a|au)$');
     m = m.growLeft('au cours de$');
     m = m.growLeft('jusque$');// jusqu'en jusqu'à 
     // sept-et-jun
-    m = m.growRight('^et #Date');
+    m = m.growRight('^et (le|la)? #Date+');
 
     // remove overlaps
     m = m.settle();
+    // m.debug()
     return m
   };
   var find = findDates;
@@ -334,7 +336,7 @@
   }, {});
 
   //try to match these against iana form
-  const normalize$5 = (tz) => {
+  const normalize$3 = (tz) => {
     tz = tz.replace(/ time/g, '');
     tz = tz.replace(/ (standard|daylight|summer)/g, '');
     tz = tz.replace(/\b(east|west|north|south)ern/g, '$1');
@@ -363,7 +365,7 @@
       return tz
     }
     //lookup more loosely..
-    tz = normalize$5(tz);
+    tz = normalize$3(tz);
     if (zones.hasOwnProperty(tz) === true) {
       return tz
     }
@@ -429,7 +431,7 @@
   }
 
   //used mostly for cleanup of unit names, like 'months'
-  function normalize$4(str = '') {
+  function normalize$2(str = '') {
     str = str.toLowerCase().trim();
     str = str.replace(/ies$/, 'y'); //'centuries'
     str = str.replace(/s$/, '');
@@ -587,7 +589,7 @@
   var namedDates = dates;
 
   //little cleanup..
-  const normalize$2 = function (str) {
+  const normalize = function (str) {
     // remove all day-names
     str = str.replace(/\b(mon|tues?|wed|wednes|thur?s?|fri|sat|satur|sun)(day)?\b/i, '');
     //remove ordinal ending
@@ -597,7 +599,7 @@
     return str
   };
 
-  var normalize$3 = normalize$2;
+  var normalize$1 = normalize;
 
   let o = {
     millisecond: 1
@@ -1430,7 +1432,7 @@
       return s
     }
     //little cleanup..
-    input = normalize$3(input);
+    input = normalize$1(input);
     //try some known-words, like 'now'
     if (namedDates.hasOwnProperty(input) === true) {
       s = namedDates[input](s);
@@ -1873,7 +1875,7 @@
   //how far it is along, from 0-1
   const progress = (s, unit) => {
     if (unit) {
-      unit = normalize$4(unit);
+      unit = normalize$2(unit);
       return doUnit(s, unit)
     }
     let obj = {};
@@ -1889,7 +1891,7 @@
   const nearest = (s, unit) => {
     //how far have we gone?
     let prog = s.progress();
-    unit = normalize$4(unit);
+    unit = normalize$2(unit);
     //fix camel-case for this one
     if (unit === 'quarterhour') {
       unit = 'quarterHour';
@@ -2020,7 +2022,7 @@
     //return just the requested unit
     if (unit) {
       //make sure it's plural-form
-      unit = normalize$4(unit);
+      unit = normalize$2(unit);
       if (/s$/.test(unit) !== true) {
         unit += 's';
       }
@@ -2388,7 +2390,7 @@
 
   const startOf = (a, unit) => {
     let s = a.clone();
-    unit = normalize$4(unit);
+    unit = normalize$2(unit);
     if (units$1[unit]) {
       return units$1[unit](s)
     }
@@ -2402,7 +2404,7 @@
   //piggy-backs off startOf
   const endOf = (a, unit) => {
     let s = a.clone();
-    unit = normalize$4(unit);
+    unit = normalize$2(unit);
     if (units$1[unit]) {
       // go to beginning, go to next one, step back 1ms
       s = units$1[unit](s); // startof
@@ -2431,7 +2433,7 @@
       return []
     }
     //cleanup unit param
-    unit = normalize$4(unit);
+    unit = normalize$2(unit);
     //cleanup to param
     end = start.clone().set(end);
     //swap them, if they're backwards
@@ -3663,7 +3665,7 @@
         return s //don't bother
       }
       let old = this.clone();
-      unit = normalize$4(unit);
+      unit = normalize$2(unit);
       if (unit === 'millisecond') {
         s.epoch += num;
         return s
@@ -4194,20 +4196,6 @@
     }
   }
 
-  const normalize = function (m) {
-    m = m.clone();
-    // remove redundant day-names like 'Wed march 2nd'
-    if (m.has('#WeekDay') && m.has('#Month') && m.has('#NumericValue')) {
-      m.remove('#WeekDay');
-    }
-    // quatorze -> 14
-    m.numbers().toCardinal().toNumber();
-    // m.compute('index')
-    // m.debug()
-    return m
-  };
-  var normalize$1 = normalize;
-
   // some re-used helper functions:
   const parseMonth = function (m) {
     let str = m.text('normal');
@@ -4226,7 +4214,7 @@
   const parseOne = function (m, opts) {
     const { today } = opts;
     // clean it up a little
-    m = normalize$1(m);
+    // m = normalize(m)
     // match '2 septembre 1982'
     let res = m.match('[<date>#Value] [<month>#Month] [<year>#Year]');
     if (res.found) {
@@ -4361,7 +4349,7 @@
     // 'entre sept et oct'
     { match: 'entre [<start>.*] et [<end>.*]', cb: startEnd },
     // 'jusqu'en juin' (until june)
-    { match: 'jusqu\'en [<end>#Date+]', cb: untilEnd },
+    { match: '(jusqu|jusque) (en|a|à|au) [<end>#Date+]', cb: untilEnd },
     // fallback to parsing one date
     { match: '.*', cb: justStart },
   ];

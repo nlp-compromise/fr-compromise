@@ -39,7 +39,7 @@ const phrases = [
   // 'entre sept et oct'
   { match: 'entre [<start>.*] et [<end>.*]', cb: startEnd },
   // 'jusqu'en juin' (until june)
-  { match: 'jusqu\'en [<end>#Date+]', cb: untilEnd },
+  { match: '(jusqu|jusque) (en|a|à|au) [<end>#Date+]', cb: untilEnd },
   // fallback to parsing one date
   { match: '.*', cb: justStart },
 ]

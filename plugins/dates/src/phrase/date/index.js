@@ -1,7 +1,7 @@
 import { months, days } from './data.js'
 import { Moment, Month, Day, Week, Year } from './units.js'
 import spacetime from 'spacetime'
-import normalize from './normalize.js'
+
 
 
 
@@ -30,7 +30,7 @@ const isValid = function (cal) {
 const parseOne = function (m, opts) {
   const { today } = opts
   // clean it up a little
-  m = normalize(m)
+  // m = normalize(m)
   // match '2 septembre 1982'
   let res = m.match('[<date>#Value] [<month>#Month] [<year>#Year]')
   if (res.found) {

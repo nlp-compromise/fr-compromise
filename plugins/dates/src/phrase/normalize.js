@@ -4,10 +4,11 @@ const normalize = function (m) {
   if (m.has('#WeekDay') && m.has('#Month') && m.has('#NumericValue')) {
     m.remove('#WeekDay')
   }
+  // jusqu'à le quatorze juillet
+  m.remove('(le|la)')
   // quatorze -> 14
   m.numbers().toCardinal().toNumber()
   // m.compute('index')
-  // m.debug()
   return m
 }
 export default normalize
