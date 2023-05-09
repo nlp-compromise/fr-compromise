@@ -25,6 +25,7 @@
   const months$2 = {
     'janvier': 1, // January
     'février': 2, // February
+    'fevrier': 2, // February
     'mars': 3, // March
     'avril': 4, // April
     'mai': 5, // May
@@ -35,8 +36,10 @@
     'octobre': 10, // October
     'novembre': 11, // November
     'décembre': 12, // December
+    'decembre': 12, // December
     'jan': 1,
     'fév': 2,
+    'fev': 2,
     'mar': 3,
     'avr': 4,
     'aou': 8,
@@ -47,6 +50,7 @@
     'déc': 12,
     'janv': 1,
     'févr': 2,
+    'fevr': 2,
     'juil': 7,
     'juill': 7,
   };
@@ -2748,6 +2752,7 @@
   var methods$5 = methods$4;
 
   // javascript setX methods like setDate() can't be used because of the local bias
+  //these methods wrap around them.
 
   const validate = (n) => {
     //handle number as a string
@@ -2986,7 +2991,11 @@
     if (n <= 0) {
       n = 0;
     } else if (n >= 365) {
-      n = 364;
+      if (isLeapYear(s.year())) {
+        n = 365;
+      } else {
+        n = 364;
+      }
     }
     s = s.startOf('year');
     s = s.add(n, 'day');
@@ -4062,7 +4071,7 @@
   };
   var whereIts$1 = whereIts;
 
-  var version = '7.4.2';
+  var version = '7.4.3';
 
   const main = (input, tz, options) => new Spacetime(input, tz, options);
 
@@ -4193,6 +4202,7 @@
     }
     // quatorze -> 14
     m.numbers().toCardinal().toNumber();
+    // m.compute('index')
     // m.debug()
     return m
   };
@@ -4229,7 +4239,6 @@
         return new Day(cal, opts)
       }
     }
-
     // 'oct 2021'
     res = m.match('[<month>#Month]  [<year>#Year]');
     if (res.found) {
@@ -4242,24 +4251,26 @@
       }
     }
     // 'oct 22nd'
-    res = m.match('[<month>#Month] [<date>#Value] [<year>#Year?]');
+    res = m.match('[<month>#Month] [<date>#Value] #Year?');
     if (res.found) {
       let cal = {
         month: parseMonth(res.groups('month')),
         date: parseNumber(res.groups('date')) || today.date(),
-        year: parseNumber(res.groups('year')) || today.year(),
+        year: parseNumber(res.match('#Year')) || today.year(),
       };
       {
         return new Day(cal, opts)
       }
     }
     // '6 avril'
-    res = m.match('[<date>#Value] [<month>#Month] [<year>#Year?]');
+    res = m.match('[<date>#Value] [<month>#Month] #Year?');
     if (res.found) {
       let cal = {
-        month: parseMonth(res.groups('month')),
-        date: parseNumber(res.groups('date')) || today.date(),
-        year: parseNumber(res.groups('year')) || today.year(),
+        // month: parseMonth(res.groups('month')),
+        // date: parseNumber(res.groups('date')) || today.date(),
+        month: parseMonth(res.match('#Month')),
+        date: parseNumber(res.match('#Value')) || today.date(),
+        year: parseNumber(res.match('#Year')) || today.year(),
       };
       {
         return new Day(cal, opts)
@@ -4288,6 +4299,22 @@
       if (s.isValid()) {
         return new Moment(s, opts)
       }
+    }
+    // known words
+    // yesterday
+    if (m.has('hier')) {
+      let s = spacetime(null, opts.timezone).minus(1, 'day');
+      return new Day(s, opts)
+    }
+    // tomorrow
+    if (m.has('demain')) {
+      let s = spacetime(null, opts.timezone).plus(1, 'day');
+      return new Day(s, opts)
+    }
+    // today
+    if (m.has('aujourd\'hui')) {
+      let s = spacetime(null, opts.timezone);
+      return new Day(s, opts)
     }
 
     // todo: support other forms here! ↓
