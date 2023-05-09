@@ -27,7 +27,8 @@ const arr = [
   ['Nous avons acheté la maison le 15 avril 2013.', [2013, apr, 15]],
   ['Le 1er mai est un jour férié en France', [2020, may, 1]],
   ['Je vais y aller le premier décembre 2014.', [2014, dec, 1]],
-  [`Aujourd'hui, c'est le 8 septembre 2014.`, [2024, sept, 8]],
+  [`le 8 aout 2014.`, [2014, august, 8]],
+  [`Aujourd'hui, c'est le 8 septembre 2024.`, [2024, sept, 8]],
   [`Nous sommes le 1er février aujourd'hui.`, [2020, feb, 1]],
   [`Nous sommes le vendredi 1er février aujourd'hui`, [2020, feb, 1]],
   ['15/12/2020', [2020, dec, 15]],
@@ -78,7 +79,7 @@ test('dates:', function (t) {
 
     // test the start date is the ISO
     let iso = dates.start.replace(/T00:00:00\.000Z$/, '', '')
-    t.equal(iso, start, `[start]: ${str}`)
+    t.equal(iso, start, here + `[start]: ${str}`)
     // test the end date is the ISO
     if (end) {
       iso = dates.end.replace(/T.*$/, '', '')

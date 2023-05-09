@@ -52,7 +52,7 @@ test('cardinal to ordinal:', function (t) {
 })
 test('ordinal -> cardinal:', function (t) {
   arr.forEach(function (a) {
-    let [_, card, ord] = a
+    let [, card, ord] = a
     let doc = nlp(ord).numbers().toCardinal()
     t.equal(doc.text(), card, here + ' [toCardinal] ' + card)
   })
