@@ -5,7 +5,7 @@ import nlp from './src/index.js'
 */
 
 let arr = [
-  'trente sept',
+
   'j\'ai lu trois livres',
   `nous détestons le sable`,
   `deuxième`,
