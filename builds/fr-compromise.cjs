@@ -8007,10 +8007,10 @@
   var packed = {
     "noun": {
       "plural": {
-        "fwd": "s:¦oeurs:œurs,œur¦ses:x¦2ux:vail,ial,éal¦2x:au¦2es:is¦3es:tit,nti,usé¦4es:igné¦5es:scent,ustin",
-        "both": "5ses:celeur,ordeur,yageur,ucheur,rcheur¦5ères:apetier¦5rices:nventeur,lisateur,édacteur,ommateur¦5es:étenu,ipant,rrent,diant¦5e:ésent¦5ux:égétal¦5nes:toyen,ncien¦4es:féré,dian,rmal,etch,eant,idat¦4rices:oniteur,nnateur,ucateur¦4x:llou,enou¦4nes:bien¦4ses:aneur¦4ux:pital,nimal¦3ux:oral,eval,otal,éral¦3es:han,ômé,tué,gué¦3rices:éateur¦3x:hou,jeu,ieu,veu¦2es:yé¦2ux:nal,cal,pal¦oeuvres:œuvre¦oeufs:œuf¦oeuds:œud¦oeux:œu",
-        "rev": "1:és,rs,ts,ns,ls,is,os,ps,as,us,ms,bs,cs,ks,gs,hs,ys,ws¦2:ies,mes,des,pes,ges,bes,ves,ifs,xes,rds,efs,nds,ees,eds,ïds,yes,ids,afs,fes,oux,rfs,ofs¦3:tres,ètes,ones,nées,ines,utes,rtes,sses,nces,ires,ures,ases,ites,vues,oles,ônes,bles,aces,ques,cées,eaux,êtes,ôles,ules,nses,înes,èles,lles,rces,ltes,bres,èces,oses,unes,cles,fres,stes,ttes,yses,ises,gues,cres,iles,dres,otes,tues,sées,lées,ènes,hées,dées,ares,éennes,phes,thes,xtes,ûres,gnes,ores,èses,yaux,tches,rres,pres,rses,uaux,nres,ôtes,ples,rues,eues,rnes,ytes,uces,gles,sues,yles,éates,ctes,ênes,îtes,dues,tées,mnes,oues,oces,bées,vées,rles,sces,ptes,cues,lnes,âles,pées,ûtes¦4:fices,ipses,hères,ivres,rches,uantes,uches,nnelles,nantes,onnes,oches,vices,éales,ffles,dentes,nrées,ngées,tères,nches,nanes,trées,intes,aches,hates,iches,ganes,gères,mates,fères,dantes,èvres,oates,rales,nates,auses,tates,tices,enties,sales,ontes,cales,caines,canes,âches,rmées,rates,tales,ouses,ciennes,pices,annes,lices,arées,sanes,banes,ranes,mères,rantes,tanes,èches,dales,ûches,pères,pales,vrées,fanes,êches,yères,quées,manes,muses,rères,coises¦5:tennes,mières,rières,ntantes,lientes,ouanes,ngales,auvres,scères,venues,liales,vières,udices,ulantes,santes,nières,égates,rcices,jointes,avanes,onaises,oirées,éduses,sières,ndices,signées,pentes,meuses,teuses,onales,guanes,ginales,xcuses,imales,ventes¦1œur:hoeurs¦2eur:ctrices,ltrices,utrices¦2l:taux¦2er:cières¦3il:avaux¦3r:deuses,ueuses,seuses¦3l:ciaux,déaux,ivaux¦3eur:ratrices,matrices¦3f:ptives¦4r:lleuses,ileuses¦4x:ineuses,gieuses¦5eur:dicatrices",
-        "ex": "yeux:œil¦oeufs:œuf¦oeuvre:œuvre¦oeillets:œillet¦oeilletons:œilleton¦oestrogènes:œstrogène¦2es:un¦11es:constituant,intervenant¦10nes:amérindien,australien¦13les:professionnel¦10es:enseignant,délinquant,adolescent¦7rices:producteur¦8rices:agriculteur,informateur¦8es:résident,ambulant,conjoint,marginal,augustin¦8ses:demandeur,cueilleur¦12es:représentant,contrevenant¦9rices:distributeur¦6es:client,garant,accusé¦9es:immigrant,répondant,américain,apprenant,plaignant,postulant,survivant¦6nes:coréen¦3x:jeu,feu,pou,eau¦11rices:administrateur¦5es:match,petit¦4ux:métal,rival¦10ères:conférencier¦4es:aîné¦5ses:joueur,fileur¦2ux:mal¦7es:lauréat,migrant,mauvais¦7nes:gardien¦9nes:praticien¦10rices:interlocuteur,revendicateur¦5ves:captif¦5x:bijou,hibou,fléau¦6ses:tisseur,pondeur¦3s:rue,vue,île,ale¦7s:attente,matière,entente,pieuvre,moyenne,filière,matrice,retenue,sulfate,rizière,litière¦9s:nébuleuse,frontière,constante,chaudière,cicatrice,sénatrice,chargeuse,érablière,cimetière,gouttière¦5s:fente,vente,purée,pente,durée,bière,tente,tenue,rente,tante,bouée¦6s:plante,finale,misère,fiente,agente¦4s:date,pâte,mère,cale,père,pale,fane,buse,veuf,cane,vice,ruse¦1oeurs:mœurs,cœur,sœur¦10s:obsidienne,imprimante,mésentente,bleuetière¦11s:visionneuse¦8s:variante,éolienne,descente¦11x:biomatériau¦2s:if¦12s:charpentière¦13s:photocopieuse"
+        "fwd": "s:¦oeurs:œur,œurs¦ses:x¦2x:au¦2ux:ial,éal,vail¦2es:is¦5es:ustin",
+        "both": "5ses:yageur,ordeur,celeur¦5rices:lisateur,locuteur,ommateur¦5ères:apetier¦4rices:dacteur,venteur,ucateur,nnateur¦4es:féré,rmal,dian¦4nes:bien¦4ux:pital¦4ses:ileur,aneur¦4x:eveu,ijou¦4ves:aptif¦3ux:otal,étal,oral,éral,eval,imal¦3es:tué,han¦3x:jeu,ieu,hou,lou¦3rices:éateur¦2ux:pal,cal,nal¦oeux:œu¦oeuds:œud¦oeuvres:œuvre¦oeufs:œuf",
+        "rev": "1:ns,ts,és,rs,us,is,as,ms,ls,cs,ks,os,gs,ys,ps,bs,ws,hs¦2:ges,tes,ies,des,hes,mes,ifs,efs,ues,xes,pes,bes,rds,nds,rfs,ids,oux,fes,yes,eds,afs,ïds,ees¦3:lles,nces,hées,ires,ares,gles,ines,lées,ones,rres,ules,tres,nées,ènes,ures,iles,cles,ores,lnes,mnes,rses,ises,eaux,oles,oses,lves,rnes,yaux,sses,bles,bres,pres,aces,ases,dres,înes,cres,sées,fres,èles,rces,unes,rves,ôles,dées,uves,nses,vées,ples,pses,èves,gnes,aves,bées,ênes,nres,uaux,èses,tées,âles,rles,ûres,oces,cées,èces,rofs,uces,ônes,êves,yles,sces¦4:lyses,dices,rmées,tères,hères,pices,nanes,canes,riaux,onnes,ouses,tanes,lices,tales,auses,éales,èvres,fères,muses,dales,rives,uanes,cales,mères,nantes,gères,cices,iales,ranes,léaux,yères,gales,cives,tices,ivres,annes,vaises,manes,sères,quées,vices,fices,sanes,fanes,rales,pères,pales,irées,sales,cères¦5:ulantes,rières,avanes,nières,uffles,abanes,dières,frères,atives,imales,onales,ctives,ndives,lières,inales,sières,meuses,onaises,ivrées,mières,éduses,yennes,rganes,auvres,oupées,écoises,idives,vières,olives¦1œur:hoeurs¦2eur:utrices,itrices,ctrices¦3r:heuses,ueuses,deuses,seuses¦3l:déaux,ivaux¦3eur:matrices¦3il:avaux¦4eur:tratrices¦4l:rciaux¦4r:lleuses,rteuses¦4x:gieuses¦5x:gineuses¦5eur:dicatrices",
+        "ex": "yeux:œil¦oeillets:œillet¦oeilletons:œilleton¦oestrogènes:œstrogène¦oeufs:œuf¦oeuvres:œuvre¦11rices:administrateur¦8es:ambulant,augustin¦8ses:chercheur,cueilleur,demandeur¦9rices:distributeur¦10es:enseignant¦7ses:faucheur¦3x:feu,jeu,pou,eau¦5x:genou,hibou¦8rices:informateur¦5ses:joueur¦2ux:mal¦5rices:moniteur¦6ses:pondeur,porteur,tisseur¦7rices:producteur¦10rices:revendicateur¦4ux:rival¦2es:un¦3s:ale,île,ive¦7s:antenne,convive,litière,matière,matrice,pieuvre,rentrée,rizière¦10s:arpenteuse,bleuetière,locomotive,obsidienne¦5s:bière,bouée,durée,frère,marée,olive,purée¦4s:buse,cale,cane,fane,mère,pale,père,rive,ruse,veuf,vice¦9s:chargeuse,cicatrice,cimetière,frontière,gouttière,nébuleuse,sénatrice¦12s:charpentière¦1oeurs:cœur,mœurs,sœur¦6s:denrée,entrée,excuse,rangée¦11s:diapositive,visionneuse¦8s:éolienne¦2s:if¦13s:photocopieuse"
       }
     },
     "adjective": {
@@ -8145,14 +8145,14 @@
       "vous": {
         "fwd": "isez:ésir¦oyez:eoir¦issez:ître¦quez:cre¦égez:èger¦érez:èrer,erer,erir¦1ez:loir,ure,pre,vre¦1sez:ore¦1ssez:itre¦2z:ser,yer,der,ner,ver¦2ez:enir,urir,uvoir,êtir,rmir,vrir,érir,avoir,ttre,utre,rdre¦2yez:roire,hoir¦3z:urer,érer¦3yez:rvoir¦3ez:ondre",
         "both": "5ssez:rossir,tentir,anchir,brutir¦5ez:ssentir¦5z:entrer,otéger¦5tes:arfaire¦4ssez:vahir,ussir,rtrir,nguir,antir,eurir,ellir,ertir,ouvir,mbrir,outir¦4ez:tendre,vendre,pendre,cendre,pandre,pentir¦4z:ltrer,evrer¦4vez:scrire¦4sez:oncire¦3ez:illir,urire,rendre,cevoir¦3z:crer,uger,grer,rger,rrer,ager,drer,iger,orer,arer,oger,irer,nger,brer¦3ssez:grir,unir,stir,avir,blir,omir,rnir,nnir,rrir,drir,plir,olir,udire,inir,énir,isir¦3tes:rdire¦3yez:ssoir,évoir¦2ssez:bir,cir,pir,gir,dir¦2êtez:rreter¦2ez:frir¦2z:wer,zer,xer,mer,ier,uer,ber,per,her,cer,ler,ter¦2sez:uire,fire¦2lvez:soudre¦2tez:âtre¦1gnez:indre¦1ssez:ïr¦échissez:echir",
-        "rev": "udre:lvez¦1ndre:egnez¦1re:ites¦1èger:iégez¦2r:vissez,uissez,tissez,éez¦2eoir:rsoyez¦2ître:naissez,loissez¦2re:aisez¦2cre:inquez¦2èrer:éférez¦2erer:sférez¦3r:esez,édez,rnez,ayez,inez,nnez,asez,usez,adez,nsez,anez,idez,trez,rsez,odez,llissez,eyez,lsez,ovez¦3ir:venez,ourez,artez,uvrez,vêtez,tenez,choyez¦3re:closez,uivez,endez,vivez,cluez,ompez¦3ître:croissez¦3erir:cquérez¦3tre:raissez¦4r:turez,ardez,puyez,jurez,euvez,hevez,rosez,surez,risez,tisez,eurez,posez,essez,assez,durez,ussez,aurez,lisez,toyez,boyez,agnez,revez,ognez,gurez,ivrez,murez¦4oir:évalez,mouvez,voulez¦4ir:dormez¦4re:mettez,fondez,battez¦5r:nvoyez,idérez,bondez,cordez,rrivez,mandez,ivisez,mmenez,anisez,plosez,droyez,landez,rondez,otivez,troyez¦5ir:ssortez,sservez¦5re:épondez",
-        "ex": "2es:être¦2ez:avoir,rire¦4ez:montrer,mentir,partir,sortir,servir,pendre,rendre,vendre,fendre,sentir,mouvoir,pouvoir,dormir,quérir,vouloir,battre,foutre,mettre,perdre,pondre,mordre¦7ssez:asservir,impartir,assortir,répartir,vieillir¦3ssez:huir¦7ez:ressortir,desservir,resservir¦3ez:devoir,vêtir,savoir,valoir,venir,clure,ompre,vivre,tenir¦2yez:fuir,voir¦3sez:taire,coudre¦2gnez:iendre¦1uvez:boire¦3vez:crire¦2tes:dire¦3tes:faire¦2sez:lire,uire¦3lez:moudre¦2lvez:soudre¦9z:rencontrer,renseigner¦4yez:revoir¦4ssez:jouir,rôtir¦5z:livrer,entrer,choyer,aviser,bander,ployer,visser,fonder,graver,mander,broyer¦5ssez:mollir¦4z:créer,baver,biser,durer,paver,roser,viser,gener,jurer,lever,laver,mener,miser,murer,noyer,gérer¦4vez:écrire¦6ez:départir¦4sez:plaire¦3z:oyer,oser,user,ayer¦7z:déborder,employer,froisser,observer¦6z:daigner,aborder,assener,baigner,baisser,glisser,inonder,laisser¦1isez:gésir¦6yez:pourvoir¦3issez:croître¦2issez:paître,naître¦4issez:repaître¦3yez:croire¦8z:approuver,encaisser,retrouver,fourvoyer"
+        "rev": "udre:lvez¦1ndre:egnez¦1re:ites¦1èger:iégez¦2r:vissez,uissez,tissez,éez¦2eoir:rsoyez¦2ître:naissez,loissez¦2re:aisez¦2cre:inquez¦2èrer:éférez¦2erer:sférez¦3r:esez,édez,rnez,ayez,inez,nnez,asez,usez,adez,nsez,anez,idez,trez,rsez,odez,llisez,eyez,lsez,ovez,llissez¦3ir:venez,ourez,artez,uvrez,vêtez,tenez,choyez¦3re:closez,uivez,endez,vivez,cluez,ompez¦3ître:croissez¦3erir:cquérez¦3tre:raissez¦4r:turez,ardez,puyez,jurez,euvez,hevez,rosez,surez,risez,tisez,eurez,posez,essez,assez,durez,ussez,aurez,toyez,boyez,agnez,revez,ognez,gurez,ivrez,murez¦4oir:évalez,mouvez,voulez¦4ir:dormez¦4re:mettez,fondez,battez¦5r:nvoyez,idérez,bondez,cordez,rrivez,mandez,ivisez,mmenez,anisez,ilisez,plosez,droyez,landez,rondez,nondez,otivez,troyez¦5ir:ssortez,sservez¦5re:épondez",
+        "ex": "2es:être¦2ez:avoir,rire¦4ez:montrer,mentir,partir,sortir,servir,pendre,rendre,vendre,fendre,sentir,mouvoir,pouvoir,dormir,quérir,vouloir,battre,foutre,mettre,perdre,pondre,mordre¦7ssez:asservir,impartir,assortir,répartir¦3ssez:huir¦7ez:ressortir,desservir,resservir¦3ez:devoir,vêtir,savoir,valoir,venir,clure,ompre,vivre,tenir¦2yez:fuir,voir¦3sez:taire,coudre¦2gnez:iendre¦1uvez:boire¦3vez:crire¦2tes:dire¦3tes:faire¦2sez:lire,uire¦3lez:moudre¦2lvez:soudre¦9z:rencontrer,renseigner¦4yez:revoir¦7sez:vieillir¦4ssez:jouir,rôtir¦5z:livrer,entrer,choyer,aviser,bander,ployer,visser,fonder,graver,mander,broyer¦5ssez:mollir¦4z:créer,baver,biser,durer,paver,roser,viser,gener,jurer,lever,laver,mener,miser,murer,noyer,gérer¦4vez:écrire¦6ez:départir¦4sez:plaire¦3z:oyer,oser,user,ayer¦7z:déborder,employer,froisser,observer¦6z:daigner,aborder,assener,baigner,baisser,glisser,laisser¦1isez:gésir¦6yez:pourvoir¦3issez:croître¦2issez:paître,naître¦4issez:repaître¦3yez:croire¦8z:approuver,encaisser,retrouver,finaliser,fourvoyer¦11z:immortaliser"
       },
       "ils": {
         "fwd": "ècent:ecer,écer¦ègent:éger¦èrent:érer¦euvent:ouvoir¦oient:eoir¦ièrent:érir,erir¦eulent:ouloir¦issent:ître¦quent:cre¦1ient:oyer,uyer¦1sent:ore¦1ent:ure,pre,vre¦1èrent:ferer¦1ssent:itre¦2ent:aloir,êtir,rmir,vrir,avoir,ttre,utre,rdre¦2nt:ier¦3nt:urer,rter,tter,rder,gner,nder,uver,nter,uler,nner,iver,aler,iser,sser,luer,ller,rver¦3ent:soir,roire,ondre¦3lent:peler¦4ent:rvoir¦4nt:nquer,fèrer",
         "both": "5nt:arquer,pulser,isquer,entrer,verger¦5ssent:tentir,bellir¦5ent:ssentir,scendre,epentir¦4ent:choir,tendre,vendre,pendre,courir,pandre,évoir¦4nt:ièger,acrer,ivrer,ngler,igrer,seyer,ltrer,aquer,upler,ucher,ndrer,igter,iquer,acher,ocher,ncher,rcher,icher¦4ssent:ollir,ennir,antir,eurir,nchir,ertir,ouvir,mbrir¦4sent:erdire,oncire¦4tent:oleter,lleter¦4lent:ateler¦3ssent:ahir,trir,grir,guir,unir,stir,avir,blir,rnir,rrir,drir,plir,utir,olir,udire,inir,énir¦3sent:laire¦3nt:nuer,oter,ouer,over,rler,fler,ater,iger,pter,iter,ider,oder,oser,rser,nser,ager,aner,aser,orer,uter,iner,bler,guer,rcer,rrer,ader,buer,ster,irer,arer,user,oger,ncer,cter,ayer,oler,rner,nger,acer¦3lent:celer,veler¦3vent:crire¦3ent:raire,illir¦3nent:rendre¦2ssent:bir,cir,pir,gir,dir,sir¦2êtent:rreter¦2nt:éer,wer,zer,xer,per,mer,ber¦2ent:frir¦2èlent:rteler¦2ètent:aleter,ureter¦2sent:uire,fire¦2lvent:soudre¦2tent:âtre¦1èlent:deler¦1ènent:mener,sener¦1gnent:indre¦1ont:faire¦1ssent:ïr¦1èquent:héquer¦1ètent:heter¦échissent:echir¦èdent:éder¦èvent:ever¦çoivent:cevoir¦iennent:enir¦èchent:écher¦èbrent:ébrer¦èsent:eser",
-        "rev": "eler:èlent¦evrer:èvrent¦égler:èglent¦aire:ont¦udre:lvent¦ener:ènent¦1ecer:mècent,pècent¦1écer:iècent¦1éger:tègent¦1érer:dèrent¦1ouvoir:meuvent¦1ndre:egnent¦1ouloir:veulent¦2yer:puient,boient,loient,toient¦2r:vissent,uissent,tissent,nissent,missent,yent¦2eoir:rsoient¦2ître:naissent,loissent¦2re:aisent¦2dre:oulent¦2cre:inquent¦2erer:sfèrent¦3yer:nvoient,droient,troient¦3ir:artent,ourent,uvrent,vêtent¦3re:closent,uivent,endent,vivent,ompent,cluent,urient¦3ître:croissent¦3r:rient,cient,sient,tient,fient,lient,hient,nient,llissent,rgent,enent,ugent,dient,trent¦3er:tellent¦3erir:cquièrent¦3tre:raissent¦4r:turent,ardent,ottent,mulent,ssoient,jurent,onnent,agnent,ouvent,surent,risent,visent,tisent,salent,essent,allent,assent,antent,dulent,vulent,durent,intent,ussent,aurent,evoient,lisent,gurent,ravent,urtent,fluent,gulent,uttent,pulent,aulent,oquent,murent¦4oir:évalent¦4ir:dorment¦4re:fondent,battent,pondent¦4er:ppellent¦5r:tentent,bordent,bondent,dentent,rrivent,sculent,mandent,leurent,runtent,anisent,ientent,portent,lattent,uettent,landent,rattent,rondent,oculent,ventent,mentent,anquent,otivent,éfèrent¦5ir:ssortent,sservent¦5re:rmettent,emettent",
-        "ex": "sont:être¦ont:avoir¦vont:aller¦1èlent:geler,peler¦3tent:jeter¦1èvrent:sevrer¦1ient:oyer¦1èglent:régler¦4ent:montrer,mentir,partir,sortir,courir,servir,pendre,rendre,vendre,fendre,sentir,dormir,battre,croire,foutre,mettre,perdre,pondre,mordre¦7ssent:asservir,impartir,assortir,répartir,vieillir¦1isent:gésir¦3ssent:huir¦1eurent:mourir¦7ent:ressortir,desservir,resservir,pourvoir¦1oivent:devoir¦3ent:fuir,voir,vêtir,savoir,valoir,clure,ompre,vivre¦3sent:taire,coudre¦2gnent:iendre¦3vent:boire,crire¦2sent:dire,lire,uire¦1ont:faire¦3lent:moudre¦2ent:rire¦2lvent:soudre¦5lent:atteler¦5ssent:bannir,honnir¦4nt:baver,paver,gener,juger,laver,biser,durer,viser,haler,jurer,miser,murer¦3nt:oser,user,huer,muer,nuer,ayer,fier,lier,nier¦9nt:rencontrer,confronter,renseigner¦5ent:revoir,sourire,omettre¦4ssent:vomir,jouir,rôtir¦5nt:forger,graver,jauger,moquer,entrer,porter,avaler,bander,panner,vanner,visser,fonder,mander,meuler¦1ènent:mener¦6ent:départir¦3ient:choyer,broyer¦6nt:daigner,baigner,baisser,polluer,glisser,grogner,gueuler,inonder,laisser¦1euvent:mouvoir,pouvoir¦2ièrent:quérir¦1eulent:vouloir¦3issent:croître¦2issent:paître,naître¦4issent:repaître¦7nt:abreuver,absenter,accorder,demeurer,froisser,observer¦8nt:encaisser¦11ent:retransmettre¦6ient:fourvoyer¦10nt:interpeller¦2ient:noyer¦1èrent:gérer"
+        "rev": "eler:èlent¦evrer:èvrent¦égler:èglent¦aire:ont¦udre:lvent¦ener:ènent¦1ecer:mècent,pècent¦1écer:iècent¦1éger:tègent¦1érer:dèrent¦1ouvoir:meuvent¦1ndre:egnent¦1ouloir:veulent¦2yer:puient,boient,loient,toient¦2r:vissent,uissent,tissent,nissent,missent,yent¦2eoir:rsoient¦2ître:naissent,loissent¦2re:aisent¦2dre:oulent¦2cre:inquent¦2erer:sfèrent¦3yer:nvoient,droient,troient¦3ir:artent,ourent,uvrent,vêtent¦3re:closent,uivent,endent,vivent,ompent,cluent,urient¦3ître:croissent¦3r:rient,cient,sient,tient,fient,lient,hient,nient,llisent,rgent,enent,ugent,dient,trent¦3er:tellent¦3erir:cquièrent¦3tre:raissent¦4r:turent,ardent,ottent,mulent,ssoient,jurent,onnent,agnent,ouvent,surent,risent,visent,tisent,salent,essent,allent,assent,antent,dulent,vulent,durent,intent,ussent,aurent,evoient,annent,gurent,ravent,urtent,fluent,gulent,uttent,pulent,aulent,oquent,murent¦4oir:évalent¦4ir:dorment¦4re:fondent,battent,pondent¦4er:ppellent¦5r:tentent,bordent,bondent,dentent,rrivent,sculent,mandent,leurent,runtent,anisent,ientent,portent,ilisent,alisent,uettent,landent,rattent,rondent,oculent,ventent,mentent,anquent,otivent,éfèrent¦5ir:ssortent,sservent¦5re:rmettent,emettent",
+        "ex": "sont:être¦ont:avoir¦vont:aller¦1èlent:geler,peler¦3tent:jeter¦1èvrent:sevrer¦1ient:oyer¦1èglent:régler¦4ent:montrer,mentir,partir,sortir,courir,servir,pendre,rendre,vendre,fendre,sentir,dormir,battre,croire,foutre,mettre,perdre,pondre,mordre¦7ssent:asservir,impartir,assortir,répartir¦1isent:gésir¦3ssent:huir¦1eurent:mourir¦7ent:ressortir,desservir,resservir,pourvoir¦1oivent:devoir¦3ent:fuir,voir,vêtir,savoir,valoir,clure,ompre,vivre¦3sent:taire,coudre¦2gnent:iendre¦3vent:boire,crire¦2sent:dire,lire,uire¦1ont:faire¦3lent:moudre¦2ent:rire¦2lvent:soudre¦5lent:atteler¦5ssent:bannir,honnir¦4nt:baver,paver,gener,juger,laver,biser,durer,viser,haler,jurer,miser,murer¦3nt:oser,user,huer,muer,nuer,ayer,fier,lier,nier¦9nt:rencontrer,confronter,renseigner¦5ent:revoir,sourire,omettre¦7sent:vieillir¦4ssent:vomir,jouir,rôtir¦5nt:forger,graver,jauger,moquer,entrer,porter,avaler,bander,visser,fonder,mander,meuler¦1ènent:mener¦6ent:départir¦3ient:choyer,broyer¦6nt:daigner,baigner,baisser,polluer,flatter,glisser,grogner,gueuler,inonder,laisser¦1euvent:mouvoir,pouvoir¦2ièrent:quérir¦1eulent:vouloir¦3issent:croître¦2issent:paître,naître¦4issent:repaître¦7nt:abreuver,absenter,accorder,demeurer,froisser,observer¦8nt:encaisser¦11ent:retransmettre¦6ient:fourvoyer¦10nt:interpeller¦2ient:noyer¦1èrent:gérer"
       }
     }
   };
@@ -8560,12 +8560,9 @@
     millions: ['Multiple', 'Cardinal'],
     milliards: ['Multiple', 'Cardinal'],
 
-    sommes: ['Copula', 'PresentTense'],
     êtes: ['Copula', 'PresentTense'],
-    sont: ['Copula', 'PresentTense'],
     étions: ['Copula', 'PresentTense'],
     serez: ['Copula', 'PresentTense'],
-    seront: ['Copula', 'PresentTense'],
     été: ['Copula'],
     fus: ['Copula', 'PastTense'],
     fut: ['Copula', 'PastTense'],
@@ -8578,7 +8575,6 @@
     fussions: ['Copula', 'PastTense'],
     fussiez: ['Copula', 'PastTense'],
     fussent: ['Copula', 'PastTense'],
-    serais: ['Copula', 'PresentTense'],
     serais: ['Copula', 'PresentTense'],
     serait: ['Copula', 'PresentTense'],
     serions: ['Copula', 'PresentTense'],
@@ -9334,17 +9330,17 @@
           if (!terms[i - back]) {
             break
           }
-          let str = terms[i - back].normal;
+          let s = terms[i - back].normal;
           //look backwards for a pronoun
           if (terms[i - back].tags.has('Pronoun')) {
-            if (pronouns.hasOwnProperty(str)) {
-              return setTag([term], pronouns[str], world, false, '3-person-pronoun-' + str)
+            if (pronouns.hasOwnProperty(s)) {
+              return setTag([term], pronouns[s], world, false, '3-person-pronoun-' + s)
             }
           }
           //look backwards for a auxiliary verb - 'sont'
           if (terms[i - back].tags.has('Verb')) {
-            if (auxiliaries.hasOwnProperty(str)) {
-              return setTag([term], auxiliaries[str], world, false, '3-person-auxiliary-' + str)
+            if (auxiliaries.hasOwnProperty(s)) {
+              return setTag([term], auxiliaries[s], world, false, '3-person-auxiliary-' + s)
             }
           }
         }
@@ -9373,9 +9369,9 @@
   var numberTypes = numberTags;
 
   // better guesses for 'le/la/les' in l'foo
-  const fixContractions = function (terms, i, world) {
+  const fixContractions = function (terms, i) {
     let term = terms[i];
-    term.tags;
+    // let tags = term.tags
     if (term.implicit === 'le') {
       let nextTerm = terms[i + 1];
       if (!nextTerm) {
@@ -10637,10 +10633,10 @@
       let str = String(parsed.num);
       let last = str.slice(str.length - 1, str.length);
       if (last === '1') {
-        let num = str += 'er';
+        let num = str + 'er';
         return `${prefix}${num}${suffix}`
       }
-      let num = str += 'e';
+      let num = str + 'e';
       return `${prefix}${num}${suffix}`
     }
     if (fmt === 'Cardinal') {
@@ -11248,7 +11244,7 @@
   const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
   // get root form of adjective
-  const getRoot$1 = function (m, methods) {
+  const getRoot$1 = function (m) {
     m.compute('root');
     let str = m.text('root');
     return str
