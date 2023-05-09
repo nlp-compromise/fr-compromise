@@ -1,7 +1,7 @@
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
 // get root form of adjective
-const getRoot = function (m, methods) {
+const getRoot = function (m) {
   m.compute('root')
   let str = m.text('root')
   return str

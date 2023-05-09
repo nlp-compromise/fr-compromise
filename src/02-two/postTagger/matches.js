@@ -68,6 +68,8 @@ const postTagger = function (doc) {
 
   // ==Dates==
   // ambig 'sept'
+  doc.match('#Month [#Value] #Year', 0).tag('Date', 'mdy')
+  doc.match('[#Value] #Month #Year', 0).tag('Date', 'dmy')
   doc.match('le #Value [sept]', 0).tag('Month', 'val-sept')
   doc.match('[sept] #Year', 0).tag('Month', 'sept-year')
   doc.match('[sept] (et|ou) #Month', 0).tag('Month', 'sept-et-month')

@@ -27,10 +27,10 @@ const formatNumber = function (parsed, fmt) {
     let str = String(parsed.num)
     let last = str.slice(str.length - 1, str.length)
     if (last === '1') {
-      let num = str += 'er'
+      let num = str + 'er'
       return `${prefix}${num}${suffix}`
     }
-    let num = str += 'e'
+    let num = str + 'e'
     return `${prefix}${num}${suffix}`
   }
   if (fmt === 'Cardinal') {

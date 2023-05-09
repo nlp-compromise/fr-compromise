@@ -1,7 +1,7 @@
 // better guesses for 'le/la/les' in l'foo
-const fixContractions = function (terms, i, world) {
+const fixContractions = function (terms, i) {
   let term = terms[i]
-  let tags = term.tags
+  // let tags = term.tags
   if (term.implicit === 'le') {
     let nextTerm = terms[i + 1]
     if (!nextTerm) {
