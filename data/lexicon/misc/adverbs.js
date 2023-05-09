@@ -8,6 +8,7 @@ export default [
   'aussi',
   'donc',
   'tres',
+  'très',
   'deja',
   'encore',
   // 'tout',

@@ -11,9 +11,15 @@ export default [
   'octobre', // - October
   'novembre', // - November
   'décembre', // - December
+  'fevrier',
+  'decembre',
 
   'janv',
+  'jan',
+  'fév',
+  'fev',
   'févr',
+  'fevr',
   'mars',
   'avr',
   'mai',
@@ -25,4 +31,5 @@ export default [
   'oct',
   'nov',
   'déc',
+  'dec',
 ]

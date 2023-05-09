@@ -67,6 +67,7 @@ const postTagger = function (doc) {
   doc.match('moins #Value').tag('TextValue', 'moins-value')
 
   // ==Dates==
+  doc.match('[#Value] #Month', 0).tag('Date', 'val-month')
   // ambig 'sept'
   doc.match('#Month [#Value] #Year', 0).tag('Date', 'mdy')
   doc.match('[#Value] #Month #Year', 0).tag('Date', 'dmy')

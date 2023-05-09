@@ -184,7 +184,7 @@ test('match:', function (t) {
     ['gros', '#Adjective'],//fat
     ['groupe', '#Noun'],//group
     ['hâte', '#Adjective'],//eager
-    ['hier', '#Noun'],//yesterday
+    ['hier', '#Date'],//yesterday
     ['honnête', '#Adjective'],//honest
     ['hybride', '#Adjective'],//hybrid
     ['ici', '#Noun'],//here
