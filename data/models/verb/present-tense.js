@@ -109,7 +109,6 @@ export default {
   "résoudre": ["résous", "résous", "résout", "résolvons", "résolvez", "résolvent"],
   "suffire": ["suffis", "suffis", "suffit", "suffisons", "suffisez", "suffisent"],
   "taire": ["tais", "tais", "tait", "taisons", "taisez", "taisent"],
-  "être": ["suis", "es", "est", "sommes", "êtes", "sont"],
   "aindre": ["ains", "ains", "aint", "aignons", "aignez", "aignent"],
   "battre": ["bats", "bats", "bat", "battons", "battez", "battent"],
   "iendre": ["iens", "iens", "ient", "iegnons", "iegnez", "iegnent"],
@@ -865,5 +864,8 @@ export default {
   // "faillir": ["faille|faux", "failles|faux", "faille|faut", "faillons", "faillez", "faillent"],
   // "asseoir": ["assieds|assois", "assieds|assois", "assied|assoit", "asseyons|assoyons", "asseyez|assoyez", "asseyent|assoient"],
   // "plaire": ["plais", "plais", "plaît|plait", "plaisons", "plaisez", "plaisent"],
+
+  "goûter": ['goûte', 'goûtes', 'goûte', 'goûtons', 'goûtez', 'goûtent'],
+  "contrôler": ['contrôle', 'contrôles', 'contrôle', 'contrôlons', 'contrôlez', 'contrôlent']
 
 }
