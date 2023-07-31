@@ -8,8 +8,75 @@ import nlp from './src/index.js'
 // console.log(nlp('essayer').verbs().conjugate())
 
 let arr = [
+  // étoiler
+  'Ils étoileront dans une nouvelle pièce',
+  'Le chanteur étoilera dans',
+  // mauvais
+  'Elle a eu une mauvaise expérience',
+  // devenir
+  'Elle est devenue une célèbre',
 
+  // bénir
+  'Que Dieu te bénisse avec bonheur',
 
+  // revendiquer
+  'Il revendiqua avoir vu un OVNI.',
+
+  // accroupir
+  `Elle s'est accroupie derrière l'arbre`,
+
+  // elegir
+  `Elle veut être élue maire`,
+
+  // attender
+  `Est-ce que tu t'attends`,
+
+  // gémir
+  `Le vieil homme gémissait`,
+  `Elle <gémit> à chaque fois`,
+
+  // deviner
+  `Sa devinette était complètement fausse`,
+
+  // guérir
+  `et le repos guériront tes blessures`,
+
+  // ménage
+  `Les tâches ménagères `,
+
+  // nier
+  `la nouvelle loi nierait leurs droits`,
+
+  // vieux
+  `La vieille maison`,
+  `une collection de <vieilles> photographies`,
+
+  // promouvoir
+  `Elle a été promue à un poste`,
+
+  // pleuvoir
+  `quand il pleut `,
+
+  // refléter
+  `Je réfléchis toujours`,
+
+  // rôtir
+  `Elle a rôti une dinde`,
+
+  //frémir
+  `Il frémit à l'idée`,
+
+  // soupirer
+  `Elle soupira `,
+
+  // envoler
+  `La montgolfière <s'envola> au-dessus des montagnes`,
+
+  // chanceler
+  `Il <chancela> chez lui `,
+
+  // sucer
+  `Les bébés sucent leur pouce`,
   // ["devenir", "become", "Verb", "She <became> a famous singer after years of practice.", "Elle est devenue une célèbre chanteuse après des années de pratique."],
   // ["accroupir", "crouch", "Verb", "She <crouched> behind the tree to hide.", "Elle s'est accroupie derrière l'arbre pour se cacher."],
 
