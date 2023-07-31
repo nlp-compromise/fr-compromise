@@ -77,15 +77,26 @@ let arr = [
 
   // sucer
   `Les bébés sucent leur pouce`,
+
+
+  // épais
+  `une couverture épaisse`,
+
+  // essayer
+  `Elle essaie de parler `,
+
+  // errer
+  `Le vieil homme <erra> et se perdit.`,
   // ["devenir", "become", "Verb", "She <became> a famous singer after years of practice.", "Elle est devenue une célèbre chanteuse après des années de pratique."],
   // ["accroupir", "crouch", "Verb", "She <crouched> behind the tree to hide.", "Elle s'est accroupie derrière l'arbre pour se cacher."],
 
-  ["endormi", "asleep", "Adjective", "I love listening to music while falling <asleep>.", "J'aime écouter de la musique en m'endormant."],
-  ["mauvais", "bad", "Adjective", "She had a <bad> experience with her previous boss.", "Elle a eu une mauvaise expérience avec son ancien patron."],
-  ["épais", "thick", "Adjective", "The book has a <thick> cover.", "Le livre a une couverture épaisse."],
+  // ["endormi", "asleep", "Adjective", "I love listening to music while falling <asleep>.", "J'aime écouter de la musique en m'endormant."],
+  // ["mauvais", "bad", "Adjective", "She had a <bad> experience with her previous boss.", "Elle a eu une mauvaise expérience avec son ancien patron."],
+  // ["épais", "thick", "Adjective", "The book has a <thick> cover.", "Le livre a une couverture épaisse."],
 
 
-  ['Il pêche la truite tous', 'pêcher'],
+
+  // ['Il pêche la truite tous', 'pêcher'],
   // [`L'équipe a été vaincue lors du match final`, 'vaincre'],
   // ['', ''],
   // 'accroupir',
