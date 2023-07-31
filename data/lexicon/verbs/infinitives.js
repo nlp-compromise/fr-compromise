@@ -2773,4 +2773,5 @@ export default [
   "voyager",
   "vrombir",
 
+  'étoiler',
 ]

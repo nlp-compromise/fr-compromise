@@ -2228,5 +2228,4 @@ export default {
   "voyager": ["voyagé"],
   "zoomer": ["zoomé"],
 
-
 }

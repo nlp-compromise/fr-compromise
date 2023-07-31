@@ -2243,7 +2243,9 @@ export default {
   "amariner": ["amarine", "amarines", "amarine", "amarinons", "amarinez", "amarinent"],
   "tâter": ["tâte", "tâtes", "tâte", "tâtons", "tâtez", "tâtent"],
   "apeurer": ["apeure", "apeures", "apeure", "apeurons", "apeurez", "apeurent"],
-  "éclipser": ["éclipse", "éclipses", "éclipse", "éclipsons", "éclipsez", "éclipsent"]
-
-
+  "éclipser": ["éclipse", "éclipses", "éclipse", "éclipsons", "éclipsez", "éclipsent"],
+  "gémir": ["gémis", "gémis", "gémit", "gémissons", "gémissez", "gémissent"],
+  "pleuvoir": ['pleuvais', 'pleuvais', 'pleut', 'pleuvions', 'pleuviez', 'pleuvaient'],// only really 'il pleut'
+  "frémir": ["frémis", "frémis", "frémit", "frémissons", "frémissez", "frémissent"],
+  "sucer": ["suce", "suces", "suce", "suçons", "sucez", "sucent"],
 }

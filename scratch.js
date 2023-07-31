@@ -1,5 +1,5 @@
 import nlp from './src/index.js'
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 /*
 
 */
@@ -7,86 +7,64 @@ import nlp from './src/index.js'
 
 // console.log(nlp('essayer').verbs().conjugate())
 
+let root = 'errer'
 let arr = [
-  // étoiler
-  'Ils étoileront dans une nouvelle pièce',
-  'Le chanteur étoilera dans',
   // mauvais
-  'Elle a eu une mauvaise expérience',
+  // 'Elle a eu une mauvaise expérience',
   // devenir
-  'Elle est devenue une célèbre',
+  // 'Elle est devenue une célèbre', //passe-compose
 
   // bénir
-  'Que Dieu te bénisse avec bonheur',
+  // 'Que Dieu te bénisse avec bonheur', //subjunctive
 
   // revendiquer
-  'Il revendiqua avoir vu un OVNI.',
+  // 'Il revendiqua avoir vu un OVNI.', //passe-simple
 
   // accroupir
-  `Elle s'est accroupie derrière l'arbre`,
+  // `Elle s'est accroupie derrière l'arbre`, //passe anterior
 
-  // elegir
-  `Elle veut être élue maire`,
-
-  // attender
-  `Est-ce que tu t'attends`,
-
-  // gémir
-  `Le vieil homme gémissait`,
-  `Elle <gémit> à chaque fois`,
-
-  // deviner
-  `Sa devinette était complètement fausse`,
-
-  // guérir
-  `et le repos guériront tes blessures`,
 
   // ménage
-  `Les tâches ménagères `,
+  // `Les tâches ménagères `,
 
   // nier
-  `la nouvelle loi nierait leurs droits`,
+  // `la nouvelle loi nierait leurs droits`, //conditional
 
   // vieux
-  `La vieille maison`,
-  `une collection de <vieilles> photographies`,
+  // `La vieille maison`,
+  // `une collection de <vieilles> photographies`,
 
   // promouvoir
-  `Elle a été promue à un poste`,
+  // `Elle a été promue à un poste`, // 
 
   // pleuvoir
-  `quand il pleut `,
+  // `quand il pleut `,
 
   // refléter
-  `Je réfléchis toujours`,
+  // `Je réfléchis toujours`, //?
 
   // rôtir
-  `Elle a rôti une dinde`,
+  // `Elle a rôti une dinde`, //passe compose
 
-  //frémir
-  `Il frémit à l'idée`,
 
   // soupirer
-  `Elle soupira `,
+  // `Elle soupira `, //passe simple
 
   // envoler
-  `La montgolfière <s'envola> au-dessus des montagnes`,
+  // `La montgolfière <s'envola> au-dessus des montagnes`,
 
-  // chanceler
-  `Il <chancela> chez lui `,
-
-  // sucer
-  `Les bébés sucent leur pouce`,
+  // // chanceler
+  // `Il <chancela> chez lui `,
 
 
   // épais
-  `une couverture épaisse`,
+  // `une couverture épaisse`,
 
   // essayer
-  `Elle essaie de parler `,
+  // `Elle essaie de parler `,
 
   // errer
-  `Le vieil homme <erra> et se perdit.`,
+  `Le vieil homme <erra> et se perdit.`, //passe simple
   // ["devenir", "become", "Verb", "She <became> a famous singer after years of practice.", "Elle est devenue une célèbre chanteuse après des années de pratique."],
   // ["accroupir", "crouch", "Verb", "She <crouched> behind the tree to hide.", "Elle s'est accroupie derrière l'arbre pour se cacher."],
 
@@ -117,11 +95,12 @@ let arr = [
   // 'réfléchir',
   // 'des coûts « démontre que le gouvernement  »',
 ]
-let [fr, en, pos, enTxt, frTxt] = arr[0]
+// let [fr, en, pos, enTxt, frTxt] = arr[0]
 
-console.log(fr, pos)
-let doc = nlp(frTxt).debug()
-doc.match(`{${fr}}`).debug()
+// console.log(fr, pos)
+let doc = nlp(arr[0]).debug()
+doc.match(`{${root}}`).debug()
+console.log(nlp(root).verbs().conjugate())
 
 // console.log(doc.verbs().conjugate())
 // doc.verbs().toPastTense().debug()

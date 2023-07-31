@@ -819,8 +819,8 @@ export default {
   "sourire": ["souriais", "souriais", "souriait", "souriions", "souriiez", "souriaient"],
   "départir": ["départais", "départais", "départissait", "départions", "départiez", "départaient"],
   "asseoir": ["assoyais", "assoyais", "assoyait", "assoyions", "assoyiez", "assoyaient"],
-
+  "gémir": ["gémissais", "gémissais", "gémissait", "gémissions", "gémissiez", "gémissaient"],
+  "frémir": ["frémissais", "frémissais", "frémissait", "frémissions", "frémissiez", "frémissaient"]
   // "départir": ["départais", "départais", "départait|départissait", "départions", "départiez", "départaient"],
   // "asseoir": ["asseyais|assoyais", "asseyais|assoyais", "asseyait|assoyait", "asseyions|assoyions", "asseyiez|assoyiez", "asseyaient|assoyaient"],
-
 }
