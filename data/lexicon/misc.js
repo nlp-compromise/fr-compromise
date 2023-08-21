@@ -32,6 +32,11 @@ export default {
   'aujourd\'hui': 'Noun',
 
   'quelque': 'Adjective',
-  'quelques': 'Adjective'
+  'quelques': 'Adjective',
+
+  // alt verbs
+  'essaie': 'PresentTense',
+  'essaies': 'PresentTense',
+  'essaient': 'PresentTense'
 
 }
