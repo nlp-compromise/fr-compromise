@@ -11469,7 +11469,7 @@
     api: api$1
   };
 
-  var version = '0.2.7';
+  var version = '0.2.8';
 
   nlp$1.plugin(tokenize);
   nlp$1.plugin(tagset);
