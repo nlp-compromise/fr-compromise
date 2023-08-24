@@ -1639,7 +1639,6 @@ export default [
   'emballer',
   'embarquer',
   'embarrasser',
-  'embatre',
   'embaucher',
   'embaumer',
   'embellir',

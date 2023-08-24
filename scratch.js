@@ -6,10 +6,10 @@ nlp.verbose('tagger')
 
 // console.log(nlp('essayer').verbs().conjugate())
 
-let root = 'jaillir'
+let root = 'montrer'
 let arr = [
-  // 'Je montre la direction',
-  `Elle s'immisce dans la conversation`,
+  'Je montre la direction',
+  // `Elle s'immisce dans la conversation`,
   // 'Elle a eu une mauvaise expérience',
   // devenir
   // 'Elle est devenue une célèbre', //passe-compose
@@ -93,8 +93,8 @@ let arr = [
 // let [fr, en, pos, enTxt, frTxt] = arr[0]
 
 // console.log(fr, pos)
-// let doc = nlp(arr[0]).debug()
-// doc.match(`{${root}}`).debug()
+let doc = nlp(arr[0]).debug()
+doc.match(`{${root}}`).debug()
 console.log(nlp(root).verbs().conjugate())
 
 // console.log(doc.verbs().conjugate())

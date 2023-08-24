@@ -786,7 +786,6 @@ export default {
   emballer: ['emballé'],
   embarquer: ['embarqué'],
   embarrasser: ['embarrassé'],
-  embatre: ['embatu'],
   embaucher: ['embauché'],
   embellir: ['embelli'],
   embêter: ['embêté'],

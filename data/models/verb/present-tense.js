@@ -39,7 +39,6 @@ export default {
   ],
   manger: ['mange', 'manges', 'mange', 'mangeons', 'mangez', 'mangent'],
   marcher: ['marche', 'marches', 'marche', 'marchons', 'marchez', 'marchent'],
-  montrer: ['monte', 'montes', 'monte', 'montons', 'montez', 'montent'],
   porter: ['porte', 'portes', 'porte', 'portons', 'portez', 'portent'],
   regarder: ['regarde', 'regardes', 'regarde', 'regardons', 'regardez', 'regardent'],
   cerner: ['cerne', 'cernes', 'cerne', 'cernons', 'cernez', 'cernent'],
@@ -4081,5 +4080,11 @@ export default {
   sabrer: ['sabre', 'sabres', 'sabre', 'sabrons', 'sabrez', 'sabrent'],
   saillir: ['saillis', 'saillis', 'saillit', 'saillissons', 'saillissez', 'saillissent'],
   suer: ['sue', 'sues', 'sue', 'suons', 'suez', 'suent'],
-  vénérer: ['vénère', 'vénères', 'vénère', 'vénérons', 'vénérez', 'vénèrent']
+  vénérer: ['vénère', 'vénères', 'vénère', 'vénérons', 'vénérez', 'vénèrent'],
+  immiscer: ['immisce', 'immisces', 'immisce', 'immisçons', 'immiscez', 'immiscent'],
+  rôder: ['rôde', 'rôdes', 'rôde', 'rôdons', 'rôdez', 'rôdent'],
+  échoir: ['échois', 'échois', 'échoit', 'échoyons', 'échoyez', 'échoient'],
+  lotir: ['lotis', 'lotis', 'lotit', 'lotissons', 'lotissez', 'lotissent'],
+  enchérir: ['enchéris', 'enchéris', 'enchérit', 'enchérissons', 'enchérissez', 'enchérissent'],
+  montrer: ['montre', 'montres', 'montre', 'montrons', 'montrez', 'montrent']
 }
