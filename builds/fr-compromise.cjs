@@ -7862,19 +7862,55 @@
 
   var contractions$1 = [
     { word: "qu'il", out: ['que', 'il'] },
-    { word: "n'y", out: ['ne', 'a'] },
     { word: "n'est", out: ['ne', 'est'] },
     { word: 'aux', out: ['à', 'les'] },
     { word: 'au', out: ['à', 'le'] },
+    // 'before' rules only fire when the remainder is 3+ chars,
+    // so short forms like "n'y" need explicit entries below
     { before: 'm', out: ['me'] },
     { before: 's', out: ['se'] },
-    { before: 't', out: ['tu'] },
+    { before: 't', out: ['te'] },
     { before: 'n', out: ['ne'] },
+    { before: 'c', out: ['ce'] },//c'était
+    { before: 'd', out: ['de'] },//d'autres - d' is always 'de'
     { before: 'qu', out: ['que'] },//tant qu'étudiant
     { before: 'puisqu', out: ['puisque'] },
     { before: 'lorsqu', out: ['lorsque'] },//lorsqu’il
     { before: 'jusqu', out: ['jusque'] },//jusqu'en
     { before: 'quelqu', out: ['quelque'] },//Quelqu'un
+
+    // ne + short word
+    { word: "n'y", out: ['ne', 'y'] },
+    { word: "n'a", out: ['ne', 'a'] },
+    { word: "n'ai", out: ['ne', 'ai'] },
+    { word: "n'as", out: ['ne', 'as'] },
+    { word: "n'es", out: ['ne', 'es'] },
+    { word: "n'en", out: ['ne', 'en'] },
+    // c'est
+    { word: "c'est", out: ['ce', 'est'] },
+    // object clitics + avoir
+    { word: "m'a", out: ['me', 'a'] },
+    { word: "m'as", out: ['me', 'as'] },
+    { word: "m'en", out: ['me', 'en'] },
+    { word: "m'y", out: ['me', 'y'] },
+    { word: "t'a", out: ['te', 'a'] },
+    { word: "t'en", out: ['te', 'en'] },
+    { word: "t'y", out: ['te', 'y'] },
+    { word: "s'en", out: ['se', 'en'] },
+    { word: "s'y", out: ['se', 'y'] },
+    { word: "l'a", out: ['le', 'a'] },
+    { word: "l'ai", out: ['le', 'ai'] },
+    { word: "l'as", out: ['le', 'as'] },
+    // informal tu
+    { word: "t'as", out: ['tu', 'as'] },
+    { word: "t'es", out: ['tu', 'es'] },
+    // que + short word
+    { word: "qu'on", out: ['que', 'on'] },
+    { word: "qu'un", out: ['que', 'un'] },
+    { word: "qu'à", out: ['que', 'à'] },
+    { word: "qu'en", out: ['que', 'en'] },
+    // de + une (core guesses 'du' here)
+    { word: "d'une", out: ['de', 'une'] },
 
     { word: 'auquel', out: ['à', 'lequel'] },
     { word: 'auxquels', out: ['à', 'lesquels'] },
@@ -7888,11 +7924,6 @@
   // 'machine' is a normalized form that looses human-readability
   const doMachine = function (term) {
     let str = term.implicit || term.normal || term.text;
-    // remove apostrophes
-    str = str.replace(/['’]s$/, '');
-    str = str.replace(/s['’]$/, 's');
-    //lookin'->looking (make it easier for conjugation)
-    str = str.replace(/([aeiou][ktrp])in'$/, '$1ing');
     //turn re-enactment to reenactment
     if (hasDash.test(str)) {
       str = str.replace(/-/g, '');
@@ -8222,10 +8253,20 @@
   let pRev$1 = reverse$1(model$2.adjective.plural);
   let fpRev = reverse$1(model$2.adjective.femalePlural);
 
-  const toFemale = (str) => convert$1(str, model$2.adjective.female);
+  // gaps in the suffix-thumb model
+  const femIrregular = {
+    vieux: 'vieille',
+    mou: 'molle',
+  };
+  const femIrregularRev = Object.entries(femIrregular).reduce((h, [k, v]) => {
+    h[v] = k;
+    return h
+  }, {});
+
+  const toFemale = (str) => femIrregular[str] || convert$1(str, model$2.adjective.female);
   const toPlural$1 = (str) => convert$1(str, model$2.adjective.plural);
   const toFemalePlural = (str) => convert$1(str, model$2.adjective.femalePlural);
-  const fromFemale = (str) => convert$1(str, fRev);
+  const fromFemale = (str) => femIrregularRev[str] || convert$1(str, fRev);
   const fromPlural$1 = (str) => convert$1(str, pRev$1);
   const fromFemalePlural = (str) => convert$1(str, fpRev);
 
@@ -8255,9 +8296,20 @@
   };
   // console.log(conjugate('frais'))
 
+  // gaps in the suffix-thumb model
+  const irregular = {
+    monsieur: 'messieurs',
+    madame: 'mesdames',
+    mademoiselle: 'mesdemoiselles',
+  };
+  const irregularRev = Object.entries(irregular).reduce((h, [k, v]) => {
+    h[v] = k;
+    return h
+  }, {});
+
   let pRev = reverse$1(model$2.noun.plural);
-  const toPlural = (str) => convert$1(str, model$2.noun.plural);
-  const fromPlural = (str) => convert$1(str, pRev);
+  const toPlural = (str) => irregular[str] || convert$1(str, model$2.noun.plural);
+  const fromPlural = (str) => irregularRev[str] || convert$1(str, pRev);
 
   const all$1 = (str) => {
     let plr = toPlural(str);
@@ -8290,24 +8342,32 @@
       thirdPlural: convert$1(str, m.ils),
     }
   };
-  const doOneVerb = function (str, form, m) {
-    if (form === 'FirstPerson') {
-      return convert$1(str, m.je)
+  const personMap = {
+    FirstPerson: 'je',
+    SecondPerson: 'tu',
+    ThirdPerson: 'il',
+    FirstPersonPlural: 'nous',
+    SecondPersonPlural: 'vous',
+    ThirdPersonPlural: 'ils',
+  };
+  const allPersons = ['je', 'tu', 'il', 'nous', 'vous', 'ils'];
+
+  // reverse a conjugated form to its infinitive.
+  // the person-tag is a hint - the surface suffix decides, so we
+  // round-trip each candidate and keep the one that converts back
+  const doOneVerb = function (str, form, revModel, fwdModel) {
+    let keys = allPersons;
+    let want = personMap[form];
+    if (want) {
+      keys = [want].concat(allPersons.filter(k => k !== want));
     }
-    if (form === 'SecondPerson') {
-      return convert$1(str, m.tu)
-    }
-    if (form === 'ThirdPerson') {
-      return convert$1(str, m.il)
-    }
-    if (form === 'FirstPersonPlural') {
-      return convert$1(str, m.nous)
-    }
-    if (form === 'SecondPersonPlural') {
-      return convert$1(str, m.vous)
-    }
-    if (form === 'ThirdPersonPlural') {
-      return convert$1(str, m.ils)
+    for (let i = 0; i < keys.length; i += 1) {
+      let k = keys[i];
+      let inf = convert$1(str, revModel[k]);
+      // an unmatched convert() returns its input, which would round-trip trivially
+      if (inf && inf !== str && convert$1(inf, fwdModel[k]) === str) {
+        return inf
+      }
     }
     return str
   };
@@ -8315,27 +8375,72 @@
   const toPresentTense = (str) => doVerb(str, model$2.presentTense);
   const toFutureTense = (str) => doVerb(str, model$2.futureTense);
   const toImperfect = (str) => doVerb(str, model$2.imperfect);
-  const toPastParticiple = (str) => convert$1(str, model$2.pastParticiple.prt);
+
+  // gaps in the suffix-thumb model
+  const ppIrregular = {
+    pouvoir: 'pu',
+    pleuvoir: 'plu',
+  };
+  const toPastParticiple = (str) => ppIrregular[str] || convert$1(str, model$2.pastParticiple.prt);
+
+  // conditional = future stem + imperfect endings
+  // future forms always end in ai/as/a/ons/ez/ont, so we can derive it
+  const toConditional = function (str) {
+    let f = toFutureTense(str);
+    return {
+      first: f.first ? f.first.replace(/ai$/, 'ais') : '',
+      second: f.second ? f.second.replace(/as$/, 'ais') : '',
+      third: f.third ? f.third.replace(/a$/, 'ait') : '',
+      firstPlural: f.firstPlural ? f.firstPlural.replace(/ons$/, 'ions') : '',
+      secondPlural: f.secondPlural ? f.secondPlural.replace(/ez$/, 'iez') : '',
+      thirdPlural: f.thirdPlural ? f.thirdPlural.replace(/ont$/, 'aient') : '',
+    }
+  };
 
   const fromPresent = reverseAll(model$2.presentTense);
-  const fromPresentTense = (str, form) => doOneVerb(str, form, fromPresent);
+  const fromPresentTense = (str, form) => doOneVerb(str, form, fromPresent, model$2.presentTense);
 
   const fromFuture = reverseAll(model$2.futureTense);
-  const fromFutureTense = (str, form) => doOneVerb(str, form, fromFuture);
+  const fromFutureTense = (str, form) => doOneVerb(str, form, fromFuture, model$2.futureTense);
 
   const fromImperfect = reverseAll(model$2.imperfect);
-  const fromImperfectTense = (str, form) => doOneVerb(str, form, fromImperfect);
+  const fromImperfectTense = (str, form) => doOneVerb(str, form, fromImperfect, model$2.imperfect);
 
   const fromParticiple = reverse$1(model$2.pastParticiple.prt);
-  const fromPastParticiple = (str) => convert$1(str, fromParticiple);
+  const ppIrregularRev = { pu: 'pouvoir' };
+  const fromPastParticiple = (str) => ppIrregularRev[str] || convert$1(str, fromParticiple);
+
+  // map a conditional ending back to its future-tense form, then reverse that
+  const fromConditional = function (str) {
+    let form = 'FirstPerson';
+    let s = str;
+    if (/aient$/.test(s)) {
+      s = s.replace(/aient$/, 'ont');
+      form = 'ThirdPersonPlural';
+    } else if (/ions$/.test(s)) {
+      s = s.replace(/ions$/, 'ons');
+      form = 'FirstPersonPlural';
+    } else if (/iez$/.test(s)) {
+      s = s.replace(/iez$/, 'ez');
+      form = 'SecondPersonPlural';
+    } else if (/ait$/.test(s)) {
+      s = s.replace(/ait$/, 'a');
+      form = 'ThirdPerson';
+    } else if (/ais$/.test(s)) {
+      s = s.replace(/ais$/, 'ai');
+      form = 'FirstPerson';
+    }
+    return fromFutureTense(s, form)
+  };
 
   // do this one manually
   const fromPassive = function (str) {
-    str = str.replace(/ées$/, 'er');
-    str = str.replace(/ée$/, 'er');
-    str = str.replace(/és$/, 'er');
-    str = str.replace(/é$/, 'er');
-    return str
+    if (/ée?s?$/.test(str)) {
+      return str.replace(/ée?s?$/, 'er')
+    }
+    // agreement endings on non-er participles: 'venues' -> 'venu', 'prises' -> 'pris'
+    let base = str.replace(/([uist])e?s?$/, '$1');
+    return fromPastParticiple(base)
   };
 
   // i don't really know how this works
@@ -8357,6 +8462,7 @@
       Object.values(toPresentTense(str)),
       Object.values(toFutureTense(str)),
       Object.values(toImperfect(str)),
+      Object.values(toConditional(str)),
       toPassive(str)
     );
     arr.push(toPastParticiple(str));
@@ -8367,8 +8473,8 @@
 
   var verb = {
     all,
-    toPresentTense, toFutureTense, toImperfect, toPastParticiple,
-    fromPresentTense, fromFutureTense, fromImperfectTense, fromPastParticiple, fromPassive
+    toPresentTense, toFutureTense, toImperfect, toConditional, toPastParticiple,
+    fromPresentTense, fromFutureTense, fromImperfectTense, fromConditional, fromPastParticiple, fromPassive
   };
 
   // console.log(presentTense('marcher'))
@@ -8575,23 +8681,101 @@
 
   var unpack$1 = unpack;
 
+  // hand-fixes that win over the packed lexicon (this file is merged last)
   var misc$1 = {
-    // copulas (incomplete)
-    es: ['Copula', 'PresentTense'],
-    est: ['Copula', 'PresentTense'],
-    suis: ['Copula', 'PresentTense'],
-    sommes: ['Copula', 'PresentTense'],
-    etes: ['Copula', 'PresentTense'],
-    sont: ['Copula', 'PresentTense'],
+    // ==high-frequency words the packed lists get wrong==
+    // 'a' = avoir 3rd-sing. (the accented 'à' is the preposition)
+    a: ['Auxiliary', 'ThirdPerson'],
+    // 'eu' = past participle of avoir (was tagged Organization)
+    eu: ['PastParticiple'],
+    eus: ['PastParticiple'],
+    eue: ['PastParticiple'],
+    eues: ['PastParticiple'],
+    // subject pronoun (was clobbered by 'taire' participle-adjective)
+    tu: ['Pronoun'],
+    // 'dit' = dire, present or participle (was MaleAdjective)
+    dit: ['Verb', 'ThirdPerson'],
+    // adverb (was MaleAdjective)
+    plus: ['Adverb'],
+    // participles of venir (were MaleAdjective)
+    venu: ['PastParticiple'],
+    venue: ['PastParticiple'],
+    venus: ['PastParticiple'],
+    venues: ['PastParticiple'],
+    // missing common nouns with misleading endings
+    homme: ['MaleNoun', 'Singular'],
+    hommes: ['MaleNoun', 'PluralNoun'],
+    monde: ['MaleNoun', 'Singular'],
+    'idée': ['FemaleNoun', 'Singular'],
+    'idées': ['FemaleNoun', 'PluralNoun'],
+    // common adverbs
+    'là': ['Adverb'],
+    'tôt': ['Adverb'],
+    ici: ['Adverb'],
+    ensemble: ['Adverb'],
+    // object clitics are pronouns, not possessives
+    me: ['Pronoun'],
+    te: ['Pronoun'],
+    toi: ['Pronoun'],
+    lui: ['Pronoun'],
 
-    ete: ['Copula', 'PastTense'],
-    etais: ['Copula', 'PastTense'],
-    etions: ['Copula', 'PastTense'],
+    // ==être==
+    // present
+    es: ['Copula', 'PresentTense', 'SecondPerson'],
+    est: ['Copula', 'PresentTense', 'ThirdPerson'],
+    suis: ['Copula', 'PresentTense', 'FirstPerson'],
+    sommes: ['Copula', 'PresentTense', 'FirstPersonPlural'],
+    êtes: ['Copula', 'PresentTense', 'SecondPersonPlural'],
+    etes: ['Copula', 'PresentTense', 'SecondPersonPlural'],
+    sont: ['Copula', 'PresentTense', 'ThirdPersonPlural'],
+    // imperfect
+    étais: ['Copula', 'Imperfect'],
+    etais: ['Copula', 'Imperfect'],
+    était: ['Copula', 'Imperfect', 'ThirdPerson'],
+    etait: ['Copula', 'Imperfect', 'ThirdPerson'],
+    étions: ['Copula', 'Imperfect', 'FirstPersonPlural'],
+    etions: ['Copula', 'Imperfect', 'FirstPersonPlural'],
+    étiez: ['Copula', 'Imperfect', 'SecondPersonPlural'],
+    étaient: ['Copula', 'Imperfect', 'ThirdPersonPlural'],
+    etaient: ['Copula', 'Imperfect', 'ThirdPersonPlural'],
+    // future
+    serai: ['Copula', 'FutureTense', 'FirstPerson'],
+    seras: ['Copula', 'FutureTense', 'SecondPerson'],
+    sera: ['Copula', 'FutureTense', 'ThirdPerson'],
+    serons: ['Copula', 'FutureTense', 'FirstPersonPlural'],
+    serez: ['Copula', 'FutureTense', 'SecondPersonPlural'],
+    seront: ['Copula', 'FutureTense', 'ThirdPersonPlural'],
+    // conditional
+    serais: ['Copula', 'ConditionalVerb'],
+    serait: ['Copula', 'ConditionalVerb', 'ThirdPerson'],
+    serions: ['Copula', 'ConditionalVerb', 'FirstPersonPlural'],
+    seriez: ['Copula', 'ConditionalVerb', 'SecondPersonPlural'],
+    seraient: ['Copula', 'ConditionalVerb', 'ThirdPersonPlural'],
+    // passé simple
+    fus: ['Copula', 'PastTense'],
+    fut: ['Copula', 'PastTense', 'ThirdPerson'],
+    fûmes: ['Copula', 'PastTense', 'FirstPersonPlural'],
+    fûtes: ['Copula', 'PastTense', 'SecondPersonPlural'],
+    furent: ['Copula', 'PastTense', 'ThirdPersonPlural'],
+    // subjunctive
+    fusse: ['Copula', 'PastTense'],
+    fusses: ['Copula', 'PastTense'],
+    fût: ['Copula', 'PastTense', 'ThirdPerson'],
+    fussions: ['Copula', 'PastTense', 'FirstPersonPlural'],
+    fussiez: ['Copula', 'PastTense', 'SecondPersonPlural'],
+    fussent: ['Copula', 'PastTense', 'ThirdPersonPlural'],
+    sois: ['Copula', 'PresentTense'],
+    soit: ['Copula', 'PresentTense', 'ThirdPerson'],
+    soyons: ['Copula', 'PresentTense', 'FirstPersonPlural'],
+    soyez: ['Copula', 'PresentTense', 'SecondPersonPlural'],
+    soient: ['Copula', 'PresentTense', 'ThirdPersonPlural'],
+    // participle + infinitive
+    été: ['Copula', 'PastParticiple'],
+    ete: ['Copula', 'PastParticiple'],
+    être: ['Copula', 'Infinitive'],
+    etre: ['Copula', 'Infinitive'],
 
-    serons: ['Copula', 'FutureTense'],
-    seront: ['Copula', 'FutureTense'],
-    serai: ['Copula', 'FutureTense'],
-
+    // ==numbers==
     cent: ['Multiple', 'Cardinal'],
     mille: ['Multiple', 'Cardinal'],
     million: ['Multiple', 'Cardinal'],
@@ -8605,39 +8789,13 @@
     trillionième: ['Multiple', 'Ordinal'],
     // plural numbers
     septs: ['TextValue', 'Cardinal'],
-
+    vingts: ['TextValue', 'Cardinal'],//quatre-vingts
+    'zéro': ['TextValue', 'Cardinal'],
+    'zéroième': ['TextValue', 'Ordinal'],
     cents: ['Multiple', 'Cardinal'],
     milles: ['Multiple', 'Cardinal'],
     millions: ['Multiple', 'Cardinal'],
     milliards: ['Multiple', 'Cardinal'],
-
-    êtes: ['Copula', 'PresentTense'],
-    étions: ['Copula', 'PresentTense'],
-    serez: ['Copula', 'PresentTense'],
-    été: ['Copula'],
-    fus: ['Copula', 'PastTense'],
-    fut: ['Copula', 'PastTense'],
-    fûmes: ['Copula', 'PastTense'],
-    fûtes: ['Copula', 'PastTense'],
-    furent: ['Copula', 'PastTense'],
-    fusse: ['Copula', 'PastTense'],
-    fusses: ['Copula', 'PastTense'],
-    fût: ['Copula', 'PastTense'],
-    fussions: ['Copula', 'PastTense'],
-    fussiez: ['Copula', 'PastTense'],
-    fussent: ['Copula', 'PastTense'],
-    serais: ['Copula', 'PresentTense'],
-    serait: ['Copula', 'PresentTense'],
-    serions: ['Copula', 'PresentTense'],
-    seriez: ['Copula', 'PresentTense'],
-    seraient: ['Copula', 'PresentTense'],
-    sois: ['Copula', 'PresentTense'],
-    soyons: ['Copula', 'PresentTense'],
-    soyez: ['Copula', 'PresentTense'],
-    être: ['Copula', 'PresentTense'],
-
-
-
   };
 
   const tagMap = {
@@ -8694,9 +8852,20 @@
             words[res[k]] = words[res[k]] || [tagMap[k], 'PresentTense'];
           }
         });
+        // do conditional mood
+        res = methods$1.verb.toConditional(w);
+        Object.keys(res).forEach(k => {
+          if (!words[res[k]]) {
+            words[res[k]] = [tagMap[k], 'ConditionalVerb'];
+          }
+        });
         // do imperfect mood
         res = methods$1.verb.toImperfect(w);
-        Object.keys(res).forEach(k => words[res[k]] = words[res[k]] || 'Verb');
+        Object.keys(res).forEach(k => {
+          if (!words[res[k]]) {
+            words[res[k]] = [tagMap[k], 'Imperfect'];
+          }
+        });
         // past-participle
         let out = methods$1.verb.toPastParticiple(w);
         words[out] = words[out] || 'PastParticiple';
@@ -8748,22 +8917,20 @@
         }
         // verbs -> infinitive form
         if (term.tags.has('Verb')) {
-          if (term.tags.has('PresentTense')) {
-            let form = verbForm$2(term);
-            term.root = transform.verb.fromPresentTense(str, form);
-          }
-          if (term.tags.has('FutureTense')) {
-            let form = verbForm$2(term);
+          let form = verbForm$2(term);
+          if (term.tags.has('Infinitive')) ; else if (term.tags.has('ConditionalVerb')) {
+            term.root = transform.verb.fromConditional(str);
+          } else if (term.tags.has('FutureTense')) {
             term.root = transform.verb.fromFutureTense(str, form);
-          }
-          if (term.tags.has('Passive')) {
-            let form = verbForm$2(term);
+          } else if (term.tags.has('Imperfect')) {
+            term.root = transform.verb.fromImperfectTense(str, form);
+          } else if (term.tags.has('Passive')) {
             term.root = transform.verb.fromPassive(str, form);
           } else if (term.tags.has('PastTense')) {
-            let form = verbForm$2(term);
-            term.root = transform.verb.fromPastParticiple(str, form);
+            term.root = transform.verb.fromPastParticiple(str);
+          } else if (term.tags.has('PresentTense')) {
+            term.root = transform.verb.fromPresentTense(str, form);
           }
-          //  fromImperfectTense, fromPastParticiple
         }
       });
     });
@@ -9223,6 +9390,7 @@
     'Imperative',
     'Gerund',
     'PastTense',
+    'Imperfect',
     'Modal',
     'Auxiliary',
     'PerfectTense',
@@ -9234,7 +9402,7 @@
 
   let whichTense = [
 
-    //er - present conditional 
+    //er - present conditional
     ['erais', 'ConditionalVerb'],
     ['erait', 'ConditionalVerb'],
     ['erions', 'ConditionalVerb'],
@@ -9248,12 +9416,20 @@
     ['erez', 'FutureTense'],
     ['eront', 'FutureTense'],
 
-    // er - imparfait -> PastTense
-    ['ais', 'PastTense'],
-    ['ait', 'PastTense'],
-    ['ions', 'PastTense'],
-    ['iez', 'PastTense'],
-    ['ient', 'PastTense'],
+    // passé simple
+    ['âmes', 'PastSimple'],
+    ['âtes', 'PastSimple'],
+    ['èrent', 'PastSimple'],
+    ['irent', 'PastSimple'],
+    ['urent', 'PastSimple'],
+
+    // imparfait
+    // note: no 'ient' here - it matches present-tense 'vient/tient'
+    ['aient', 'Imperfect'],
+    ['ais', 'Imperfect'],
+    ['ait', 'Imperfect'],
+    ['ions', 'Imperfect'],
+    ['iez', 'Imperfect'],
 
     // past-participle
     ['ées', 'PastParticiple'],
@@ -9291,8 +9467,6 @@
   let whichForm = [
     // future
     ['ai', 'FirstPerson'],
-    ['tas', 'SecondPerson'],
-    ['ta', 'ThirdPerson'],
     ['âmes', 'FirstPersonPlural'],
     ['âtes', 'SecondPersonPlural'],
     ['èrent', 'ThirdPersonPlural'],
@@ -9301,10 +9475,10 @@
     // futur
     ['eras', 'SecondPerson'],
     ['eront', 'ThirdPersonPlural'],
-    // imparfait
+    // subjonctif imparfait
     ['asse', 'FirstPerson'],
     ['asses', 'SecondPerson'],
-    ['tât', 'ThirdPerson'],
+    ['ât', 'ThirdPerson'],
     // present
     ['es', 'SecondPerson'],
     ['ons', 'FirstPersonPlural'],
@@ -9316,10 +9490,15 @@
     tu: 'SecondPerson',
     il: 'ThirdPerson',
     elle: 'ThirdPerson',
+    on: 'ThirdPerson',
     nous: 'FirstPersonPlural',
     vous: 'SecondPersonPlural',
     ils: 'ThirdPersonPlural',
+    elles: 'ThirdPersonPlural',
   };
+  // words that sit between a subject-pronoun and its verb
+  // (nous/vous are included - as clitics in 'elle nous invite')
+  const skippable = new Set(['le', 'la', 'les', 'lui', 'leur', 'me', 'te', 'se', 'nous', 'vous', 'y', 'en']);
   // can give us a hint to verb person, too
   const auxiliaries = {
     // etre
@@ -9339,6 +9518,12 @@
     serions: 'FirstPersonPlural',
     seriez: 'SecondPersonPlural',
     seraient: 'ThirdPersonPlural',
+    // imperfect être
+    'était': 'ThirdPerson',
+    'étions': 'FirstPersonPlural',
+    'étiez': 'SecondPersonPlural',
+    'étaient': 'ThirdPersonPlural',
+    fut: 'ThirdPerson',
 
     // 'avoir'
     ai: 'FirstPerson',
@@ -9371,9 +9556,33 @@
     let setTag = world.methods.one.setTag;
     let term = terms[i];
     let tags = term.tags;
-    if (tags.has('Verb')) {
+    if (tags.has('Verb') && !tags.has('Infinitive')) {
       // console.log(term)
       let str = term.implicit || term.normal || term.text || '';
+      // an adjacent subject beats the lexicon's person-tag
+      // (shared surface-forms like 'parle' get tagged first-person by default)
+      let existing = person.find(s => tags.has(s));
+      if (existing) {
+        // walk back over 'ne' and object clitics - 'elle ne le mange pas'
+        let at = i - 1;
+        while (terms[at] && (terms[at].tags.has('Negative') || skippable.has(terms[at].implicit || terms[at].normal))) {
+          at -= 1;
+        }
+        let prev = terms[at];
+        if (prev && prev.tags.has('Pronoun')) {
+          let s = prev.implicit || prev.normal;
+          if (pronouns.hasOwnProperty(s) && pronouns[s] !== existing) {
+            person.forEach(p => term.tags.delete(p));
+            setTag([term], pronouns[s], world, false, '3-person-agreement');
+          }
+        } else if (existing === 'FirstPerson' && prev && prev.tags.has('Noun') && !prev.tags.has('Pronoun')) {
+          // 'Marie habite' - a noun subject means third-person
+          let want = prev.tags.has('PluralNoun') ? 'ThirdPersonPlural' : 'ThirdPerson';
+          person.forEach(p => term.tags.delete(p));
+          setTag([term], want, world, false, '3-person-noun-agreement');
+        }
+        return null
+      }
       // if we have no person-tag
       if (!person.find(s => tags.has(s))) {
         // look at the word suffix, for clues
@@ -9427,16 +9636,16 @@
   // better guesses for 'le/la/les' in l'foo
   const fixContractions = function (terms, i) {
     let term = terms[i];
-    // let tags = term.tags
-    if (term.implicit === 'le') {
+    if (term.implicit === 'le' || term.implicit === 'la') {
       let nextTerm = terms[i + 1];
       if (!nextTerm) {
         return null
       }
-      if (nextTerm.tags.has('FemaleNoun')) {
+      if (nextTerm.tags.has('MaleNoun')) {
+        term.implicit = 'le';
+      } else if (nextTerm.tags.has('FemaleNoun')) {
         term.implicit = 'la';
       }
-      // support female plural?
       if (nextTerm.tags.has('PluralNoun')) {
         term.implicit = 'les';
       }
@@ -9863,15 +10072,36 @@
     });
   };
 
+  // verbs that form the passé composé with être, in participle form
+  const etreParticiples = [
+    'allé', 'arrivé', 'parti', 'venu', 'devenu', 'revenu', 'rentré', 'retourné',
+    'resté', 'tombé', 'monté', 'descendu', 'né', 'mort', 'sorti', 'entré', 'passé',
+  ].map(w => [w, w + 'e', w + 's', w + 'es']).flat().join('|');
+
+  const etreForms = 'suis|es|est|sommes|êtes|etes|sont|étais|était|étions|étiez|étaient|serai|seras|sera|serons|serez|seront|serais|serait|serions|seriez|seraient';
+
   const postTagger$1 = function (doc) {
     // ==Nouns==
     // l'inconnu
     doc.match('(le|un) [#Verb]', 0).tag(['MaleNoun', 'Singular'], 'le-verb');
     doc.match('(la|une) [#Verb]', 0).tag(['FemaleNoun', 'Singular'], 'la-verb');
+    // substantivized adjectives - 'l'inconnu', 'le rouge'
+    tagNoun(doc.match('(le|la|les|un|une) [#Adjective]$', 0).tag('Noun', 'le-adj-end'));
+    tagNoun(doc.match('(le|la|les|un|une) [#Adjective] (#Preposition|#Verb)', 0).tag('Noun', 'le-adj-prep'));
     tagNoun(doc.match('(quelques|quelque) [#Verb]', 0).tag('Noun', 'quelque-verb'));
     tagNoun(doc.match('(des|les|mes|ces|tes|ses|nos|vos|leurs) [#Verb]', 0).tag('PluralNoun', 'des-verb'));
 
+    // ==Determiners==
+    // ce soir, ce film
+    doc.match('[ce] (#Noun && !#Pronoun)', 0).tag('Determiner', 'ce-noun');
+
     // ==Verbs==
+    // il fait beau
+    doc.match('(je|tu|il|elle|on|qui|cela|ça|ne) [fait]', 0).tag(['PresentTense', 'ThirdPerson'], 'il-fait');
+    // a fait, ont dit - common participles that the lexicon tags as nouns/adjectives
+    doc.match('(ai|as|a|avons|avez|ont) #Adverb?+ [(fait|dit|mis|pris|vu|eu|été|cru|su|dû|pu|lu)]', 0).tag(['PastTense', 'PastParticiple'], 'have-participle');
+    // est-ce que
+    doc.match('est ce (que|qui)').tag('QuestionWord', 'est-ce-que');
     // ne foo pas
     tagVerb(doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas'));
     // il active le
@@ -9888,6 +10118,12 @@
     doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres');
     // passive voice - est-aimée
     doc.match('#Copula #Adverb?+ [#PastParticiple]', 0).tag('Passive', 'passive-voice');
+    // passé composé with être - 'ils sont arrivés' (after the passive rule, so these don't tag as Passive)
+    doc.match(`(${etreForms}) #Adverb?+ [(${etreParticiples})]`, 0).tag(['PastTense', 'PastParticiple'], 'etre-participle');
+    // reflexive passé composé - 'ils se sont levés'
+    doc.match(`(me|te|se|nous|vous) (${etreForms}) #Adverb?+ [/(ée?|ie?|ue?)s?$/]`, 0).tag(['PastTense', 'PastParticiple'], 'reflexive-past');
+    // modal + infinitive - 'je peux le faire'
+    doc.match('(peux|peut|pouvez|pouvons|peuvent|veux|veut|voulez|voulons|veulent|dois|doit|devons|devez|doivent|vais|vas|va|allons|allez|vont|faut|sais|sait|savons|savez|savent) (le|la|les|me|te|se|nous|vous|lui|leur|y|en)? [(faire|être|avoir|savoir|pouvoir|devoir|dire|voir|boire|vivre|rire|partir|venir|aller)]', 0).tag('Infinitive', 'modal-infinitive');
 
     // ==Adjectives==
     // est bien calculée
@@ -10111,8 +10347,15 @@
       is: 'PastTense',
       not: ['PresentTense', 'FutureTense'],
     },
+    // imparfait - parlais, parlait
+    Imperfect: {
+      is: 'PastTense',
+      not: ['PresentTense', 'FutureTense'],
+    },
+    // parlerais, voudrait
     ConditionalVerb: {
       is: 'Verb',
+      not: ['PresentTense', 'PastTense', 'FutureTense'],
     },
     FutureTense: {
       is: 'Verb',
@@ -10340,7 +10583,7 @@
   var data = {
 
     ones: [
-      [0, 'zero', 'zeroième'],
+      [0, 'zéro', 'zéroième'],
       [1, 'un', 'unième'],
       [2, 'deux', 'deuxième'],
       [3, 'trois', 'troisième'],
@@ -10357,9 +10600,9 @@
       [14, 'quatorze', 'quatorzième'],
       [15, 'quinze', 'quinzième'],
       [16, 'seize', 'seizième'],
-      [17, 'dix sept', 'dix septième'],
-      [18, 'dix huit', 'dix huitième'],
-      [19, 'dix neuf', 'dix neuvième'],
+      [17, 'dix-sept', 'dix-septième'],
+      [18, 'dix-huit', 'dix-huitième'],
+      [19, 'dix-neuf', 'dix-neuvième'],
     ],
     tens: [
       [20, 'vingt', 'vingtième'],
@@ -10367,9 +10610,9 @@
       [40, 'quarante', 'quarantième'],
       [50, 'cinquante', 'cinquantième'],
       [60, 'soixante', 'soixantième'],
-      [70, 'soixante dix', 'soixante dixième'],
-      [80, 'quatre vingt', 'quatre vingtième'],
-      [90, 'quatre vingt dix', 'quatre vingt dixième'],
+      [70, 'soixante-dix', 'soixante-dixième'],
+      [80, 'quatre-vingt', 'quatre-vingtième'],
+      [90, 'quatre-vingt-dix', 'quatre-vingt-dixième'],
     ],
     multiples: [
       [100, 'cent', 'centième'],
@@ -10391,6 +10634,14 @@
       toCardinal[ord] = w;
       toOrdinal[w] = ord;
       toNumber[w] = num;
+      // multi-word forms are hyphenated for display,
+      // but the parser scans space-joined tokens
+      let spaced = w.replace(/-/g, ' ');
+      if (spaced !== w) {
+        toNumber[spaced] = num;
+        toOrdinal[spaced] = ord;
+        toCardinal[ord.replace(/-/g, ' ')] = spaced;
+      }
       // add ordinal without accents
       let norm = ord.replace(/è/, 'e');
       toNumber[norm] = num;
@@ -10403,6 +10654,8 @@
     milles: 1000,
     millions: 1000000,
     milliards: 1000000000,
+    'quatre vingts': 80,//with the final s
+    zero: 0,//unaccented
   });
 
   const multiLeft = {
@@ -10581,18 +10834,20 @@
   };
   var parse = parseNumber;
 
-  let ones = data.ones.reverse();
-  let tens = data.tens.reverse();
+  const onesWord = {};
+  data.ones.forEach(a => {
+    onesWord[a[0]] = a[1];
+  });
+  const tensWord = {};
+  data.tens.forEach(a => {
+    tensWord[a[0]] = a[1];
+  });
 
   let multiples = [
-    [1e12, 'mille milliard'],
-    [1e11, 'cent milliard'],
+    [1e12, 'mille milliards'],
     [1e9, 'milliard'],
-    [1e8, 'cent million'],
     [1e6, 'million'],
-    [100000, 'cent mille'],
     [1000, 'mille'],
-    [100, 'cent'],
     [1, 'one'],
   ];
 
@@ -10615,38 +10870,62 @@
     return have
   };
 
-  const twoDigit = function (num) {
+  // turn 0-99 into french words
+  // 'vingt' and 'quatre-vingt' take an s only when nothing follows
+  const twoDigit = function (num, hasFollowing) {
+    // 0-19 (teens are hyphenated in the table)
+    if (num < 20) {
+      return [onesWord[num]]
+    }
+    let base = Math.floor(num / 10) * 10;
+    let rest = num - base;
+    // 70s and 90s borrow from the teens - 'soixante-douze'
+    if (base === 70 || base === 90) {
+      base -= 10;
+      rest += 10;
+    }
+    let ten = tensWord[base];
+    if (rest === 0) {
+      // 'quatre-vingts' / 'quatre-vingt mille'
+      if (base === 80 && !hasFollowing) {
+        return [ten + 's']
+      }
+      return [ten]
+    }
+    // 'vingt et un', 'soixante et onze' - but 'quatre-vingt-un'
+    if ((rest === 1 || rest === 11) && base !== 80) {
+      return [ten, 'et', onesWord[rest]]
+    }
+    return [ten + '-' + onesWord[rest]]
+  };
+
+  // turn 0-999 into french words
+  const threeDigit = function (num, hasFollowing) {
+    if (num < 100) {
+      return twoDigit(num, hasFollowing)
+    }
+    let hundreds = Math.floor(num / 100);
+    let rest = num % 100;
     let words = [];
-    // 20-90
-    for (let i = 0; i < tens.length; i += 1) {
-      if (tens[i][0] <= num) {
-        words.push(tens[i][1]);
-        num -= tens[i][0];
-        break
-      }
+    if (hundreds > 1) {
+      words = words.concat(twoDigit(hundreds, true));
     }
-    if (num === 0) {
-      return words
+    // 'deux cents' - but 'deux cent un' / 'deux cent mille'
+    if (hundreds > 1 && rest === 0 && !hasFollowing) {
+      words.push('cents');
+    } else {
+      words.push('cent');
     }
-    // 0-19
-    for (let i = 0; i < ones.length; i += 1) {
-      if (ones[i][0] <= num) {
-        // 'et un'
-        if (words.length && ones[i][1] === 'un') {
-          words.push('et');
-        }
-        words.push(ones[i][1]);
-        num -= ones[i][0];
-        break
-      }
+    if (rest) {
+      words = words.concat(twoDigit(rest, hasFollowing));
     }
     return words
   };
 
-  // turn a number like 80 into words like 'quatre vingt'
+  // turn a number like 80 into words like 'quatre-vingts'
   const toText$1 = function (num) {
     if (num === 0) {
-      return ['zero']
+      return ['zéro']
     }
     let words = [];
     if (num < 0) {
@@ -10656,13 +10935,22 @@
     // handle multiples
     let found = getMagnitudes(num);
     found.forEach(obj => {
-      let res = twoDigit(obj.num);
-      if (obj.num === 1 && obj.unit !== 'one') ; else {
-        words = words.concat(res);
+      if (obj.unit === 'one') {
+        words = words.concat(threeDigit(obj.num, false));
+        return
       }
-      if (obj.unit !== 'one') {
-        words.push(obj.unit);
+      // 'mille' doesn't take 'un', but 'un million' does
+      if (obj.num !== 1) {
+        words = words.concat(threeDigit(obj.num, true));
+      } else if (obj.unit === 'million' || obj.unit === 'milliard') {
+        words.push('un');
       }
+      let unit = obj.unit;
+      // 'deux millions'
+      if ((unit === 'million' || unit === 'milliard') && obj.num > 1) {
+        unit += 's';
+      }
+      words.push(unit);
     });
     return words
   };
@@ -10675,12 +10963,38 @@
     }
   };
 
+  // 'quatre-vingt-dix-sept' -> 'quatre-vingt-dix-septième'
+  const ordinalWord = function (w) {
+    if (toOrdinal[w]) {
+      return toOrdinal[w]
+    }
+    // 'quatre-vingts' -> 'quatre-vingtième'
+    let noS = w.replace(/s$/, '');
+    if (toOrdinal[noS]) {
+      return toOrdinal[noS]
+    }
+    // convert the last hyphenated part
+    let parts = w.split('-');
+    if (parts.length > 1) {
+      let last = parts.pop();
+      let ord = toOrdinal[last] || toOrdinal[last.replace(/s$/, '')];
+      if (ord) {
+        return parts.join('-') + '-' + ord
+      }
+    }
+    return w
+  };
+
   const formatNumber = function (parsed, fmt) {
     let { prefix, suffix } = makeSuffix(parsed);
     if (fmt === 'TextOrdinal') {
       let words = toText$2(parsed.num);
+      // 'un million' -> 'millionième'
+      if (words.length > 1 && words[0] === 'un' && /^(million|milliard)/.test(words[1])) {
+        words.shift();
+      }
       let last = words[words.length - 1];
-      words[words.length - 1] = toOrdinal[last];
+      words[words.length - 1] = ordinalWord(last);
       let num = words.join(' ');
       return `${prefix}${num}${suffix}`
     }
@@ -11165,6 +11479,27 @@
   // return the nth elem of a doc
   const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
+  const formKey = {
+    FirstPerson: 'first',
+    SecondPerson: 'second',
+    ThirdPerson: 'third',
+    FirstPersonPlural: 'firstPlural',
+    SecondPersonPlural: 'secondPlural',
+    ThirdPersonPlural: 'thirdPlural',
+  };
+  // which person is this verb conjugated in?
+  const getForm = function (vb) {
+    let terms = vb.docs[0] || [];
+    let term = terms.find(t => t.tags.has('Verb'));
+    if (term) {
+      let found = Object.keys(formKey).find(k => term.tags.has(k));
+      if (found) {
+        return formKey[found]
+      }
+    }
+    return 'third'
+  };
+
   const api$6 = function (View) {
     class Verbs extends View {
       constructor(document, pointer, groups) {
@@ -11212,33 +11547,44 @@
       //     return toInfinitive(vb, parsed, info.form)
       //   })
       // }
-      // toPresentTense(n) {
-      //   return getNth(this, n).map(vb => {
-      //     let parsed = parseVerb(vb)
-      //     let info = getGrammar(vb, parsed)
-      //     return toPresent(vb, parsed, info.form)
-      //   })
-      // }
+      toPresentTense(n) {
+        const methods = this.methods.two.transform.verb;
+        return getNth$2(this, n).map(vb => {
+          let form = getForm(vb);
+          let str = vb.compute('root').text('root');
+          let present = methods.toPresentTense(str)[form];
+          if (!present) {
+            return vb
+          }
+          return vb.replaceWith(present).tag('PresentTense')
+        })
+      }
+      // uses the imperfect - always grammatical as a one-word substitution
+      // (passé composé would require inserting avoir/être + agreement)
       toPastTense(n) {
         const methods = this.methods.two.transform.verb;
         return getNth$2(this, n).map(vb => {
-          // let parsed = parseVerb(vb)
-          let str = vb.compute('root').text('root');//whew
-          let past = methods.toPastParticiple(str);
-          return vb.replaceWith(past).tag('PastTense')
-          // console.log(str, past)
-          // let info = getGrammar(vb, parsed)
-          // console.log(info)
-          // return toPast(vb, parsed, info.form)
+          let form = getForm(vb);
+          let str = vb.compute('root').text('root');
+          let past = methods.toImperfect(str)[form];
+          if (!past) {
+            return vb
+          }
+          return vb.replaceWith(past).tag('Imperfect')
         })
       }
-      // toFutureTense(n) {
-      //   return getNth(this, n).map(vb => {
-      //     let parsed = parseVerb(vb)
-      //     let info = getGrammar(vb, parsed)
-      //     return toFuture(vb, parsed, info.form)
-      //   })
-      // }
+      toFutureTense(n) {
+        const methods = this.methods.two.transform.verb;
+        return getNth$2(this, n).map(vb => {
+          let form = getForm(vb);
+          let str = vb.compute('root').text('root');
+          let future = methods.toFutureTense(str)[form];
+          if (!future) {
+            return vb
+          }
+          return vb.replaceWith(future).tag('FutureTense')
+        })
+      }
       // toGerund(n) {
       //   return getNth(this, n).map(vb => {
       //     let parsed = parseVerb(vb)
@@ -11247,15 +11593,18 @@
       //   })
       // }
       conjugate(n) {
-        const { toImperfect, toPresentTense, toFutureTense, toPastParticiple } = this.methods.two.transform.verb;
+        const { toImperfect, toPresentTense, toFutureTense, toConditional, toPastParticiple } = this.methods.two.transform.verb;
         return getNth$2(this, n).map(vb => {
           let parsed = parseVerb$1(vb);
           let root = parsed.root || '';
+          let imperfect = toImperfect(root);
           return {
             Infinitive: root,
-            PastTense: toImperfect(root),
+            PastTense: imperfect,
+            Imperfect: imperfect,
             PresentTense: toPresentTense(root),
             FutureTense: toFutureTense(root),
+            Conditional: toConditional(root),
             PastParticiple: toPastParticiple(root),
           }
         }, [])

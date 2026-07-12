@@ -4,6 +4,7 @@ const tenses = [
   'Imperative',
   'Gerund',
   'PastTense',
+  'Imperfect',
   'Modal',
   'Auxiliary',
   'PerfectTense',
@@ -15,7 +16,7 @@ const tenses = [
 
 let whichTense = [
 
-  //er - present conditional 
+  //er - present conditional
   ['erais', 'ConditionalVerb'],
   ['erait', 'ConditionalVerb'],
   ['erions', 'ConditionalVerb'],
@@ -29,12 +30,20 @@ let whichTense = [
   ['erez', 'FutureTense'],
   ['eront', 'FutureTense'],
 
-  // er - imparfait -> PastTense
-  ['ais', 'PastTense'],
-  ['ait', 'PastTense'],
-  ['ions', 'PastTense'],
-  ['iez', 'PastTense'],
-  ['ient', 'PastTense'],
+  // passé simple
+  ['âmes', 'PastSimple'],
+  ['âtes', 'PastSimple'],
+  ['èrent', 'PastSimple'],
+  ['irent', 'PastSimple'],
+  ['urent', 'PastSimple'],
+
+  // imparfait
+  // note: no 'ient' here - it matches present-tense 'vient/tient'
+  ['aient', 'Imperfect'],
+  ['ais', 'Imperfect'],
+  ['ait', 'Imperfect'],
+  ['ions', 'Imperfect'],
+  ['iez', 'Imperfect'],
 
   // past-participle
   ['ées', 'PastParticiple'],

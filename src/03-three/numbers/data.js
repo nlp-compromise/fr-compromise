@@ -1,7 +1,7 @@
 export default {
 
   ones: [
-    [0, 'zero', 'zeroième'],
+    [0, 'zéro', 'zéroième'],
     [1, 'un', 'unième'],
     [2, 'deux', 'deuxième'],
     [3, 'trois', 'troisième'],
@@ -18,9 +18,9 @@ export default {
     [14, 'quatorze', 'quatorzième'],
     [15, 'quinze', 'quinzième'],
     [16, 'seize', 'seizième'],
-    [17, 'dix sept', 'dix septième'],
-    [18, 'dix huit', 'dix huitième'],
-    [19, 'dix neuf', 'dix neuvième'],
+    [17, 'dix-sept', 'dix-septième'],
+    [18, 'dix-huit', 'dix-huitième'],
+    [19, 'dix-neuf', 'dix-neuvième'],
   ],
   tens: [
     [20, 'vingt', 'vingtième'],
@@ -28,9 +28,9 @@ export default {
     [40, 'quarante', 'quarantième'],
     [50, 'cinquante', 'cinquantième'],
     [60, 'soixante', 'soixantième'],
-    [70, 'soixante dix', 'soixante dixième'],
-    [80, 'quatre vingt', 'quatre vingtième'],
-    [90, 'quatre vingt dix', 'quatre vingt dixième'],
+    [70, 'soixante-dix', 'soixante-dixième'],
+    [80, 'quatre-vingt', 'quatre-vingtième'],
+    [90, 'quatre-vingt-dix', 'quatre-vingt-dixième'],
   ],
   multiples: [
     [100, 'cent', 'centième'],

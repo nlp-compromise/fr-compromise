@@ -150,7 +150,7 @@ test('match:', function (t) {
     ['enfreindre', '#Verb'],//infringe
     ['ennemi', '#Noun'],//enemy
     ['énorme', '#Adjective'],//enormous
-    ['ensemble', '#Adjective'],//together
+    ['ensemble', '#Adverb'],//together
     ['entendre', '#Verb'],//hear
     ['enthousiaste', '#Adjective'],//enthusiastic
     ['épée', '#Noun'],//sword
@@ -187,7 +187,7 @@ test('match:', function (t) {
     ['hier', '#Date'],//yesterday
     ['honnête', '#Adjective'],//honest
     ['hybride', '#Adjective'],//hybrid
-    ['ici', '#Noun'],//here
+    ['ici', '#Adverb'],//here
     ['immature', '#Adjective'],//immature
     ['inconstitutionnel', '#Adjective'],//unconstitutional
     ['infâme', '#Adjective'],//infamous
@@ -248,7 +248,7 @@ test('match:', function (t) {
     ['pitié', '#Adjective'],//pitiful
     ['pittoresque', '#Adjective'],//quaint
     ['plat', '#Noun'],//dish
-    ['plus', '#Adjective'],//more
+    ['plus', '#Adverb'],//more
     ['point', '#Noun'],//stitch
     ['porte', '#Noun'],//door
     ['porte', '#Noun'],//gate

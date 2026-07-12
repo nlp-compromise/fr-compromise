@@ -66,7 +66,7 @@ test('prefix/suffix:', function (t) {
 test('plus:', function (t) {
   let doc = nlp(`j'ai quatre vingt deux pommes`)
   doc.numbers().add(2)
-  t.equal(doc.text(), `j'ai quatre vingt quatre pommes`, here + 'plus-2')
+  t.equal(doc.text(), `j'ai quatre-vingt-quatre pommes`, here + 'plus-2')
 
   doc = nlp(`j'ai moins quarante pommes`)
   doc.numbers().add(50)
@@ -81,6 +81,6 @@ test('minus:', function (t) {
 
   doc = nlp(`j'ai moins quarante pommes`)
   doc.numbers().minus(50)
-  t.equal(doc.text(), `j'ai moins quatre vingt dix pommes`, here + 'minus-50')
+  t.equal(doc.text(), `j'ai moins quatre-vingt-dix pommes`, here + 'minus-50')
   t.end()
 })

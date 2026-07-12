@@ -31,15 +31,36 @@ const tagVerb = function (m) {
   })
 }
 
+// verbs that form the passé composé with être, in participle form
+const etreParticiples = [
+  'allé', 'arrivé', 'parti', 'venu', 'devenu', 'revenu', 'rentré', 'retourné',
+  'resté', 'tombé', 'monté', 'descendu', 'né', 'mort', 'sorti', 'entré', 'passé',
+].map(w => [w, w + 'e', w + 's', w + 'es']).flat().join('|')
+
+const etreForms = 'suis|es|est|sommes|êtes|etes|sont|étais|était|étions|étiez|étaient|serai|seras|sera|serons|serez|seront|serais|serait|serions|seriez|seraient'
+
 const postTagger = function (doc) {
   // ==Nouns==
   // l'inconnu
   doc.match('(le|un) [#Verb]', 0).tag(['MaleNoun', 'Singular'], 'le-verb')
   doc.match('(la|une) [#Verb]', 0).tag(['FemaleNoun', 'Singular'], 'la-verb')
+  // substantivized adjectives - 'l'inconnu', 'le rouge'
+  tagNoun(doc.match('(le|la|les|un|une) [#Adjective]$', 0).tag('Noun', 'le-adj-end'))
+  tagNoun(doc.match('(le|la|les|un|une) [#Adjective] (#Preposition|#Verb)', 0).tag('Noun', 'le-adj-prep'))
   tagNoun(doc.match('(quelques|quelque) [#Verb]', 0).tag('Noun', 'quelque-verb'))
   tagNoun(doc.match('(des|les|mes|ces|tes|ses|nos|vos|leurs) [#Verb]', 0).tag('PluralNoun', 'des-verb'))
 
+  // ==Determiners==
+  // ce soir, ce film
+  doc.match('[ce] (#Noun && !#Pronoun)', 0).tag('Determiner', 'ce-noun')
+
   // ==Verbs==
+  // il fait beau
+  doc.match('(je|tu|il|elle|on|qui|cela|ça|ne) [fait]', 0).tag(['PresentTense', 'ThirdPerson'], 'il-fait')
+  // a fait, ont dit - common participles that the lexicon tags as nouns/adjectives
+  doc.match('(ai|as|a|avons|avez|ont) #Adverb?+ [(fait|dit|mis|pris|vu|eu|été|cru|su|dû|pu|lu)]', 0).tag(['PastTense', 'PastParticiple'], 'have-participle')
+  // est-ce que
+  doc.match('est ce (que|qui)').tag('QuestionWord', 'est-ce-que')
   // ne foo pas
   tagVerb(doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas'))
   // il active le
@@ -56,6 +77,12 @@ const postTagger = function (doc) {
   doc.match('(ai|as|a|avons|avez|ont) [#PresentTense]', 0).tag('PastTense', 'have-pres')
   // passive voice - est-aimée
   doc.match('#Copula #Adverb?+ [#PastParticiple]', 0).tag('Passive', 'passive-voice')
+  // passé composé with être - 'ils sont arrivés' (after the passive rule, so these don't tag as Passive)
+  doc.match(`(${etreForms}) #Adverb?+ [(${etreParticiples})]`, 0).tag(['PastTense', 'PastParticiple'], 'etre-participle')
+  // reflexive passé composé - 'ils se sont levés'
+  doc.match(`(me|te|se|nous|vous) (${etreForms}) #Adverb?+ [/(ée?|ie?|ue?)s?$/]`, 0).tag(['PastTense', 'PastParticiple'], 'reflexive-past')
+  // modal + infinitive - 'je peux le faire'
+  doc.match('(peux|peut|pouvez|pouvons|peuvent|veux|veut|voulez|voulons|veulent|dois|doit|devons|devez|doivent|vais|vas|va|allons|allez|vont|faut|sais|sait|savons|savez|savent) (le|la|les|me|te|se|nous|vous|lui|leur|y|en)? [(faire|être|avoir|savoir|pouvoir|devoir|dire|voir|boire|vivre|rire|partir|venir|aller)]', 0).tag('Infinitive', 'modal-infinitive')
 
   // ==Adjectives==
   // est bien calculée

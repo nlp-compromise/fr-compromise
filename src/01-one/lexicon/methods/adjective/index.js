@@ -5,10 +5,20 @@ let fRev = reverse(model.adjective.female)
 let pRev = reverse(model.adjective.plural)
 let fpRev = reverse(model.adjective.femalePlural)
 
-const toFemale = (str) => convert(str, model.adjective.female)
+// gaps in the suffix-thumb model
+const femIrregular = {
+  vieux: 'vieille',
+  mou: 'molle',
+}
+const femIrregularRev = Object.entries(femIrregular).reduce((h, [k, v]) => {
+  h[v] = k
+  return h
+}, {})
+
+const toFemale = (str) => femIrregular[str] || convert(str, model.adjective.female)
 const toPlural = (str) => convert(str, model.adjective.plural)
 const toFemalePlural = (str) => convert(str, model.adjective.femalePlural)
-const fromFemale = (str) => convert(str, fRev)
+const fromFemale = (str) => femIrregularRev[str] || convert(str, fRev)
 const fromPlural = (str) => convert(str, pRev)
 const fromFemalePlural = (str) => convert(str, fpRev)
 

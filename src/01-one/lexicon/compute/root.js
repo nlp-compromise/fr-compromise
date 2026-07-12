@@ -37,22 +37,22 @@ const root = function (view) {
       }
       // verbs -> infinitive form
       if (term.tags.has('Verb')) {
-        if (term.tags.has('PresentTense')) {
-          let form = verbForm(term)
-          term.root = transform.verb.fromPresentTense(str, form)
-        }
-        if (term.tags.has('FutureTense')) {
-          let form = verbForm(term)
+        let form = verbForm(term)
+        if (term.tags.has('Infinitive')) {
+          // already the root
+        } else if (term.tags.has('ConditionalVerb')) {
+          term.root = transform.verb.fromConditional(str)
+        } else if (term.tags.has('FutureTense')) {
           term.root = transform.verb.fromFutureTense(str, form)
-        }
-        if (term.tags.has('Passive')) {
-          let form = verbForm(term)
+        } else if (term.tags.has('Imperfect')) {
+          term.root = transform.verb.fromImperfectTense(str, form)
+        } else if (term.tags.has('Passive')) {
           term.root = transform.verb.fromPassive(str, form)
         } else if (term.tags.has('PastTense')) {
-          let form = verbForm(term)
-          term.root = transform.verb.fromPastParticiple(str, form)
+          term.root = transform.verb.fromPastParticiple(str)
+        } else if (term.tags.has('PresentTense')) {
+          term.root = transform.verb.fromPresentTense(str, form)
         }
-        //  fromImperfectTense, fromPastParticiple
       }
     })
   })

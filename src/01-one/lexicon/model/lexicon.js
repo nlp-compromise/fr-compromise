@@ -57,9 +57,20 @@ Object.keys(lexData).forEach(tag => {
           words[res[k]] = words[res[k]] || [tagMap[k], 'PresentTense']
         }
       })
+      // do conditional mood
+      res = transform.verb.toConditional(w)
+      Object.keys(res).forEach(k => {
+        if (!words[res[k]]) {
+          words[res[k]] = [tagMap[k], 'ConditionalVerb']
+        }
+      })
       // do imperfect mood
       res = transform.verb.toImperfect(w)
-      Object.keys(res).forEach(k => words[res[k]] = words[res[k]] || 'Verb')
+      Object.keys(res).forEach(k => {
+        if (!words[res[k]]) {
+          words[res[k]] = [tagMap[k], 'Imperfect']
+        }
+      })
       // past-participle
       let out = transform.verb.toPastParticiple(w)
       words[out] = words[out] || 'PastParticiple'

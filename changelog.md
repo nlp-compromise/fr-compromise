@@ -1,3 +1,18 @@
+### unreleased
+
+- **[fix]** - lexicon: 'a' is avoir (was Preposition), 'eu' is a participle (was Organization), 'tu' is a pronoun, 'dit'/'plus'/'venu' fixes
+- **[fix]** - copula tenses - étions/serez/serais were all PresentTense
+- **[new]** - conditional mood throughout - lexicon, conjugate(), '{inf}' match syntax, ConditionalVerb tagging
+- **[new]** - Imperfect tag - imparfait forms are now distinguished from participles
+- **[fix]** - root/infinitive extraction of imperfect forms ('marchait' gave 'marchaire')
+- **[fix]** - verbs().toPastTense() now conjugates the imperfect ('je mangeais', not 'je mangé')
+- **[new]** - verbs().toPresentTense() and toFutureTense(), with person agreement
+- **[fix]** - contractions: n'y expanded to 'ne a', c'est/m'a/l' gender, d' is always 'de'
+- **[fix]** - subject-verb person agreement - 'elle parle' was FirstPerson
+- **[fix]** - passé composé with être - 'ils sont arrivés', reflexive 'se sont levés'
+- **[fix]** - numbers toText: hyphens, 'soixante et onze', 'quatre-vingts', 'deux cents', 'un million'
+- **[fix]** - messieurs, vieille, pu/plu participles
+
 ### 0.2.8 [Aug 2023]
 
 - **[fix]** - conjugtion issues

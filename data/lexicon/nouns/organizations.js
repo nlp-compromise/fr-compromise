@@ -80,7 +80,6 @@ export default [
   'dupont',
   'ebay',
   'esa',
-  'eu',
   'exxon mobil',
   'exxonmobil',
   'facebook',

@@ -1,16 +1,19 @@
 import data from '../data.js'
-let ones = data.ones.reverse()
-let tens = data.tens.reverse()
+
+const onesWord = {}
+data.ones.forEach(a => {
+  onesWord[a[0]] = a[1]
+})
+const tensWord = {}
+data.tens.forEach(a => {
+  tensWord[a[0]] = a[1]
+})
 
 let multiples = [
-  [1e12, 'mille milliard'],
-  [1e11, 'cent milliard'],
+  [1e12, 'mille milliards'],
   [1e9, 'milliard'],
-  [1e8, 'cent million'],
   [1e6, 'million'],
-  [100000, 'cent mille'],
   [1000, 'mille'],
-  [100, 'cent'],
   [1, 'one'],
 ]
 
@@ -33,38 +36,62 @@ const getMagnitudes = function (num) {
   return have
 }
 
-const twoDigit = function (num) {
+// turn 0-99 into french words
+// 'vingt' and 'quatre-vingt' take an s only when nothing follows
+const twoDigit = function (num, hasFollowing) {
+  // 0-19 (teens are hyphenated in the table)
+  if (num < 20) {
+    return [onesWord[num]]
+  }
+  let base = Math.floor(num / 10) * 10
+  let rest = num - base
+  // 70s and 90s borrow from the teens - 'soixante-douze'
+  if (base === 70 || base === 90) {
+    base -= 10
+    rest += 10
+  }
+  let ten = tensWord[base]
+  if (rest === 0) {
+    // 'quatre-vingts' / 'quatre-vingt mille'
+    if (base === 80 && !hasFollowing) {
+      return [ten + 's']
+    }
+    return [ten]
+  }
+  // 'vingt et un', 'soixante et onze' - but 'quatre-vingt-un'
+  if ((rest === 1 || rest === 11) && base !== 80) {
+    return [ten, 'et', onesWord[rest]]
+  }
+  return [ten + '-' + onesWord[rest]]
+}
+
+// turn 0-999 into french words
+const threeDigit = function (num, hasFollowing) {
+  if (num < 100) {
+    return twoDigit(num, hasFollowing)
+  }
+  let hundreds = Math.floor(num / 100)
+  let rest = num % 100
   let words = []
-  // 20-90
-  for (let i = 0; i < tens.length; i += 1) {
-    if (tens[i][0] <= num) {
-      words.push(tens[i][1])
-      num -= tens[i][0]
-      break
-    }
+  if (hundreds > 1) {
+    words = words.concat(twoDigit(hundreds, true))
   }
-  if (num === 0) {
-    return words
+  // 'deux cents' - but 'deux cent un' / 'deux cent mille'
+  if (hundreds > 1 && rest === 0 && !hasFollowing) {
+    words.push('cents')
+  } else {
+    words.push('cent')
   }
-  // 0-19
-  for (let i = 0; i < ones.length; i += 1) {
-    if (ones[i][0] <= num) {
-      // 'et un'
-      if (words.length && ones[i][1] === 'un') {
-        words.push('et')
-      }
-      words.push(ones[i][1])
-      num -= ones[i][0]
-      break
-    }
+  if (rest) {
+    words = words.concat(twoDigit(rest, hasFollowing))
   }
   return words
 }
 
-// turn a number like 80 into words like 'quatre vingt'
+// turn a number like 80 into words like 'quatre-vingts'
 const toText = function (num) {
   if (num === 0) {
-    return ['zero']
+    return ['zéro']
   }
   let words = []
   if (num < 0) {
@@ -74,15 +101,22 @@ const toText = function (num) {
   // handle multiples
   let found = getMagnitudes(num)
   found.forEach(obj => {
-    let res = twoDigit(obj.num)
-    if (obj.num === 1 && obj.unit !== 'one') {
-      // don't add reduntant 'un cent'
-    } else {
-      words = words.concat(res)
+    if (obj.unit === 'one') {
+      words = words.concat(threeDigit(obj.num, false))
+      return
     }
-    if (obj.unit !== 'one') {
-      words.push(obj.unit)
+    // 'mille' doesn't take 'un', but 'un million' does
+    if (obj.num !== 1) {
+      words = words.concat(threeDigit(obj.num, true))
+    } else if (obj.unit === 'million' || obj.unit === 'milliard') {
+      words.push('un')
     }
+    let unit = obj.unit
+    // 'deux millions'
+    if ((unit === 'million' || unit === 'milliard') && obj.num > 1) {
+      unit += 's'
+    }
+    words.push(unit)
   })
   return words
 }

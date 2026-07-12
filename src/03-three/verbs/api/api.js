@@ -10,6 +10,27 @@ import parseVerb from './parse.js'
 // return the nth elem of a doc
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
+const formKey = {
+  FirstPerson: 'first',
+  SecondPerson: 'second',
+  ThirdPerson: 'third',
+  FirstPersonPlural: 'firstPlural',
+  SecondPersonPlural: 'secondPlural',
+  ThirdPersonPlural: 'thirdPlural',
+}
+// which person is this verb conjugated in?
+const getForm = function (vb) {
+  let terms = vb.docs[0] || []
+  let term = terms.find(t => t.tags.has('Verb'))
+  if (term) {
+    let found = Object.keys(formKey).find(k => term.tags.has(k))
+    if (found) {
+      return formKey[found]
+    }
+  }
+  return 'third'
+}
+
 const api = function (View) {
   class Verbs extends View {
     constructor(document, pointer, groups) {
@@ -57,33 +78,44 @@ const api = function (View) {
     //     return toInfinitive(vb, parsed, info.form)
     //   })
     // }
-    // toPresentTense(n) {
-    //   return getNth(this, n).map(vb => {
-    //     let parsed = parseVerb(vb)
-    //     let info = getGrammar(vb, parsed)
-    //     return toPresent(vb, parsed, info.form)
-    //   })
-    // }
+    toPresentTense(n) {
+      const methods = this.methods.two.transform.verb
+      return getNth(this, n).map(vb => {
+        let form = getForm(vb)
+        let str = vb.compute('root').text('root')
+        let present = methods.toPresentTense(str)[form]
+        if (!present) {
+          return vb
+        }
+        return vb.replaceWith(present).tag('PresentTense')
+      })
+    }
+    // uses the imperfect - always grammatical as a one-word substitution
+    // (passé composé would require inserting avoir/être + agreement)
     toPastTense(n) {
       const methods = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
-        // let parsed = parseVerb(vb)
-        let str = vb.compute('root').text('root')//whew
-        let past = methods.toPastParticiple(str)
-        return vb.replaceWith(past).tag('PastTense')
-        // console.log(str, past)
-        // let info = getGrammar(vb, parsed)
-        // console.log(info)
-        // return toPast(vb, parsed, info.form)
+        let form = getForm(vb)
+        let str = vb.compute('root').text('root')
+        let past = methods.toImperfect(str)[form]
+        if (!past) {
+          return vb
+        }
+        return vb.replaceWith(past).tag('Imperfect')
       })
     }
-    // toFutureTense(n) {
-    //   return getNth(this, n).map(vb => {
-    //     let parsed = parseVerb(vb)
-    //     let info = getGrammar(vb, parsed)
-    //     return toFuture(vb, parsed, info.form)
-    //   })
-    // }
+    toFutureTense(n) {
+      const methods = this.methods.two.transform.verb
+      return getNth(this, n).map(vb => {
+        let form = getForm(vb)
+        let str = vb.compute('root').text('root')
+        let future = methods.toFutureTense(str)[form]
+        if (!future) {
+          return vb
+        }
+        return vb.replaceWith(future).tag('FutureTense')
+      })
+    }
     // toGerund(n) {
     //   return getNth(this, n).map(vb => {
     //     let parsed = parseVerb(vb)
@@ -92,15 +124,18 @@ const api = function (View) {
     //   })
     // }
     conjugate(n) {
-      const { toImperfect, toPresentTense, toFutureTense, toPastParticiple } = this.methods.two.transform.verb
+      const { toImperfect, toPresentTense, toFutureTense, toConditional, toPastParticiple } = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
         let parsed = parseVerb(vb)
         let root = parsed.root || ''
+        let imperfect = toImperfect(root)
         return {
           Infinitive: root,
-          PastTense: toImperfect(root),
+          PastTense: imperfect,
+          Imperfect: imperfect,
           PresentTense: toPresentTense(root),
           FutureTense: toFutureTense(root),
+          Conditional: toConditional(root),
           PastParticiple: toPastParticiple(root),
         }
       }, [])

@@ -3,8 +3,6 @@ let person = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural',
 let whichForm = [
   // future
   ['ai', 'FirstPerson'],
-  ['tas', 'SecondPerson'],
-  ['ta', 'ThirdPerson'],
   ['âmes', 'FirstPersonPlural'],
   ['âtes', 'SecondPersonPlural'],
   ['èrent', 'ThirdPersonPlural'],
@@ -13,10 +11,10 @@ let whichForm = [
   // futur
   ['eras', 'SecondPerson'],
   ['eront', 'ThirdPersonPlural'],
-  // imparfait
+  // subjonctif imparfait
   ['asse', 'FirstPerson'],
   ['asses', 'SecondPerson'],
-  ['tât', 'ThirdPerson'],
+  ['ât', 'ThirdPerson'],
   // present
   ['es', 'SecondPerson'],
   ['ons', 'FirstPersonPlural'],
@@ -28,10 +26,15 @@ const pronouns = {
   tu: 'SecondPerson',
   il: 'ThirdPerson',
   elle: 'ThirdPerson',
+  on: 'ThirdPerson',
   nous: 'FirstPersonPlural',
   vous: 'SecondPersonPlural',
   ils: 'ThirdPersonPlural',
+  elles: 'ThirdPersonPlural',
 }
+// words that sit between a subject-pronoun and its verb
+// (nous/vous are included - as clitics in 'elle nous invite')
+const skippable = new Set(['le', 'la', 'les', 'lui', 'leur', 'me', 'te', 'se', 'nous', 'vous', 'y', 'en'])
 // can give us a hint to verb person, too
 const auxiliaries = {
   // etre
@@ -51,6 +54,12 @@ const auxiliaries = {
   serions: 'FirstPersonPlural',
   seriez: 'SecondPersonPlural',
   seraient: 'ThirdPersonPlural',
+  // imperfect être
+  'était': 'ThirdPerson',
+  'étions': 'FirstPersonPlural',
+  'étiez': 'SecondPersonPlural',
+  'étaient': 'ThirdPersonPlural',
+  fut: 'ThirdPerson',
 
   // 'avoir'
   ai: 'FirstPerson',
@@ -83,9 +92,33 @@ const verbForm = function (terms, i, world) {
   let setTag = world.methods.one.setTag
   let term = terms[i]
   let tags = term.tags
-  if (tags.has('Verb')) {
+  if (tags.has('Verb') && !tags.has('Infinitive')) {
     // console.log(term)
     let str = term.implicit || term.normal || term.text || ''
+    // an adjacent subject beats the lexicon's person-tag
+    // (shared surface-forms like 'parle' get tagged first-person by default)
+    let existing = person.find(s => tags.has(s))
+    if (existing) {
+      // walk back over 'ne' and object clitics - 'elle ne le mange pas'
+      let at = i - 1
+      while (terms[at] && (terms[at].tags.has('Negative') || skippable.has(terms[at].implicit || terms[at].normal))) {
+        at -= 1
+      }
+      let prev = terms[at]
+      if (prev && prev.tags.has('Pronoun')) {
+        let s = prev.implicit || prev.normal
+        if (pronouns.hasOwnProperty(s) && pronouns[s] !== existing) {
+          person.forEach(p => term.tags.delete(p))
+          setTag([term], pronouns[s], world, false, '3-person-agreement')
+        }
+      } else if (existing === 'FirstPerson' && prev && prev.tags.has('Noun') && !prev.tags.has('Pronoun')) {
+        // 'Marie habite' - a noun subject means third-person
+        let want = prev.tags.has('PluralNoun') ? 'ThirdPersonPlural' : 'ThirdPerson'
+        person.forEach(p => term.tags.delete(p))
+        setTag([term], want, world, false, '3-person-noun-agreement')
+      }
+      return null
+    }
     // if we have no person-tag
     if (!person.find(s => tags.has(s))) {
       // look at the word suffix, for clues

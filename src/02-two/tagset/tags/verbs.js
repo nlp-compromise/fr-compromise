@@ -67,8 +67,15 @@ export default {
     is: 'PastTense',
     not: ['PresentTense', 'FutureTense'],
   },
+  // imparfait - parlais, parlait
+  Imperfect: {
+    is: 'PastTense',
+    not: ['PresentTense', 'FutureTense'],
+  },
+  // parlerais, voudrait
   ConditionalVerb: {
     is: 'Verb',
+    not: ['PresentTense', 'PastTense', 'FutureTense'],
   },
   FutureTense: {
     is: 'Verb',

@@ -8,12 +8,38 @@ const makeSuffix = function (obj) {
   }
 }
 
+// 'quatre-vingt-dix-sept' -> 'quatre-vingt-dix-septième'
+const ordinalWord = function (w) {
+  if (toOrdinal[w]) {
+    return toOrdinal[w]
+  }
+  // 'quatre-vingts' -> 'quatre-vingtième'
+  let noS = w.replace(/s$/, '')
+  if (toOrdinal[noS]) {
+    return toOrdinal[noS]
+  }
+  // convert the last hyphenated part
+  let parts = w.split('-')
+  if (parts.length > 1) {
+    let last = parts.pop()
+    let ord = toOrdinal[last] || toOrdinal[last.replace(/s$/, '')]
+    if (ord) {
+      return parts.join('-') + '-' + ord
+    }
+  }
+  return w
+}
+
 const formatNumber = function (parsed, fmt) {
   let { prefix, suffix } = makeSuffix(parsed)
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
+    // 'un million' -> 'millionième'
+    if (words.length > 1 && words[0] === 'un' && /^(million|milliard)/.test(words[1])) {
+      words.shift()
+    }
     let last = words[words.length - 1]
-    words[words.length - 1] = toOrdinal[last]
+    words[words.length - 1] = ordinalWord(last)
     let num = words.join(' ')
     return `${prefix}${num}${suffix}`
   }

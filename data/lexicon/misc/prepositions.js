@@ -12,7 +12,7 @@ export default [
   'y',// -?
 
   'de', 'du', 'des',
-  'a',
+  // no unaccented 'a' here - that's the verb avoir. 'à' is listed below
   'd',
   'en',
   'dans',
@@ -42,7 +42,6 @@ export default [
   'aupres',
   "jusqu'",
   'concernant',
-  'a',
   'à',
   'derriere',
   'hors',
