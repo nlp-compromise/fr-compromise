@@ -12,6 +12,9 @@
 - **[fix]** - passé composé with être - 'ils sont arrivés', reflexive 'se sont levés'
 - **[fix]** - numbers toText: hyphens, 'soixante et onze', 'quatre-vingts', 'deux cents', 'un million'
 - **[fix]** - messieurs, vieille, pu/plu participles
+- **[new]** - tagger rules: 'il fait', 'a fait/ont dit', modal + infinitive ('peux le faire'), 'ce' + noun as Determiner, 'est-ce que', substantivized adjectives (l'inconnu)
+- **[fix]** - object clitics me/te/toi/lui are pronouns, not possessives
+- **[new]** - lexicon-pack script now warns on word collisions between categories
 
 ### 0.2.8 [Aug 2023]
 
