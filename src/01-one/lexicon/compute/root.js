@@ -50,7 +50,8 @@ const root = function (view) {
           term.root = transform.verb.fromPassive(str, form)
         } else if (term.tags.has('PastTense')) {
           term.root = transform.verb.fromPastParticiple(str)
-        } else if (term.tags.has('PresentTense')) {
+        } else if (term.tags.has('PresentTense') || term.tags.has('Auxiliary')) {
+          // bare auxiliaries are present-tense forms of avoir/être - 'a' -> 'avoir'
           term.root = transform.verb.fromPresentTense(str, form)
         }
       }

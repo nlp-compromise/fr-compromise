@@ -12,8 +12,19 @@ const irregularRev = Object.entries(irregular).reduce((h, [k, v]) => {
   return h
 }, {})
 
+// nouns already ending in s/x/z are invariable - 'le prix'/'les prix'
+const invariable = /[sxz]$/
+
 let pRev = reverse(model.noun.plural)
-const toPlural = (str) => irregular[str] || convert(str, model.noun.plural)
+const toPlural = (str) => {
+  if (irregular[str]) {
+    return irregular[str]
+  }
+  if (invariable.test(str)) {
+    return str
+  }
+  return convert(str, model.noun.plural)
+}
 const fromPlural = (str) => irregularRev[str] || convert(str, pRev)
 
 const all = (str) => {

@@ -12,6 +12,12 @@ test('adj-conjugate:', function (t) {
   t.end()
 })
 
+test('adj-conjugate irregular-female:', function (t) {
+  // femalePlural derives from the irregular female form
+  t.deepEqual(Object.values(nlp('vieux').adjectives().conjugate()[0]), ['vieux', 'vieille', 'vieux', 'vieilles'], here + 'vieux')
+  t.end()
+})
+
 test('noun-conjugate:', function (t) {
   let all = ["cargaison", "cargaisons"]
   let o = nlp(all[0]).nouns().conjugate()[0]

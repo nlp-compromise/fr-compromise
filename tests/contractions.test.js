@@ -37,6 +37,8 @@ test('contraction match-through:', function (t) {
     [`il parle aux enfants`, 'à les enfants'],
     [`auquel il pense`, 'à lequel'],
     [`la maison duquel je parle`, 'de lequel'],
+    [`l'homme est grand`, 'le homme'], //machine-form agrees with the gender guess
+    [`l'école était fermée`, 'la école'],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

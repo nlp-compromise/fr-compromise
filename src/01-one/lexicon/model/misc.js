@@ -1,8 +1,15 @@
 // hand-fixes that win over the packed lexicon (this file is merged last)
 export default {
   // ==high-frequency words the packed lists get wrong==
+  // ==avoir== - person-tags let compute('root') + verbs() find the infinitive
+  // (the tagset keeps Auxiliary and PresentTense exclusive, so no tense-tag here)
   // 'a' = avoir 3rd-sing. (the accented 'à' is the preposition)
   a: ['Auxiliary', 'ThirdPerson'],
+  ai: ['Auxiliary', 'FirstPerson'],
+  as: ['Auxiliary', 'SecondPerson'],
+  avons: ['Auxiliary', 'FirstPersonPlural'],
+  avez: ['Auxiliary', 'SecondPersonPlural'],
+  ont: ['Auxiliary', 'ThirdPersonPlural'],
   // 'eu' = past participle of avoir (was tagged Organization)
   eu: ['PastParticiple'],
   eus: ['PastParticiple'],

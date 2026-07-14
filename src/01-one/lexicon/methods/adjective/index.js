@@ -17,10 +17,16 @@ const femIrregularRev = Object.entries(femIrregular).reduce((h, [k, v]) => {
 
 const toFemale = (str) => femIrregular[str] || convert(str, model.adjective.female)
 const toPlural = (str) => convert(str, model.adjective.plural)
-const toFemalePlural = (str) => convert(str, model.adjective.femalePlural)
+// irregular females just add an 's' - vieille -> vieilles
+const toFemalePlural = (str) => (femIrregular[str] ? femIrregular[str] + 's' : convert(str, model.adjective.femalePlural))
 const fromFemale = (str) => femIrregularRev[str] || convert(str, fRev)
 const fromPlural = (str) => convert(str, pRev)
-const fromFemalePlural = (str) => convert(str, fpRev)
+const fromFemalePlural = (str) => {
+  if (str.endsWith('s') && femIrregularRev[str.slice(0, -1)]) {
+    return femIrregularRev[str.slice(0, -1)]
+  }
+  return convert(str, fpRev)
+}
 
 const conjugate = function (str) {
   return {

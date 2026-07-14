@@ -31,6 +31,42 @@ const getForm = function (vb) {
   return 'third'
 }
 
+// infinitive of the phrase's main verb - 'a mangé' -> 'manger'
+const getMainRoot = function (vb) {
+  vb.compute('root')
+  let m = vb.match('#Verb').not('(#Auxiliary|#Negative|#Adverb)')
+  if (!m.found) {
+    m = vb.match('#Verb')
+  }
+  return m.last().text('root')
+}
+
+const elidable = { je: `j'`, ne: `n'`, que: `qu'`, se: `s'`, me: `m'`, te: `t'`, le: `l'`, la: `l'`, de: `d'` }
+const startsVowel = /^[aeiouyhâàéèêëîïôöùûü]/
+// re-apply french elision after a replacement - 'je avais' -> "j'avais"
+const elide = function (view) {
+  let ptr = view.fullPointer[0]
+  if (!ptr) {
+    return view
+  }
+  let [n, start] = ptr
+  let terms = view.document[n] || []
+  let prev = terms[start - 1]
+  let term = terms[start]
+  if (!prev || !term || !term.text) {
+    return view
+  }
+  if (elidable.hasOwnProperty(prev.normal) && prev.post === ' ' && startsVowel.test(term.text.toLowerCase())) {
+    // keep the un-elided form findable by the match-engine
+    prev.implicit = prev.implicit || prev.normal
+    prev.machine = prev.machine || prev.normal
+    prev.text = elidable[prev.normal]
+    prev.post = ''
+    prev.dirty = true
+  }
+  return view
+}
+
 const api = function (View) {
   class Verbs extends View {
     constructor(document, pointer, groups) {
@@ -82,12 +118,12 @@ const api = function (View) {
       const methods = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
         let form = getForm(vb)
-        let str = vb.compute('root').text('root')
+        let str = getMainRoot(vb)
         let present = methods.toPresentTense(str)[form]
         if (!present) {
           return vb
         }
-        return vb.replaceWith(present).tag('PresentTense')
+        return elide(vb.replaceWith(present).tag('PresentTense'))
       })
     }
     // uses the imperfect - always grammatical as a one-word substitution
@@ -95,25 +131,29 @@ const api = function (View) {
     toPastTense(n) {
       const methods = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
+        // 'a mangé' is already past - leave it
+        if (vb.has('#Auxiliary #Adverb?+ (#PastParticiple|#PastTense)')) {
+          return vb
+        }
         let form = getForm(vb)
-        let str = vb.compute('root').text('root')
+        let str = getMainRoot(vb)
         let past = methods.toImperfect(str)[form]
         if (!past) {
           return vb
         }
-        return vb.replaceWith(past).tag('Imperfect')
+        return elide(vb.replaceWith(past).tag('Imperfect'))
       })
     }
     toFutureTense(n) {
       const methods = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
         let form = getForm(vb)
-        let str = vb.compute('root').text('root')
+        let str = getMainRoot(vb)
         let future = methods.toFutureTense(str)[form]
         if (!future) {
           return vb
         }
-        return vb.replaceWith(future).tag('FutureTense')
+        return elide(vb.replaceWith(future).tag('FutureTense'))
       })
     }
     // toGerund(n) {

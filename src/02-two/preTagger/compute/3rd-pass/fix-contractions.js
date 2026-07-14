@@ -1,3 +1,9 @@
+// the match-engine looks at term.machine, so it must agree with our new guess
+const setImplicit = function (term, word) {
+  term.implicit = word
+  term.machine = word
+}
+
 // better guesses for 'le/la/les' in l'foo
 const fixContractions = function (terms, i) {
   let term = terms[i]
@@ -7,12 +13,12 @@ const fixContractions = function (terms, i) {
       return null
     }
     if (nextTerm.tags.has('MaleNoun')) {
-      term.implicit = 'le'
+      setImplicit(term, 'le')
     } else if (nextTerm.tags.has('FemaleNoun')) {
-      term.implicit = 'la'
+      setImplicit(term, 'la')
     }
     if (nextTerm.tags.has('PluralNoun')) {
-      term.implicit = 'les'
+      setImplicit(term, 'les')
     }
   }
   return null

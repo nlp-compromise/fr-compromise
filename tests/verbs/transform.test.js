@@ -20,6 +20,13 @@ test('verb toPastTense:', function (t) {
     ['elles parleront', 'elles parlaient'],
     // negative
     ['elle ne regarde pas la télévision', 'elle ne regardait pas la télévision'],
+    // noun after possessive stays put
+    ['tu finis ton devoir', 'tu finissais ton devoir'],
+    // contraction expands + re-elides
+    [`j'ai un chien`, `j'avais un chien`],
+    [`elle n'écoute pas la radio`, `elle n'écoutait pas la radio`],
+    // passé composé is already past
+    ['il a mangé une pomme', 'il a mangé une pomme'],
   ]
   arr.forEach(function (a) {
     let [str, want] = a
@@ -35,6 +42,9 @@ test('verb toPresentTense:', function (t) {
     ['nous mangerons demain', 'nous mangeons demain'],
     ['il jouera au tennis', 'il joue au tennis'],
     ['je mangeais', 'je mange'],
+    // from passé composé
+    ['il a mangé une pomme', 'il mange une pomme'],
+    [`j'ai fini`, 'je finis'],
   ]
   arr.forEach(function (a) {
     let [str, want] = a
@@ -61,6 +71,10 @@ test('verb toFutureTense:', function (t) {
     ['ils font du bruit', 'ils feront du bruit'],
     // from imperfect
     ['nous parlions', 'nous parlerons'],
+    // from passé composé
+    ['il a mangé une pomme', 'il mangera une pomme'],
+    ['elle est allée au parc', 'elle ira au parc'],
+    [`j'ai fini`, 'je finirai'],
   ]
   arr.forEach(function (a) {
     let [str, want] = a

@@ -3,6 +3,17 @@ import fromText from './fromText.js'
 const fromNumber = function (m) {
   let str = m.text('normal').toLowerCase()
   str = str.replace(/(e|er)$/, '')
+  // the core normalizer strips digit-commas ('3,5'->'35'), so recover a
+  // french decimal-comma from the raw text ('7,938' keeps its english
+  // thousands-group meaning)
+  let raw = m.text().toLowerCase().replace(/[.,;!?]+$/, '').trim()
+  if (/\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false) {
+    str = raw.replace(/ /g, '').replace(',', '.')
+  }
+  // french thousands-groups use spaces - '1 000 000'
+  if (/^[-+]?\d{1,3}( \d{3})+$/.test(str)) {
+    str = str.replace(/ /g, '')
+  }
   let hasComma = false
   if (/,/.test(str)) {
     hasComma = true
