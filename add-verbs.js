@@ -16,6 +16,6 @@ console.log(prettyJSON(out, {
   shouldExpand: (_, level) => level >= 1 ? false : true
 }))
 
-import nlp from './src/index.js'
+// import nlp from './src/index.js'
 // console.log(nlp('dépister').verbs().conjugate())
 
