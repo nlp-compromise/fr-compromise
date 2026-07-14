@@ -48,7 +48,7 @@
     "eslint": "8.47.0",
     "eslint-plugin-regexp": "1.15.0",
     "fr-corpus": "^0.0.1",
-    "rollup": "3.28.0",
+    "rollup": "3.30.0",
     "tap-dancer": "0.3.4",
     "tape": "5.6.6"
   },
