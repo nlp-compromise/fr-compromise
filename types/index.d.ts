@@ -5,7 +5,7 @@ import View from './view/fr'
 declare function nlp(text: string, lexicon?: Lexicon): View
 
 // Constructor
-declare module nlp {
+declare namespace nlp {
   /** interpret text without tagging */
   export function tokenize(text: string, lexicon?: Lexicon): View
   /** scan through text with minimal analysis */
@@ -43,4 +43,3 @@ declare module nlp {
 }
 
 export default nlp
-

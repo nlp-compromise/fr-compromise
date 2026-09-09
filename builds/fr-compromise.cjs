@@ -429,7 +429,7 @@
   }
   Object.assign(View.prototype, methods$n);
 
-  var version$1 = '14.15.1';
+  var version$1 = '14.16.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -439,10 +439,16 @@
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
+  const isUnsafeKey = key => key === '__proto__' || key === 'constructor' || key === 'prototype';
+
   // recursive merge of objects
   function mergeDeep(model, plugin) {
     if (isObject$6(plugin)) {
       for (const key in plugin) {
+        // prevent prototype pollution
+        if (isUnsafeKey(key)) {
+          continue
+        }
         if (isObject$6(plugin[key])) {
           if (!model[key]) Object.assign(model, { [key]: {} });
           mergeDeep(model[key], plugin[key]); //recursion
@@ -459,6 +465,7 @@
   // vroom
   function mergeQuick(model, plugin) {
     for (const key in plugin) {
+      if (isUnsafeKey(key)) continue
       model[key] = model[key] || {};
       Object.assign(model[key], plugin[key]);
     }
@@ -1109,6 +1116,14 @@
 
   fns$2.replaceWith = function (input, keep = {}) {
     let ptrs = this.fullPointer;
+    // support keep-all option
+    if (keep === true) {
+      keep = {
+        tags: true,
+        case: true,
+        possessives: true,
+      };
+    }
     const main = this;
     this.uncache();
     if (typeof input === 'function') {
@@ -1125,7 +1140,7 @@
     // soften-up pointer
     ptrs = ptrs.map(ptr => ptr.slice(0, 3));
     // original.freeze()
-    const oldTags = (original.docs[0] || []).map(term => Array.from(term.tags));
+    let oldTags = (original.docs[0] || []).map(term => Array.from(term.tags));
     const originalPre = original.docs[0][0].pre;
     const originalPost = original.docs[0][original.docs[0].length - 1].post;
     // slide this in
@@ -1163,7 +1178,6 @@
         lastOne.post = originalPost;
       }
     }
-
     // what should we return?
     const m = main.toView(ptrs).compute(['index', 'freeze', 'lexicon']);
     if (m.world.compute.preTagger) {
@@ -1172,6 +1186,8 @@
     m.compute('unfreeze');
     // replace any old tags
     if (keep.tags) {
+      // truncate old tags to only touch new terms
+      oldTags = oldTags.slice(0, input.wordCount());
       m.terms().forEach((term, i) => {
         term.tagSafe(oldTags[i]);
       });
@@ -1184,14 +1200,6 @@
       const transformCase = isOriginalTitleCase ? toTitleCase$1 : toLowerCase;
       m.docs[0][0].text = transformCase(m.docs[0][0].text);
     }
-
-    // console.log(input.docs[0])
-    // let regs = input.docs[0].map(t => {
-    //   return { id: t.id, optional: true }
-    // })
-    // m.after('(a|hoy)').debug()
-    // m.growRight('(a|hoy)').debug()
-    // console.log(m)
     return m
   };
 
@@ -4928,6 +4936,62 @@
     return text
   };
 
+  // the 'spec' output format - a clean sentence + an ordered list of top-level tags
+  // designed to round-trip between compromise and LLMs (see docs/spec-format.md)
+
+  // roots that describe a token's shape, not its part-of-speech - never picked over a real POS
+  const attributeTags = new Set(['Hyphenated', 'Prefix', 'SlashedTerm']);
+
+  // walk a tag up to its top-level (root) ancestor
+  const rootOf = function (tag, tagSet) {
+    const entry = tagSet[tag];
+    if (!entry || !entry.parents || entry.parents.length === 0) {
+      return tag
+    }
+    for (let i = 0; i < entry.parents.length; i += 1) {
+      const p = entry.parents[i];
+      if (tagSet[p] && (!tagSet[p].parents || tagSet[p].parents.length === 0)) {
+        return p
+      }
+    }
+    return entry.parents[entry.parents.length - 1]
+  };
+
+  // reduce a term's tag-set to a single top-level tag (or '-' when untagged)
+  const slotForTerm = function (term, tagSet) {
+    const tags = Array.from(term.tags || []);
+    if (tags.length === 0) {
+      return '-'
+    }
+    const primary = tags.find(t => !attributeTags.has(rootOf(t, tagSet))) || tags[0];
+    return rootOf(primary, tagSet)
+  };
+
+  const makeAliases = function (tagSet) {
+    const aliases = {};
+    for (const tag in tagSet) {
+      const entry = tagSet[tag];
+      if (entry.alias) {
+        aliases[tag] = entry.alias;
+      }
+    }
+    return aliases
+  };
+
+  // one line per sentence: '<text> {Tag,Tag,…}'
+  const toSpec = function (doc, world) {
+    const tagSet = world.model.one.tagSet;
+    const aliases = makeAliases(tagSet);
+    return doc.docs.map(terms => {
+      const text = terms.reduce((str, t) => str + t.pre + t.text + t.post, '').trim();
+      const tags = terms.map(t => {
+        let tag = slotForTerm(t, tagSet);
+        return aliases[tag] || tag
+      }).join(',');
+      return `${text} {${tags}}`
+    }).join('\n')
+  };
+
   const isObject$2 = val => {
     return Object.prototype.toString.call(val) === '[object Object]'
   };
@@ -4967,7 +5031,10 @@
     if (method === 'hash' || method === 'md5') {
       return md5(this.text())
     }
-
+    // tagged-sentence format for LLMs (see docs/spec-format.md)
+    if (method === 'spec') {
+      return toSpec(this, this.world)
+    }
     // json data formats
     if (method === 'json') {
       return this.json()
@@ -5220,7 +5287,86 @@
     highlight: showHighlight,
   };
 
+  const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
+
+  // parse the spec output
+  const parseLine = function (line = '') {
+    let [text, tags] = line.split(lastBrace);
+    if (tags === undefined) {
+      return { text, tags: [] } // no {tags} block on this line
+    }
+    tags = tags.split(',').map(tag => tag.trim());
+    let lastTag = tags[tags.length - 1];
+    tags[tags.length - 1] = lastTag.replace(/\}$/, '');
+    tags = tags.map(tag => tag.split('|').map(t => t.trim()));
+    tags = tags.filter(arr => arr.some(t => t !== '')); // drop empty '{}'
+    return { text, tags }
+  };
+
+  // make a match syntax looping through the arrays of tags
+  const toMatchString = function (tags, aliases) {
+    return tags.map(arr => {
+      arr = arr.map(str => {
+        return '#' + (aliases[str] || str)
+      });
+      if (arr.length > 1) {
+        return `(${arr.join(' && ')})`
+      }
+      return arr[0]
+    }).join(' ')
+  };
+
+  // parse the adhoc output of out('spec')
+  // note: this(text), not this.tokenize().compute(hooks) - tokenize already
+  // splits contractions, so re-running hooks would split them twice
+  const fromSpec = function (spec) {
+    let cleanText = spec.split('\n').filter(line => line.trim()).map(line => {
+      return parseLine(line).text
+    }).join('\n');
+    return this(cleanText)
+  };
+
+  // rebuild spec-formatted tag list
+  const toTagList = function (tags) {
+    return tags.map(arr => arr.join('|')).join(',')
+  };
+
+  // compare the tagged text output of out('spec')
+  const testSpec = function (spec, verbose = true, throwError = false) {
+    let world = this.world();
+    let aliases = {};
+    // expand tag aliases
+    let tagSet = world.model.one.tagSet;
+    Object.keys(tagSet).forEach(k => {
+      if (tagSet[k].alias) {
+        aliases[tagSet[k].alias] = k;
+      }
+    });
+    let failingLines = spec.split('\n').filter(line => line.trim()).map(line => {
+      let { text, tags } = parseLine(line);
+      // parse it
+      let doc = this(text);
+      // make compromise-compatible match string
+      let matchStr = toMatchString(tags, aliases);
+      let didMatch = doc.has(matchStr);
+      if (verbose !== false) {
+        let char = didMatch ? '✅' : '❌';
+        console.log(`${char} ${text} {${toTagList(tags)}}`); //eslint-disable-line no-console
+      }
+      if (didMatch === false && throwError === true) {
+        throw new Error(`❌ ${text} {${toTagList(tags)}}`)
+      }
+      return didMatch ? null : text
+    }).filter(Boolean).join('\n');
+    // return a doc of only the failing lines - empty means everything passed
+    return this(failingLines)
+  };
+
   var output = {
+    lib: {
+      fromSpec,
+      testSpec,
+    },
     api: addAPI$1,
     methods: {
       one: {
@@ -6230,7 +6376,8 @@
         also,
         parents,
         children: node._cache.children,
-        color: getColor(node)
+        color: getColor(node),
+        alias: node.alias,
       };
     });
     // lastly, add all children of all nots
@@ -6310,7 +6457,7 @@
     const flatList = Object.keys(allTags).map(k => {
       const o = allTags[k];
       const props = { not: new Set(o.not), also: o.also, is: o.is, novel: o.novel };
-      return { id: k, parent: o.is, props, children: [] }
+      return { id: k, parent: o.is, props, children: [], alias: o.alias }
     });
     const graph = _(flatList).cache().fillDown();
     return graph.out('array')
@@ -6892,6 +7039,7 @@
   const isNumber = /[\p{Number}\p{Currency_Symbol}]/u;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const chillin = /[sn]['’]$/;
+  const isFullNumber = /^[(+\-]?\d+(th|st|nd|rd)?[)+\-]?$/;
 
   const normalizePunctuation = function (str, model) {
     // quick lookup for allowed pre/post punctuation
@@ -6915,7 +7063,7 @@
         continue//keep it
       }
       // keep '+' or '-' only before a number
-      if ((c === '+' || c === '-') && isNumber.test(chars[1])) {
+      if ((c === '+' || c === '-' || c === '(') && isFullNumber.test(str.trim())) {
         break//done
       }
       // '97 - year short-form
@@ -6949,6 +7097,10 @@
       //  keep s-apostrophe - "flanders'" or "chillin'"
       if (c === "'" && chillin.test(original) === true) {
         continue//keep it
+      }
+      // keep '+' or ')' only for a number like (800) or 500+
+      if ((c === '+' || c === ')') && isFullNumber.test(str.trim())) {
+        break//done
       }
       // punctuation
       post = chars.pop() + post;//keep going
@@ -9743,7 +9895,8 @@
     return null
   };
 
-  // 1st pass
+  /* eslint-disable no-useless-assignment */
+
 
   // these methods don't care about word-neighbours
   const firstPass = function (terms, world) {
@@ -10875,6 +11028,8 @@
     }
     return sum
   };
+
+  /* eslint-disable no-useless-assignment */
 
   const fromNumber = function (m) {
     let str = m.text('normal').toLowerCase();

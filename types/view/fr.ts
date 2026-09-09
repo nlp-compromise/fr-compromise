@@ -9,37 +9,37 @@ interface Numbers extends View {
   /** grab 'kilos' from `25 kilos' */
   // units: () => View
   /** return only ordinal numbers */
-  isOrdinal: () => View
+  isOrdinal: () => Numbers
   /** return only cardinal numbers */
-  isCardinal: () => View
+  isCardinal: () => Numbers
   /** convert number to `5` or `5th` */
-  toNumber: () => View
+  toNumber: () => Numbers
   /** add commas, or nicer formatting for numbers */
-  toLocaleString: () => View
+  toLocaleString: () => Numbers
   /** convert number to `five` or `fifth` */
-  toText: () => View
+  toText: () => Numbers
   /** convert number to `five` or `5` */
-  toCardinal: () => View
+  toCardinal: () => Numbers
   /** convert number to `fifth` or `5th` */
-  toOrdinal: () => View
+  toOrdinal: () => Numbers
   /** return numbers with this value */
-  isEqual: () => View
+  isEqual: () => Numbers
   /** return numbers bigger than n */
-  greaterThan: (min: number) => View
+  greaterThan: (min: number) => Numbers
   /** return numbers smaller than n */
-  lessThan: (max: number) => View
+  lessThan: (max: number) => Numbers
   /** return numbers between min and max */
-  between: (min: number, max: number) => View
+  between: (min: number, max: number) => Numbers
   /** set number to n */
-  set: (n: number) => View
+  set: (n: number) => Numbers
   /** increase number by n */
-  add: (n: number) => View
+  add: (n: number) => Numbers
   /** decrease number by n*/
-  subtract: (n: number) => View
+  subtract: (n: number) => Numbers
   /** increase number by 1 */
-  increment: () => View
+  increment: () => Numbers
   /** decrease number by 1*/
-  decrement: () => View
+  decrement: () => Numbers
 }
 
 interface Contractions extends View {
