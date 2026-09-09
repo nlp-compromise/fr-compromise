@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-assignment */
+
 // 1st pass
 import checkRegex from './1st-pass/regex.js'
 import titleCase from './1st-pass/titlecase.js'

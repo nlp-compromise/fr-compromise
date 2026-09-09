@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-assignment */
 import fromText from './fromText.js'
 
 const fromNumber = function (m) {
