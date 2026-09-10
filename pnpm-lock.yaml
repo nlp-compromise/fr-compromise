@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       compromise:
-        specifier: 14.16.0
-        version: 14.16.0
+        specifier: ^14.17.0
+        version: 14.17.0
       efrt:
         specifier: 2.7.0
         version: 2.7.0
@@ -548,8 +548,8 @@ packages:
     resolution: {integrity: sha512-0h+uSNtQGW3D98eQt3jJ8L06Fves8hncB4V/PKdw/Qb8Hnk19VaKuTr55UNRYiSoVa7WwrFls+rh3ux9agmkeQ==}
     engines: {node: '>= 12.0.0'}
 
-  compromise@14.16.0:
-    resolution: {integrity: sha512-4DFYl/Hl7sW4XWUDfx9S5vxqyYKpZDwwqrpXsQv5acdbVP+joKceIcIaLb0lhVWUpDBV0OnExk/o/dnYUwXnhQ==}
+  compromise@14.17.0:
+    resolution: {integrity: sha512-zw9iEcts/8tMDASNopMQEs3Pclkx2Xk7XCltAb/oV1LEZcCQpDaalAtFmvuxYo+wnVDsW3H3oT16mw9qVHpkqA==}
     engines: {node: '>=12.0.0'}
 
   concat-map@0.0.1:
@@ -1234,9 +1234,6 @@ packages:
   string_decoder@1.1.1:
     resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
 
-  suffix-thumb@5.0.2:
-    resolution: {integrity: sha512-I5PWXAFKx3FYnI9a+dQMWNqTxoRt6vdBdb0O+BJ1sxXCWtSoQCusc13E58f+9p4MYx/qCnEMkD5jac6K2j3dgA==}
-
   suffix-thumb@5.0.3:
     resolution: {integrity: sha512-d77avV91FwJkDA0juRQ19XjE1lE1cNCVIWS0ZRicXqdMN28yjO5LltzEkZBNAWS7qHpn37c1fU4PkIJ/rjJQEA==}
 
@@ -1718,11 +1715,11 @@ snapshots:
 
   comment-parser@1.4.7: {}
 
-  compromise@14.16.0:
+  compromise@14.17.0:
     dependencies:
       efrt: 2.7.0
       grad-school: 0.0.5
-      suffix-thumb: 5.0.2
+      suffix-thumb: 5.0.3
 
   concat-map@0.0.1: {}
 
@@ -2622,8 +2619,6 @@ snapshots:
   string_decoder@1.1.1:
     dependencies:
       safe-buffer: 5.1.2
-
-  suffix-thumb@5.0.2: {}
 
   suffix-thumb@5.0.3: {}
 
