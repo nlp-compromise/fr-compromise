@@ -2,7 +2,7 @@
   "name": "fr-compromise-dates",
   "description": "plugin for fr-compromise",
   "version": "0.0.2",
-  "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
+  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
   "main": "./src/plugin.js",
   "unpkg": "./builds/fr-compromise-dates.min.js",
   "module": "./builds/fr-compromise-dates.mjs",
@@ -16,10 +16,7 @@
       "types": "./index.d.ts"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nlp-compromise/fr-compromise.git"
-  },
+  "repository": "github:nlp-compromise/fr-compromise",
   "homepage": "https://github.com/nlp-compromise/fr-compromise/tree/master/plugins/dates",
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
@@ -32,9 +29,6 @@
     "builds/",
     "src/",
     "index.d.ts"
-  ],
-  "eslintIgnore": [
-    "builds/*.js"
   ],
   "peerDependencies": {
     "fr-compromise": ">=0.2.0"

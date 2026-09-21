@@ -1,12 +1,11 @@
 {
-  "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
+  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
   "name": "fr-compromise",
   "description": "Linguistique computationnelle modeste",
   "version": "0.3.1",
   "packageManager": "pnpm@11.5.0",
   "engines": {
-    "node": "^22.13.0 || ^24.0.0 || ^26.0.0",
-    "pnpm": "^11.5.0"
+    "node": ">=12"
   },
   "main": "./builds/fr-compromise.mjs",
   "browser": "./builds/fr-compromise.min.js",
@@ -21,10 +20,7 @@
     }
   },
   "types": "types/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nlp-compromise/fr-compromise.git"
-  },
+  "repository": "github:nlp-compromise/fr-compromise",
   "scripts": {
     "test": "pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
     "check-types": "tsc -p tsconfig.json",
@@ -65,7 +61,7 @@
     "fr-corpus": "^0.0.1",
     "globals": "17.12.0",
     "rollup": "4.63.1",
-    "tap-dancer": "0.3.4",
+    "tap-dancer": "0.4.0",
     "tape": "5.10.2",
     "typescript": "7.0.2"
   },
