@@ -31,7 +31,7 @@ Object.keys(lexData).forEach(tag => {
     if (tag === 'Noun' || tag === 'MaleNoun' || tag === 'FemaleNoun') {
       words[w] = [tag, 'Singular']
       const plur = transform.noun.toPlural(w)
-      words[plur] = words[plur] || ['Noun', 'Plural']
+      words[plur] = words[plur] || ['Noun', 'PluralNoun']
     }
     if (tag === 'Ordinal') {
       words[w] = ['TextValue', 'Ordinal']

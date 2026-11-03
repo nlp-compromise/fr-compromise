@@ -88,7 +88,7 @@ export default {
     is: 'Organization',
   },
   PluralNoun: {
-    aliases: [null, 'NomPluriel'],
+    aliases: [null, 'Pluriel', 'Plural'],
     is: 'Noun',
     not: ['Singular'],
   },

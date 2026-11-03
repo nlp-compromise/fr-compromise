@@ -23,7 +23,8 @@ const aliases = {
   Équipe: 'SportsTeam',
   École: 'School',
   Entreprise: 'Company',
-  NomPluriel: 'PluralNoun',
+  Pluriel: 'PluralNoun',
+  Plural: 'PluralNoun',
   Indénombrable: 'Uncountable',
   Pronom: 'Pronoun',
   Activité: 'Activity',
@@ -203,5 +204,24 @@ test('english tag names are unchanged:', function (t) {
   const tags = doc.json()[0].terms[1].tags
   t.ok(tags.includes('Noun'), here + 'json has #Noun')
   t.notOk(tags.includes('Nom'), here + 'json has no #Nom')
+  t.end()
+})
+
+test('every tag in the lexicon is registered:', function (t) {
+  const { lexicon, tagSet } = nlp.world().model.one
+  const tags = new Set(Object.values(lexicon).flat())
+  const missing = [...tags].filter(tag => !tagSet[tag])
+  t.deepEqual(missing, [], here + 'no unregistered tags')
+  t.end()
+})
+
+test('generated plurals are #PluralNoun:', function (t) {
+  const doc = nlp('chameaux')
+  t.ok(doc.has('#PluralNoun'), here + 'chameaux is #PluralNoun')
+  t.ok(doc.has('#Pluriel'), here + 'chameaux is #Pluriel')
+  t.ok(doc.has('#Plural'), here + '#Plural still works')
+  t.equal(doc.nouns().isPlural().length, 1, here + 'nouns().isPlural()')
+  doc.compute('root')
+  t.equal(doc.json({ root: true })[0].terms[0].root, 'chameau', here + 'singular root')
   t.end()
 })
