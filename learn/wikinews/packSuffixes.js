@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const suff = require('../../src/tagger/data/suffixMap.js')
 
 // find any long suffixes that are covered by shorter ones
@@ -8,7 +8,7 @@ let count = 0
 
 for (let i = 6; i <= 6; i += 1) {
   twoWords.forEach((ending) => {
-    let testWords = Object.keys(suff[i])
+    const testWords = Object.keys(suff[i])
     testWords.forEach((w) => {
       if (w.endsWith(ending)) {
         if (twos[ending] === suff[i][w]) {

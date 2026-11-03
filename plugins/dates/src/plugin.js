@@ -1,6 +1,6 @@
 import api from './api.js'
 
-let lexicon = {
+const lexicon = {
   heir: 'Date',
   soir: 'Date',
   nuit: 'Date',

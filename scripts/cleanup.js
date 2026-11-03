@@ -13,8 +13,8 @@ import og from '../data/lexicon/data/neutralNouns.js'
 // console.log(JSON.stringify(unique(messy), null, 2))
 
 
-let loose = og.filter(str => {
-  let found = keep.find(s => s === str)
+const loose = og.filter(str => {
+  const found = keep.find(s => s === str)
   if (found) {
     console.log(str)
     return false

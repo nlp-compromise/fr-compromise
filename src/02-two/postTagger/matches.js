@@ -6,7 +6,7 @@ import verbTense from '../preTagger/compute/3rd-pass/verb-tense.js'
 import verbForm from '../preTagger/compute/3rd-pass/verb-form.js'
 
 const tagNoun = function (m) {
-  let world = m.world
+  const world = m.world
   m.docs.forEach(terms => {
     terms.forEach((_t, i) => {
       nounGender(terms, i, world)
@@ -15,7 +15,7 @@ const tagNoun = function (m) {
   })
 }
 const tagAdj = function (m) {
-  let world = m.world
+  const world = m.world
   m.docs.forEach(terms => {
     terms.forEach((_t, i) => {
       adjGender(terms, i, world)
@@ -24,7 +24,7 @@ const tagAdj = function (m) {
   })
 }
 const tagVerb = function (m) {
-  let world = m.world
+  const world = m.world
   m.docs.forEach(terms => {
     terms.forEach((_t, i) => {
       verbTense(terms, i, world)
@@ -127,7 +127,7 @@ const postTagger = function (doc) {
 
   // re-derive tense + person for verbs the rules above created,
   // with their real neighbours visible (the tagVerb slices can't see them)
-  let world = doc.world
+  const world = doc.world
   doc.docs.forEach(terms => {
     terms.forEach((_t, i) => {
       verbTense(terms, i, world)

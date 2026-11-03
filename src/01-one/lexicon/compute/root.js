@@ -1,5 +1,5 @@
 const verbForm = function (term) {
-  let want = [
+  const want = [
     'FirstPerson',
     'SecondPerson',
     'ThirdPerson',
@@ -14,10 +14,10 @@ const root = function (view) {
   const transform = view.world.methods.two.transform
   view.docs.forEach(terms => {
     terms.forEach(term => {
-      let str = term.implicit || term.normal || term.text
+      const str = term.implicit || term.normal || term.text
       // nouns -> singular masculine form
       if (term.tags.has('Noun') && !term.tags.has('Pronoun')) {
-        let isPlural = term.tags.has('PluralNoun')
+        const isPlural = term.tags.has('PluralNoun')
         // let isFemale = term.tags.has('FemaleNoun')
         if (isPlural) {
           term.root = transform.noun.fromPlural(str)
@@ -25,8 +25,8 @@ const root = function (view) {
       }
       // adjectives -> singular masculine form
       if (term.tags.has('Adjective')) {
-        let isPlural = term.tags.has('PluralAdjective')
-        let isFemale = term.tags.has('FemaleAdjective')
+        const isPlural = term.tags.has('PluralAdjective')
+        const isFemale = term.tags.has('FemaleAdjective')
         if (isPlural && isFemale) {
           term.root = transform.adjective.fromFemalePlural(str)
         } else if (isFemale) {
@@ -37,7 +37,7 @@ const root = function (view) {
       }
       // verbs -> infinitive form
       if (term.tags.has('Verb')) {
-        let form = verbForm(term)
+        const form = verbForm(term)
         if (term.tags.has('Infinitive')) {
           // already the root
         } else if (term.tags.has('ConditionalVerb')) {

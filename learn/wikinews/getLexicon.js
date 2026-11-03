@@ -1,11 +1,11 @@
-let lines = require('./parse')
+const lines = require('./parse')
 // lines = lines.slice(0, 300)
 
-let tags = {}
+const tags = {}
 lines.forEach((s) => {
   s.forEach((w) => {
     tags[w.tag] = tags[w.tag] || {}
-    let word = w.word.toLowerCase()
+    const word = w.word.toLowerCase()
     tags[w.tag][word] = tags[w.tag][word] || 0
     tags[w.tag][word] += 1
   })
@@ -43,7 +43,7 @@ lines.forEach((s) => {
 // VS: 'V',
 
 const top = function (obj) {
-  let keys = Object.keys(obj).sort((a, b) => {
+  const keys = Object.keys(obj).sort((a, b) => {
     if (obj[a] > obj[b]) {
       return -1
     } else if (obj[a] < obj[b]) {
@@ -51,7 +51,7 @@ const top = function (obj) {
     }
     return 0
   })
-  let arr = keys.filter((k) => {
+  const arr = keys.filter((k) => {
     return obj[k] > 1
   })
   return arr

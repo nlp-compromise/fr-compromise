@@ -9,7 +9,7 @@ data.tens.forEach(a => {
   tensWord[a[0]] = a[1]
 })
 
-let multiples = [
+const multiples = [
   [1e12, 'mille milliards'],
   [1e9, 'milliard'],
   [1e6, 'million'],
@@ -20,10 +20,10 @@ let multiples = [
 //turn number into an array of magnitudes, like [[5, million], [2, hundred]]
 const getMagnitudes = function (num) {
   let working = num
-  let have = []
+  const have = []
   multiples.forEach(a => {
     if (num >= a[0]) {
-      let howmany = Math.floor(working / a[0])
+      const howmany = Math.floor(working / a[0])
       working -= howmany * a[0]
       if (howmany) {
         have.push({
@@ -50,7 +50,7 @@ const twoDigit = function (num, hasFollowing) {
     base -= 10
     rest += 10
   }
-  let ten = tensWord[base]
+  const ten = tensWord[base]
   if (rest === 0) {
     // 'quatre-vingts' / 'quatre-vingt mille'
     if (base === 80 && !hasFollowing) {
@@ -70,8 +70,8 @@ const threeDigit = function (num, hasFollowing) {
   if (num < 100) {
     return twoDigit(num, hasFollowing)
   }
-  let hundreds = Math.floor(num / 100)
-  let rest = num % 100
+  const hundreds = Math.floor(num / 100)
+  const rest = num % 100
   let words = []
   if (hundreds > 1) {
     words = words.concat(twoDigit(hundreds, true))
@@ -99,7 +99,7 @@ const toText = function (num) {
     num = Math.abs(num)
   }
   // handle multiples
-  let found = getMagnitudes(num)
+  const found = getMagnitudes(num)
   found.forEach(obj => {
     if (obj.unit === 'one') {
       words = words.concat(threeDigit(obj.num, false))

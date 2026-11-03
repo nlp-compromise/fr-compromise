@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[tokenize] '
+const here = '[tokenize] '
 nlp.verbose(false)
 
 test('sentence-split:', function (t) {
@@ -16,14 +16,14 @@ test('sentence-split:', function (t) {
 })
 
 test('terms:', function (t) {
-  let arr = [
+  const arr = [
     [`j'ai un chien`, [`j'ai`, 'un', 'chien']],
     [`l'école était fermée`, [`l'école`, 'était', 'fermée']],
     ['manges-tu des pommes', ['manges-', 'tu', 'des', 'pommes']],
     ['le grand-père est arrivé', ['le', 'grand-', 'père', 'est', 'arrivé']],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
+    const [str, want] = a
     t.deepEqual(nlp(str).terms().out('array'), want, here + str)
   })
   t.end()

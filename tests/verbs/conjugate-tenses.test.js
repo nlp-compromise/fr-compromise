@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[conjugate-tenses] '
+const here = '[conjugate-tenses] '
 nlp.verbose(false)
 
 test('conjugate all-tenses:', function (t) {
-  let o = nlp('manger').verbs().conjugate()[0]
+  const o = nlp('manger').verbs().conjugate()[0]
   t.equal(o.Infinitive, 'manger', here + 'infinitive')
   t.equal(o.PastParticiple, 'mangé', here + 'past-participle')
   t.deepEqual(
@@ -31,15 +31,15 @@ test('conjugate all-tenses:', function (t) {
 })
 
 test('conjugate irregulars:', function (t) {
-  let arr = [
+  const arr = [
     ['être', ['suis', 'es', 'est', 'sommes', 'êtes', 'sont'], 'été'],
     ['avoir', ['ai', 'as', 'a', 'avons', 'avez', 'ont'], 'eu'],
     ['aller', ['vais', 'vas', 'va', 'allons', 'allez', 'vont'], 'allé'],
     ['faire', ['fais', 'fais', 'fait', 'faisons', 'faites', 'font'], 'fait'],
   ]
   arr.forEach(function (a) {
-    let [inf, present, part] = a
-    let o = nlp(inf).verbs().conjugate()[0]
+    const [inf, present, part] = a
+    const o = nlp(inf).verbs().conjugate()[0]
     t.deepEqual(Object.values(o.PresentTense), present, here + inf + ' present')
     t.equal(o.PastParticiple, part, here + inf + ' participle')
   })

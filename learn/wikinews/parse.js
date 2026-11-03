@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('node:fs')
 
 let lines = fs
   .readFileSync(__dirname + '/wikinews.txt')
@@ -22,7 +22,7 @@ const mapping = {
 lines = lines.map((str) => {
   let words = str.split(/ /g)
   words = words.map((w) => {
-    let arr = w.split(/_/)
+    const arr = w.split(/_/)
     let tag = (arr[1] || '').trim()
     tag = mapping[tag] || tag
     return {

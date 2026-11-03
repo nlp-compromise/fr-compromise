@@ -6,20 +6,20 @@ const toNumber = {}
 
 Object.keys(data).forEach(k => {
   data[k].forEach(a => {
-    let [num, w, ord] = a
+    const [num, w, ord] = a
     toCardinal[ord] = w
     toOrdinal[w] = ord
     toNumber[w] = num
     // multi-word forms are hyphenated for display,
     // but the parser scans space-joined tokens
-    let spaced = w.replace(/-/g, ' ')
+    const spaced = w.replace(/-/g, ' ')
     if (spaced !== w) {
       toNumber[spaced] = num
       toOrdinal[spaced] = ord
       toCardinal[ord.replace(/-/g, ' ')] = spaced
     }
     // add ordinal without accents
-    let norm = ord.replace(/è/, 'e')
+    const norm = ord.replace(/è/, 'e')
     toNumber[norm] = num
   })
 })

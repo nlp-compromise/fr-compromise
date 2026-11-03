@@ -1,4 +1,14 @@
-### unreleased
+### 0.3.2 [Nov 2026]
+
+- **[update]** - smaller suffix-thumb format
+- **[new]** - support localized tag names
+- **[update]** - dependencies
+
+### 0.3.1 [Sep 2026]
+
+- **[change]** - add typescript types
+
+### 0.3.0 [Sep 2026]
 
 - **[fix]** - lexicon: 'a' is avoir (was Preposition), 'eu' is a participle (was Organization), 'tu' is a pronoun, 'dit'/'plus'/'venu' fixes
 - **[fix]** - copula tenses - étions/serez/serais were all PresentTense

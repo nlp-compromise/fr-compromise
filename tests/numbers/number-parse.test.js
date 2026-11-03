@@ -1,8 +1,8 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number parse] '
+const here = '[number parse] '
 
-let arr = [
+const arr = [
   // ['un', 1],
   ['onze', 11],
   ['vingt et un', 21],
@@ -143,8 +143,8 @@ let arr = [
 
 test('cardinal parse:', function (t) {
   arr.forEach(function (a) {
-    let [str, n] = a
-    let m = nlp(str).numbers()
+    const [str, n] = a
+    const m = nlp(str).numbers()
     t.equal(m.get()[0], n, here + '[toNumber] ' + str)
   })
   t.end()

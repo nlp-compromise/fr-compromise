@@ -1,5 +1,6 @@
 export default {
   Value: {
+    aliases: [null, 'Nombre'],
     not: ['Verb', 'Adjective', 'Adverb'],
   },
   Ordinal: {
@@ -18,21 +19,26 @@ export default {
     is: 'TextValue',
   },
   RomanNumeral: {
+    aliases: [null, 'ChiffreRomain'],
     is: 'Cardinal',
     not: ['TextValue'],
   },
   TextValue: {
+    aliases: [null, 'Numéral'],
     is: 'Value',
     not: ['NumericValue'],
   },
   NumericValue: {
+    aliases: [null, 'Numérique'],
     is: 'Value',
     not: ['TextValue'],
   },
   Money: {
+    aliases: [null, 'Argent'],
     is: 'Cardinal',
   },
   Percent: {
+    aliases: [null, 'Pourcentage'],
     is: 'Value',
   },
 }

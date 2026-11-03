@@ -33,9 +33,9 @@ const hasBefore = {
 }
 
 const tagNeighbours = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
+  const setTag = world.methods.one.setTag
   if (terms[i - 1]) {
-    let lastStr = terms[i - 1].normal
+    const lastStr = terms[i - 1].normal
     if (terms[i].tags.size === 0 && hasBefore.hasOwnProperty(lastStr)) {
       setTag([terms[i]], hasBefore[lastStr], world, false, 'neighbour')
       return true

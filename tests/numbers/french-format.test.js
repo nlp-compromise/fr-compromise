@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[french-format] '
+const here = '[french-format] '
 nlp.verbose(false)
 
 test('decimal comma:', function (t) {
-  let arr = [
+  const arr = [
     ['3,5', 3.5],
     ['10,25', 10.25],
     ['3,14159', 3.14159],
@@ -13,7 +13,7 @@ test('decimal comma:', function (t) {
     ['7,938', 7938],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
+    const [str, want] = a
     t.equal(nlp(str).numbers().get()[0], want, here + str)
   })
   t.end()
@@ -25,12 +25,12 @@ test('decimal comma in-sentence:', function (t) {
 })
 
 test('space thousands-groups:', function (t) {
-  let arr = [
+  const arr = [
     ['2 500', 2500],
     ['1 000 000', 1000000],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
+    const [str, want] = a
     t.equal(nlp(str).numbers().get()[0], want, here + str)
   })
   t.end()

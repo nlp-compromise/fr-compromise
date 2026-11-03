@@ -1,14 +1,12 @@
 {
   "name": "fr-compromise-dates",
-  "description": "plugin for fr-compromise",
   "version": "0.0.2",
-  "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
-  "main": "./src/plugin.js",
-  "unpkg": "./builds/fr-compromise-dates.min.js",
-  "module": "./builds/fr-compromise-dates.mjs",
+  "description": "plugin for fr-compromise",
+  "license": "MIT",
+  "repository": "github:nlp-compromise/fr-compromise",
+  "homepage": "https://github.com/nlp-compromise/fr-compromise/tree/master/plugins/dates",
+  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
   "type": "module",
-  "sideEffects": false,
-  "types": "./index.d.ts",
   "exports": {
     ".": {
       "import": "./src/plugin.js",
@@ -16,11 +14,10 @@
       "types": "./index.d.ts"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nlp-compromise/fr-compromise.git"
-  },
-  "homepage": "https://github.com/nlp-compromise/fr-compromise/tree/master/plugins/dates",
+  "main": "./src/plugin.js",
+  "module": "./builds/fr-compromise-dates.mjs",
+  "types": "./index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
     "testb": "cross-env TESTENV=prod tape \"./tests/**/*.test.js\" | tap-dancer  --color always",
@@ -29,19 +26,16 @@
     "build": "rollup -c --silent"
   },
   "files": [
+    "index.d.ts",
     "builds/",
-    "src/",
-    "index.d.ts"
+    "src/"
   ],
-  "eslintIgnore": [
-    "builds/*.js"
-  ],
-  "peerDependencies": {
-    "fr-compromise": ">=0.2.0"
-  },
   "dependencies": {
     "spacetime": "7.4.3",
     "spacetime-holiday": "0.3.0"
   },
-  "license": "MIT"
+  "peerDependencies": {
+    "fr-compromise": ">=0.2.0"
+  },
+  "unpkg": "./builds/fr-compromise-dates.min.js"
 }

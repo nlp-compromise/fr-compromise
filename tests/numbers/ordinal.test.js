@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number ordinal] '
+const here = '[number ordinal] '
 
 
-let arr = [
+const arr = [
   [0, 'zéro', 'zéroième'],
   // [1, 'un', 'unième'],
   [2, 'deux', 'deuxième'],
@@ -44,16 +44,16 @@ let arr = [
 ]
 test('cardinal to ordinal:', function (t) {
   arr.forEach(function (a) {
-    let [_, card, ord] = a
-    let doc = nlp(card).numbers().toOrdinal()
+    const [_, card, ord] = a
+    const doc = nlp(card).numbers().toOrdinal()
     t.equal(doc.text(), ord, here + ' [toOrdinal] ' + card)
   })
   t.end()
 })
 test('ordinal -> cardinal:', function (t) {
   arr.forEach(function (a) {
-    let [, card, ord] = a
-    let doc = nlp(ord).numbers().toCardinal()
+    const [, card, ord] = a
+    const doc = nlp(ord).numbers().toCardinal()
     t.equal(doc.text(), card, here + ' [toCardinal] ' + card)
   })
   t.end()
@@ -61,7 +61,7 @@ test('ordinal -> cardinal:', function (t) {
 
 
 test('ordinal fmt:', function (t) {
-  let list = [
+  const list = [
     // [1, 'première', '1er'],//'first'
     [2, 'deuxième', '2e'],//'second'
     [3, 'troisième', '3e'],//'third'
@@ -74,8 +74,8 @@ test('ordinal fmt:', function (t) {
     [10, 'dixième', '10e'],//'tenth'
   ]
   list.forEach(function (a) {
-    let [_, str, want] = a
-    let m = nlp(str).numbers().toNumber()
+    const [_, str, want] = a
+    const m = nlp(str).numbers().toNumber()
     t.equal(m.text(), want, here + str)
   })
   t.end()

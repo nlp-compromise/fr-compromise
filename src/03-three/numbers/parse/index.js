@@ -7,7 +7,7 @@ const fromNumber = function (m) {
   // the core normalizer strips digit-commas ('3,5'->'35'), so recover a
   // french decimal-comma from the raw text ('7,938' keeps its english
   // thousands-group meaning)
-  let raw = m.text().toLowerCase().replace(/[.,;!?]+$/, '').trim()
+  const raw = m.text().toLowerCase().replace(/[.,;!?]+$/, '').trim()
   if (/\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false) {
     str = raw.replace(/ /g, '').replace(',', '.')
   }
@@ -21,7 +21,7 @@ const fromNumber = function (m) {
     str = str.replace(/,/g, '')
   }
   // get prefix/suffix
-  let arr = str.split(/([-0-9.,]*)/)
+  const arr = str.split(/([-0-9.,]*)/)
   let [prefix, num] = arr
   let suffix = arr.slice(2).join('')
   if (num !== '' && m.length < 2) {
@@ -44,16 +44,16 @@ const fromNumber = function (m) {
 }
 
 const parseNumber = function (m) {
-  let terms = m.docs[0]
+  const terms = m.docs[0]
   let num = null
   let prefix = ''
   let suffix = ''
   let hasComma = false
-  let isText = m.has('#TextValue')
+  const isText = m.has('#TextValue')
   if (isText) {
     num = fromText(terms)
   } else {
-    let res = fromNumber(m)
+    const res = fromNumber(m)
     prefix = res.prefix
     suffix = res.suffix
     num = res.num

@@ -3,7 +3,7 @@ export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 // get root form of adjective
 const getRoot = function (m) {
   m.compute('root')
-  let str = m.text('root')
+  const str = m.text('root')
   // let isPlural = m.has('#PluralNoun')
   // if (isPlural) {
   //   return transform.adjective.fromPlural(str)
@@ -20,7 +20,7 @@ const api = function (View) {
     conjugate(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).map(m => {
-        let str = m.text()
+        const str = m.text()
         if (m.has('#PluralNoun')) {
           return {
             plural: str,
@@ -45,16 +45,16 @@ const api = function (View) {
     toPlural(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).if('#Singular').map(m => {
-        let str = getRoot(m)
-        let plural = methods.toPlural(str)
+        const str = getRoot(m)
+        const plural = methods.toPlural(str)
         return m.replaceWith(plural)
       })
     }
     toSingular(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).if('#PluralNoun').map(m => {
-        let str = getRoot(m)
-        let singular = methods.fromPlural(str)
+        const str = getRoot(m)
+        const singular = methods.fromPlural(str)
         return m.replaceWith(singular)
       })
     }

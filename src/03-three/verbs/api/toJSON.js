@@ -24,7 +24,7 @@ const toText = function (m) {
 // }
 
 const toJSON = function (vb) {
-  let parsed = parseVerb(vb)
+  const parsed = parseVerb(vb)
   vb.clone().toView()
   // const info = getGrammar(vb, parsed)
   return {

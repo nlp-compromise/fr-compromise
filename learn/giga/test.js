@@ -1,17 +1,17 @@
 import { forEachSync } from './_giga.js'
 import doSentences from './french.js'
-import fs from 'fs'
+import fs from 'node:fs'
 import nlp from '../../src/index.js'
 
 
 let ids = []
 for (let i = 1; i <= 10; i += 1) {
-  let str = String(i).padStart(4, '0')
+  const str = String(i).padStart(4, '0')
   ids.push(str)
 }
 ids = ['0004']
 
-let tagMap = {
+const tagMap = {
   'ABR': 'Acronym',//abbreviation
   'ADJ': 'Adjective',//adjective
   'ADV': 'Adverb',//adjective
@@ -49,25 +49,25 @@ let tagMap = {
 
 const ignore = new Set(['au', 'aux', 'des', 'au', 'ne', '$', '.', '(', ')', 'se'])
 
-let bad = {}
+const bad = {}
 
 let right = 0
 let wrong = 0
 const doBoth = function (both) {
   let txt = both.fr.map(o => o['$text']).join(' ')
   txt = txt.replace(/ ([.,?):])/g, `$1`)
-  let correct = {}
+  const correct = {}
   both.fr.forEach((term, i) => {
-    let tag = tagMap[term['$'].pos]
+    const tag = tagMap[term['$'].pos]
     if (tag) {
-      let str = term['$text'].toLowerCase()
+      const str = term['$text'].toLowerCase()
       correct[str] = tag
     }
   })
-  let doc = nlp(txt)
+  const doc = nlp(txt)
   doc.terms().forEach(t => {
-    let str = t.text('normal')
-    let want = correct[str] || null
+    const str = t.text('normal')
+    const want = correct[str] || null
     if (want && !ignore.has(str)) {
       if (t.has('#' + want)) {
         right += 1

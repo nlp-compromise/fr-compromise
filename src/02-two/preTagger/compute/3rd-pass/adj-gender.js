@@ -3,11 +3,11 @@
 
 const guessGender = function (str) {
   // female singular
-  if (str.match(/[eë]$/)) {
+  if (/[eë]$/.test(str)) {
     return 'f'
   }
   // female plurals
-  let suffixes = [
+  const suffixes = [
     /[aei]lles$/,
     /[aei]les$/,
     /[aeiou]ttes$/,
@@ -35,11 +35,11 @@ const guessGender = function (str) {
 
 // guess a gender tag each Adjective
 const adjGender = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
   if (tags.has('Adjective') && !tags.has('FemaleAdjective') && !tags.has('#MaleAdjective')) {
-    let str = term.implicit || term.normal || term.text || ''
+    const str = term.implicit || term.normal || term.text || ''
     // i actually think there are no exceptions.
     if (guessGender(str) === 'f') {
       return setTag([term], 'FemaleAdjective', world, false, '3-adj-gender')

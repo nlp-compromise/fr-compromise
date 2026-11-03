@@ -1,4 +1,4 @@
-import View from './one'
+import View from './one.js'
 
 
 interface Numbers extends View {

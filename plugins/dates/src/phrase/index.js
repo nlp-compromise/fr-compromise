@@ -5,8 +5,8 @@ import { Moment, Month, Day, Week, Year } from './date/units.js'
 // generic callback
 const startEnd = function (m, opts) {
   if (m.found) {
-    let { start, end } = m.groups()
-    let out = {
+    const { start, end } = m.groups()
+    const out = {
       start: parseOne(start, opts),
       end: parseOne(end, opts)
     }
@@ -17,7 +17,7 @@ const startEnd = function (m, opts) {
   return null
 }
 const justStart = function (m, opts) {
-  let out = { start: parseOne(m, opts) }
+  const out = { start: parseOne(m, opts) }
   if (out.start) {
     return out
   }
@@ -25,8 +25,8 @@ const justStart = function (m, opts) {
 }
 
 const untilEnd = function (m, opts) {
-  let { end } = m.groups()
-  let out = { start: new Moment(opts.today, opts), end: parseOne(end, opts) }
+  const { end } = m.groups()
+  const out = { start: new Moment(opts.today, opts), end: parseOne(end, opts) }
   if (out.end) {
     // until - just before x
     out.end = new Moment(out.end.s.minus(1, 'millisecond'), opts)
@@ -45,13 +45,13 @@ const phrases = [
 ]
 
 const parsePhrase = function (matches, opts) {
-  let arr = []
+  const arr = []
   matches.forEach(view => {
     for (let i = 0; i < phrases.length; i += 1) {
-      let { match, cb } = phrases[i]
-      let m = view.match(match)
+      const { match, cb } = phrases[i]
+      const m = view.match(match)
       if (m.found) {
-        let res = cb(m, opts)
+        const res = cb(m, opts)
         if (res) {
           arr.push(res)
           return

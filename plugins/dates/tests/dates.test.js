@@ -1,20 +1,20 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[fr-dates] '
+const here = '[fr-dates] '
 
 //yep,
-let jan = '01'
-let feb = '02'
-let mar = '03'
-let apr = '04'
-let may = '05'
-let june = '06'
-let july = '07'
-let august = '08'
-let sept = '09'
-let oct = '10'
-let nov = '11'
-let dec = '12'
+const jan = '01'
+const feb = '02'
+const mar = '03'
+const apr = '04'
+const may = '05'
+const june = '06'
+const july = '07'
+const august = '08'
+const sept = '09'
+const oct = '10'
+const nov = '11'
+const dec = '12'
 const today = [1998, 2, 2]
 const opts = { timezone: 'UTC', today }
 
@@ -71,11 +71,11 @@ test('dates:', function (t) {
     end = end || []
     end = end.map(padZero).join('-')
 
-    let doc = nlp(str)
+    const doc = nlp(str)
     // t.equal(doc.has('#Date'), true, here + `has-date: '${str}'`)
 
-    let json = doc.dates(opts).json({ terms: false })[0] || { date: [] }
-    let dates = json.dates[0] || { start: '', end: '' }
+    const json = doc.dates(opts).json({ terms: false })[0] || { date: [] }
+    const dates = json.dates[0] || { start: '', end: '' }
 
     // test the start date is the ISO
     let iso = dates.start.replace(/T00:00:00\.000Z$/, '', '')

@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[nouns] '
+const here = '[nouns] '
 nlp.verbose(false)
 
 test('noun-conjugate irregular-plurals:', function (t) {
-  let arr = [
+  const arr = [
     ['cheval', 'chevaux'],
     ['journal', 'journaux'],
     ['gâteau', 'gâteaux'],
@@ -18,15 +18,15 @@ test('noun-conjugate irregular-plurals:', function (t) {
     ['nez', 'nez'],
   ]
   arr.forEach(function (a) {
-    let [singular, plural] = a
-    let o = nlp(singular).nouns().conjugate()[0]
+    const [singular, plural] = a
+    const o = nlp(singular).nouns().conjugate()[0]
     t.deepEqual([o.singular, o.plural], [singular, plural], here + singular)
   })
   t.end()
 })
 
 test('noun toPlural:', function (t) {
-  let arr = [
+  const arr = [
     ['un journal', 'un journaux'],
     ['le bureau', 'le bureaux'],
     ['un animal', 'un animaux'],
@@ -36,8 +36,8 @@ test('noun toPlural:', function (t) {
     ['une pomme', 'une pommes'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.nouns().toPlural()
     t.equal(doc.text(), want, here + str)
   })
@@ -45,7 +45,7 @@ test('noun toPlural:', function (t) {
 })
 
 test('noun toSingular:', function (t) {
-  let arr = [
+  const arr = [
     ['les chiens aboient', 'les chien aboient'],
     ['les maisons', 'les maison'],
     ['des chevaux', 'des cheval'],
@@ -55,8 +55,8 @@ test('noun toSingular:', function (t) {
     ['les prix', 'les prix'], //invariable
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.nouns().toSingular()
     t.equal(doc.text(), want, here + str)
   })

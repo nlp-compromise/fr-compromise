@@ -1,25 +1,25 @@
 import { forEachSync } from './_giga.js'
 import doSentences from './french.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
-let ids = []
+const ids = []
 for (let i = 1; i <= 10; i += 1) {
-  let str = String(i).padStart(4, '0')
+  const str = String(i).padStart(4, '0')
   ids.push(str)
 }
 // ids = ['0004']
 
-let list = []
+const list = []
 const tag = 'NOM'
 
 const doBoth = function (both) {
-  let terms = both.fr
+  const terms = both.fr
   terms.forEach((term, i) => {
     if (i === 0) {
       return
     }
     if (term['$'].pos === tag) {
-      let last = terms[i - 1]['$text'].toLowerCase()
+      const last = terms[i - 1]['$text'].toLowerCase()
       if (last === 'le' || last === 'un') {
         let w = term['$text']
         let inf = term['$'].lem

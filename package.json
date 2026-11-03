@@ -1,32 +1,33 @@
 {
-  "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "fr-compromise",
+  "version": "0.3.2",
   "description": "Linguistique computationnelle modeste",
-  "version": "0.3.1",
-  "packageManager": "pnpm@11.5.0",
-  "engines": {
-    "node": "^22.13.0 || ^24.0.0 || ^26.0.0",
-    "pnpm": "^11.5.0"
+  "license": "MIT",
+  "repository": "github:nlp-compromise/fr-compromise",
+  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./builds/fr-compromise.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.cts",
+        "default": "./builds/fr-compromise.cjs"
+      }
+    }
   },
   "main": "./builds/fr-compromise.mjs",
   "browser": "./builds/fr-compromise.min.js",
-  "unpkg": "./builds/fr-compromise.min.js",
-  "type": "module",
+  "types": "./types/index.d.ts",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./types/index.d.ts",
-      "import": "./builds/fr-compromise.mjs",
-      "require": "./builds/fr-compromise.cjs"
-    }
+  "engines": {
+    "node": ">=12"
   },
-  "types": "types/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nlp-compromise/fr-compromise.git"
-  },
+  "packageManager": "pnpm@11.5.0",
   "scripts": {
-    "test": "pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
+    "test": "pnpm run check-package-types && pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
     "check-types": "tsc -p tsconfig.json",
     "testb": "cross-env TESTENV=prod pnpm run test",
     "build": "pnpm run version && rollup -c --silent",
@@ -36,38 +37,40 @@
     "version": "node ./scripts/version.js",
     "score": "node ./learn/giga/test.js",
     "lint": "eslint ./src/**/*",
-    "stress": "node scripts/stress.js"
+    "stress": "node scripts/stress.js",
+    "check-package-types": "tsc -p tests/package-types/tsconfig.json"
   },
+  "files": [
+    "builds/",
+    "src/",
+    "types/"
+  ],
+  "dependencies": {
+    "compromise": "^14.19.0",
+    "efrt": "2.9.0",
+    "rollup-plugin-filesize-check": "^2.0.1",
+    "suffix-thumb": "6.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-node-resolve": "16.0.3",
+    "@rollup/plugin-terser": "1.0.2",
+    "cross-env": "10.1.0",
+    "eslint": "10.14.0",
+    "eslint-plugin-regexp": "3.3.3",
+    "fr-corpus": "^0.0.1",
+    "globals": "17.14.0",
+    "rollup": "4.67.4",
+    "tap-dancer": "0.4.4",
+    "tape": "5.10.3",
+    "typescript": "7.0.2"
+  },
+  "unpkg": "./builds/fr-compromise.min.js",
   "prettier": {
     "trailingComma": "none",
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,
     "printWidth": 100
-  },
-  "files": [
-    "builds/",
-    "types/",
-    "src/"
-  ],
-  "dependencies": {
-    "compromise": "^14.17.0",
-    "efrt": "2.7.0",
-    "suffix-thumb": "5.0.3"
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@rollup/plugin-node-resolve": "16.0.3",
-    "@rollup/plugin-terser": "1.0.0",
-    "cross-env": "10.1.0",
-    "eslint": "10.10.0",
-    "eslint-plugin-regexp": "3.3.0",
-    "fr-corpus": "^0.0.1",
-    "globals": "17.12.0",
-    "rollup": "4.63.1",
-    "tap-dancer": "0.3.4",
-    "tape": "5.10.2",
-    "typescript": "7.0.2"
-  },
-  "license": "MIT"
+  }
 }

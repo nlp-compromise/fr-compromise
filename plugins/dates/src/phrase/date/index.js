@@ -7,7 +7,7 @@ import spacetime from 'spacetime'
 
 // some re-used helper functions:
 const parseMonth = function (m) {
-  let str = m.text('normal')
+  const str = m.text('normal')
   if (months.hasOwnProperty(str)) {
     return months[str] - 1
   }
@@ -34,7 +34,7 @@ const parseOne = function (m, opts) {
   // match '2 septembre 1982'
   let res = m.match('[<date>#Value] [<month>#Month] [<year>#Year]')
   if (res.found) {
-    let cal = {
+    const cal = {
       month: parseMonth(res.groups('month')),
       date: parseNumber(res.groups('date')),
       year: parseNumber(res.groups('year')),
@@ -46,7 +46,7 @@ const parseOne = function (m, opts) {
   // 'oct 2021'
   res = m.match('[<month>#Month]  [<year>#Year]')
   if (res.found) {
-    let cal = {
+    const cal = {
       month: parseMonth(res.groups('month')),
       year: parseNumber(res.groups('year')) || today.year(),
     }
@@ -57,7 +57,7 @@ const parseOne = function (m, opts) {
   // 'oct 22nd'
   res = m.match('[<month>#Month] [<date>#Value] #Year?')
   if (res.found) {
-    let cal = {
+    const cal = {
       month: parseMonth(res.groups('month')),
       date: parseNumber(res.groups('date')) || today.date(),
       year: parseNumber(res.match('#Year')) || today.year(),
@@ -69,7 +69,7 @@ const parseOne = function (m, opts) {
   // '6 avril'
   res = m.match('[<date>#Value] [<month>#Month] #Year?')
   if (res.found) {
-    let cal = {
+    const cal = {
       // month: parseMonth(res.groups('month')),
       // date: parseNumber(res.groups('date')) || today.date(),
       month: parseMonth(res.match('#Month')),
@@ -83,7 +83,7 @@ const parseOne = function (m, opts) {
   // '2021'
   res = m.match('[<year>#Year]')
   if (res.found) {
-    let cal = { year: parseNumber(res.groups('year')) }
+    const cal = { year: parseNumber(res.groups('year')) }
     if (isValid(cal)) {
       return new Year(cal, opts)
     }
@@ -91,7 +91,7 @@ const parseOne = function (m, opts) {
   // 'octobre'
   res = m.match('[<month>#Month]')
   if (res.found) {
-    let cal = { month: parseMonth(res.groups('month')), year: today.year() }
+    const cal = { month: parseMonth(res.groups('month')), year: today.year() }
     if (isValid(cal)) {
       return new Month(cal, opts)
     }
@@ -99,7 +99,7 @@ const parseOne = function (m, opts) {
   // '2021-02-12'
   res = m.match('#Date+')
   if (res.found) {
-    let s = spacetime(res.text('normal'), opts.timezone, { dmy: true })
+    const s = spacetime(res.text('normal'), opts.timezone, { dmy: true })
     if (s.isValid()) {
       return new Moment(s, opts)
     }
@@ -107,17 +107,17 @@ const parseOne = function (m, opts) {
   // known words
   // yesterday
   if (m.has('hier')) {
-    let s = spacetime(null, opts.timezone).minus(1, 'day')
+    const s = spacetime(null, opts.timezone).minus(1, 'day')
     return new Day(s, opts)
   }
   // tomorrow
   if (m.has('demain')) {
-    let s = spacetime(null, opts.timezone).plus(1, 'day')
+    const s = spacetime(null, opts.timezone).plus(1, 'day')
     return new Day(s, opts)
   }
   // today
   if (m.has('aujourd\'hui')) {
-    let s = spacetime(null, opts.timezone)
+    const s = spacetime(null, opts.timezone)
     return new Day(s, opts)
   }
 

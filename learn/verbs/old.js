@@ -2,7 +2,7 @@ import verbs from './data.js'
 import { learn, test, validate, compress } from 'suffix-thumb'
 const hasPipe = /[\|\[]/
 
-let index = {
+const index = {
   'je': 0, // "achète",
   'tu': 1, // "achètes",
   'il': 2, // "achète",
@@ -15,7 +15,7 @@ const doModel = function (tense, form) {
   let pairs = []
   const i = index[form]
   Object.keys(verbs).forEach(inf => {
-    let want = verbs[inf][tense][i]
+    const want = verbs[inf][tense][i]
     if (want && !hasPipe.test(want)) {
       pairs.push([inf, want])
     }
@@ -27,7 +27,7 @@ const doModel = function (tense, form) {
 }
 
 
-let tense = "Présent"
+const tense = "Présent"
 const models = {
   je: doModel(tense, 'je'),
   tu: doModel(tense, 'tu'),
