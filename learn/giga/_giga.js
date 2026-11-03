@@ -1,5 +1,5 @@
 import XmlStream from 'xml-stream'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const streamXml = function (file, cb, end) {
   const stream = fs.createReadStream(file)
@@ -13,7 +13,7 @@ const streamXml = function (file, cb, end) {
 
 
 const topk = function (arr) {
-  let obj = {}
+  const obj = {}
   arr.forEach(a => {
     obj[a] = obj[a] || 0
     obj[a] += 1

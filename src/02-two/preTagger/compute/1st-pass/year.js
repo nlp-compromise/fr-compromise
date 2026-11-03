@@ -28,10 +28,10 @@ const seemsOkay = function (term) {
 
 // recognize '1993' as a year
 const tagYear = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
+  const setTag = world.methods.one.setTag
   const term = terms[i]
   if (term.tags.has('NumericValue') && term.tags.has('Cardinal') && term.normal.length === 4) {
-    let num = Number(term.normal)
+    const num = Number(term.normal)
     // number between 1400 and 2100
     if (num && !isNaN(num)) {
       if (num > min && num < max) {

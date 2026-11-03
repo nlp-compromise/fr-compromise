@@ -10,7 +10,7 @@
 // â/ê/î/ô/û – l'accent circonflexe (the circumflex)
 // à/è/ì/ò/ù – l'accent grave (the grave accent)
 // ë/ï/ü 
-let compact = {
+const compact = {
   '!': '¡',
   '?': '¿Ɂ',
   '"': '“”"❝❞',
@@ -46,7 +46,7 @@ let compact = {
   oe: 'œ',
 }
 //decompress data into two hashes
-let unicode = {}
+const unicode = {}
 Object.keys(compact).forEach(function (k) {
   compact[k].split('').forEach(function (s) {
     unicode[s] = k

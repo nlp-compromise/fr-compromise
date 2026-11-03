@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[verb-transform] '
+const here = '[verb-transform] '
 nlp.verbose(false)
 
 test('verb toPastTense:', function (t) {
-  let arr = [
+  const arr = [
     // regular -er
     ['il mange une pomme', 'il mangeait une pomme'],
     ['elle regarde la télévision', 'elle regardait la télévision'],
@@ -29,8 +29,8 @@ test('verb toPastTense:', function (t) {
     ['il a mangé une pomme', 'il a mangé une pomme'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.verbs().toPastTense()
     t.equal(doc.text(), want, here + str)
   })
@@ -38,7 +38,7 @@ test('verb toPastTense:', function (t) {
 })
 
 test('verb toPresentTense:', function (t) {
-  let arr = [
+  const arr = [
     ['nous mangerons demain', 'nous mangeons demain'],
     ['il jouera au tennis', 'il joue au tennis'],
     ['je mangeais', 'je mange'],
@@ -47,8 +47,8 @@ test('verb toPresentTense:', function (t) {
     [`j'ai fini`, 'je finis'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.verbs().toPresentTense()
     t.equal(doc.text(), want, here + str)
   })
@@ -56,7 +56,7 @@ test('verb toPresentTense:', function (t) {
 })
 
 test('verb toFutureTense:', function (t) {
-  let arr = [
+  const arr = [
     // regular -er
     ['il mange une pomme', 'il mangera une pomme'],
     ['je parle', 'je parlerai'],
@@ -77,8 +77,8 @@ test('verb toFutureTense:', function (t) {
     [`j'ai fini`, 'je finirai'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.verbs().toFutureTense()
     t.equal(doc.text(), want, here + str)
   })
@@ -86,15 +86,15 @@ test('verb toFutureTense:', function (t) {
 })
 
 test('verb json infinitive:', function (t) {
-  let arr = [
+  const arr = [
     ['nous construisons une maison', 'construire'],
     ['elles chantent', 'chanter'],
     ['il finira bientôt', 'finir'],
     ['elle regarde la télévision', 'regarder'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let json = nlp(str).verbs().json()[0]
+    const [str, want] = a
+    const json = nlp(str).verbs().json()[0]
     t.equal(json.verb.infinitive, want, here + str)
   })
   t.end()

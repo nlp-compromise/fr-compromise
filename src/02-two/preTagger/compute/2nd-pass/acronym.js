@@ -10,7 +10,7 @@ const oneLetterWord = {
 }
 // just uppercase acronyms, no periods - 'UNOCHA'
 const isNoPeriodAcronym = function (term, model) {
-  let str = term.text
+  const str = term.text
   // ensure it's all upper-case
   if (isUpperCase.test(str) === false) {
     return false
@@ -47,8 +47,8 @@ const isNoPeriodAcronym = function (term, model) {
 }
 
 const isAcronym = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
   //these are not acronyms
   if (term.tags.has('RomanNumeral') || term.tags.has('Acronym')) {
     return null

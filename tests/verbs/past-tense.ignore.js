@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[past-tense] '
+const here = '[past-tense] '
 nlp.verbose(false)
 
 test('vb-conjugate:', function (t) {
-  let arr = [
+  const arr = [
     ['accélérer', 'accéléré'],
     ['acheter', 'acheté'],
     ['agir', 'agi'],
@@ -186,8 +186,8 @@ test('vb-conjugate:', function (t) {
     ['vouloir', 'voulu'],
   ]
   arr.forEach(a => {
-    let [inf, past] = a
-    let doc = nlp(inf)
+    const [inf, past] = a
+    const doc = nlp(inf)
     t.ok(doc.has('#Infinitive'), inf, here)
     // t.ok(nlp(past).has('#Verb'), past, here)
     doc.verbs().toPastTense()

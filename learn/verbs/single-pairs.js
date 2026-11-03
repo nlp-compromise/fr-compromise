@@ -4,7 +4,7 @@ import scraped from '../scrape/result.js'
 import { learn, test, validate, compress } from 'suffix-thumb'
 const hasPipe = /[\|\[]/
 
-let index = {
+const index = {
   'je': 0, // "achète",
   'tu': 1, // "achètes",
   'il': 2, // "achète",
@@ -14,9 +14,9 @@ let index = {
 }
 
 const getPairs = function (tense) {
-  let byWord = {}
+  const byWord = {}
   Object.keys(verbs).forEach(inf => {
-    let words = verbs[inf][tense] || []
+    const words = verbs[inf][tense] || []
     if (words.length === 0 || words.some(str => str === '' || str.length === 1)) {
       return
     }
@@ -32,7 +32,7 @@ Object.keys(scraped).forEach(inf => {
   if (res[inf]) {
     return
   }
-  let vals = Object.values(scraped[inf]["Present Perfect"])
+  const vals = Object.values(scraped[inf]["Present Perfect"])
   if (vals.length < 5 || vals.some(str => str === '' || str.length === 1 || str === 'le')) {
     return
   }

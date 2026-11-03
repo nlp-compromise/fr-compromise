@@ -4,8 +4,8 @@ const isTitleCase = function (str) {
 
 // add a noun to any non-0 index titlecased word, with no existing tag
 const titleCaseNoun = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
   if (i === 0) {
     return null
   }

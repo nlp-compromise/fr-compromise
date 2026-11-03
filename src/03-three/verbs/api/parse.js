@@ -1,7 +1,7 @@
 import getAdverbs from './adverbs.js'
 
 const getAuxiliary = function (vb, root) {
-  let parts = vb.splitBefore(root)
+  const parts = vb.splitBefore(root)
   if (parts.length <= 1) {
     return vb.none()
   }
@@ -25,15 +25,15 @@ const getNegative = function (vb) {
 
 const getRoot = function (view) {
   view.compute('root')
-  let str = view.text('root')
+  const str = view.text('root')
   return str
 }
 
 const parseVerb = function (view) {
-  let vb = view.clone()
+  const vb = view.clone()
   // vb.contractions().expand()
   const root = getRoot(vb)
-  let res = {
+  const res = {
     root: root,
     prefix: vb.match('#Prefix'),
     adverbs: getAdverbs(vb, root),

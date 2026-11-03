@@ -6,7 +6,7 @@ import { learn, compress, test } from 'suffix-thumb'
 
 const pairs = {}
 data.forEach(a => {
-  let [m, f, mp, fp] = a
+  const [m, f, mp, fp] = a
   pairs[m] = [f, mp, fp]
 })
 

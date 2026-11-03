@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[conjugate] '
+const here = '[conjugate] '
 nlp.verbose(false)
 
 test('adj-conjugate:', function (t) {
-  let all = ["sanglant", "sanglante", "sanglants", "sanglantes"]
+  const all = ["sanglant", "sanglante", "sanglants", "sanglantes"]
   t.deepEqual(Object.values(nlp(all[0]).adjectives().conjugate()[0]), all, here + 'from-male')
   t.deepEqual(Object.values(nlp(all[1]).adjectives().conjugate()[0]), all, here + 'from-female')
   t.deepEqual(Object.values(nlp(all[2]).adjectives().conjugate()[0]), all, here + 'from-plural')
@@ -32,7 +32,7 @@ test('noun-conjugate:', function (t) {
 })
 
 test('verb-conjugate:', function (t) {
-  let all = ["endors", "endors", "endort", "endormons", "endormez", "endorment"]
+  const all = ["endors", "endors", "endort", "endormons", "endormez", "endorment"]
   t.deepEqual(Object.values(nlp(all[0]).verbs().conjugate()[0].PresentTense), all, here + 'from-first')
   t.deepEqual(Object.values(nlp(all[1]).verbs().conjugate()[0].PresentTense), all, here + 'from-2nd')
   t.deepEqual(Object.values(nlp(all[2]).verbs().conjugate()[0].PresentTense), all, here + 'from-3d')

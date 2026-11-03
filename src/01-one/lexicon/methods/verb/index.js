@@ -34,13 +34,13 @@ const allPersons = ['je', 'tu', 'il', 'nous', 'vous', 'ils']
 // round-trip each candidate and keep the one that converts back
 const doOneVerb = function (str, form, revModel, fwdModel) {
   let keys = allPersons
-  let want = personMap[form]
+  const want = personMap[form]
   if (want) {
     keys = [want].concat(allPersons.filter(k => k !== want))
   }
   for (let i = 0; i < keys.length; i += 1) {
-    let k = keys[i]
-    let inf = convert(str, revModel[k])
+    const k = keys[i]
+    const inf = convert(str, revModel[k])
     // an unmatched convert() returns its input, which would round-trip trivially
     if (inf && inf !== str && convert(inf, fwdModel[k]) === str) {
       return inf
@@ -63,7 +63,7 @@ const toPastParticiple = (str) => ppIrregular[str] || convert(str, model.pastPar
 // conditional = future stem + imperfect endings
 // future forms always end in ai/as/a/ons/ez/ont, so we can derive it
 const toConditional = function (str) {
-  let f = toFutureTense(str)
+  const f = toFutureTense(str)
   return {
     first: f.first ? f.first.replace(/ai$/, 'ais') : '',
     second: f.second ? f.second.replace(/as$/, 'ais') : '',
@@ -116,7 +116,7 @@ const fromPassive = function (str) {
     return str.replace(/ée?s?$/, 'er')
   }
   // agreement endings on non-er participles: 'venues' -> 'venu', 'prises' -> 'pris'
-  let base = str.replace(/([uist])e?s?$/, '$1')
+  const base = str.replace(/([uist])e?s?$/, '$1')
   return fromPastParticiple(base)
 }
 

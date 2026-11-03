@@ -1,4 +1,4 @@
-import { Document, Pointer, Groups, JsonProps, outMethods, matchOptions, Term, Net } from '../misc'
+import { Document, Pointer, Groups, JsonProps, outMethods, matchOptions, Term, Net } from '../misc.js'
 
 class View {
   // Utils

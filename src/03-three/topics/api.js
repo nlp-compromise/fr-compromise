@@ -1,5 +1,5 @@
 const findPeople = function () {
-  let m = this.match('#Honorific+? #Person+')
+  const m = this.match('#Honorific+? #Person+')
   return m
 }
 

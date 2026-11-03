@@ -70,8 +70,8 @@ const arr = [
 
 test('date-variety', function (t) {
   arr.forEach((a) => {
-    let left = nlp(a[0]).dates(context).json()[0] || {}
-    let right = nlp(a[1]).dates(context).json()[0] || {}
+    const left = nlp(a[0]).dates(context).json()[0] || {}
+    const right = nlp(a[1]).dates(context).json()[0] || {}
     left.date = left.date || {}
     right.date = right.date || {}
     t.equal(left.date.start, right.date.start, a[0])

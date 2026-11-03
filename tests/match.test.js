@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[fr-match] '
+const here = '[fr-match] '
 nlp.verbose(false)
 
 test('match:', function (t) {
-  let arr = [
+  const arr = [
     ['la foobar', '#Determiner #FemaleNoun'],
     ['le foobar', '#Determiner #MaleNoun'],
     ['dans le gaboo', 'dans #Determiner #MaleNoun'],
@@ -325,11 +325,11 @@ test('match:', function (t) {
     ['ho chi minh', '#City+'],
   ]
   arr.forEach(function (a) {
-    let [str, match] = a
-    let doc = nlp(str)//.compute('tagRank')
-    let tags = doc.json()[0].terms.map(term => term.tags[0])
-    let m = doc.match(match)
-    let msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
+    const [str, match] = a
+    const doc = nlp(str)//.compute('tagRank')
+    const tags = doc.json()[0].terms.map(term => term.tags[0])
+    const m = doc.match(match)
+    const msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
     t.equal(m.text(), doc.text(), here + msg)
   })
   t.end()

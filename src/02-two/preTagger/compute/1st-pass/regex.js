@@ -11,10 +11,10 @@ const doRegs = function (str, regs) {
 }
 
 const checkRegex = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let { regexText, regexNormal, regexNumbers } = world.model.two
-  let normal = term.machine || term.normal
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const { regexText, regexNormal, regexNumbers } = world.model.two
+  const normal = term.machine || term.normal
   let text = term.text
   // keep dangling apostrophe?
   if (hasApostrophe.test(term.post) && !hasApostrophe.test(term.pre)) {

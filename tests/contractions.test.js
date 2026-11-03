@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[contractions] '
+const here = '[contractions] '
 nlp.verbose(false)
 
 test('contraction implicit-text:', function (t) {
-  let arr = [
+  const arr = [
     [`j'ai un chien`, 'je ai un chien'],
     [`c'est la vie`, 'ce est la vie'],
     [`qu'il pleuve`, 'que il pleuve'],
@@ -14,8 +14,8 @@ test('contraction implicit-text:', function (t) {
     [`il parle aux enfants`, 'il parle à les enfants'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     t.equal(doc.text('implicit'), want, here + str)
   })
   t.end()
@@ -29,7 +29,7 @@ test('contraction unicode-apostrophe:', function (t) {
 })
 
 test('contraction match-through:', function (t) {
-  let arr = [
+  const arr = [
     [`j'ai un chien`, 'je ai'],
     [`j'ai un chien`, 'je'],
     [`c'est la vie`, 'ce est'],
@@ -41,14 +41,14 @@ test('contraction match-through:', function (t) {
     [`l'école était fermée`, 'la école'],
   ]
   arr.forEach(function (a) {
-    let [str, match] = a
+    const [str, match] = a
     t.equal(nlp(str).has(match), true, here + `'${str}' has '${match}'`)
   })
   t.end()
 })
 
 test('contraction expand:', function (t) {
-  let arr = [
+  const arr = [
     [`j'ai un chien`, 'je ai un chien'],
     [`n'est pas mal`, 'ne est pas mal'],
     [`d'une femme`, 'de une femme'],
@@ -57,8 +57,8 @@ test('contraction expand:', function (t) {
     [`L'homme est grand`, 'Le homme est grand'],
   ]
   arr.forEach(function (a) {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.contractions().expand()
     t.equal(doc.text(), want, here + str)
   })

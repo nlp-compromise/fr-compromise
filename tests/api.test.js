@@ -3,7 +3,7 @@ import nlp from './_lib.js'
 const here = '[api] '
 
 test('api:', function (t) {
-  let arr = [
+  const arr = [
     `He's really good. we were walking. Tony Hawk's swimming pool will dry-up.`,
     '',
     '...........?',

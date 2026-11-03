@@ -1,4 +1,4 @@
-let lines = require('./parse')
+const lines = require('./parse')
 // lines = lines.slice(0, 300)
 const end = 5
 
@@ -29,18 +29,18 @@ const end = 5
 // VPR: 61,
 // VS: 10,
 
-let tags = {}
+const tags = {}
 lines.forEach((s) => {
   s.forEach((w) => {
-    let len = w.word.length
+    const len = w.word.length
     if (len <= end) {
       return
     }
-    let suffix = w.word.toLowerCase().substr(len - end, len)
+    const suffix = w.word.toLowerCase().substr(len - end, len)
     // suffix = suffix.replace(/[éèêë]/, 'e')
     // suffix = suffix.replace(/[ï]/, 'i')
     // suffix = suffix.replace(/[û]/, 'u')
-    if (suffix.match(/[0-9]/)) {
+    if (/[0-9]/.test(suffix)) {
       return
     }
     tags[suffix] = tags[suffix] || {}
@@ -49,7 +49,7 @@ lines.forEach((s) => {
   })
 })
 
-let found = {}
+const found = {}
 const wantTag = 'N'
 Object.keys(tags).forEach((k) => {
   let foundTags = Object.keys(tags[k])
@@ -64,7 +64,7 @@ Object.keys(tags).forEach((k) => {
     //   console.log(foundTags)
   }
   if (foundTags.length === 1) {
-    let count = tags[k][foundTags[0]]
+    const count = tags[k][foundTags[0]]
     if (count > 1 && foundTags[0] === wantTag) {
       if (tags[k][wantTag] > 90) {
         // console.log(tags[k])

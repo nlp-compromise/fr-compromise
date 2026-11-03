@@ -12,15 +12,15 @@ const tagMap = {
   thirdPlural: 'ThirdPersonPlural',
 }
 
-let words = {}
+const words = {}
 Object.keys(lexData).forEach(tag => {
-  let wordsObj = unpack(lexData[tag])
+  const wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach(w => {
     words[w] = tag
 
     // expand
     if (tag === 'MaleAdjective') {
-      let res = transform.adjective.conjugate(w)
+      const res = transform.adjective.conjugate(w)
       words[res.female] = words[res.female] || 'FemaleAdjective'
       words[res.plural] = words[res.plural] || 'MaleAdjective'
       words[res.femalePlural] = words[res.femalePlural] || 'FemaleAdjective'
@@ -30,16 +30,16 @@ Object.keys(lexData).forEach(tag => {
     }
     if (tag === 'Noun' || tag === 'MaleNoun' || tag === 'FemaleNoun') {
       words[w] = [tag, 'Singular']
-      let plur = transform.noun.toPlural(w)
+      const plur = transform.noun.toPlural(w)
       words[plur] = words[plur] || ['Noun', 'Plural']
     }
     if (tag === 'Ordinal') {
       words[w] = ['TextValue', 'Ordinal']
-      let norm = w.replace(/è/, 'e')
+      const norm = w.replace(/è/, 'e')
       words[norm] = words[norm] || ['TextValue', 'Ordinal']
     }
     if (tag === 'MaleNoun') {
-      let p = transform.noun.toPlural(w)
+      const p = transform.noun.toPlural(w)
       words[p] = words[p] || 'PluralNoun'
     }
     if (tag === 'Infinitive') {
@@ -72,13 +72,13 @@ Object.keys(lexData).forEach(tag => {
         }
       })
       // past-participle
-      let out = transform.verb.toPastParticiple(w)
+      const out = transform.verb.toPastParticiple(w)
       words[out] = words[out] || 'PastParticiple'
     }
   })
 })
 
-let lexicon = Object.assign({}, words, misc)
+const lexicon = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
 // console.log(lexicon['ralentir'])
 export default lexicon

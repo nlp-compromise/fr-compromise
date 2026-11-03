@@ -1,8 +1,8 @@
-let verbs = require('./data')
+const verbs = require('./data')
 
-let pairs = []
+const pairs = []
 Object.keys(verbs).forEach((inf) => {
-  let want = verbs[inf]['Présent'][0]
+  const want = verbs[inf]['Présent'][0]
   if (want) {
     pairs.push([inf, want])
   }
@@ -31,7 +31,7 @@ const regs = [
 const toJe = function (str) {
   // try each replacement
   for (let i = 0; i < regs.length; i += 1) {
-    let reg = regs[i][0]
+    const reg = regs[i][0]
     if (str.match(reg)) {
       str = str.replace(reg, regs[i][1])
       // for some reason, this seems to happen
@@ -46,7 +46,7 @@ const toJe = function (str) {
 
 let count = 0
 pairs.forEach((a) => {
-  let je = toJe(a[0])
+  const je = toJe(a[0])
   if (je === a[1]) {
     count += 1
   } else {

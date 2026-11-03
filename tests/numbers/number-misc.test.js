@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number-misc] '
+const here = '[number-misc] '
 
 
 test('num equals', function (t) {
-  let arr = [
+  const arr = [
     ['un cent', 'cent'],
     ['trois cents', 'trois cent'],
     ['un million', 'million'],

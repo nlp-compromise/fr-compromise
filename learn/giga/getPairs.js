@@ -1,10 +1,10 @@
 import { forEachSync } from './_giga.js'
 import doSentences from './french.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
-let ids = []
+const ids = []
 for (let i = 1; i <= 10; i += 1) {
-  let str = String(i).padStart(4, '0')
+  const str = String(i).padStart(4, '0')
   ids.push(str)
 }
 // ids = ['0004']
@@ -26,13 +26,13 @@ for (let i = 1; i <= 10; i += 1) {
 // VER:subp	verb subjunctive present
 
 // "NOM": true,
-let pairs = {}
+const pairs = {}
 const tag = 'NOM'
 // const prev = 'les'
 
 let results = {}
 const doBoth = function (both) {
-  let terms = both.fr
+  const terms = both.fr
   terms.forEach((term, i) => {
     if (i === 0) {
       return

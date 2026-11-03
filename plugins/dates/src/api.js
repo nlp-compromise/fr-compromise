@@ -17,10 +17,10 @@ const api = function (View) {
       return getNth(this, n).map(m => toJson(parse(m.this.opts)))
     }
     json(opts, n) {
-      let m = getNth(this, n)
-      let arr = m.map(vb => {
-        let out = vb.toView().json(opts)[0] || {}
-        let res = parse(vb, this.opts)
+      const m = getNth(this, n)
+      const arr = m.map(vb => {
+        const out = vb.toView().json(opts)[0] || {}
+        const res = parse(vb, this.opts)
         out.dates = toJson(res)
         return out
       }, [])
@@ -30,7 +30,7 @@ const api = function (View) {
 
   View.prototype.dates = function (opts = {}) {
     opts.today = spacetime(opts.today, opts.timezone)
-    let m = find(this, opts)
+    const m = find(this, opts)
     return new Dates(this.document, m.pointer, null, opts)
   }
 }

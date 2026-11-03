@@ -1,9 +1,9 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../model.js'
 
-let fRev = reverse(model.adjective.female)
-let pRev = reverse(model.adjective.plural)
-let fpRev = reverse(model.adjective.femalePlural)
+const fRev = reverse(model.adjective.female)
+const pRev = reverse(model.adjective.plural)
+const fpRev = reverse(model.adjective.femalePlural)
 
 // gaps in the suffix-thumb model
 const femIrregular = {
@@ -38,7 +38,7 @@ const conjugate = function (str) {
 }
 
 const all = (str) => {
-  let arr = Object.values(conjugate(str))
+  const arr = Object.values(conjugate(str))
   return arr.filter(s => s)
 }
 

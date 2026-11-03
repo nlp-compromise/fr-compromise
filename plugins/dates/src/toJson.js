@@ -1,7 +1,7 @@
 
 const toJson = function (arr) {
   return arr.map(o => {
-    let res = {
+    const res = {
       start: o.start.start().iso()
     }
     // either explicit or implicit end date

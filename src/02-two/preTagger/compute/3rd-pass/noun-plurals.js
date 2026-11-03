@@ -22,17 +22,17 @@ const pluralEnd = /[sxz]$/
 
 // guess a plural/singular tag each noun
 const nounPlurals = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
-  let str = term.implicit || term.normal || term.text || ''
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
+  const str = term.implicit || term.normal || term.text || ''
   if (tags.has('Noun')) {
     if (tags.has('Pronoun') || tags.has('ProperNoun') || tags.has('Uncountable') || tags.has('Date') || tags.has('Possessive')) {
       return null
     }
     // 'les chevaux', 'le prix' - trust the determiner over any suffix-guess
     if (terms[i - 1]) {
-      let lastStr = terms[i - 1].implicit || terms[i - 1].normal
+      const lastStr = terms[i - 1].implicit || terms[i - 1].normal
       if (pluralDets.has(lastStr)) {
         return setTag([term], 'PluralNoun', world, false, '3-plural-det')
       }

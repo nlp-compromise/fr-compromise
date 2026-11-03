@@ -9,11 +9,11 @@ const doit = async function (word) {
   return rp(url)
     .then(function (html) {
       //success!
-      let all = []
-      let r = $('.flextable-fr-mfsp :first a ', html)
+      const all = []
+      const r = $('.flextable-fr-mfsp :first a ', html)
       r.each(function (i, o) {
-        let str = $(this).text()
-        if (!str.match(/^\\/)) {
+        const str = $(this).text()
+        if (!/^\\/.test(str)) {
           all.push(str)
         }
       })
@@ -26,12 +26,12 @@ const doit = async function (word) {
 }
 
   ; (async () => {
-    let all = {}
+    const all = {}
 
-    let keys = Object.keys(list)
+    const keys = Object.keys(list)
     for (let i = 0; i < keys.length; i += 1) {
 
-      let w = keys[i]
+      const w = keys[i]
       all[w] = await doit(w)
     }
     console.log(JSON.stringify(all, null, 2))

@@ -20,10 +20,10 @@ const formKey = {
 }
 // which person is this verb conjugated in?
 const getForm = function (vb) {
-  let terms = vb.docs[0] || []
-  let term = terms.find(t => t.tags.has('Verb'))
+  const terms = vb.docs[0] || []
+  const term = terms.find(t => t.tags.has('Verb'))
   if (term) {
-    let found = Object.keys(formKey).find(k => term.tags.has(k))
+    const found = Object.keys(formKey).find(k => term.tags.has(k))
     if (found) {
       return formKey[found]
     }
@@ -45,14 +45,14 @@ const elidable = { je: `j'`, ne: `n'`, que: `qu'`, se: `s'`, me: `m'`, te: `t'`,
 const startsVowel = /^[aeiouyhâàéèêëîïôöùûü]/
 // re-apply french elision after a replacement - 'je avais' -> "j'avais"
 const elide = function (view) {
-  let ptr = view.fullPointer[0]
+  const ptr = view.fullPointer[0]
   if (!ptr) {
     return view
   }
-  let [n, start] = ptr
-  let terms = view.document[n] || []
-  let prev = terms[start - 1]
-  let term = terms[start]
+  const [n, start] = ptr
+  const terms = view.document[n] || []
+  const prev = terms[start - 1]
+  const term = terms[start]
   if (!prev || !term || !term.text) {
     return view
   }
@@ -77,9 +77,9 @@ const api = function (View) {
       return getNth(this, n).map(parseVerb)
     }
     json(opts, n) {
-      let m = getNth(this, n)
-      let arr = m.map(vb => {
-        let json = vb.toView().json(opts)[0] || {}
+      const m = getNth(this, n)
+      const arr = m.map(vb => {
+        const json = vb.toView().json(opts)[0] || {}
         json.verb = toJSON(vb)
         return json
       }, [])
@@ -117,9 +117,9 @@ const api = function (View) {
     toPresentTense(n) {
       const methods = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
-        let form = getForm(vb)
-        let str = getMainRoot(vb)
-        let present = methods.toPresentTense(str)[form]
+        const form = getForm(vb)
+        const str = getMainRoot(vb)
+        const present = methods.toPresentTense(str)[form]
         if (!present) {
           return vb
         }
@@ -135,9 +135,9 @@ const api = function (View) {
         if (vb.has('#Auxiliary #Adverb?+ (#PastParticiple|#PastTense)')) {
           return vb
         }
-        let form = getForm(vb)
-        let str = getMainRoot(vb)
-        let past = methods.toImperfect(str)[form]
+        const form = getForm(vb)
+        const str = getMainRoot(vb)
+        const past = methods.toImperfect(str)[form]
         if (!past) {
           return vb
         }
@@ -147,9 +147,9 @@ const api = function (View) {
     toFutureTense(n) {
       const methods = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
-        let form = getForm(vb)
-        let str = getMainRoot(vb)
-        let future = methods.toFutureTense(str)[form]
+        const form = getForm(vb)
+        const str = getMainRoot(vb)
+        const future = methods.toFutureTense(str)[form]
         if (!future) {
           return vb
         }
@@ -166,9 +166,9 @@ const api = function (View) {
     conjugate(n) {
       const { toImperfect, toPresentTense, toFutureTense, toConditional, toPastParticiple } = this.methods.two.transform.verb
       return getNth(this, n).map(vb => {
-        let parsed = parseVerb(vb)
-        let root = parsed.root || ''
-        let imperfect = toImperfect(root)
+        const parsed = parseVerb(vb)
+        const root = parsed.root || ''
+        const imperfect = toImperfect(root)
         return {
           Infinitive: root,
           PastTense: imperfect,
@@ -206,7 +206,7 @@ const api = function (View) {
     // }
     // overloaded - keep Verb class
     update(pointer) {
-      let m = new Verbs(this.document, pointer)
+      const m = new Verbs(this.document, pointer)
       m._cache = this._cache // share this full thing
       return m
     }

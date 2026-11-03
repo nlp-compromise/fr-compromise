@@ -20,7 +20,7 @@ const multiples = {
 const scanAhead = function (terms, i) {
   let skip = 0
   let add = 0
-  let words = []
+  const words = []
   for (let index = 0; index < 3; index += 1) {
     if (!terms[i + index]) {
       break
@@ -30,7 +30,7 @@ const scanAhead = function (terms, i) {
       w = toCardinal[w]
     }
     words.push(w)
-    let str = words.join(' ')
+    const str = words.join(' ')
     if (toNumber.hasOwnProperty(str)) {
       skip = index
       add = toNumber[str]
@@ -43,9 +43,9 @@ const parseNumbers = function (terms = []) {
   let sum = 0
   let carry = 0
   let minus = false
-  let sums = []
+  const sums = []
   for (let i = 0; i < terms.length; i += 1) {
-    let { tags, normal } = terms[i]
+    const { tags, normal } = terms[i]
     let w = normal || ''
     if (w === 'moins') {
       minus = true
@@ -73,7 +73,7 @@ const parseNumbers = function (terms = []) {
     }
     // support 'quatre vingt dix', etc
     if (multiLeft.hasOwnProperty(w)) {
-      let { add, skip } = scanAhead(terms, i)
+      const { add, skip } = scanAhead(terms, i)
       if (skip > 0) {
         carry += add
         i += skip
@@ -83,7 +83,7 @@ const parseNumbers = function (terms = []) {
 
     // 'cent'
     if (tags.has('Multiple')) {
-      let mult = toNumber[w] || 1
+      const mult = toNumber[w] || 1
       if (carry === 0) {
         carry = 1
       }
@@ -95,7 +95,7 @@ const parseNumbers = function (terms = []) {
     if (toNumber.hasOwnProperty(w)) {
       carry += toNumber[w]
     } else {
-      let n = Number(w)
+      const n = Number(w)
       if (n) {
         carry += n
       } else {

@@ -14,7 +14,7 @@ const tenses = [
 ]
 
 
-let whichTense = [
+const whichTense = [
 
   //er - present conditional
   ['erais', 'ConditionalVerb'],
@@ -56,15 +56,15 @@ let whichTense = [
 
 // guess a tense tag each Verb
 const verbTense = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
   if (tags.has('Verb')) {
     // console.log(term)
-    let str = term.implicit || term.normal || term.text || ''
+    const str = term.implicit || term.normal || term.text || ''
     // if we have no tense
     if (!tenses.find(s => tags.has(s))) {
-      let found = whichTense.find(a => str.endsWith(a[0]))
+      const found = whichTense.find(a => str.endsWith(a[0]))
       if (found) {
         setTag([term], found[1], world, false, '3-tense-suffix-' + found[1])
       } else {

@@ -3,15 +3,15 @@ import adj from '../../data/models/adjective/index.js'
 
 let data = adj
 //m: [f, p, fp]
-let out = {}
+const out = {}
 Object.keys(fixes).forEach(k => {
-  let arr = fixes[k]
+  const arr = fixes[k]
   if (arr.length === 1) {
     // only got a plural
     out[k] = [k, arr[0], arr[0]]
   } else if (arr.length === 3) {
     // only fem plurals
-    let [m, f, fp] = arr
+    const [m, f, fp] = arr
     out[k] = [f, m, fp]
   }
 })

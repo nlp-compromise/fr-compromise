@@ -3,7 +3,7 @@ export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 // get root form of adjective
 const getRoot = function (m) {
   m.compute('root')
-  let str = m.text('root')
+  const str = m.text('root')
   return str
 }
 
@@ -16,7 +16,7 @@ const api = function (View) {
     conjugate(n) {
       const methods = this.methods.two.transform.adjective
       return getNth(this, n).map(m => {
-        let adj = getRoot(m)
+        const adj = getRoot(m)
         return methods.conjugate(adj, methods)
       }, [])
     }

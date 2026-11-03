@@ -1,6 +1,6 @@
-let person = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+const person = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
 
-let whichForm = [
+const whichForm = [
   // future
   ['ai', 'FirstPerson'],
   ['âmes', 'FirstPersonPlural'],
@@ -89,31 +89,31 @@ const auxiliaries = {
 
 // guess a tense tag each Verb
 const verbForm = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
   if (tags.has('Verb') && !tags.has('Infinitive')) {
     // console.log(term)
-    let str = term.implicit || term.normal || term.text || ''
+    const str = term.implicit || term.normal || term.text || ''
     // an adjacent subject beats the lexicon's person-tag
     // (shared surface-forms like 'parle' get tagged first-person by default)
-    let existing = person.find(s => tags.has(s))
+    const existing = person.find(s => tags.has(s))
     if (existing) {
       // walk back over 'ne' and object clitics - 'elle ne le mange pas'
       let at = i - 1
       while (terms[at] && (terms[at].tags.has('Negative') || skippable.has(terms[at].implicit || terms[at].normal))) {
         at -= 1
       }
-      let prev = terms[at]
+      const prev = terms[at]
       if (prev && prev.tags.has('Pronoun')) {
-        let s = prev.implicit || prev.normal
+        const s = prev.implicit || prev.normal
         if (pronouns.hasOwnProperty(s) && pronouns[s] !== existing) {
           person.forEach(p => term.tags.delete(p))
           setTag([term], pronouns[s], world, false, '3-person-agreement')
         }
       } else if (existing === 'FirstPerson' && prev && prev.tags.has('Noun') && !prev.tags.has('Pronoun')) {
         // 'Marie habite' - a noun subject means third-person
-        let want = prev.tags.has('PluralNoun') ? 'ThirdPersonPlural' : 'ThirdPerson'
+        const want = prev.tags.has('PluralNoun') ? 'ThirdPersonPlural' : 'ThirdPerson'
         person.forEach(p => term.tags.delete(p))
         setTag([term], want, world, false, '3-person-noun-agreement')
       }
@@ -122,7 +122,7 @@ const verbForm = function (terms, i, world) {
     // if we have no person-tag
     if (!person.find(s => tags.has(s))) {
       // look at the word suffix, for clues
-      let found = whichForm.find(a => str.endsWith(a[0]))
+      const found = whichForm.find(a => str.endsWith(a[0]))
       if (found) {
         return setTag([term], found[1], world, false, '3-person-suffix-' + found[1])
       }
@@ -131,7 +131,7 @@ const verbForm = function (terms, i, world) {
         if (!terms[i - back]) {
           break
         }
-        let s = terms[i - back].normal
+        const s = terms[i - back].normal
         //look backwards for a pronoun
         if (terms[i - back].tags.has('Pronoun')) {
           if (pronouns.hasOwnProperty(s)) {

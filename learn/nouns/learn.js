@@ -12,9 +12,9 @@ const toRoot = function (str) {
 const irregs = {}
 let count = 0
 data.forEach((a) => {
-  let from = a[3]
-  let want = a[0]
-  let w = toRoot(from)
+  const from = a[3]
+  const want = a[0]
+  const w = toRoot(from)
   if (w === want) {
     count += 1
   } else {
