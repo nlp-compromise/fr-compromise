@@ -1,6 +1,7 @@
 ### 0.3.2 [Nov 2026]
 
 - **[update]** - smaller suffix-thumb format
+- **[new]** - support localized tag names
 - **[update]** - dependencies
 
 ### 0.3.1 [Sep 2026]
