@@ -55,6 +55,14 @@ doc.match('#Noun').out('array')
 // [ 'je', 'avenue', 'cœur', 'inconnu' ]
 ```
 
+### Documentation
+
+- [Introduction](./docs/index.md)
+- [Jeu d'étiquettes](./docs/tagset.md)
+- [Syntaxe des motifs](./docs/match.md)
+- [API](./docs/api.md)
+- [Contribuer](./docs/contributing.md)
+
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
