@@ -6,6 +6,25 @@ const toTitleCase = function (str = '') {
   return str
 }
 
+// a run of implicit terms may hold several contractions, back-to-back.
+// only the first term of a contraction keeps its written text - the rest are ''
+const splitRuns = function (m) {
+  const out = []
+  const docs = m.docs
+  m.fullPointer.forEach((ptr, i) => {
+    const [n, start] = ptr
+    let from = 0
+    docs[i].forEach((term, o) => {
+      if (o > 0 && term.text !== '') {
+        out.push([n, start + from, start + o])
+        from = o
+      }
+    })
+    out.push([n, start + from, start + docs[i].length])
+  })
+  return out
+}
+
 const api = function (View) {
   /** */
   class Contractions extends View {
@@ -37,8 +56,14 @@ const api = function (View) {
     }
   }
   // add fn to View
-  View.prototype.contractions = function () {
-    const m = this.match('@hasContraction+')
+  View.prototype.contractions = function (n) {
+    let m = this.match('@hasContraction+')
+    // adjacent contractions - "j'aime l'été" - are each their own match
+    m = m.update(splitRuns(m))
+    // return the nth contraction
+    if (typeof n === 'number') {
+      m = m.eq(n)
+    }
     return new Contractions(this.document, m.pointer)
   }
   // View.prototype.contract = contract

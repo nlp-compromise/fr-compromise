@@ -193,6 +193,8 @@ Elles sont écrites pour chaque langue : celles qui sont disponibles ici ne sont
 - **`.numbers()`** — renvoie les nombres, écrits en chiffres ou en lettres
 - **`.values()`** — alias de .numbers()
 - **`.numbers().get()`** — renvoie la valeur numérique de chaque nombre
+- **`.numbers().parse()`** — renvoie le détail de chaque nombre (valeur, préfixe, suffixe)
+- **`.numbers().json(n?)`** — renvoie les métadonnées de chaque nombre, ou seulement du n-ième ; accepte aussi les options de `.json()`
 - **`.numbers().units()`** — renvoie l'unité qui suit chaque nombre
 - **`.numbers().toNumber()`** — écrit les nombres en chiffres (`40`)
 - **`.numbers().toText()`** — écrit les nombres en lettres (`quarante`)
@@ -204,15 +206,15 @@ Elles sont écrites pour chaque langue : celles qui sont disponibles ici ne sont
 - **`.numbers().greaterThan(n)`** — ne renvoie que les nombres supérieurs à n
 - **`.numbers().lessThan(n)`** — ne renvoie que les nombres inférieurs à n
 - **`.numbers().between(min, max)`** — ne renvoie que les nombres compris entre min et max
-- **`.numbers().set(n)`** — remplace chaque nombre par n
-- **`.numbers().add(n)`** — ajoute n à chaque nombre
-- **`.numbers().subtract(n)`** — soustrait n de chaque nombre
+- **`.numbers().set(n)`** — remplace chaque nombre par n (un nombre, ou une chaîne comme `'dix'` ou `'10'`)
+- **`.numbers().add(n)`** — ajoute n à chaque nombre (nombre ou chaîne, comme `'deux'`)
+- **`.numbers().subtract(n)`** — soustrait n de chaque nombre (nombre ou chaîne)
 - **`.numbers().increment()`** — ajoute 1 à chaque nombre
 - **`.numbers().decrement()`** — soustrait 1 de chaque nombre
 
 ### `.contractions()`
 
-- **`.contractions()`** — renvoie les formes contractées ou élidées, comme « j'aime » ou « l'été »
+- **`.contractions(n?)`** — renvoie les formes contractées ou élidées, comme « j'aime » ou « l'été » (ou seulement la n-ième) ; chaque forme est un résultat distinct, même quand elles se suivent
 - **`.contractions().expand()`** — les développe (« j'aime » devient « je aime »)
 
 ### Noms propres
@@ -226,7 +228,6 @@ Elles sont écrites pour chaque langue : celles qui sont disponibles ici ne sont
 _(appelées sur l'objet `nlp` importé, et non sur une vue)_
 
 - **`nlp.tokenize(text, lexicon?)`** — analyse le texte sans lancer l'étiqueteur
-<!-- - **`nlp.lazy(text, match?)`** — parcourt le texte avec une analyse minimale -->
 - **`nlp.plugin(plugin)`** — ajoute un plugin compromise
 - **`nlp.extend(plugin)`** — alias de nlp.plugin()
 - **`nlp.addWords(words, isFrozen?)`** — ajoute de nouveaux mots au lexique interne

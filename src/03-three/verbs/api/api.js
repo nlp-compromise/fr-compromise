@@ -74,7 +74,7 @@ const api = function (View) {
       this.viewType = 'Verbs'
     }
     parse(n) {
-      return getNth(this, n).map(parseVerb)
+      return getNth(this, n).map(parseVerb, [])
     }
     json(opts, n) {
       const m = getNth(this, n)

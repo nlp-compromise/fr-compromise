@@ -1,3 +1,18 @@
+### Unreleased
+
+- **[breaking]** - `nlp.TypedPlugin` type is removed
+- **[change]** - typescript types rewritten from the real api - core `View` types now come from `compromise`, and the document type is `FrView`
+- **[new]** - types for `nlp.fromSpec()`, `nlp.testSpec()` and `nlp.compile()`
+- **[change]** - remove `nlp.lazy()` from types and docs - it lives in a plugin now
+- **[fix]** - `.numbers().set()`, `.add()` and `.subtract()` accept a written number - `.add('deux')` - and ignore a string that isn't one
+- **[fix]** - `.numbers().json(n)` returns the nth number, instead of throwing
+- **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers
+- **[fix]** - `.verbs().parse()` returns `[]` when there are no verbs
+- **[fix]** - `.contractions()` returns each contraction as its own match - "j'aime l'été" is two - and `.contractions(n)` returns the nth
+- **[change]** - minimum node version is 18
+- **[update]** - tests moved to `tests/unit`, `tests/types`, `tests/_hmm` and `tests/_backlog`
+- **[update]** - suffix-thumb 6.1.0
+
 ### 0.3.2 [Nov 2026]
 
 - **[update]** - smaller suffix-thumb format

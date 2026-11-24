@@ -1,10 +1,10 @@
 import js from '@eslint/js'
-import globals from 'globals'
 import regexp from 'eslint-plugin-regexp'
+import globals from 'globals'
 
 export default [
   {
-    ignores: ['builds/*', 'learn/**', 'scripts/**', 'plugins/dates/**'],
+    ignores: ['builds/**', 'scripts/**', 'data/**', 'scratch.js', 'plugins/**'],
   },
   js.configs.recommended,
   regexp.configs['flat/recommended'],
@@ -38,6 +38,7 @@ export default [
       'no-shadow': 2,
       'no-unmodified-loop-condition': 1,
       'no-use-before-define': 1,
+      'no-useless-assignment': 0,
       'prefer-const': 0,
       radix: 1,
       'no-unused-vars': 1,

@@ -1,8 +1,11 @@
 node_modules/
-build/
+coverage/
+.nyc_output/
+.pnpm-store/
+.claude/
 .DS_Store
-coverage
-wolf-1.0b4.xml
-wikinews.txt
-/learn/giga/results/*.js
-learn/scrape/*
+.env
+.eslintcache
+*.log
+*.tgz
+*.tsbuildinfo

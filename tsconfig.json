@@ -9,5 +9,5 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["types/**/*", "tests/typescript/**/*.ts"]
+  "include": ["types/**/*", "tests/types/*.ts"]
 }
