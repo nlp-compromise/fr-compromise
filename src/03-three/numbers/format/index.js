@@ -1,5 +1,10 @@
+import { europeanNumbers } from 'compromise/shared'
 import toText from './toText.js'
 import { toOrdinal } from '../parse/_data.js'
+
+const { write } = europeanNumbers.methods.two.europeanNumbers
+// french groups thousands with a space
+const locale = { decimal: ',', group: ' ' }
 
 const makeSuffix = function (obj) {
   return {
@@ -64,11 +69,11 @@ const formatNumber = function (parsed, fmt) {
     return `${prefix}${num}${suffix}`
   }
   if (fmt === 'Cardinal') {
-    let num = String(parsed.num)
-    // '2,5'
-    if (parsed.hasDecimalComma) {
-      num = num.replace('.', ',')
-    }
+    // digits go back the way they were found - '1 234,5'
+    // .. but an english-style comma is dropped - '7,938' + 1 is '7939'
+    const hasComma = parsed.hasComma && parsed.group !== ','
+    const how = { hasComma, decimal: parsed.decimal, group: parsed.group }
+    const num = write(parsed.num, how, locale)
     return `${prefix}${num}${suffix}`
   }
   const num = String(parsed.num || '')

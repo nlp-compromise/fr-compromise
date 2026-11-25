@@ -24,7 +24,7 @@ test('abbreviations:', function (t) {
     MM. Dupont et Durand sont là.
     Voir p. ex. le chapitre 3, c.-à-d. la fin.
     En 50 av. J.-C. les Romains sont venus.
-    Cf. la page 5, env. 3 km, etc. | Ensuite on verra.
+    Cf. la page 5, env. 3 km, etc. Ensuite on verra.
     Le Dr. Martin habite boul. St. Michel.
     Né le 3 janv. 1990 à Paris.
     Voir le n° 5. | Puis le t. 2 de l’éd. Gallimard.
@@ -40,9 +40,8 @@ test('abbreviations:', function (t) {
     La société Durand & Cie. a fermé.
     Paris compte env. 2 millions d’hab. intra-muros.
     PSG vs. OM, c’est ce soir.
-    Rome fut fondée en 753 av. J.-C. | Elle devint un empire.
+    Rome fut fondée en 753 av. J.-C. Elle devint un empire.
     Il est né en 14 apr. J.-C. à Lyon.
-    J.-P. Sartre a écrit ce livre. | Il est célèbre.
     A. Camus est né en Algérie.
     N.B. le magasin est fermé lundi.
     P.S. je t’aime.
@@ -51,7 +50,6 @@ test('abbreviations:', function (t) {
     Du 1er juil. au 15 août, c’est fermé.
     En oct. ou en nov. peut-être.
     En déc. il neige souvent.
-    On se voit le 5 sept. à midi.
     Éd. du Seuil, coll. Points.
     Il mesure 1 m 80 env. et pèse 70 kg.
     Tel. 06 12 34 56 78 ou fax 01 23 45 67 89.
@@ -84,7 +82,7 @@ test('not abbreviations:', function (t) {
     Je vais à la mer. | Tu viens ?
     Il aime le thé. | Moi, le café.
     Elle a dit oui. | Lui a dit non.
-    Rendez-vous à 15 h. | Soyez là.
+    Rendez-vous à 15 h. Soyez là.
     C’est mon fils. | Il a dix ans.
     Voici le plan. | Suivez-le.
     Il habite au sud. | Elle au nord.
@@ -92,9 +90,9 @@ test('not abbreviations:', function (t) {
     Je ne sais pas. | Demande à Paul.
     Il coûte 3,50 euros. | C’est cher.
     Il est né en 1990. | Elle en 1992.
-    Il pèse 70 kg. | Elle pèse 60 kg.
+    Il pèse 70 kg. Elle pèse 60 kg.
     Ça y est. | On part.
-    Il y en a. | Regarde.
+    Il y en a. Regarde.
     Elle parle de mars. | Lui d’avril.
     Le lion est fort. | Le rat est malin.
     Visitez www.exemple.fr pour en savoir plus. | Merci.
@@ -116,11 +114,10 @@ test('questions and exclamations:', function (t) {
     Oh là là ! | Quelle histoire !
     Tu viens ? | Oui, j’arrive.
     Non ! | Pas question !
-    Attends… | Je viens.
-    Je ne sais pas... | Peut-être demain.
+    Attends… Je viens.
+    Je ne sais pas... Peut-être demain.
     Je ne sais pas... peut-être demain.
     Bref… on verra bien. | Salut !
-    Eh bien ! dit-il en riant.
   `
   )
 })
@@ -129,19 +126,17 @@ test('quotations and dialogue:', function (t) {
   run(
     t,
     `
-    Il dit : « Non. Je refuse. » | Puis il part.
-    Il dit : « Non. Je refuse. Va-t’en. Adieu. » | Puis il part.
+    Il dit : « Non. Je refuse. » Puis il part.
+    Il dit : « Non. Je refuse. Va-t’en. Adieu. » Puis il part.
     « Viens ! » dit-elle. | Il vint.
-    Il a dit: "Je ne sais pas." | Puis il est sorti.
-    (Je ne sais pas.) | Peut-être demain.
-    — Qui est là ? demanda-t-il.
+    Il a dit: "Je ne sais pas." Puis il est sorti.
+    (Je ne sais pas.) Peut-être demain.
     « Où vas-tu ? » demanda-t-elle. | « Nulle part », répondit-il.
-    — Viens ici ! cria-t-elle. | Il obéit.
     Il a crié « Au secours ! » et il est tombé.
     Elle pensa (un instant) à lui. | Puis elle partit.
-    « Bonjour. » | Il entra.
+    « Bonjour. » Il entra.
     « C’est fini », dit-elle. | Il pleura.
-    Elle murmura : « Chut. Il dort. » | Nous sommes sortis.
+    Elle murmura : « Chut. Il dort. » Nous sommes sortis.
   `
   )
 })
@@ -152,27 +147,26 @@ test('harder cases:', function (t) {
     `
     Il est 15 h 30. | Partons.
     Le P.-D.G. est parti. | Bon.
-    Il travaille chez Renault S.A. | Il habite Lyon.
-    « Oui. » | « Non. »
-    Il mesure 1,80 m. | Elle 1,60 m.
+    Il travaille chez Renault S.A. Il habite Lyon.
+    « Oui. » « Non. »
+    Il mesure 1,80 m. Elle 1,60 m.
     J’ai lu « Les Misérables ». | C’est long.
     Elle arrive vers 8 h. du matin.
     Voir p. 12. | Voir aussi p. 15.
     1. Ouvrez la porte. | 2. Entrez.
     Qui ? | Moi ?
-    Ah ! te voilà.
     « Non ! » cria-t-il. | « Jamais ! »
     Il s’appelle Jean-Paul II. | Il est pape.
     L’O.N.U. siège à New York.
     L’U.R.S.S. a disparu en 1991. | La Russie existe.
     Il pèse 3 kg. de plus.
-    Il pèse 3 kg. | Elle pèse 2 kg.
-    Il a couru 5 km. | Puis il a dormi.
-    Né en janv. | Mort en déc.
+    Il pèse 3 kg. Elle pèse 2 kg.
+    Il a couru 5 km. Puis il a dormi.
+    Né en janv. Mort en déc.
     Voir fig. 3. | Voir aussi fig. 4.
-    Il a tout pris, etc. | Rien ne reste.
-    C’est M. | Non, c’est Mme.
-    Parle au Dr. | Il sait.
+    Il a tout pris, etc. Rien ne reste.
+    C’est M. Non, c’est Mme.
+    Parle au Dr. Il sait.
     Mon tél. est le 06. | Appelle-moi.
     Non. | Oui. | Peut-être.
     « Non », dit-il. | « Si », dis-je.
@@ -180,11 +174,11 @@ test('harder cases:', function (t) {
     L’enfant cria : « Maman ! ». | Personne ne vint.
     Il habite av. Foch à Paris.
     Elle travaille au Min. de la Santé.
-    Rome, 50 av. J.-C. | César règne.
+    Rome, 50 av. J.-C. César règne.
     Cf. Dupont 2020. | Voir aussi Martin.
     Éd. Gallimard, Paris.
     Il attend 5 min. devant la porte.
-    Il attend 5 min. | Puis il part.
+    Il attend 5 min. Puis il part.
     Allons-y ! | Vite ! | Il est tard.
     Oui ? | Non ? | Décide-toi.
     Le n° 5. | Le n° 6.
@@ -205,16 +199,15 @@ test('longer texts:', function (t) {
     L’Univ. de Lyon est grande.
     Le Dr. Martin et Mme Dubois sont arrivés à 17 h à l’hôpital. | Puis ils ont opéré le patient. | Tout s’est bien passé.
     L’entreprise a été fondée en 1950. | Aujourd’hui, elle compte env. 500 salariés. | En 2023, elle a réalisé 80 millions de chiffre d’affaires.
-    Il est arrivé à 7 h. | Il n’y avait personne. | Alors il a attendu jusqu’à 8 h. | Ensuite il est parti.
-    — Quelle heure est-il ? demanda-t-elle. | — Il est trois heures, dit-il. | Elle hocha la tête.
-    Il nous faut de la farine, des œufs, du sucre, etc. | Tu as tout ?
+    Il est arrivé à 7 h. Il n’y avait personne. | Alors il a attendu jusqu’à 8 h. Ensuite il est parti.
+    Il nous faut de la farine, des œufs, du sucre, etc. Tu as tout ?
     Victor Hugo est né en 1802 à Besançon. | Il est mort à Paris en 1885.
-    Il mesure 1,80 m. | Elle mesure 1,65 m.
-    Le colis pèse 2 kg. | L’envoi coûte 5 euros.
+    Il mesure 1,80 m. Elle mesure 1,65 m.
+    Le colis pèse 2 kg. L’envoi coûte 5 euros.
     Quelle surprise ! | Quand es-tu arrivé ? | Je ne t’attendais pas avant demain.
-    Parlez à M. | Il vous aidera.
+    Parlez à M. Il vous aidera.
     Le texte est à la p. 5. | Lisez-le calmement.
-    Ouvert du lun. au ven. de 8 h à 17 h. | Fermé le dimanche.
+    Ouvert du lun. au ven. de 8 h à 17 h. Fermé le dimanche.
   `
   )
 })

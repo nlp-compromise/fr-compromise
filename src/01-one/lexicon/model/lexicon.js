@@ -2,6 +2,7 @@ import lexData from './_data.js'
 import { unpack } from 'efrt'
 import transform from '../methods/index.js'
 import misc from './misc.js'
+import { properNouns } from 'compromise/shared'
 
 const tagMap = {
   first: 'FirstPerson',
@@ -81,4 +82,11 @@ Object.keys(lexData).forEach(tag => {
 const lexicon = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
 // console.log(lexicon['ralentir'])
+// names of people and places, shared by every language - our own words win
+Object.keys(properNouns).forEach(tag => {
+  Object.keys(unpack(properNouns[tag])).forEach(w => {
+    lexicon[w] = lexicon[w] || tag
+  })
+})
+
 export default lexicon
