@@ -64,3 +64,29 @@ test('decimal-comma output', function (t) {
   })
   t.end()
 })
+
+// the number takes its tag from the word beside it
+test('spaced money and percent', function (t) {
+  const money = ["5,30 €", "1 000 euros", "12,50 EUR", "5 000 $", "cent euros"]
+  const percent = ["3,5 %", "50 pour cent", "cinquante pour cent"]
+  const values = [["50 pour cent", 50]]
+  const neither = ["cinq chats"]
+  money.forEach(str => {
+    const doc = nlp(str)
+    t.ok(doc.has('#Money'), here + 'money: ' + str)
+    t.ok(doc.has('#Currency'), here + 'currency: ' + str)
+    t.equal(doc.numbers().length, 1, here + 'one number: ' + str)
+  })
+  percent.forEach(str => {
+    const doc = nlp(str)
+    t.ok(doc.has('#Percent'), here + 'percent: ' + str)
+    t.equal(doc.numbers().length, 1, here + 'one number: ' + str)
+  })
+  values.forEach(a => {
+    t.deepEqual(nlp(a[0]).numbers().get(), [a[1]], here + 'value: ' + a[0])
+  })
+  neither.forEach(str => {
+    t.equal(nlp(str).has('(#Money|#Percent)'), false, here + 'neither: ' + str)
+  })
+  t.end()
+})
