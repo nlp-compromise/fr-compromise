@@ -225,18 +225,62 @@ export interface FrView extends View {
   values(n?: number): Numbers
   /** return contracted or elided forms - "j'aime", "l'été" */
   contractions(n?: number): Contractions
-  /** return any names of people - 'Marie' */
-  people(): View
-  /** return any names of places - 'Paris, France' */
-  places(): View
+  /** return any names of people - with .parse() and .json() */
+  people(n?: number): View
+  /** return any names of places */
+  places(n?: number): View
   /** return any names of organizations */
-  organizations(): View
+  organizations(n?: number): View
+  /** return people, places, and organizations together */
+  topics(n?: number): View
+  /** split-up sentences into their clauses */
+  clauses(n?: number): View
+  /** black-out names, places, emails and other identifying text */
+  redact(opts?: object, blockStr?: string, keep?: boolean): View
+  /** return text wrapped in (parentheses) */
+  parentheses(n?: number): View
+  /** return text wrapped in quotation-marks */
+  quotations(n?: number): View
+  /** return any acronyms - 'F.B.I.' */
+  acronyms(n?: number): View
+  /** return any words tagged as #Possessive */
+  possessives(n?: number): View
+  /** return any words tagged as #Honorific */
+  honorifics(n?: number): View
+  /** return any words tagged as #Abbreviation */
+  abbreviations(n?: number): View
+  /** return any words tagged as #Conjunction */
+  conjunctions(n?: number): View
+  /** return any words tagged as #Preposition */
+  prepositions(n?: number): View
+  /** return any words joined by a hyphen */
+  hyphenated(n?: number): View
+  /** return any terms split by a slash */
+  slashes(n?: number): View
+  /** return any #HashTag terms */
+  hashTags(n?: number): View
+  /** return any #Email terms */
+  emails(n?: number): View
+  /** return any #Url terms */
+  urls(n?: number): View
+  /** return any #AtMention terms */
+  atMentions(n?: number): View
+  /** return any #Emoji terms */
+  emoji(n?: number): View
+  /** return any #Emoticon terms */
+  emoticons(n?: number): View
+  /** return any #PhoneNumber terms */
+  phoneNumbers(n?: number): View
+  /** return any #Address terms */
+  addresses(n?: number): View
 }
 
 /** parse the given french text */
 declare function nlp(text?: string, lexicon?: Lexicon): FrView
 
 declare namespace nlp {
+  /** tag only the sentences that may hold this match, and return the matches */
+  export function lazy(text: string, match: string | Net): FrView
   /** interpret text without tagging */
   export function tokenize(text: string, lexicon?: Lexicon): FrView
   /** mix in a compromise-plugin */

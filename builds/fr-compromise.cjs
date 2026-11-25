@@ -53,15 +53,15 @@
   // wrappers for loops in javascript arrays
 
   // call the callback with a one-match view
-  const wrap$3 = (view, cb) => (ptr, i) => cb(view.update([ptr]), i);
+  const wrap$2 = (view, cb) => (ptr, i) => cb(view.update([ptr]), i);
 
   const forEach = function (cb) {
-    this.fullPointer.forEach(wrap$3(this, cb));
+    this.fullPointer.forEach(wrap$2(this, cb));
     return this
   };
 
   const map = function (cb, empty) {
-    const run = wrap$3(this, cb);
+    const run = wrap$2(this, cb);
     const res = this.fullPointer.map((ptr, i) => {
       const out = run(ptr, i);
       // if we returned nothing, return a view
@@ -94,11 +94,11 @@
   };
 
   const filter = function (cb) {
-    return this.update(this.fullPointer.filter(wrap$3(this, cb)))
+    return this.update(this.fullPointer.filter(wrap$2(this, cb)))
   };
 
-  const find = function (cb) {
-    const found = this.fullPointer.find(wrap$3(this, cb));
+  const find$6 = function (cb) {
+    const found = this.fullPointer.find(wrap$2(this, cb));
     if (found === undefined) {
       return this.update([])
     }
@@ -106,7 +106,7 @@
   };
 
   const some$1 = function (cb) {
-    return this.fullPointer.some(wrap$3(this, cb))
+    return this.fullPointer.some(wrap$2(this, cb))
   };
 
   const random = function (n = 1) {
@@ -120,7 +120,7 @@
     ptrs = ptrs.slice(r, r + n);
     return this.update(ptrs)
   };
-  var loops = { forEach, map, filter, find, some: some$1, random };
+  var loops = { forEach, map, filter, find: find$6, some: some$1, random };
 
   // small helpers shared by the View class and its methods
 
@@ -924,7 +924,7 @@
     }
   };
 
-  var cache$1 = {
+  var cache$3 = {
     api: addAPI$3,
     compute: compute$7,
     methods: methods$m,
@@ -1463,16 +1463,16 @@
     }
   };
 
-  const pairs$1 = { '(': ')', '[': ']', '"': '"', '“': '”', '‘': '’' };
+  const pairs$2 = { '(': ')', '[': ']', '"': '"', '“': '”', '‘': '’' };
 
   // a quote or bracket that opens and closes on the removed words leaves with them - '(loudly)'
   const dropPairs = function (terms, start, end) {
     const first = terms[start];
     const last = terms[end - 1];
-    Object.keys(pairs$1).forEach(open => {
-      if (first.pre.includes(open) && last.post.includes(pairs$1[open])) {
+    Object.keys(pairs$2).forEach(open => {
+      if (first.pre.includes(open) && last.post.includes(pairs$2[open])) {
         first.pre = first.pre.replace(open, '');
-        last.post = last.post.replace(pairs$1[open], '');
+        last.post = last.post.replace(pairs$2[open], '');
       }
     });
   };
@@ -1644,7 +1644,7 @@
   };
 
   // put these characters around each match
-  const wrap$2 = function (view, start, end) {
+  const wrap$1 = function (view, start, end) {
     view.docs.forEach(terms => {
       terms[0].pre = start + terms[0].pre;
       const last = terms.at(-1);
@@ -1713,12 +1713,12 @@
 
     /** add quotations around these matches */
     toQuotations: function (start, end) {
-      return wrap$2(this, start || '"', end || '"')
+      return wrap$1(this, start || '"', end || '"')
     },
 
     /** add brackets around these matches */
     toParentheses: function (start, end) {
-      return wrap$2(this, start || '(', end || ')')
+      return wrap$1(this, start || '(', end || ')')
     },
   };
 
@@ -1939,7 +1939,7 @@
   };
 
   // one 'word:out words' per line - decoded once into { [key]: word, out: [...] }
-  const parse$3 = (str, key) =>
+  const parse$4 = (str, key) =>
     str
       .trim()
       .split('\n')
@@ -1952,7 +1952,7 @@
     // that's and let's are decided here, before any tagging
     // (step 1 of the 's decision - the list is in 2-two/contraction-two/compute/index.js)
     // simple mappings
-    ...parse$3(
+    ...parse$4(
       `
 @:at
 arent:are not
@@ -1996,7 +1996,7 @@ o'er:over
       'word'
     ),
     // contraction-part mappings
-    ...parse$3(
+    ...parse$4(
       `
 ll:will
 ve:have
@@ -2006,7 +2006,7 @@ m:am
       'after'
     ),
     // french contractions - t'aime
-    ...parse$3(
+    ...parse$4(
       `
 c:ce
 m:me
@@ -2018,7 +2018,7 @@ t:tu
       'before'
     ),
     // missing apostrophes, apostrophe-d
-    ...parse$3(
+    ...parse$4(
       `
 shouldnt:should not
 couldnt:could not
@@ -2430,7 +2430,7 @@ er
 
   var compute$5 = { contractions: contractions$2 };
 
-  const plugin = {
+  const plugin$1 = {
     model: model$5,
     compute: compute$5,
     hooks: ['contractions'],
@@ -2835,7 +2835,7 @@ er
     return view.update(results)
   };
 
-  function api$8 (View) {
+  function api$f (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2892,7 +2892,7 @@ er
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$8,
+    api: api$f,
     lib: lib$4
   };
 
@@ -5318,7 +5318,7 @@ er
   };
   // console.log(md5('food-safety'))
 
-  const defaults$1 = {
+  const defaults$3 = {
     text: true,
     terms: true,
   };
@@ -5366,7 +5366,7 @@ er
     if (typeof option === 'string') {
       option = {};
     }
-    option = { ...defaults$1, ...option };
+    option = { ...defaults$3, ...option };
     // run any necessary upfront steps
     if (option.offset) {
       view.compute('offset');
@@ -5421,7 +5421,7 @@ er
     return starts
   };
 
-  const wrap$1 = function (doc, obj) {
+  const wrap = function (doc, obj) {
     // index ids to highlight
     const starts = findStarts(doc, obj);
     let text = '';
@@ -5562,7 +5562,7 @@ er
   const out = function (method) {
     // support custom outputs
     if (isObject(method)) {
-      return wrap$1(this, method)
+      return wrap(this, method)
     }
     if (Object.hasOwn(outputs, method)) {
       return outputs[method](this)
@@ -5577,7 +5577,7 @@ er
     out,
     /** */
     wrap: function (obj) {
-      return wrap$1(this, obj)
+      return wrap(this, obj)
     },
   };
 
@@ -6339,7 +6339,7 @@ er
     }
   };
 
-  const api$7 = function (View) {
+  const api$e = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -6525,7 +6525,7 @@ er
     return { wants, count }
   };
 
-  const parse$2 = function (matches, world) {
+  const parse$3 = function (matches, world) {
     const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
       resolveAliases(obj, world.model.one.tagAliases);
@@ -6602,7 +6602,7 @@ er
   // do some indexing on the list of matches
   const buildNet = function (matches, world) {
     // turn match-syntax into json
-    matches = parse$2(matches, world);
+    matches = parse$3(matches, world);
 
     // collect by wants and needs
     const hooks = {};
@@ -6848,7 +6848,7 @@ er
   // is this tag consistent with the tags they already have?
   const canBe = (terms, tag, model) => terms.every(term => canBe$1(term, tag, model.one.tagSet));
 
-  const tagger$1 = function (list, document, world) {
+  const tagger$2 = function (list, document, world) {
     const { model, methods } = world;
     const { getDoc, setTag, unTag } = methods.one;
     const looksPlural = methods.two.looksPlural;
@@ -6907,12 +6907,12 @@ er
   var methods$5 = {
     buildNet,
     bulkMatch: sweep$1,
-    bulkTagger: tagger$1
+    bulkTagger: tagger$2
   };
 
   var sweep = {
     lib: lib$2,
-    api: api$7,
+    api: api$e,
     methods: {
       one: methods$5,
     }
@@ -7661,7 +7661,7 @@ er
   };
 
   // a letter, number, or symbol/emoji in any script - otherwise it's only punctuation
-  const hasLetter$3 = /[\p{L}\p{N}\p{So}]/u;
+  const hasLetter$2 = /[\p{L}\p{N}\p{So}]/u;
   const hasSomething$1 = /\S/;
 
   const notEmpty = function (splits) {
@@ -7673,7 +7673,7 @@ er
         continue
       }
       //this is meaningful whitespace
-      if (!hasSomething$1.test(s) || !hasLetter$3.test(s)) {
+      if (!hasSomething$1.test(s) || !hasLetter$2.test(s)) {
         //add it to the last one
         if (chunks[chunks.length - 1]) {
           chunks[chunks.length - 1] += s;
@@ -7691,7 +7691,7 @@ er
     return chunks
   };
 
-  const hasLetter$2 = /\p{L}/u;
+  const hasLetter$1 = /\p{L}/u;
 
   const hasNewline = function (c) {
     return Boolean(/\n$/.test(c))
@@ -7711,7 +7711,7 @@ er
       const c = chunks[i];
       sentence += c;
       tail = (tail + c).slice(-64);
-      foundLetter ||= hasLetter$2.test(c);
+      foundLetter ||= hasLetter$1.test(c);
       //should this chunk be combined with the next one?
       if (chunks[i + 1] && !isSentence(tail, abbrevs, foundLetter) && !hasNewline(c)) {
         continue
@@ -7727,47 +7727,59 @@ er
     return sentences
   };
 
-  /* eslint-disable regexp/no-dupe-characters-character-class */
-
   // merge embedded quotes into 1 sentence
   // like - 'he said "no!" and left.'
-  const MAX_QUOTE$1 = 280;// ¯\_(ツ)_/¯
+  const MAX_QUOTE = 280; // ¯\_(ツ)_/¯
+  const MAX_AHEAD = 5;
 
+  // each opening quote, and the marks that may close it
+  // (some marks open a quote in one language, and close it in another)
+  // a third mark means 'not an opener, when that one is around'
   // don't support single-quotes for multi-sentences
-  const pairs = {
-    '\u0022': '\u0022', // 'StraightDoubleQuotes'
-    '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
-    // '\u0027': '\u0027', // 'StraightSingleQuotes'
-    '\u201C': '\u201D', // 'CommaDoubleQuotes'
-    // '\u2018': '\u2019', // 'CommaSingleQuotes'
-    '\u201F': '\u201D', // 'CurlyDoubleQuotesReversed'
-    // '\u201B': '\u2019', // 'CurlySingleQuotesReversed'
-    '\u201E': '\u201D', // 'LowCurlyDoubleQuotes'
-    '\u2E42': '\u201D', // 'LowCurlyDoubleQuotesReversed'
-    '\u201A': '\u2019', // 'LowCurlySingleQuotes'
-    '\u00AB': '\u00BB', // 'AngleDoubleQuotes'
-    '\u2039': '\u203A', // 'AngleSingleQuotes'
-    '\u2035': '\u2032', // 'PrimeSingleQuotes'
-    '\u2036': '\u2033', // 'PrimeDoubleQuotes'
-    '\u2037': '\u2034', // 'PrimeTripleQuotes'
-    '\u301D': '\u301E', // 'PrimeDoubleQuotes'
-    // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
-    '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
-    '\u300C': '\u300D', // 'CornerBrackets' 「」
-    '\u300E': '\u300F', // 'WhiteCornerBrackets' 『』
-  };
-  const openQuote = RegExp('[' + Object.keys(pairs).join('') + ']', 'g');
-  const closeQuote = RegExp('[' + Object.values(pairs).join('') + ']', 'g');
+  const pairs$1 = [
+    ['\u0022', '\u0022'], // straight
+    ['\uFF02', '\uFF02'], // wide
+    ['\u201C', '\u201D', '\u201E'], // english (but it closes a german one)
+    ['\u201F', '\u201D'], // reversed
+    ['\u201E', '\u201D\u201C'], // polish, german
+    ['\u2E42', '\u201D'], // low-reversed
+    ['\u201A', '\u2019\u2018'], // low-single, german
+    ['\u00AB', '\u00BB'], // french
+    ['\u00BB', '\u00AB'], // german
+    ['\u2039', '\u203A'], // single
+    ['\u203A', '\u2039'], // single, reversed
+    ['\u2035', '\u2032'], // prime
+    ['\u2036', '\u2033'], // double-prime
+    ['\u2037', '\u2034'], // triple-prime
+    ['\u301D', '\u301E'], // prime
+    ['\u301F', '\u301E'], // low-prime
+    ['\u300C', '\u300D'], // corner
+    ['\u300E', '\u300F'], // white-corner
+  ];
 
-  const closesQuote = function (str) {
-    if (!str) {
-      return false
+  const count$1 = function (str, chars) {
+    let n = 0;
+    for (const c of str) {
+      if (chars.includes(c)) {
+        n += 1;
+      }
     }
-    const m = str.match(closeQuote);
-    if (m !== null && m.length === 1) {
-      return true
-    }
-    return false
+    return n
+  };
+
+  // is there a quotation here, that hasn't closed yet?
+  const isOpen = function (str) {
+    return pairs$1.some(([open, close, unless]) => {
+      const n = count$1(str, open);
+      if (n === 0 || (unless && str.includes(unless))) {
+        return false
+      }
+      // the same mark opens and closes
+      if (open === close) {
+        return n % 2 === 1
+      }
+      return n > count$1(str, close)
+    })
   };
 
   // allow micro-sentences when inside a quotation, like:
@@ -7775,40 +7787,25 @@ er
   const quoteMerge = function (splits) {
     const arr = [];
     for (let i = 0; i < splits.length; i += 1) {
-      const split = splits[i];
-      // do we have an open-quote and not a closed one?
-      const m = split.match(openQuote);
-      if (m !== null && m.length === 1) {
-        // is the quote already closed in this chunk? - '“Yes!” said Tom. “No!” said Ann.'
-        const closed = split.match(closeQuote);
-        if (closed !== null && closed[0] !== m[0]) {
-          arr.push(split);
-          continue
-        }
-
-        // look at the next sentence for a closing quote,
-        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE$1) {
-          splits[i] += splits[i + 1];// merge them
-          arr.push(splits[i]);
-          splits[i + 1] = '';
-          i += 1;
-          continue
-        }
-        // look at n+2 for a closing quote,
-        if (closesQuote(splits[i + 2])) {
-          const toAdd = splits[i + 1] + splits[i + 2];// merge them all
+      let str = splits[i];
+      if (isOpen(str)) {
+        // look ahead for the sentence that closes it
+        let toAdd = '';
+        for (let n = i + 1; n < splits.length && n - i <= MAX_AHEAD; n += 1) {
+          toAdd += splits[n];
           //make sure it's not too-long
-          if (toAdd.length < MAX_QUOTE$1) {
-            splits[i] += toAdd;
-            arr.push(splits[i]);
-            splits[i + 1] = '';
-            splits[i + 2] = '';
-            i += 2;
-            continue
+          if (toAdd.length >= MAX_QUOTE) {
+            break
+          }
+          if (!isOpen(str + toAdd)) {
+            // merge them all
+            str += toAdd;
+            i = n;
+            break
           }
         }
       }
-      arr.push(splits[i]);
+      arr.push(str);
     }
     return arr
   };
@@ -7817,18 +7814,18 @@ er
 
   // support unicode variants?
   // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
-  const hasOpen = /[(\uFF08]/g;
-  const hasClosed = /[)\uFF09]/g;
+  const hasOpen$2 = /[(\uFF08]/g;
+  const hasClosed$2 = /[)\uFF09]/g;
   const mergeParens = function (splits) {
     const arr = [];
     for (let i = 0; i < splits.length; i += 1) {
       const split = splits[i];
-      const m = split.match(hasOpen);
+      const m = split.match(hasOpen$2);
       if (m !== null && m.length === 1) {
         // look at next sentence, for closing parenthesis
         if (splits[i + 1] && splits[i + 1].length < MAX_LEN) {
-          const m2 = splits[i + 1].match(hasClosed);
-          if (m2 !== null && m.length === 1 && !hasOpen.test(splits[i + 1])) {
+          const m2 = splits[i + 1].match(hasClosed$2);
+          if (m2 !== null && m.length === 1 && !hasOpen$2.test(splits[i + 1])) {
             // merge in 2nd sentence
             splits[i] += splits[i + 1];
             arr.push(splits[i]);
@@ -7996,13 +7993,13 @@ er
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
 
   //we have slightly different rules for start/end - like #hashtags.
-  const isLetter$1 = /\p{Letter}/u;
+  const isLetter = /\p{Letter}/u;
   const isMark = /\p{Mark}/u;
   const isNumber = /[\p{Number}\p{Currency_Symbol}]/u;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const chillin = /[sn]['’]$/;
   // a leading apostrophe that stands for letters - 'tis, 'em, 'cause
-  const elision$1 = /^['’](tis|twas|em|cause|til|bout|round)\b/i;
+  const elision = /^['’](tis|twas|em|cause|til|bout|round)\b/i;
   const isFullNumber = /^[(+\-]?\d+(th|st|nd|rd)?[)+\-]?$/;
   const openers = { ')': '(', ']': '[', '}': '{' };
 
@@ -8048,11 +8045,11 @@ er
         break//done
       }
       // start of word
-      if (isLetter$1.test(c) || isNumber.test(c)) {
+      if (isLetter.test(c) || isNumber.test(c)) {
         break //done
       }
       // keep an elided apostrophe - 'tis
-      if ((c === "'" || c === '’') && elision$1.test(chars.slice(start).join(''))) {
+      if ((c === "'" || c === '’') && elision.test(chars.slice(start).join(''))) {
         break//keep it
       }
       // punctuation
@@ -8067,7 +8064,7 @@ er
         break//keep it
       }
       // start of word
-      if (isLetter$1.test(c) || isNumber.test(c)) {
+      if (isLetter.test(c) || isNumber.test(c)) {
         break //done
       }
       // Keep marks attached to letters, but not variation selectors after symbols.
@@ -8076,7 +8073,7 @@ er
         while (base >= start && isMark.test(chars[base])) {
           base--;
         }
-        if (base >= start && isLetter$1.test(chars[base])) {
+        if (base >= start && isLetter.test(chars[base])) {
           break
         }
         end = base + 1;
@@ -8206,7 +8203,7 @@ er
   };
 
   // turn a string input into a 'document' json format
-  const parse$1 = function (input, world) {
+  const parse$2 = function (input, world) {
     const { methods, model } = world;
     const { splitSentences, splitTerms, splitWhitespace } = methods.one.tokenize;
     input ||= '';
@@ -8227,19 +8224,21 @@ er
   };
 
   const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
-  const hasEllipse$1 = /(?:\u2026|\.{2}) *$/; // '...'
-  const hasLetter$1 = /\p{L}/u;
-  const hasPeriod$1 = /\. *$/;
-  const leadInit = /^[A-Z]\. $/; // "W. Kensington"
+  const hasEllipse = /(?:\u2026|\.{2}) *$/; // '...'
+  const hasLetter = /\p{L}/u;
+  const hasPeriod = /\. *$/;
+  const leadInit = /^\p{Lu}\. $/u; // "W. Kensington"
+  // an initial in any alphabet - 'А. С. Пушкин'
+  const isInitial = /[ .]\p{Lu}\. *$/u;
 
   /** does this look like a sentence? - str can be the end of it, if foundLetter is given */
-  const isSentence$1 = function (str, abbrevs, foundLetter = hasLetter$1.test(str)) {
+  const isSentence = function (str, abbrevs, foundLetter = hasLetter.test(str)) {
     // must have a letter
     if (foundLetter === false) {
       return false
     }
     // check for 'F.B.I.'
-    if (isAcronym$1.test(str)) {
+    if (isAcronym$1.test(str) || isInitial.test(str)) {
       return false
     }
     // check for leading initial - "W. Kensington"
@@ -8247,14 +8246,14 @@ er
       return false
     }
     //check for '...'
-    if (hasEllipse$1.test(str)) {
+    if (hasEllipse.test(str)) {
       return false
     }
     const txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
     const words = txt.split(' ');
     const lastWord = words[words.length - 1].toLowerCase();
     // check for 'Mr.' (and not mr?)
-    if (Object.hasOwn(abbrevs, lastWord) && hasPeriod$1.test(str)) {
+    if (Object.hasOwn(abbrevs, lastWord) && hasPeriod.test(str)) {
       return false
     }
     // //check for jeopardy!
@@ -8269,15 +8268,15 @@ er
       killUnicode,
       tokenize: {
         splitSentences,
-        isSentence: isSentence$1,
+        isSentence,
         splitTerms: splitWords,
         splitWhitespace: parseTerm,
-        fromString: parse$1,
+        fromString: parse$2,
       },
     },
   };
 
-  const aliases = {
+  const aliases$1 = {
     '&': 'and',
     '@': 'at',
     '%': 'percent',
@@ -8290,7 +8289,7 @@ er
   // pl=plural, pp=pages, qt=quarter, fr=french, nee=given name at birth, ss=ship or sections,
   // ver=version, fem/masc, eng=engineering/english, adj/vb/rb/inf=grammar, situ/vivo/vitro=in situ..
   // wr=world record
-  var misc$2 = toList(`
+  var misc$4 = toList(`
 approx
 apt
 bc
@@ -8345,7 +8344,7 @@ wr
 `);
 
   // (not miss, misses)
-  var honorifics = toList(`
+  var honorifics$1 = toList(`
 adj
 adm
 adv
@@ -8406,7 +8405,7 @@ nov
 dec
 `);
 
-  var nouns$2 = toList(`
+  var nouns$3 = toList(`
 ad
 al
 arc
@@ -8527,23 +8526,23 @@ yb
 
   // add our abbreviation list to our lexicon
   const list = [
-    [misc$2],
+    [misc$4],
     [units, 'Unit'],
-    [nouns$2, 'Noun'],
-    [honorifics, 'Honorific'],
+    [nouns$3, 'Noun'],
+    [honorifics$1, 'Honorific'],
     [months, 'Month'],
     [organizations, 'Organization'],
     [places, 'Place'],
   ];
   // create key-val for sentence-tokenizer
-  const abbreviations = {};
+  const abbreviations$1 = {};
   // add them to a future lexicon
   const lexicon$2 = {};
 
   list.forEach(a => {
     a[0].forEach(w => {
       // sentence abbrevs
-      abbreviations[w] = true;
+      abbreviations$1[w] = true;
       // future-lexicon
       lexicon$2[w] = 'Abbreviation';
       if (a[1] !== undefined) {
@@ -8663,8 +8662,8 @@ designate
 
   var model$3 = {
     one: {
-      aliases,
-      abbreviations,
+      aliases: aliases$1,
+      abbreviations: abbreviations$1,
       prefixes,
       suffixes,
       prePunctuation,
@@ -8675,7 +8674,7 @@ designate
     },
   };
 
-  const hasSlash = /\//;
+  const hasSlash$1 = /\//;
   const hasDomain = /[a-z]\.[a-z]/i;
   const isMath = /[0-9]/;
   // const hasSlash = /[a-z\u00C0-\u00FF] ?\/ ?[a-z\u00C0-\u00FF]/
@@ -8690,8 +8689,8 @@ designate
       term.alias.push(aliases[str]);
     }
     // support slashes as aliases
-    if (hasSlash.test(str) && !hasDomain.test(str) && !isMath.test(str)) {
-      const arr = str.split(hasSlash);
+    if (hasSlash$1.test(str) && !hasDomain.test(str) && !isMath.test(str)) {
+      const arr = str.split(hasSlash$1);
       // don't split urls and things
       if (arr.length <= 3) {
         arr.forEach(word => {
@@ -8856,7 +8855,7 @@ designate
     return this
   };
 
-  const api$6 = function (View) {
+  const api$d = function (View) {
     View.prototype.autoFill = autoFill;
   };
 
@@ -8898,14 +8897,14 @@ designate
     return index
   };
 
-  const defaults = {
+  const defaults$2 = {
     safe: true,
     min: 3,
   };
 
   const prepare = function (words = [], opts = {}) {
     const model = this.model();
-    opts = { ...defaults, ...opts };
+    opts = { ...defaults$2, ...opts };
     if (isObject(words)) {
       Object.assign(model.one.lexicon, words);
       words = Object.keys(words);
@@ -8934,7 +8933,7 @@ designate
   };
   var typeahead = {
     model: model$2,
-    api: api$6,
+    api: api$d,
     lib,
     compute: compute$1,
     hooks: ['typeahead']
@@ -8946,10 +8945,10 @@ designate
   nlp.extend(match); //10kb
   nlp.extend(pointers); //2kb
   nlp.extend(tag); //2kb
-  nlp.plugin(plugin); //~6kb
+  nlp.plugin(plugin$1); //~6kb
   nlp.extend(tokenize$1); //7kb
   nlp.extend(freeze); //
-  nlp.plugin(cache$1); //~1kb
+  nlp.plugin(cache$3); //~1kb
   nlp.extend(lookup); //7kb
   nlp.extend(typeahead); //1kb
   nlp.extend(lexicon$3); //1kb
@@ -9100,215 +9099,19 @@ designate
     machine: (view) => termLoop(view, doMachine),
   };
 
-  // sentence-splitting rules that the english parser doesn't have.
-  // - isSentence() replaces the english one, and only sees the end of a chunk
-  // - wrap() runs after the english splitter, so it can see the next sentence too
-  // all of the language-specific parts are in ./abbreviations.js
-  const MAX_QUOTE = 500;
-  const MAX_MERGE = 6;
-
-  const hasLetter = /\p{L}/u;
-  const hasUpper = /\p{Lu}/u;
-  const hasPeriod = /\. *$/;
-  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
-  // an uppercase initial - 'A. S. Pushkin', or a dotted letter - 'F.B.I.', 'u.a.'
-  const isInitial = /(?:(?:^|[\s([«»„“"'-])\p{Lu}|\.\p{L})\. *$/u;
-  // one lowercase letter - 'z. B.', 'i. d. R.'
-  const isLetter = /(?:^|[\s([«»„“"'])\p{Ll}\. *$/u;
-  // '3.' or '102.', and 'VIII.'
-  const isOrdinal = /(?:\d|(?<!\p{L})[IVX]{2,})\. *$/u;
-  const trailing = /[.!?\u203D\u2E18\u203C\u2047\u2048\u2049]+ *$/;
-  const leading = /^[([{«»„“”"'‚‘¿¡—–-]+/;
-  const elision = /^\p{L}+['’]/u; // l'avv.
-  const endsNewline = /\n\s*$/;
-  // 'Who's there? — he asked.'
-  const endsAsk = /[?!\u2026]["»“”«]*[ \t\u00A0\u202F]*$/;
-  const startsLower = /^\p{Ll}/u;
-  const startsDash = /^[—–]\s*\p{Ll}/u;
-
-  const escape = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-  const count = (str, char) => str.split(char).length - 1;
-
-  const build = function (config) {
-    const { quotes = [], enders = [], starters = [] } = config;
-
-    // the last word of a chunk - 'dr', 'pág', 'avv'
-    const lastWord = function (str) {
-      let w = str.replace(trailing, '').split(/\s/).pop() || '';
-      w = w.replace(leading, '').replace(elision, '');
-      return w.toLowerCase()
-    };
-
-    /** does this look like the end of a sentence? */
-    const isSentence = function (str, abbrevs, foundLetter = hasLetter.test(str)) {
-      // must have a letter
-      if (foundLetter === false) {
-        return false
-      }
-      // 'F.B.I.' or 'A. S. Pushkin'
-      if (isInitial.test(str)) {
-        return false
-      }
-      if (config.singleLetters && isLetter.test(str)) {
-        return false
-      }
-      // 'am 3. Mai'
-      if (config.ordinals && isOrdinal.test(str)) {
-        return false
-      }
-      // '...' - may get split again, below
-      if (hasEllipse.test(str)) {
-        return false
-      }
-      if (hasPeriod.test(str)) {
-        // 'Dr.' but not 'Dr?'
-        const w = lastWord(str);
-        if (Object.hasOwn(abbrevs, w) || Object.hasOwn(abbrevs, w.split('.').pop())) {
-          return false
-        }
-        // 'Hauptstr.'
-        if (config.suffix && config.suffix.test(w)) {
-          return false
-        }
-        // words that are only sometimes abbreviations - 'em set.'
-        if (config.conditional && config.conditional.test(str)) {
-          return false
-        }
-      }
-      return true
-    };
-
-    // are we inside a quotation, or some brackets?
-    const isOpen = function (str) {
-      return quotes.some(([open, close]) => {
-        if (open === close) {
-          return count(str, open) % 2 === 1
-        }
-        return count(str, open) > count(str, close)
-      })
-    };
-
-    // put a quotation back together, when it has many sentences in it
-    const quoteMerge = function (arr) {
-      const out = [];
-      for (let i = 0; i < arr.length; i += 1) {
-        let str = arr[i];
-        if (isOpen(str)) {
-          let merged = str;
-          for (let n = i + 1; n < arr.length && n - i < MAX_MERGE; n += 1) {
-            if (endsNewline.test(merged)) {
-              break
-            }
-            merged += arr[n];
-            if (merged.length > MAX_QUOTE) {
-              break
-            }
-            if (!isOpen(merged)) {
-              // the quotation closes here
-              str = merged;
-              i = n;
-              break
-            }
-          }
-        }
-        out.push(str);
-      }
-      return out
-    };
-
-    // places where a sentence ends, that are only clear from the word after it
-    const opens = escape(quotes.map(a => a[0]).join(''));
-    const closes = escape(quotes.map(a => a[1]).join(''));
-    const upper = `(?=(?:[—–-]\\s?)?[${opens}¿¡]*\\p{Lu})`;
-    const rules = [];
-    if (closes) {
-      // 'he said "no." Then he left'
-      rules.push(`[.!?\u2026][ \u00A0\u202F]?[${closes}]+\\s+${upper}`);
-    }
-    {
-      // 'I don't know... Maybe tomorrow'
-      rules.push(`(?:\u2026|\\.{2,})\\s+${upper}`);
-    }
-    if (enders.length > 0) {
-      // 'bread, milk, etc. Then he left'
-      rules.push(`(?<![\\p{L}\\p{N}])(?:${enders.join('|')})\\.\\s+${upper}`);
-    }
-    if (starters.length > 0) {
-      // 'Ich habe 5. Du hast 3.'
-      rules.push(`\\d\\.\\s+(?=(?:${starters.join('|')})(?!\\p{L}))`);
-    }
-    const boundary = rules.length > 0 ? new RegExp(rules.join('|'), 'gu') : null;
-
-    const resplit = function (str) {
-      if (boundary === null) {
-        return [str]
-      }
-      const out = [];
-      let start = 0;
-      for (const m of str.matchAll(boundary)) {
-        const end = m.index + m[0].length;
-        const before = str.slice(start, end);
-        // don't split inside a quotation, or leave a piece with no words in it
-        if (!hasLetter.test(before) || isOpen(before)) {
-          continue
-        }
-        out.push(before);
-        start = end;
-      }
-      out.push(str.slice(start));
-      return out
-    };
-
-    // '— Come here! — she said.' is one sentence
-    const dialogueMerge = function (arr) {
-      const out = [];
-      arr.forEach(str => {
-        const last = out[out.length - 1];
-        if (last !== undefined && endsAsk.test(last)) {
-          // lowercase text gives us no clues, so only trust it after a capital
-          if (startsDash.test(str) || (startsLower.test(str) && hasUpper.test(last))) {
-            out[out.length - 1] += str;
-            return
-          }
-        }
-        out.push(str);
-      });
-      return out
-    };
-
-    /** add our own passes to the end of the english sentence-splitter */
-    const wrap = function (splitSentences) {
-      return function (text, world) {
-        let arr = splitSentences(text, world);
-        arr = quoteMerge(arr);
-        arr = arr.flatMap(resplit);
-        arr = dialogueMerge(arr);
-        return arr
-      }
-    };
-
-    return { isSentence, wrap }
-  };
-
-  // abbreviations, and the other language-specific parts of the sentence-parser
+  // words that end in a period, but don't end a sentence - 'Dr.'
   // (these replace the english abbreviations, which collide with real words here)
   const toObj = str => Object.fromEntries(str.trim().split(/\s+/).map(w => [w, true]));
 
-  var sentenceRules = {
-    // words that never end a sentence, when they have a period
-    abbreviations: toObj(`
-    mm mme mmes mlle mlles dr drs pr prof mgr st ste
-    p ex cf env éd éds chap fig art tél tel t réf
-    av apr boul bd cie hab vs min etc
-    c.-à-d
-    janv févr fév avr juil oct nov déc
-  `),
-    // abbreviations that end a sentence, when a capital comes next
-    enders: ['etc', 'J\\.-C'],
-    quotes: [['«', '»'], ['“', '”'], ['"', '"'], ['(', ')']]};
-
-  const { isSentence, wrap } = build(sentenceRules);
-
+  var abbreviations = toObj(`
+  mm mme mmes mlle mlles dr drs pr prof mgr st ste
+  av apr boul bd cie vs cf éd éds coll min univ
+  chap fig tabl art réf ex env tél tel hab etc op cit ibid c.-à-d
+  j.-c l'art l’art l'av l’av l'éd l’éd d'hab d’hab l'univ l’univ
+  kg km cm mm ml
+  lun ven sam dim
+  janv févr fév avr juil oct nov déc
+`);
 
   var tokenize = {
     mutate: (world) => {
@@ -9316,10 +9119,8 @@ designate
 
       world.model.one.contractions = contractions$1;
 
-      // our own abbreviations, and sentence-boundary rules
-      world.model.one.abbreviations = { ...sentenceRules.abbreviations };
-      world.methods.one.tokenize.isSentence = isSentence;
-      world.methods.one.tokenize.splitSentences = wrap(world.methods.one.tokenize.splitSentences);
+      // our own abbreviations, for the sentence-parser
+      world.model.one.abbreviations = { ...abbreviations };
       // ordinal endings are not units - don't split '1re' or '2nde' like '5km'
       const notUnit = world.model.one.numberSuffixes || {};
       world.model.one.numberSuffixes = notUnit;
@@ -9781,27 +9582,27 @@ designate
     "Date": "true¦aujourd'hui,demain,hier,weekend",
     "Adjective": "true¦quelques",
     "PresentTense": "true¦essaie0;!nt,s",
-    "FirstName": "true¦:aFeBholiHlem,n5ol7rialb,si4y0;aGbleGdissac,e0llen,rrF;rbua,s0;a0lD;c,k;rk,xela;a2niuq,o0wahsal;i0v2;ram;g1v0;ed;er,rom;duj,i1n0;er,neyehc;m0ssej;aj,maj;e1rdna,ttayn0;ek;hs",
-    "LastName": "true¦!1:#$%&()*+-./<=>?@[]^:an,in,er,ns,li,va,ng,to,ar,il,is,es,en,hi,ch,ss,rr,rn,as;0:34;1:3B;2:39;3:2Y;4:2E;5:30;a3Bb31c2Od2Ee2Bf25g1Zh1Pi1Kj1Ek17l0Zm0Nn0Jo0Gp05rYsMtHvFwCxBy8zh6;a6ou,u;*,o;a6eun2Uos>da,un;ma6*;da,guc>,mo+,sh21zaR;iao,u;a7eb0.6o3right,u;(3Bs2;gn0lk0*,t#abe;a6i)ldi;@.jev,zqu1;a9h8i#,o7r6sui,u]0;#,yn/J;ls+y,[<,th;at1Uomps2;kah0Vnaka,ylor;aE?DeC>mizu,iBmiAo9t7u6zabo;-1l(v#,zuE;a6e$0;l$,rm0;sa,u3;]4th;l),mmo&,*h;mjon4[#o;midt,neid0ulz;i+,n7sa6+;ki;?1dL+s,z;amBeag#,i9o7u6;bio,iz,sD;b6dri1MgIj^,m%o,osevelt,@i,ux;%ts,$s2;c6v%a;ci,h-ds2;ir1os;aEeAh8ic6ow20;^6hl0;so;a6.(ps;m,n1T;d%s5et8r7t6;e0Nr4;ez,ry;%s;h21rk0t6vl4;el,te0J;baBg0B(veira,r6;t6w1O;ega,iz;a6e.s2guy5ix2owak,ym#;gy,ka6)[o;ji6muW;ma;aEeCiBo8u6;ll0n6[ay,@ol$i,ñ6;oz;l$a,oKr6z-t;al<,e6r/;au,no;hha.4ll0;@i6y0;!%;eWmmad4r6tsu07;$6t$1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n$,r6w/;oy;bv6v6;re;mmy,rs5u;aB=nedy,imuAle$,o8u7wo6;k,n;m-,znets4;bay6)cs;^Y;ra;hn,rl9+,ur,zl4;aA=9ha3im=1o6u3;h6nYu3;#6&2;@2;k$s,s5;cks2&se&;gl<i9ke8noue,s>k7+,v#o6;u,v;awa;da;^;aBe8it?cock,o7u6;!a3b0ghNynh;a3ffm#n,r)t;m$gw7nde6rN;rs2;ay;&5[Qs7y6;^D<;#4>6;moJ;a9.,o8r7u6;o,ti%r1;ay(3ub0;m1nzal1;nd6o,rcia;>;%A/9lor8o7uj6;ita;st0u]i0;<;?0;n#d1;d7$steHsposi6)L;+;/2w-ds;aCeBi9om$8u6;bo6r#d;/;gu1;az,mitr4;ov;lgado,vi;nkula,rw7vi6;<,s;$;aFhBl-kAo6;h5l6op0rbyn,x;em7(6;&;#;!e;#8e7iu,o6r/te&5u3we;i,*,u3w,y;!n,on6u3;!g;mpb7rt0st6;ro;ell;aBe8ha3l#co,oyko,r6y]e;ooks,y#t;*;ck7ethov5nnett;=;%,ham;?,h8.ey,]6;<,i0;%;k,*;dDl9nd6;%s6rA;=,on,s2;on;eks7iy8)r1;ez;ej6;ev;ams",
+    "FirstName": "true¦nelly",
+    "LastName": "true¦:arevir,gnaw,nMrLselarom,v9yrrep,z0;e0oñum;dnanre6hcnas,lazn5m5n4pol,r2u0;g0qzF;irdor,nimod;a0ep,imar,reitug;us,vE;emij,itr8;og;f,h;e6o0;damm4l3n1rt0stenzuk;ep,imid;a0ojmes,rims;sah,vi;iahhim,vap,zA;am;j0yi3;e1liss0;av;r4ske0;la;etsof,olyat;e3iwrad,oss0;lr1nahoj,re0;dna;ak;s0yugn;n2r0;al,ed0;ep,na;ah,e0;j,tsirhc",
     "Noun": "true¦:!1:#$%&()*+./<=>?@[]^_`~:ér,ne,na,uo,it,ar,rt,hc,ot,si,re,or,rp,pé,ir,ap,uq,op,ra,oc,ss;0:62;1:6K;2:58;3:66;4:48;5:3A;cud6Xd6Je4Zf4Wi4Sl4On3Tp&l,r0Es0DtNuIzen,é6;bGc%if,dFgé0X+r1iDm<fn3nnoGp(2VrC~aBt8u7yo6;lpme,v$;qix.5t(s=p;i6r^s%*,é;)t6v5;!er;lc2p#t;t/nimda,éf(sep;c6guf#,lla,ti5;ilppus,$cil;avé,r17;ba;ae7ep,$6~(,ç<pa;t2v3;c$v&j,d@,ma4r6;e6&ts[;tr&t,]1;aUeTiPn8o7<~ed,u6;af2.;gib,+n1rvi^;aCe7io6;jda,p;di9ilc,m6r[,tinép;acidém,e6;d$ma,lo/,nnoy),~(<va,tr6;[2^m0;fn0s#p;c@baf,f5h?lé,iDlCnArugif,t8v7ç6;alpm3<D;(se,rR;$s#p3s6;ef0Qi46;etni1gi6;alp,ef,os-edia;gueb,lievrus,uts^;d$m,nu6;mm0;a7l,olpxe,_bag,u6;c/b,n,rb;f,l,*6;!r^;jus,nim;cova,did%c,lp;ipat,r&c/d;e1Mi1Ko,u6;e7œ6;c,s;bm.,c1Ed1Cf1Bg19+16i14l0Ym0Vn0Op0Nr0Js0CtEuBv8y6;alab,er1.t6;en;a7ec3r6;es;l,r&4;gnilf,q6;)b,i6;n=4p;aMcIeHiEluciD%4om,pmod,roBt7u6ê]$;as,col<t5t(s5;ab8e7=6ul;f,t;ksab,ug;!);pp6va;);rga;af$ib,d7n6/v;om,ég;ua,é;hM]i+2;a8e6ud)t;l6rD;!é;!d#;cudé,hpmoi*,iLluJmIng[mGrBs9t7v6;(luc,<sbo;ceps6$s#p;!é3R;ila#,$ps6;id;[#p,i7o6épo;ba2Ac2da;m7psn6;i,`;da;`6;ca;i%,mo0H;céps,p6;in1;cogén,ti5va;aBiAlav,n9=_,s6uac;a7i6;ann0+n2Np,réug,tôr;c,m,rbme;ad,ep;af,d;et-pi*s,r;i8o7tnom,u6v&;c=p,elp,`;f,v2;alcé,t;mac,p.s-.ua;eAg9([,n6ârc,êg,îaB;[2o6;d,(cefn0s6;i^me,/om;ag,iab;m=p,>e6;*$;rod,u6ô4;f,l6;la;ec3gnAl6%rb;abme,i6;)tim,bah,euc,u6;=dav,q6;am,s3;oj;+,ks,p`6*;!.ohp;)7r6tZuaf,él,êp,ûb;am,e4;c,_;an,n6ol,éip;am,oB;fi0log,rus;a~abma,n6_g,ôr;amé],ev;a7on,r6;af,ep;lp;o6p&s;rim,s ec;g00+Zi8kae7llie6nuej2yucé;sn0;ps;cQd%viv,+PlNmKnErB~At7]6;(&b,%b;@éh,n3o*s7r6tolGuc_4;a],^,u0;ib;alet1iE;cus,ru0ut6;$6u0;va;av)Ai8no7ôm6;ua;c)b,ffi4ip;/6tn7;uc;ac;r6#c;ef,if5;ni;ave4e6oZuat,ôeg;dr0ta;if;a,iA%7r6;em,os;c7lub6m=,$t;ma;av;ffo,?;&b,î)1;a~7%6<b;d,l&b;[,em;aZeRiDo6;egavuMiAm2piHr8sr7t6;am,erc;&;a6engiv,t[,ul;b,d;l,p6;ma4se;aDbBf,g%Ahpuad,p8<7s6t1&bCvob;iov,u0;lèp,s;al,ol6;ag;rf;m6ucn0#hg1;ab;cinimAl8p0t/rc7v@6;cé;as;etâ4&p;+;od;i7y.ic6écyl;!n0;ci8dég)t,gé7méhob,r6s/=[,tihat,zohklok;!iamm)g;ll0;%cém,*ce7sy6;hp;lé;m8s(ru0;a8e6ov;+i%m6nnosrH;=;m,noigYrénég <(_XtJ;ci,m7t$>6;pa;a,en6;$;(6uœ;cej6om;bo;c0Ndnom el t&t,g0J+0Eiv,l04mr03n01p00rRsNtFu9vêr,é6;f,@1lbme7?,rud,sn6;ep;~a;gAoj,q6v;i7n1s6;@;f($ics,rb6;!ur;alb;m`CnAov,r8to7è6;^;b,lf;ev&c2^;éd;at,ie>6;me;!iv;im3$pm`8o+ e]le7/6;us;];#;gDiaA<9tê>,utc8v7èrf-ua6;eb;il;af;s,t;s<v6tacol0;da,in6;%;(,èn;i]é,&rg;ac,oh?6ûej;lét;a,of;bBi9l6;ecr7i6;at,m;[;a,d`o6.é;rc;a7u6;em;c,s,ubi*n0;`;%9r7u6ât;ob;am,e+3.;er;rb;ay7%l6;ém;ov;.;ni6rof;>;%uI_9ua6;c@9$]7_6;f,m;ép;+oDillCl9n8/]1t6zél;om;am;er,oz;lie7u6;at;iv;im;lc;*;!-d%6;rg",
-    "MaleName": "true¦!1:#$%&()*+-./<=>?@[]^_`~:an,ar,on,er,is,nd,as,en,st,ie,ri,in,ol,ce,ha,al,us,th,or,il,nt,le;0:CD;1:BK;2:C1;3:BS;4:B4;5:BY;6:AS;7:9U;8:BC;9:AW;A:AN;aB3bA7c96d86e7Ff6Xg6Fh5Vi5Hj4Kk4Al3Qm2On2Do27p21qu1Zr1As0Qt06u05v00wNxavi3yGzB;aB^0;cBhid,ne;hCkB;!$y;$50&y;*s2i,oCuB;sDuma;nEsD[B;oBsC;uf;ef;at0g;aJeHiCoByatt;lfg#g,odrow;lBn1N;bDey,frBIlB;$d,iB;am,e,s;&t,ur;i,)e7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a>,y;aE&n1iB;cC?0n>Brg_,va0;!`;+te,t^;l+t<48n>,ughn;lysses,sm0;aTeOhKiIoErCyB;!l3ro8s1;av(,eB(t0oy,um0;`9Hv^,y;bDd7WmBny;!*,mBoh$u;*o,.,y;i*,y;mBt9;!my,o]y;adDeoCiago,omB;!*;!d^e;!de9;dErB;+>,rB;#>,eBy;ll,n>;!dy;dgh,ichi,nn3req,ts44;aRcotPeNhJiHoFp+c3tBuraj,ylve8Gzym1;#DeBu$t;f0phAEvBw$t;e56.;!(law,l6;lom1nny,uB;~yma8ta;dBl*,m1;!n6;aDeB;lBrm0;d1t1;hid,ne,qu0Tun,wn,y8;aBb*ti0kou,lim,rgio,],ymour;m9n;!tB;!.,y;lCmB`<o,qib,ul;mAu4;ik,vat^e;aVeRhett,iNoFuCyB;#,ou;b6KdCf9p&t,ssB;!elAH;=ph,y;#,bHcGdFel,geEh0l#dA8meo,nDry,sCyB;!>;coe,s;!@d,nA;lio,r;e4Qg3n6=fo,/go;co,ky;bAe9U;cBl6;$do,c5NhCkBo;!ey,.,y;$d,.;gCid,ub5x,yBza;#sh,nS;g.,iB;n@d,s;chid,fa4lDmC)Bp?4s?d,ul,ym%d;@9Y=ph,y;iro,%;f,ph;+t2<B;cy,t1;aFeDh_Ci&re,=,reB;-1;!ip,lip;dro,rcy,tB;$,e2V;blo,draig,t44ul;ctavio,liv3m96rFsCtBum$,w5;(,to;aCc$,vB;@do;ma;i,l49vJ;a]JeHiDoB;aBel,l0ma0r2X;h,m;cCg4_o,kB;h_,=a;h=*,kB=*;!=*;@,d,_,ls1vB;_~;#By;!a4i4;aWeTiKoFuCyB;~s,r1;?mCrad,-aB;fa,p?;ed,mF;dibo,e,?mD(es,`CsB[sa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;ato,ik;ho[e,o03t1;e,=B;aj;ah,hBk6;a4eB;@,l;hClv2rB;~,/7v2;di,met;ck,hNlLmOrHs1tDu/cCxB;!im_i#8Cwe7;e,io;eo,hCi*,tB;!eo,hew,ia;eB(;[,w;cDio,k86lCqu(,s?7tBv2;i2Hy;<,%;!el,oK[;achBc=m,ik;ai,y;amBdi,moud;adB;ou;aReNiMloyd,oIuCyB;~,)1;cEiDkB]3;aBe;!s;gi,s;*,iaB;no;g0nn.,r+DuBwe7;!iB;e,s;!zo;am,%4;a7Bevi,l#d,nDoB-3vi;!nB;!a60el;!ny;mCnBrry,ur4Twr4T;>,d1;$,%t;aIeD?~d,iBr(t4Vu48y~;&0p,rB;by,k,=los;+0iEnBrmit,v2;!dCnBt5C;e],y;a7/ck;r,];nata,rB]em;im,l;aYeQiOoDuB;#,liB-2;#,o,[;aqu2eJhnInGrEsB;eChBiah,ue;!ua;!ph;dBge;#,i,%;!aBny;h,s,]4X;!a]4W.,nA;!l,sBy;ph;#,e,mB;!mA;d,ffGrDsB;sB[;!e;@d,emCmai8oBry;me,nimo;iah,y;!&y,rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;%,p3;ed,od,rBv(;ett,od;@,es,(1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aB?0iah,ma4sac;ac,iaB;h,s;a,v<Bw2;!g;k,nnguaq;!r;nacB^;io;im;<,n;aJeF<ata,oDuByd$;b&t,gBmb&to,sD;h,o;m3ra>,sBw$d;se2;aDctCitCnry,rB;b&t,m0;^;];bKlJmza,nIo,rDsCyB;ato,d5;#,s0;lE=d,rDuBv6;hito,ki,tB;a,o;(1y;#,ey;k,s;!im;ib;aQeMiLl+KoIrEuB;_l&CsB;!tavo;mo;aDegBov3;!g,^B;io,y;dy,?m,`;nzaBrd1;lo;!n;lbe4Qno,ov#ni;ne,oDrB;aBry;ld,rd4U;ffr6rge;b/4l5rBv2;l#d,r3E],y;aReNiLlJ^r0IrB;#DedBitz;!dAeB/ck;/ck;cDkB;!.,lB;<,yn;esJ(B;!co,zek;etch3oB;yd;d4lB%n;ip;d&iDliCng,rnB;#do;pe,x;co;bi0di;$ZdUfrTit0lNmGnFo2rC-eb0]0uge8vBym5zra;#,&ett;gi,iCnBr=,v2w2;e-45.;c07k;och,/que,zo;aG&FiCmB;aFett;lCrB;!h0;!io;s1y;nu4;b&t,d1iEliDmCt1viBwood;n,s;&,o;ot1Ts;!*,jah,sB;?;a2+;!dAg$,mEuCwB;a25<;$B;do;%d,u);l,nB;e-;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0-2;ag0ew;m<FnD/0ugCyB;~;!l*;!@d,nBov0;e7.,y;go,icB;!k;$muCeBll1%,rk;go;id;#Ij0lbeHmet/9nF%,rEsDvCwBxt3;ay8ey;+,<;?wn,m%d;ek,/ck;(,nBv3;(,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;+,iDne7rByl;eB<,yl;l2Vn;n,o,[;!e,i4ny;iB%;#,+,%;e,lB;*;a06e04hWi$0lLoGrEuCyrB;_,[;rtB;!(;aB(tob@;ig;dy,lEnCrB;ey,neli9y;^,rB;ad;by,e,<,l2t1;aGeDiByI;fB`;f^d,t1;meCt9velaB;);`;rDuCyB;!t1;de;+B;>;aFeEr(CuB;ck;!tB;i0oph3;-3;d,rlBs;eB.;s,y;cBd/c,s$;_;lEm&1rB;ey,lCro7y;ll;!os,t1;eb,v2;$02eU_TlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;#,>,%;>,no;#,>;nCtB;!t;dCtB;!%;#,%;dC)B;+,%;!foBl6y;rd;bCrByd;(;!by;i8ke;@,lA;nFrBshoi;at,nCtB;!ram;aB.;rd0S;!edict,iCjam2nA;.,y;to;n6rBt;eBy;tt;ey;$0Xb0Nd0Jgu-2hm0Gid5j#i,lZmXnPputsiOrFsaEuCveBya0ziz;ry;gu-9-2;[;hi;aIchHi4jun,maFnD%,tBy0;hBuro;ur;av,oB;ld;#,)0A;el;.;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!*,s,w;ir,mBos;$;#,beOd5eIfFi,lE%Dph%Ht1vB;aM<;%;so,zo;#,+;%CrB;edP;so;c,jaEks#dDssaExB;!#d3;&;$,&;)B;ro;rtH;ni;+;ad,eB;d,t;<;aC=fB/0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;@lEel,oulaye,ulB;!lCrahm0;#;ah,o;ah;av,%",
+    "MaleName": "true¦!1:#$:an,ar;a02b00cWdTePfr#k,gOhKiIjFkBlAm6n5orl#do,pol,r4s2tomoh$u,vaughn,wa1y0;i,ousouf,uuma;de,rrO;al5o0;nny,uI;#Mex,ocky;athy,iSomaT;a2in1o0;ises,nte;ik;ck,lachai,rk,sDx;#ce,eo,uis;a2en1ir0;by,ollos;dall,t;na7them;a1ess0ie,ordJ;!e;ck,y;chika,nu0ra;k,nnguJ;$0ina1yd$;ris1u0;ta;on;ene,r#t;$2d1lmo,mir,rgi,ym0;en;dy;l,nest;a1e0iego,rew;#,nver;llas,ne;h0level#d;$lie,risti1u0;ck;#;e0ob;nedict,shoi;b2j#i,lfre1putsi0ustin;aq;do;dullo,ulfazl",
     "MaleAdjective": "true¦:!1:#$%&()*+./<=>?@[]^_`~:uo,éd,re,ér,na,or,ni,hc,oc,ne,ra,ar,té,cé,rt,ém,ts,ro,ép,ev,mi;0:03Y;1:00L;2:03N;3:052;4:03S;5:01M;6:02T;7:01G;8:05H;9:037;A:012;B:04Q;C:05J;D:04W;E:04H;F:NU;G:01N;H:01B;I:WU;J:013;K:02A;a06Ac064d04Ee02HfZVgnolZUiXRlS9mS8nPBoloPArN4sN1tD5uBJxuBHàled ua,éLï#2ûd;bBAcAZdAJffAFgA0+9Hi8Yl7Km77n5Sp5Er3Ts2Lt0Xu05vSxRyLzn)b;aOoMuL;n4ppa;+,lpLn,rb,v1;me2$;p00FrL;!ffe;`,if;aVeTiQrN#rLêr;pLt;!pa,é;eLuc2;né,sL;bo,n0&;rMtL;ca,luc,om;p,<,$;+a5lL;!er,/,#s,é;lYLp,rL;g,p1t4;b0Bcavé,g09l08n06o03qNtLxesa;!iL/cca;bah,s,tZD;aZiVnSoQ<PsLu9;aNiMuL;bFffo,m;fn0r;c,m;!b1m;+,lLt,vo3;b,r00Ms6;aLo9;lLm;ffe,p;dnNlpMp,rL]ihpos;bafé3f,>;m0pa,xe2;i,ys;lX3@1;d,fab,jYLlIOn,rMtat,vL;!a5$;/,t;im6étL;ta,xe;g4lop~,ové,%bé;ab,itaf,*L)d,<l,élA;lg1]6;i@E7me;a15c12e0Xi0Pl0Nn0Ao07p06r00sYtoXuSâRéPêMô,ûoL;g1v;rLt4;pL<;!pa;béh,pL;!&;g,pF;aOb,?00Relb,f,oMpL;ma,s6&;+t#Eja,lL;c,`;epaDs;b,luc1rc;aLissa,op,uja;rZNv1;a?,ePoMuL;eh,.é;pLva;mLoSKpK$;e,i;cn0la,s1;ada2ecGlucs,mod,oda;cMd,gLn,r[un;af,il;!siba<t;aTeOiNoLurpF;hé,mX0rfL;fe,n0;eré,op;dOg<,i^J2mLsYOtIuqéCvé;`uBgaCiMrL;ef,#t;p,réV;!icca,é;g,hNlLma7KvHZ;g(s4li#bé,pL;!~,s01B;!c4;aGovL;r7&;bQCcRd[é3ga,lQmOolNpiCDrLsu2uC;otua,éL;hs1m~;pxe5;!iL;!l1W;autca,ibah;!xe,é3;+uBjKPllNuqMvL;erb,ud;apFi+1;iL.1;ap,uef;=tn8XeL;fLpsA;faIC*;d,lMrL#;!dyFH;?,eCid,.oD;a0QepFi0Blu0A/09o03r00sMuLylRA;!baI7cca,d[,fAr;aVeRiNuL;a+W0oL;mé,p,@A;aMlp,n%v,oLréh,t,v;g(,rf;bLc4l1rg;a,r7;lb,rL;d,pL],ét*HY;!mL;e,.;cM+,lc,ma93pEKrLt;ah,bFc4iuc,rE7;!aC;eL.;ps6vL;!eE6nA)XW;!lyk(,pMrL;<,vén;!eFUmNo3pM%Ls6xe,é3;p7t2;o,us;i,.VF;c,ffo,pm0s5;pGvn0;aIEd<d(],lWmat,(VoUrQtOuMvL;!a,id,oF9élét;gLpé;ia,$;amLpesa;ilc,otua,^f2;f,gNi,oLtî8étcQ6;r%t,tLvaf1;om,ua;!-ed-t%v;b,rc;g^,>t;aMiLo.la,[Q0;ba],ré],tu5vic;col,d(cs,iX5^m1&;b,lb,rLvé;bF?;a12b10c0Xd0Vf0Tg0Ri0Po0Lr0Ft05uZvXéL;a,bilUUcUdSfRgQh>,iPnNpMtLva;la5év2;met,o,ses1;oGéL;gé83v;n8r<,ss#pF;aGirfJ;f6é3;isLnHomW2éf;!nP4;aLlu,rAL;!l;an,iLueos1éif4;g,op,uc;ePgifUGj,mFoOsNtLza;aLcaC/va,^t;mé3n1s;emUDsa;ja,mané,t4;med,pa;iSnQsNuMêLîolc;pFveIG;av,ef,o;ac4e+^,i*s,o3uL;lLrf;!li;eLic,.nA;cn0vé;tLv;!ta;aPeNuL;eb,oL;b,f;f,ipFsLt4;!sA;b,c,gib,maD;balé,c1dNf%p,il[a,lL~t,ngi,pavé;.TTpL;xe2é;!rB;aL+1om,psD4s1tI1;ffa,l?;iLét2;m~,t;fiDuL;ag,os;nLuH;ec,offe;aM(Lus;!+é;n,sP6;al1iliuqéFKmLr8éz;aE2it,.4;ffe,gé,lc1pLt;!mLés;es1.;aWiUmS.nys,pP<cse,uLyto&é],âr;ccoNoL;cLrg;!eDJ$;!*,é3;aMol`Luh;/,$N9;+é,rf;e9oL;@,]e;cLrf,ss6;it(,(mé;cLt;id(h,sA;!-trBa0We0Vg0Qi0EmadOMnXoVrNutNOéMêg,îaL;!+TB@4;gyxo,rffe;aPeNoM#tL;!n0$;!b,c9A;c,tL;la,*,sn0;cM+L;a,$;!*ER;hpélLr%;ét;aZi,oL;dWffiDiSlQrPsNtLçpGG;ipE#b,éL;!b;!iL;olc,rpF;d#g,u0;ag,laL;b,v;ssItL;celés,idn0/L^p)p2Hsegn0;tLvb7;*,ta;!(ba,^L;!b7s1;bLr7t;rut4ur4;bm0cVd#b,eUfTlSmPrub,sOtLur,va;aMoFEsL;bo,edS5;lp,s,tK;iuc,sIS;ativ,e+rIilé,rMulLéGJ;li,/;ac,etEC;c2picsFJ;fKn0;lab,v;=S7lEuBV;aOiLéBO;d2la,oMsL;!n0é51;lé,s;g,pmDZ;c^f,mr7;f,p,sab,tL;as,lu~s,nLuc;aEBemBops;aVesrialc,htyr,iRmPrNuLôlp6;ap,fLhr4lla,rbFsé3tuDT;!/,rI;aDJefRZiL6ofL;!*,é4Q;aLonFN;lf4rgo3;aNlé,(5rL;pL_;!m0po,$;!-7B;c,fL;!fa;a0Wb0Rc0Qe0If0Eg0Ci08lYoUpuepTrSuNy],âh,éMêLô@nLNûrb;f,mF;vJz;cOdNesse,mMn(,oL;c7JfAm,pma,r;is17^f;ica,no;am~,er,it<5lE/,é;ap,ep;!r7$;dnog,ffa,iNrév,sMv,éL;rua,vla;i,nLB$;<b,v2;abFeTiL;aQbahCUeP/ug1p<pé,rg,suOt#,uLveuq)cAâbeB1;ed4oL;b<b,m,/ga,p1rL;b15%v;f,ob;l05mm05<p1vé9R;?,mé,/p1pFrLt2Jva9;b1ti30é;cs,galf;a,fN~ssa,oMtLuh,xe;/v,um;>,v;fRZ/;nL&QC;=>,ic;f#sNnM#L;sGPtimF;e,ogQ8;!se;b<b,cQgPkcin,nOp,sNtMuq=c,vL;e+é,%?;/d,op,<?;ic,sob,uf;(AQ&c;n0r7;if,rL;os4;sum,#b,âb;aOmNuL;em,oL;dE6@;e9.;cca,id4sQEtta;cPSngis,sL;!sed;c01d00fRgélivi3hpQlOrLsassKtip,xyhpsa;aLc1p)ppa5];m,rRZvL;!a;!b#,er,iLl=RZpiMC$;ffa,muh;=golytcad,)ta;iL[ut;cRdBlauqQmPrNtL;rLsuj2;ec,of;bul,cas,ogiCrL>p,év;et,oh;=,om;!s6;urc,_s;nGIu>;aLossa;mé,rgs6;a00nVoTrSuOâNéL;lLmé,rbé;!f;b,f,lDF;aNoL;bLc,<ffe,t5;!me;béBXf;e+A.é;p,rL;b,cca,ppK;aMeLoj;lc4p;h1mMrL;b,t;id4;c,h,nMr<,tL;ta,$;apF<h;aUiSnOrMâ,éL;issa,to3;aDemLog4;b7~;aMolL;la,o3;+5l[,rL;!o,$;en4f,lLrJ1;bo,gén;gOUllirg,mOrNsMtLvK;rIé;iv4u;bmo,fuan,/,u5Ov#;i,mO5;iLo>,ua+J;oMrL;g,#bé;c,ssa;aZiWnSoQ<OuNéL;c1sL;bo,sH;n1os;bmob,g,tLzél;er,ta;c,m1rL;b,é;aNiMoL;b,f5g%v1*;lb,ug;b,g*g1la+a,mm4Gsiaf;cMloOPrLv;!bNS;i7$;ccas,rg1uQY;aTiSnNrL;eGoL;f,v6;aNedEi0oL;fLno3rf;!/,$;lLun,va;ab,é;lHpé;cid1ffe,lL/m,pse;e7Rg,oiv,pNF;iPlag,moO)NUrL;ecaGosba,uL;oLt%p;bFcBM;b,lp,t;b~,ho3;af,oL;d,laj;ae15b13c11d0Relb,ff0Qgi0P+0Ol0Fm0En04o01pZrXsTtPvNçL;er,n0%pL$;!a2;!er,ruLé71;op1;!nNpmo6Z^t,tabM#f,êL;t,vBB;!a66er;ep,iH;nIsMuL;.MW;i,oLuB;b,c;aps6cLd,gnHCr#b,t/v,u0éf;!ca,er;a9er,m)Lpil,&c;!%54;bat,dMf,lL;ad(,f;*h,uav;!ePitn.s6n.OrMéL;g2t;aD.L;!sib;!er,*;+,m,rgOtMvL;!n0rIé3;!erLn0#s;!t4;!uas;o3é;!cGeRfQiHliuef,oN#Lé;g,mLv;!%v;sMvéL;d,r;ba,s6&FM;fOTrH9;f<f,m8vL;!eD;a]uBif,)c,r#f,$;aG6bma,tn0xe;irg,#t;issa,nNod,rL;a,ep2HoL;m,t;apJeMi,oL;fn0t;fLUpOr,tLv;!/Ms6ta5éL;d,rp;!-s#s;!s7;*avL.,év;!nOS;~,rL;ab,eh,#f;b,cup,g(5Hv#n;a9Ec98e8Ui8AnVoTpRrLse,urb,ê3ôt1O;eMoLu0;cca,f,m;pGs1vL;!#L;!'5RcL@4;!er,$;mLurba;eGo3;girIidi,lLs,v1;af,lieiv,#b,âp;a1BeSiLuf1;aPeMojL;!n0s6;f,pL6@sMtL;!ta,é;a,er;rNEsL;!-)cas;c0Vd0Rg0Ki0Gl0Amé09n04rXsUtRuMvrL;ef;lf2qL;olNéL;rf,sL;b7n0;id(rg,é;aMn.Lop~,timrN7éNT;![;l,p;ba,&pL;!inL;mo;apQrucPéL;fMhL;da,*,.5;fL$;a,id5;n0&;pa,sP3;am%p,iL;mMtL;nEY%pLV;~,éL;!o3;d,hév,lc;!aviJTlEQoOuL;brut,cc7pMrL;iv,up;o,r0;d5iv,nLs2;iug(s,mos;cLtapLL;ifMsn.L;!b7*;fe,$;iOlud2nNrL;`Lu;id,n0;at,iM9;d2lL;gLid,lM9;én;ac1iN<,uMéL;?3;p~,rpL8;c2@s,ss6vé;ajda,itJon2sMéL;d5r;eLipuDA;dnOgrut,lNnM^Lv%ffe;hpsohp,ulf;avé,imul;aE1oda;ac2;b65c63d5Qeg5Hff5Eg5Ch58i4Xl43m3Wn36p31r2Fs16t0Cu02vZxYyQçNéL;b,g,*af,sL;/ib;aMnL%p;eLCirg;ga,~rg,/m;aPes,oMuL;f,rb;bmalf,dMeOQm<l,n36rLtaDvJF;c,d#f;no,%v;géb,p,rL;ffe,tL;s6ta;alA`;as,ec1ivD8lo7P%né,#L;mLrpé;!é;lTmAnSp,qN@inot,s,tL;!i]nL;.79;aOip,nMoLr8;+,rc;am,ilL;c,$;lc,rc;is2étG;cn0g;a0De0Ci09l07n05o04r01sVtSuPéOêNûoL;gLv4;=,$;bFt4;iG9p;bMc%p,m,)L;f#C$;er,$;abMem)LHolLu2K;erg,f;!m0;ePiLnLJ;dNsLxe5;nL%p,&;i,.5;!iHT;r,to3;ap,ecnMoL;fn.Jp~,s;.1;+uDlbme9ngilc,vip;aDeLi7om;pAsn0t;aGovJuL;s2xe;b^GcGlim,)im,pMrLséh,v2;ri,[;lI&c;lah,uqilc;l?,pé,rdyh;=0Sep,i0Mn0Jop0I%ve0HsMuLylD3;ac,ma;a0Ae06iM#L;bal?,lg,pA;an03c*ma,d00guZhXlVméUnSoRpalg,rQsPtOuLvKébo;g(l,oMpLrb;!-t#t,~;jJlbé;aKN/tA%v6urba,_pa;ias,s)g;d/tta,giama,olf,r#H2uha,ûm;g(,rcHL;if,uL;aj;g,rf;as,g,iva,liLu0;aj,eiv;av4cL;ir4(lb,éHMî=fK;m,),r;nMr#L;ssa,>;=g,elpsAob5L;!er,n.A;c2lb,rL;ac,pM],éL;t*5;!po;cNl,p,rL;ah,rL;abF;!aL;j,rf;l#b;er,mK2;ad,eL;fLp;fo;aNffus5htapmys,llLEnoga,rMtamua9uL;c,dés,l54pé;b,g,p[;fMlpLpa;!m0$;l8/ib,sitas;!?;a05b04ff03galf,i00oXrVtTuRvQéL;buOfiNgiMlot,*ti,pLuqn0véJU;o2saG;lleb,rfJ;cov,lo3^do;to3xe;an,i4;d4eLgluf,mrum,om,ssKt^t;lp,oU;iclacJ/Lén_;!r;am,eL;!ba;do3Cf%p,lp~,nLv1;gi,oL;hs1;alM+1l1psLtta;a,*;?;o,#s;adac=ba,iv,m.4;ffe,g,lih;=$it(,ici91mNolag,pMuL;cco,.;aCilf,ol`4;=,iL;p,rg;a09e05g01iWnoMrLêg,îa9;etGR#t;dTissRlliPrNsMtLyK;!uBât,é;!irg,siC;iLn);alc,v4;bL#b;r#t;ap,eL;rp~;eb,r#b;cNluMmLsiova;luf,od,%t1;og1;(l,saf,uL;llah;ag,iLupJ;aMes4oL;p,s;rHNs;rpMvL;a,n9T;!eLr7;@4;cir,lp;af2iQmossa,rMuL;?,f;aNoL;d,fL;%p,$;+,la;a,rp1;a0Db0Be08f05g03i01lS(rb,oQrPuLûrb;bNci]eg,dno,~],oL>p;c#r,m,rL;!c;an*t*t,ma;ap,uh;b)im,egalf,ffa,irffa,sLv;n0$;ab,iM.L;!otua;aQcav,eOrb,tM#L;b,rg;*cs,s#rc,uas,éL;p,rf;ucca,vL;l8/ib;f1s,v;buj,giv,pLtur;ir^h,os1;nLu`a;as,ic;noM#]L;#pé;g,r;cLssiur,tnI;nL<h;aDi>;acca,meL#9;@,ssA;beug*rb,g,+non;bma,c23fR+,lNrL;!=GFuL;os,xul;iMpL;!p7;cn0mL;uh;iMn0éL;m,pu];dé,nLr%t,trBviv;gis5él;cLpBS;atta,(9uMéL;lla,m;bé9ot;avaBViL*C)<,élé;@2taf;aip,uL;aDoL;b,>;aRiOnL;aLolp;+,rL;<,$;lLr6s(@2xe;boLffa;!s1;g4rL;t#,#cDT;=WiVnQommPrMéL;p,sbo;emFoL;b1cLm,t;n0s6;.ca;ab,eMoL;ba,dAf8Vpserr0;csMpL;$5;a,ed,(9;pé9uce@#;a>p,g1;av,*a7GoL;ff7vo3;mMo3rLutit;ab,osba;alf,ot;aZb7dXfn0néb,)Up&c1rPtep,uL;c14dNrMtL;=g,^f;]2;o3é1W;cLtn0;sMéL;!d;*,o3uL;n8os;dL>;!aL;!l8;!rEUuLé2;am,ré;fM@sL;ba,id;er,rMsitas5éL;d,pu];apDRus;dEiuq5lQnPrMuL;lf,m,q0s1;cMeLpo3;lliug;es,n0sV;!nongim,uej;b,ergiaRlOoivNpL;er,mL;is,.5;!=tlu;i#MoL;f,m;d,ss=g;!m;aPeMi@s,*]L;id5;f2jba,psMrL;id5r0;n.ric,us;pm0t2xe5;cil1id9Eng%vua,rLuq$a5éb;g2élécs;=g,iL*B)g,^hed,tiaferDZulp;aCmLrg;#s2;ayg8e0Yi0Wo 4uLytr8û5G;csbo,d,eLpD0tuf;c0Td0RfBVg0N+0Liré0Ij8l0Dm18n0Cpmo9r0Bssi#f,tMuLvêr;guf,oj,qB;aUcPeruf,nMrHtL#rb;alf,emo3;aMeLiH;m,t1;+4;eOuL;dL@sed;n0)pLés;!er;rr0to3;b)ppas1cWdVgi]A2iUlR*mQrOtNvL&c;on,%C2éL;lé;/t,sav1;apJgim,olpGéL;bil,nég;od,%tG;oBWuLévJ;gJ~L;ss6;cnon(,d[;nof,é3;iMoL;vé;d2firup;<gab,]iger4;im,âlf;g(r>,liNoMôL;j4rf;cKv;aLem;r,tab,#g,va9;f2p7tL;lu,nLsHxe;a,i;iL)cca,_,êb;nGN@,uga;aNnL;`,oL;r,s;pat,r,vKyov;alab,n)g,%mF#b;me;a9%b,us;aL/v à,on;lc,pBO;g09+,iLma;c05d<c0f,lZmYnSrQsNtL;iLla,/,se^f,to+E#r,ôc;al,uC;r#b,sL;aLef,)g;nrEtup;%ug,t9Dud^,vL;#;aPiOnoL%d,ucnKélp;bMsiL;as,rp;<D;elab,m,t#r;sEt*3#d;e3utu0;aOetôh,iN)>p,uL;ci2QgL;*s,&35;b3Pmaf;~(,nrCBtLvE&éc;ipsoh5noC;iMnL;a*f,i3of;lHrr#n;aMnLél;=>,o3E;n[,tH;?,gir;a2Be16iXoNuL;mm0rb,t^pL;~,po5;b,c,dib,f9N+TlliSmrBngiQppPrOsNtMxasL;!-olg(;erb,uet,éip;iam tiaf,silH;af(f,ecuaeb;in;m,ugL;r#b;tat,#rb;irgi8.;a06d03e02lZmag,nYpXrWsUtOuLv6;g(s,oMqL;at,.,sem,#r;dQl8;al,cidénPnMobE%bil,seLum;d(lc,t2;aMeL;g<,p%s,^lf;f4idu]e,ma6zyb;éb;=<s,sL#~l;assa;d(xela,gaDuprup,étu;la,piDE;iméf,éb;aMc4ehp^,lLucs8âc,éf;a]irc,ybis;cla,m,po,s;lp,%s;aLn)ig,o(;r,tL;ic;b05cZdY+o3liv,mUn,rRsQtLv;iN*ol,rMuLâDébit;ah;ec2;lopLrup;an,)>m;!l8#l#t;`#s,oMrL;et#s,ol;f,pAG;)N%g,uL;hL);!*,r7;!-.&g;nB#s;iL)8;lbupJrLxem;!faSotrH[aL;!-L;d7oL;c(Clg(;ruLuc;!b7;iTyRéLïI;d/v,luc%h,nPpoNr.L;!-dL;^n,us;lcyc,rueL;!-od2;=%t5Oiug;aug2SoL<;m,tim;bup,c0Cd09g07+i@ua,l02manteiv,nWpoihVrQsNtMvulidét(,éL;bélp,pmH;inév,pygé,r8&D;iMsu3uem,éL;nylHtrE;alebKnut,rI;aNotM%t,#buaf,ys61éL;a5Sbis,gla,htul,ltih,név;civ,sen;has,>L;gév,lo3;>;aPiOoM^filEéL;hta,m<;c=d,dnol,tlLélopan;ad;=ku,la];ri,util;aNiMoLé=si;gnBryt,é;cis,+,s&b,tpA;@sLti;ua;dobmE^Lév^n;ég;itouq,*Moowylloh,<g,uL[0;eCoas;!r[a;aNiL(;néhp,@Isum,tL;améht8ilH;sla,zlab;csot,hgfa,id[,lPmOsMtLxet,zela;ig;iL%p,serb,yI;trI;lusum,otto,rib;atEli]Ep;iaf,u~x8;a1LeViOoNuL;es,n,oL;as,b8;gnBngapse;eQrPtMvL;!ic;alMb7nL;eg;ov;iv,éup;m%v,rI;i0Ym0Xn0Cr07s%vinu,t05uM&L;!ri;di02n01rZsXtOxesL;!ib,oL;moh,rétL;éh;cQiN/vMpeLriv,um,_%p;cn0;n0é;bMrL;!ips;ah5;aMell86ilLnH;fn0;!r82;iv,/Lu;m,s;c,tL;s/m;am,i7X(;sJvid2;/dicca,rL;om6Z;opOutL;anMlL;uc;!r7;met,r0;i04nOrL;aDetL;aLipmes,é;m,p,rf10;elos,oL;iLs%p~;sVtL;aScQidO/NoMpLuti]n.5;ecG;mé;vn0;a9da,nL;.2;erLnof;id,r0;lArLs/s,tiv=g;!ri,_o;acco,/m6sL;ap,eL;fo3sbo;gi^,~rc;^f5;ciTnév,rPtL;nLrI;a]b7eL;diLli]ep,m1r^t,sYtH;fn0s&3Pvo3;os/s,]NétL;am61cLsi*m;=E;e~9ud2;fL@8;fo,it<,rL;ep7;b30c2Nd2LfrBg2Ehp2Di1Rm1Kn0Wp0Tr09s07tSvNxodMyoLç/2B;l,r;=I;anNiLé2E;r,tL;se;!oL;réa;aYeof,iVnNoMsHuLégév;rb;d%cas,t;eLozi^h;dicco,i^,mN*tn.M<pL;!onB;!r6E;!adnof,eMiLunB;r_Gt/s;n%v#g,trL;ap1o6W;b^,g6négMpLr8v;ac,icco;!n0;f,n3Y;an,rLsol0;`s8Cod;bé03gét2iv,oZtXuSéL;bil,cQdPnOps`,tL;alLtil;!iLl0;nu;im,ég;is,éf;rEsiv;m,r,tL;acirEcNpluMtL;ug;cs;eti+<,u@s;ceps,/c,sLâéht;a,ec(,ig8;!+,lf,mNpmet,tL;ceLsI;lé,p;!~,éf;réc,t%v;icM.siL;pé;inum,*3;a07iYoO%Mu51éL;monéhp,p,r,v;f2vL;ih;gQiNm^h,rL;tIuL;en;dir[,tanL;!iLr58;tlum;aMotL;co;id,xL;eh;c0RdRf,gO+8mMtL;am,s51ut8;ilb7oL%t,és;dba,n;av,iMrL;am,iv;^;ibLrEutignol;il;!sit<;iPrLsitpab,yrcal;eNonL;!aL;!rI;ht;*m,séti*f2tL;po;bal,c02d00géll0liZnXrRssi)ItOvL;iMoj,ulL;f,p;@,vn0;aps,i2pun,<MsL;eb;m,p3I;oLuengies,_~;mOtL;atc6iL;r%t,siL;uq2;[~;oLég;l0~@8;f,maf;=,nB^L;c,~3;aN*MosL%3Ourc,_s;!a,it(;vo3;f,lg,r;moi9;uOéL;!lL*;!-.Lli;id[;jn.Lrf;!aL;@G;im=yp,oLïoz_a9;éf;amoWcViN(b,oM<i@Isif,ud,éf;ap;f,l,v;dRfitnHgruriDma,*mQpo9rélcPsOtMvrL;ec;amm=g,rL;`,.;um;!it(;od;=,nys,[;ub;];i9%v;a1Mc1Hd1Bf1Ah14l0Um0Sn0N.,p0Lr08s02tRuNvLzan;=,i7%sL#ssa2;!sa;elb,g(la,oL;f4jJlM(L;pé,vé;bé;alpa,nQol,rNsMtolb,urLâb,ôr;ba;`2;`MoL;ma,ssa;a,n0%p;=OeL;m1pAsL;!serL;!p;ag;iN(9sL;)g1uL;),&;as,oL;+,mL;!=c;at,gVoTrPtNuMéL;+,ug;elf,ha;ruL;em;aNeuM#L;n,p;ga;uqé;lWvL;af;iaL#bK;!ma;alf,#L;rcUssa;ifO(b,rMuL;!aj,m1p,rb,s1;ag,et,uL;of;!*,$5;ed,rL;od4;bS`4ClPoNpmL;er,.L;ca;ba,j,pL;!$;iLomK;eL#b;iv,ucA;a>LiafQ;!é3;aPcL;ava,ir4(MéLî=f1;lfJ;lb,rfL;fa;bé,@,v4;f#b;i)fAnoOrL;ah,`,#L;gLssa,>;/,$;bAf17rL;<;nNrLé0L;af,ion,udL;!/;=,iL;ma;g,rv;!bo;iMuLïan;`;c23d21s1BtLuj,v;a0Fc05iWnUoTpRrQseOuMâh,éL;+,r;af,?L;sn0;gLpm10;g7id;ops,uf;ac,ecJircsLoda;ed;mé,v;etta5iaL;lp,rc;dSgR~3nQrOsL>pJut2;nMopL;!)és;es;tL_a;un;g0if1;uf;ua,_G;aTeOif,*]NuL;d)pL@sn19;!~;id,*;ffOjb7lNpsL;er,oL;@J;l0és;a,e;!flo,*,oidK&;b<bJc0Adés,g08l02~x00nYrQtLvi3xal,&c;iN/sM),rHégL;év;&pA;bud,dLrE;[;a0PcRimda,oN<n,]i*mda,uM_L;~,o0;c,gif;c1jMméLpr0;mm0;_;$;ul;!iL%tla;ga~,mon;)pL;pa;er,pOsigNuL;?L;ps;él;meL;tn0;)rLén;et2;iLudé;dnLfingis,lpG;`Aiv;er;&;a08i06lu04nYoX%vb7sOuMéhL;da;ba,lL;cGla;aReMiLuH;#j;cOrMssH;op;ga,pL;xe5$;c7xe;m,p;us;lpGrr0;apGeL;fMh&Lt2;pm0;fo5$;!*;xe;pmLvn0;i,.;cLo;*,$;uLvé;s%p;al8rL;at;on,sal;c1Dd15g13h0Xl0Lm0Hn0Er00sYtSuNvL;aLuaD;rg;gn6qL;iMse^ttL;ip;n+Lta3;et;^p~ uep,sMâh,ênnL;oh;ais#ht4iLïogé;cK+<L@;(;=;),saL;lc;=,bWdUiPpo3<zOtîaNutamMèvL;és;~;m,@;ib;otMpL;sa;aLon;gilLéla;bo;nL^s$ 4;et,iB;mYèlL;éc;g6uL;aj,ej;id;ia,^Nâf2êmL;! d(L;uq;né;bmVgueUlRpOucsunNèdMôL;rd;if;im;mMuL;os;is;iuqL;(9;@;va;es4;cNposoL;liL;hp;ir,oMuL;ag,ol;m,rp;as,rL#r;al;aRiMom alL; à;mOpMrbL;yh;=,is2;*;it;f,l8;acifNipo3(va 4)L;ta;/;fe;i18n0PrTuaL;dr#l,eQ+,nPriOtL;ap,ru0sL;.,ur;.;on;ep;guL;);aM#L;l,s;bmol,c0Afalb,g08+04irc,lXmmelf,nPsueilnOtNuqMvOyovL;as;ot;(v,âb;ab;eugog,gOiMnL_;ob;bons,eL;p,v;aMiL;eg,m;pmEtnB;ac;ecPlLogW;iLun;aMrLsan;gé;g,p,rb;iv;rc;av,inMuB;om;rueL;lp;ah,nL;ir;iMot,#D;+;lf,p;ol;aWoL;bPcNfo3lb,rL;!ig;rp;es,ibLéf;ur;aNiL;dup,rL;om,uf;gMésuL;an;av;+r8iCmLrg;aOelNrL;on,uL;og;la;lf;am;al,oC;rf;ePiN(MrL;ut;lb;+,lbL;up;rg,s;pmLtêb;ys",
     "WeekDay": "true¦dim7jeu6lun6m2sam1ven0;!d3;!e3;ar3er0;!c0;re0;di;!di;!anche",
-    "FemaleName": "true¦!1:#$%&()*+-./<=>?@[]^_`~:an,el,na,le,ie,en,is,et,ri,in,ra,da,on,er,ia,ey,la,ce,ta,yn,ma,th;0:FU;1:FY;2:FN;3:F9;4:F8;5:FO;6:EN;7:EL;8:EV;9:GB;A:G7;B:E1;C:G4;D:FK;E:FH;F:EC;aDZbD2cB5dAGe9Ef8Zg8Gh82i7Rj6Tk5Zl4Nm37n2So2Pp2Equ2Dr1Ns0Pt03ursu6vUwOyLzG;aJeHoG;e,[,/;lG%;<,`;<,/;as7DeHol1SvG;+7=B6;&0s)3;#8)dBLhiB1iG;lInG;if39niGo0;e,f38;a,h$mi0lG`;a,ow;aLeIiG;ckCZviG;#9V)FX;<,l`,nus,rG;a,nG=ica;a,i];&GnesE9;nDIrG;i1y;aSePhNiMoJrGu6y4;acG0iGudy;c3%,sG;h9L^;nHrG;a,i;i9Iya;a5Iff#y,%,s5;al3eGo`si0;a,l`,o6Xres1;g#,o6WrHssG;!a,(;eFi,-9;bNliMmKnIrHs5tGwa0;?0um;a,_;iGya;a,ka,s5;a4e4iGmC9/;!ka;a,t5;at5it5;a05car&t2Ye04hUiSkye,oQtMuHyG;bil,lvi1;e,sHzG;#2T+7(,y;#Gi9;!a,e,nG;aEe;aIeG;fGl3DphG;#2;cF5r6;f3nGphi1;d4?,ja,ya;>4lv3m=1nGobh#;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d#;?,lBT;ki4nIrHu0w0yG;[,%;i,&A=,r=;a,<,?,nG=;a,=;l5Yre0;bMdLi8lKmIndHrGs5v#%E;aEi0;/,y;aGi4;nt5/;lBLome;e,(;.1-0;a02eXhViToHuG;by,~BI;bQcPlOnNsHwe0xG;#92(,y;aHeG(,lC;#n9ll1`rBDtB;!lGnn1;iG_;e,nG;a,d7V;<,i,%;#8;h$53io;b.,>B_;a,cGkki,%,^;h$&,ki;ea,i#n=,oG;<,n12;#0bIgi0i0nG^,y0;aGee;!e,^;a,eG;cca,kaE;chGe,i0mo0ndi,qu$,vDy0;a$,$Gi8;!e,&;e)2?0;aMeLhJoIrG;iGud)];scil1Uyamva8;lly,rt3;ilome0oebe,ylG;*,l*;arl,ggy,n$ope,r6t4;ige,m0Fn4Oo6rvati,tHulG;a,+7.1;-cGsy,tA7;a,e,?;c^v3deHfATlGphAT;a,ga,iv3;l3t7;aQePiJoGy6;eHrG;aEeD`;ll1mi;aKcIkG[,%,s5^;iGki;!^;ho&,k8AolG;a,eBE;!mh;l7R%,r*F;dIi`,nHomi,^G;li1s5;cy,+7;eAiCL;a01ck)z2eViLoI-g%y#i,u-$,yG;a,rG;a,%,t&;i4ll9VnG;a,iG;ca,ka,que;a,chOkaNlJmi,nIrGtzi;aG?m;!n8;a,dy,>va,h,n2;a,dIica,lG;iGy;c)t,e;red;!e6;ae6$3G;ag#,gKi,lHrG;edi~,*Fyl;#2iGliF;nGsAJ;a,<;!#,h#;b08c9Cd06e,g04i03l01nZrKtJuHv*,x86yGz2;a,b$l,/;de,rG;a,eD;h73il8t2;a,cSgOiJjor2l6Gn2s5tIyG;!aGb+h,jaAlou;m,n9P;a,ha,i0;!aIb$,eHja,lC%,sGtza;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeH(,oGr3Kue-7;!t;!ry;+3IiB;$Gi5Zy;a,l1;dG=,ue6;akr#By;iGlory;a,ka,n8;a,re,s2;<Gg2;!l2W;alCd2$Gge,*=,=0;eiA.1_;$,&;a0Ie08iWoQuKyG;d3[,nG;!a,dHe9PnGs@;!a,e9O;a,s@;#n,cJ$IiFlH%,pGz;e,iB;a,u;a,[;iGy;a2Ae,l25n8;*,l1GrHtt2uG;$6*1;aIeHi9%,rG;a6Yi9;&i,n1tB;!.1;aQbPd3lLnIsHv3zG;!a,b+h,+7z2;a,+7;a,dG;a,sGy;ay,@,i,y;a,?IlG;iGy;a8De;!n4E;b7R>ty;!n5P;aN<,e0iL[,nKoIslAOtGx2;iGt2;c3t3;[,nG/;a,(,o4;a,or1;a,gh,[G;!ni;!h,nG;a,d4e,n4L;cNd=7Qi6kes5%,rMtKurIvHxGy6;mi;>n1.3;a,eG(,_;l,n;as5*5oG;nya,ya;a,*F;@,(,y;aZeUhadija,iMoLrIyG;lG/;a,ee,(;*tGy5A;a,),iGy;!e,n46;-,urtn@;aM>L&y,mIrGzzy;a,stG;),.;!b>lG;eGi,y;e,y;a,stD;!%,/;$6NiJlInHrG;a,i,-;d4%;@,i,l9Ns2y;/,s5;c@,i5WlO`6nyaku`-,rMss5KtJviByG;!e,lG;a,eG;e,igh;a5DeHhGi3NlC-0y;ar5B>5B(,&Dr9Cy;!l_70;a,),iGl4T_;!`,n30sF;eigh,i,l2;a04eVilToMuG;#KdJliGst55;aHeGsF;!nAt0W;!n8U;i~,y;a,iB;!#Lc$Cd5U$&,h#6GlJni,sHva0yG;a,];eG(;fi0lCph4W;eG(;),n1;!a,e,n34;!i#,lG;!i#;#L&0nIrHsG;ica,sica;i,-;!a,$&,if>,nG;a,+7iGy;!e,f>;a,e6ZiHnG;a,e6YiG;e,n1;cLd1mi,nHqu$iAsm.2Sv(4yAzG;m.9;a9eHiG;],e,n1s;!lGsFt06;e,&;.Hk2lCqu$G;.1_;<,^;<,lPmNnMo0rLsHvaG;!%;aHiGob$;do4;!b$Gdo4;!a,e,l2E;)1i0`;a,di4es,g-d;$8ogG;)1;a,eA?0o0se;aNeKilHoGyac.~;ll2rt)se;aHdG[H;a,egard;ry;a~>,iHlGnr(tBrmiAst>;)22ga;di;i&y,lKnJrGtt2y&y,z$;iGm=y,-4F;+G;!te;aE%E;@,l2;aXeSiNlLold11rIwG;)G_+h;!dolC;ac(H+G*$8;a,chD;![;adys,)Gor3_*;a,<,%;aJgi,lH%,ov6Zs$G;a,e,&;<,liG;#;!n0;mYnIorgHrG;ald35i,m2Strude;+7i0;a,eG%;s*,v(ve;b-$3Fil,&,rn+,y&;aReOio0loMrG;#He8iG;<,e8;!cG;esHiGo*e;n1sca;!ca;!rG;a,)];lHrnG;!#8;ec3ic3;rHtiGy9;`;ah,/h;d0Fi&DkBl00mUnid,rRsMtLuKvG;aI$HiG;e,^;.0A_;!ng$2H;g)i1[,ni];h$,^;me/l8p>#JtG;eHhGr$6;>;l2Pr;za;iG`,nest29_;cGka,n;a,ka;eJilImG;aG(,y;!liA;ee,i1y;lG/ld;<,y;aTeRiMlL`,no4oJsIvG;a,iG;%,/;a,(;iGuiG;se;a,),(,y;a0c3<,nJsGzaH;aGe;!beG;~;!a,or;#or,nG;!a;.1%;),iG%,wi0;e,~;aVeKiJoGul];lores,m.ique,n2ZrGtt2;a,eD*,[,o~G~y;ea,y;#08%E=Ax2;#ObNde,eMiLlIm+r3nGsiree;a,iG;],se;a,iH[,orGphiA;es,*;a,[h;dre,rdre;!dee,%;!b2Co/E/;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1XyG;&,%;a,by,cH?,lG;a,)1;@,(;a,+7iG;!ca,$1Bka;arG?;*;a0Re0Nh05i03lUoJrH_G;di,~3;*tGy05;al,i0;lOnLrHurG;tn1E;aId27iGn27-A;!nG;a,e,n1;!l1S;n2sG;t#Gu$o;],za;eG&D;),t7;aIeoHotG;ilde;!pat4;iKrIudG;+7iG;a,ne;a,e,iG;],sY;re;a4>4ndG;i,y;aPeMloe,rG;*HyG;s^l;sy,tG;aH),iGy;!#1e,n1;!l;lseHrG;i9yl;a,y;nLrG;*JlHmG;aiA;a,eGot7;n1t7;!sa;d4$&,tG;al,$&;cHlG;es7i3D;$3ilG;e,?,y;iYlXmilWndVrNsLtGy6;aJeIhG-0;>G&DrCy;.1;-0;li0-0;a2EsG;a2D(;a,iMlKmeIolHrG;(,ol;!e,.1_;lGn;!a,[;a,eG(,y;ne,y;%,sF;a],i];a,e,l1;*Bl2;tlG;.,_;arb0BeXi#WlVoTrG;#dRePiIoHyG;#0nn;nwCok9;#2LdgKgid,tG;n@,tG;!aHnG;@,i,y;ny;+G;!t9;#0e,nG;<,%;i9y;bbi9nG;iBn2;#Gossom,y~e;ca;aRcky,l.8niBrNssMtIu[EvG;!>lG;@,y;hHsy,tG;e,i0Yy9;!#G;(,y;!(;nGt5yl;adHiG;];+7iA;!t-G;],z;a4(,/;aliyah,b23d1Kg1Gi18l0Rm0Mn00rVsM~e0uIva,yG;#Ges5;a,%;drIgusHrG;$3;ti0;a,@,i,y;hHtrG;id;aKlGt=;eHi9yG;!n;e,iGy;gh;!nG;ti;iI&HpiB;^;),n1t7;#19$G;&;aYdWeUgQiOja,nHtoGya;.+7n3;!aJeHiGmI;e,ka;!mGt7;ar2;!b$HliFmT;sa;!&;ka,sG^;a,sa;$G(;a,iG;a,ca,n1qG;ue;!t7;te;je6rea;[;!bHmGs^s3;ar3;$;aIb>H$3iGy;e,%;!ly;l3n8;<;aTba,eNiKlI`,^,yG;a,c3sG;a,=,sa;iGys=;e,s=;a,cH%,sGza;a,ha,=,sa;e,?;c3*5jaI%,ssaIxG;aG?;!nd4;nd4;/;?;i0nHyG;ah,%;a,*,%E;c5<,&DmLnslKsG;haElG;.GyW;g,n;!h;@;ee;);at5g2nG;es;(;ha;aVdiS$LrG;eIiG;#L)G;a,e,ne;#0;%;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;=;_;!lG;iA_;ne;agaJbHiG;!gaI;@,i9y;!e;il;ah",
+    "FemaleName": "true¦:aIe9i6koo8l4m3n2oHsunev,telracs,y0;bur,dna0stap,trebil;rb,s;evar,ref;ossolb,utat;a0ezah,i7raep;roc,tsyrc;dna1nayangirm,r0tsirhc;amukaynak,dua,ret;rb;c6d5i3leirb2ni0rialc,us;a0ms4;mreg,rrol;ag;brab,l0r6xid;la,oj;aj;lud,nero0;lf;d5erdna,l4mla,n2ramas,si,t0y1;la,narkadn0;am;egomi,i0odal;!latac,m;iw,ue;avmayirp,i,leme",
     "Month": "true¦aDdAf7j2ma1novBoct0septemC;!oB;i,rs;an3ui0;l0n;!l0;!et;!v2;ev0év0;!r0;!ier;ec0éc0;!em0;bre;out,vr0;!il",
     "Country": "true¦!1:#$%&()*+/<=>?@[]^_`~:an,in,er,ar,ma,ra,na,al,ri,en,ne,ca,te,st,or,at,ba,el,ti,on;0:3I;1:2Q;a31b2Hc25d21e1Tf1Ng1Ch1Ai13j10k0Yl0Tm0Fn04om#,pZq]&,rXsKtCu6v4w+3yemTz2;a28im^bwe;es,lis #d futu*;a2<ezu_a,iet*m;nu]u,`c# city;.5gTk)$e,ni?d 3ruXs2zbeE;a,sr;&ab emi)?s,k$gdom,@a?s2;! of am%31;k.,s.2; 2Ba.;a7haBim[-les?,o6r$idad4u2;nis0rk2v+u;ey,me37s #d >ic1X; #d 2-2;to^go;go,k_au,nga;iw#,ji2nz31;ki33;aCcotl1eBi8lov7o5pa$,/ l#ka,u4w2yr0;az2ed9itz%l1;il1;d#,r$ame;lom~1Z(l0uth 2;afr2LkKsud#;ak0<0;%) leo=,n2;gap[e,t (&t2;<;=gJrb0ych_lX;$t 2moa,n m&$o,udi &ab0;h_e*,luc0m&t$;epublic of ir0Dom2Mussi27w2;#da;a3eGhilipp$Sit>irn1Oo2u%to /L;l1rtugD;ki2Ll3*(,pua =w0X)2;gu5;au,e@$e;aAe8i6[2;folk1Mth3w2;ay; k2%n m&i#a1G;[ea;c&agua,g%2ue;!ia;p2th%1Dw ze+1;+;mib0u2;ru;a6exi5icro0Co2y#m&;ldova,n2roc4zamb9;a3gol0t2;<egro,s%)t;co;c9dagasc&,l6r4u/t3yot2;?;#0ius;sh+l10t$2;ique;a3div2i,ta;es;wi,ys0;ao,ed05;a5e4i2uxembourg;b2echt<s?$,thu1P;%0ya;b#~,sotho;os,tv0;azakh1Oe2i/b]i,osovo,uwait,yrgyz1O;_$g0Onya;a2%H;(19p2;#,~;c7nd6r4s3t+2v[y coa@;ie,y;le of m#,)_;a2_1;n,q;ia,oJ;_1;aiV~2ung&y;du)s,g k~g;aBeAh#a,ib)lt9re7u2;a5%n4$ea2y#a;!-biss2;au;sey;d_oupe,m,?(la;e2*da;ce,nl1;&;[gie,rm#y;bVmb0;a6i5r2;#ce,<ch 2;gui#a,poly2;=s0;ji,nl1;lkl#dVroeV;a@ `m8cu7gypt,l s+v7ngl1qu]o/+5/tr6s3t2;]s unis,hiop0;p0Mt2;~0; gu$2;ea;ad2;[;<m&k,jibou4om$i>3r c~2;go;!n B;`;aA<t)l af/c# 9h7o4ro]0u3yprRzech2; 8ia;^,)>o;c3lo2m[Qngo-b)zzaville,okF@a r02? d'ivoire;mb0;osD;i2/@(sG;le,nS;republic;m2*Vpe v%de,ym#9;bod0%o2;~;aGeChut#,o9r4u2;lg&0r2;k$a faso,(,undi;az5etXi`sh 2u=i,és5;virg$2; is2;l#ds;il;liv0*iOsnia #d h%zegoviHtswaHuvet2; isl1;#d;l2n8rmuH;&3gi2ize;qLum;us;h3ngladesh,r^d2;os;am3)2;$;as;fghaKlFm%iDn6r4u@r2z%^ijM;+i2ia;a,e;g<`2m<0u^;*;d[),g5t2;&ct3igua #d b&bu2;da;i>;let%3o2uil2;la;re;>,q2;ue;b4g%0lem2;ag2;=;#0;ia;ni2;@2;#",
-    "Region": "true¦:!1:#$%&()*+-./<=>?@[]^_`:na,ra,at,ro,am,ac,ni,re,sa,oc,tn,ci,an,en,il,uh,hs,ah,rb,ss,ot;a0Tc0Pd#l0Le05gn02h00iXkUnOoIrGsAt5u4xe_3y0zurca7;d#m&n,e1kcu/ek,li<s,n0r/ev.;)sut,oxas;rrTs+j03;e,us;ohziZs#g;a$jYe2i$y=,nom1u0;<tc>n.,v=J;+v;hlys,sr0;emos,od;a2d1e/e?)-uga,i0ole&m,ttes@ca_(;a+g -*m,o*lli;eX#ldim;cet)az,p1s#k0xet;!$;a0E?u(%;imh-k,oda^al d# d#ld07up0;gnHi#m;]#$m,c3da&l.,g2hadi,i1or a#t*uq,r0taujaK;%e+uq,er+K;ho,$/o;ladih,#rud;ixemJs0ubm=+p;ab%,?aj;a2eme^,isn.siw,o0;el ove0ge&,k2t01;un;cao1gi1ht-j7ijuf,n@,t)0@<s,wehctak-s;uy;h<m;<wsnu^Blof0;f0&n;us;]g*q,ep,ha[j1iaw],ppi_i0ruo0s`op siul #s,xg#ij;_Y;ar;a0sedarp $t0;tu;imoyw,odg0;#0;ug;e_>nEhcepD*(,r1t%s k&y0uq-b; w>;awalAi[0;)#l,d&f8egdi^Ak5m]g*4n3pm]2+tsec0ybr9;i0uolg;el;! w>;l.*l,`pma3;kcub,tton;<wrD&y0;! 0;htrZ;f%s,t+h,xo;ed;m);et;d2s0y$m;i 0nee3;d$wde ec*rp,edohr;nuofw>;d n`1ebe0;uq;g*[0;aw;b`i#m,cZdX[ido,iLkIlHmFn6ol=Or4t1@a@0woi,yhd(;ihc;o0+bE;kad6s>n0;im;a0on6th-$hW;ec,p;a5i0l@k,ozi$;lo$c1$t) %n0;as; ht0;rBu0;os;i1$p,/0;om;d*,siuol;aba0?Kohalko;la;)xalt,i@aI;%=r1-0;la,^E;ak;bmul. [itiAg&eg,h9n3r1t.s av0;on;av7bmuc,eb0`<v;is;a2igriv1&f?)0;! aj4;! tsew;ms1vlysnn0;ep;%;ab;^;av0i&lf;>;axao,isr0;.;(",
+    "Region": "true¦g1kashmir,madhya,north yorkshire,prince edward island,vi0;ctor1rgin1;eorg0uerrero;ia",
     "Honorific": "true¦:dnerevSeQgnik,hPibbar,lInEr8sse7tn1y0;cnellecxe,dal t4raterc5;a0ediseBuH;egr3netueil0;! 0;dnoc1t0;srI;es;cni5hctud;e3o0;ll1ssefo3t0yH;cod,sap;ecnahc,icnu7;ciffo,idagirb,tsinim emi0;rp;a0eeuq,iatpac;m0tlus;ows0s0;sergn1;a1enol0;oc;hsram2rimda0;! 0;eciv,ra5;! dle0;if;allutaya,caesioat;gduj,tartsig0;am;er",
     "Infinitive": "true¦:!1:#$%&()*+./<=>?@[]^_`~:éd,er,ér,ne,uo,oc,xe,cé,hc,na,ra,ca,té,pa,ar,ac,rt,re,sa,om,ni;0:VQ;1:VN;2:U9;3:VM;4:U3;5:SC;6:VJ;7:TC;8:VL;9:V5;A:UC;B:VO;C:TV;D:TX;E:UU;F:T4;G:QV;H:TF;$SPrJt&mI;itse,rof;e46iJïI;ah,(;ah,b41c3Vd3Gff(b,g3Bh33l2Mm2Jn1Yo1Hp1Er0Os0HtRuNvIéboSO;@LeF^sJuIés;aFos_;!$,sI;a,eJ1;!g;elORfKg/lHSh,oI;!fJXjClbé,/IrQB;pé,vé;!$,&;a05i`,n01o00rQsOtMuKâJêIôr;ba,vLH;bLGp;lg5oIrba;bCPlg6;eIolb;jus_,lb;evI(r;aD~C;aPeMoI;ma,sI;!sI;aI$1;!r,s5%;sLDvI;a,b8id,nTE^I;p,tA;pIt;!$,mi,éID;c,l;aKeIiopG;la7m3p4sIt4;!n0s$PZ;n3<g,sep?,upme,é/;c5lImH0pm0;c,?;iL/Dor,sIég;@,iJorgKRuI;or,%;!apéRL;asDHoI;.,mI;!@c;at,bm1Hdn06euq=,ff05g03ol02rYtWuSvuPéIûm;f,.Lp3uI;g,qI;!=,$,nI;e,)1;!&I;!rI;!us;ap?,oI;!cIrUF;!$,#1;as,elfKAha,oIs;cIm;!=,eInKN<p1s9;r,s;ruem,éI;lf,p1;aKeJ(I;n,p;ma,t4Duga;b,uqé;f,od6;iaI(bG;!m8O;o,uE;e4Ei`a;aJma.4^ug5(I%cJV;rcSKs_;l4Rt;esW.HZlT<pSs_,vI;!aPeLr(p3uIé2;elp,oI;mIp;!o2é;cId1rTQ;$,n)MS^pI#;!aI;!]6%;!r,sI;!-non,_;!m0?;aIlaf,(v1;.,vI;!$,iuqé,é2;!r8sI;a7em;al?,eUiRnPoOrMuIéb;!aj,ejGla,mJp,rbIs5%;!m4;!éI;d,rp;agJ6eI)G(f;t,vJ5;b,ga;ab,eh,oI;b5Lh;as_,fI;!#I;!$,é2;tNvI;!b8da,eLnJo2rI(s6Bé2;ap,etAus;eib,)I;!ric,s9;d1rRR;!bo,$SVnIrHYsba,uE#;iam,);l[RGov1rJéIêlb;g,rf;effa7odG4;as1bVeves6iva,lNoMpIueva,âpET;mJuI;os_;eI)=;!r1s5;ba,m#1p3;ebme,iI`7D;aLeI(b;iv,uI;cIgro6;!=,$;f3j1sI;!sI;a,eD;a>JiafL2onI;a,&;!r,é2;aOcI;ava,elfBir6nK`a,uag3élfJî@fI;!@,#;!~,%;aIirg;lb1rfI;!$,fa;bé,],v&C;aLrJuI%;m,or,r;alé,usI;!$,s4;!rQQs_,v,%;affa,iTnPrKuaIéit24;bIlp?;!se,é;aLev1on,(I;!gJla,sI>;aba,_;&OJ#;h6lliagGtâba;aJel82oI;b1foMHlb,r6P;c,rI;b,gDO;aJorI;!f1;l6r;nLrI(d6A%>7;af,iJof,uI;csbo,dFO)M4;al+,on;aIimDG;.,r;morv,r(JuI;abé,s;f,tse;bNLcMKdLFfL7gK2hJ7iHIkcHHlF3mEAnBNpB0r8Hs59t22u0Nv02weivrQ1xYyMzLéI;b,rI;cIga;!$,o2;ag,norb;aPess@g,oJuI;n6p?,sse;!bMd3U.,lpLn,rKtJvI;&7r(f;i?,sef,ten,ut,ôc;b,d(f,tco;!meEL#;a,malf;gHlKnn`,p,rIsseC;!b5LfI;!fe;ab,$;aKeJiIob,ul;f,m;dAn/,v;!f,l4t;aZeUiQoO^MuIêr;as,$ba,oI;n4rI;pIt1;!?,é7;nM5sI;bo,n0%LH;l,nI;~,%;.<,rKtJuIvG;qse,s;=FMluc,/tsb8`;!p,<,#;.KlIr15;!$,&,uEéI;!rp;!aI;!rH;b,g,l,p,rI;b,gIt6;!ga;bi]0V=vé,d@g,g0Lh,l0Jm1n0Go0EqL]s&m,s,tI;!ats,ceffe,iI&c=,rot,ép^p;bah,s,tsI;b8eD9nO7;a05iVlucAnSoPrNsKuJéI;b,htopyh,ss9;dé,ob,];am3iJuI;b5rb;fn0r;aI`4;bI2m1;ff8.,lb3m,rJvI;nN1o2é7;c,picB;aIiD;b,lIm;f,p;dPfaDlNnMp,rbLtI;a2irc,&htua,sIé;aIihpEonga9;!m;!af;!-euqip,ap,orFuG6;c,pI;mMP?,ud,*,%;@é,nI;ev4i12;lKn<,rJtIv;!ta;!b,c,t;c,pI;!-7Z$L8;ces,h+,jF2lIn1vaLY;!c,la;!iJ^>,éI;tta;m9sK4tn)KY;aIfAid,lop,ové;s,véC;aPiNluM~LoKrIujn0él3;aIev6;!l,n;la9v;lf,ts9;mo2v9;dI]Ataf,van;&,o2;d,lIrMSv;b,é;n0sid1ta;a2Jc2Ae23f(m,giod,i1Nl1Jn0Zo0Sp0Mr0Fs06tZuQâPéLêJô,ûoI;c,g;bme,f,rIt6uq6;pF8<;gév,iKlJpCrIt;c5ffa,prNB;f4pm0;p,uqA;b5h,p?,t;aOb3cNemGfB.Mj,l3mM6oKpJrcI;$,s;mLOs9;-kcol,cId1.t([,ja7rb;e,é;!@H;rEUs9é*;f,sI;!r8;aNeLiuqMSoJuI;l,ogé;b,lf,rI;f,t;kcGrg4uI;g,of;lf,rg;eMiKn0oJuI;g5ja7;c=,ob,pGG;l,p3sI*KQ;b8nL6^p,_,%;fi/mKr,tJ(drI;on;!n0o2ta,#;!-6J;aNeMilf,oIueh;cse,fn)Ch*,pIva;!$,mJpIsKR*,élét;a7us;e7i,);cn0la;+,f;aMecLmJoIyrc3;!da;e*,)I;!$,se;=,rM7;c,da;bas,cNd,gil,.Mjim,lLnKohs,pJris,vI;!ip;at,iF;!girg;ep,ip,pm0rod;ab,uF;=,iD;aXeMiop,oIurpme;cKmJrfI;fa,n0;!$,r8#;!@;dic=,g~J2iRmLp<,r,sKtJuq%f,vI;~Cé;!nKAta;ba,éAF;al,eLgua,iKm0uJéI;lpmi,rcA;cod,g<,l`é,r3I;laAHrép*;lgIv(m;èr,%;roCtap31;hKlJrc,sIv;ialp;g/s6p2Y;!cAV;[,oKuI;cco,sI;nJV%;cBvB;aVbUcRdéQfo2ga,liPmNolp*A5pMrKsJurbé,vI;~,é;a<pit/,iv,/Dse+n,éh;ba,ri,éI;h,m;[5i+2;anyd,iI;!l3;bahC=f;!m,rcI5;!a?cAilJ~,susI*,%;!s4;lEp*,éf;ahIZ#;huE];od;fN.MjLlJrIuqi>;<,uf;ah,lIov;ep,iuef;!$,o2#;a7orc;[,(m;aOeIidHH;b,fMjLlKnn)JpsIt5;$,~,us;!rKK#;l0#;bo,~,é;faC~IH;j,pmIZ]Itn0;n0%;dLl+,mKrItIQ;!dIip,é;yh;!l0rof;!id/c;a2Mep,i0Vl0Tn0Po0Hpil+,r0CsQuKylaJéI;lG2rg;/,rHt[;!aMba,cL$c,fJma,oI;laj,pé;!$,fidI;!$,oidG;=,*;c,p;aWeQiMoLuI;aJoI;p1rb4t;f,h1;b,d6rb;aKh,k,lJorf,p,tIv;!@,epG;!g,u0;bSc6l,rg6;c,fMlb,rI;[,dKgJpIétA;!m)3;a,o2sHZ;!a,$;n0o2;bat,cN.Ml56mLnîaDpKrIss4t91;bI<bD2;!me;!-$t(,$,r8#;!a7;!r(p;!aD;eJ(bI;m4#;ps9vI;!aDel(b,ig^t,nIorGK#;$,i,);!d,hpr`a>m,lpOpJrI;!<;!$KEmLo2pKrVsJ*82#I;!-^ssilg;id,/D;a,o,us;i,)3;mi,*;aKeI;c4dn0ffo,pI;!-4$,m)1Ns9#;d,p;av,upI;mHFo2*;a17b,c15h11l07m05n00oZrRtNuLvIénég`oh;!a,idJo5OrI%;ep8;!b8;gIpFL;ia,#;aJcH),?b,ta,éI;htnys,rFM;mIrc`5vi2;@d,otua,étsys;aOb,f,oMpLtîam,uKéI;mIt=<c,vlup;un,ylop;+s,e&FR;!ém;lav,mém,pIsnops,tua,vaf;av,met;!ilimaf,lugB>lo2;m,rc,t$t6viEE;aLis,medAn$ép,oK^I;d`,tI;@f,é;+2gat/,l0m<h,r.nys;groCt;!anyd1$,iIon)é,rofinu;~m,tpo,xam;aRiJ#I;if,`;bKréts,ssof,tI;rIuC;ef;aJis&s,`I;!mi;pluc,snoJtI;n4pm0s3;ps4;cYgéXiTmroSnOrKtJuIvir,%;siv,t=;iv4r`mi;tJéI;bil,déf,nég;&c3uI;en;[,iKnoIoitGr(j,ép;itutiIs^p;tsA;f,g<m,mirc;f,n;cJtI;iH1&top;ifI^9F;fo;!l;idJoI;f,l;nJém;cJtapmI;ys;/I<réih;rf;in.Iro*,é2;et;b,?;b,c,j,rI;!bI+,f;a,me;a1Xb1Uc1Qd1OefsFCf1Mg1Ji1Do12r0Ut0Ku01vWèfé2éI;a,bil3=,dUfSgQhda,lF7mPnMpKsGJtJvéI;r,s^p;iBla,s;$,mF0oEZsIucB;eEWo2;o*,umBéI;gIv;!é5A;olgn0uné;!a*,g8iI;d,rfB;f9i5Ln0o2rGPsF0éI;d,rCV;iCW`;es,iLuI;eoJoI;!c4;!/m;l3&;aYco2dXeVgTjSmRoQsPtI;abru0bo,cKnJ?c,rIu0ôlc;ot;eva,iep;aJeIu]s1;jn0ti.<;f,rI;f,tn0;em,_7;t6vas;!-07rum;!ba;ifIuaA;!nD3;lImed,?;ffe,p;!&,^p;s,tsI;$,~;i?FlifQnMsK(,éI;mInép;!@HoEO;[,iIulli;g$6~mda;eKoI;cIm3;!n4;!cEFr,vé;!~,*;aMeJuI;el,o9W;!f52sJtI;!&,ta,#;!se41;b,cJgab,mIn;!#1;$CQ;bQc5d2QfPiNjam,lLmé7EnKpIv5;aIr)A;vé;gi,oh;),pI;mi,*,#;léIrét5;ma;!^p;alIoFV<;l0é;al+Mc,da,.5mLof,pJs5tIv;!$,ta,uEé;me,sIuE*;a,$,~;da;!o]B;iIétEI;mIn5;!mi,é;fIuE;i.3);[6nI(puas;eg6offe;aJnI;a,e;n,sI;n0_m;as,iImEéléc;lIv;[,iuqéC;gBFlc5pI;![=,$,m63éI;rAQs;a01ec4iYlXmUoRpMrLuIyto%éts;cco8Rd,oI;cIl,rg1s;!$FM#;ah,usu;aKiJoI;.,levC3ts;lf,rga;hIj,ndik,rf;!+7;cJd,.,lIt;ag,c;so>ngam,é;aJeDirg1oI;p,];c3l,r;ap,ucA;citJss9uI;qé;/,rH;lJrIs,t;d,tta7;!c;a23e21g1Pi0WmaAXnYoXrOuNâMéLêg,îJôrIûej;p,t;aId;.6]38;g,ila,lg,rg5;lf;ej,tropmi;aPeMoL(I;jJtI;!$,n0#;a,és;!b,c;cJtIv(g;la,so2;!n0s9#;cA.a;hpélét,lc;a0EoI;b0Cd09egidab,.(b-$it,iSlQpmaPrNsKtJxalk,yGçI;af,puE;im,/c,é;!iIsi`,%;aIopme,rpme;r,s_;af/f,nI;or;rc;a>,liI;s,t/h+,âb;pse,sTtI;ats,cNiK&Jseuq,ulovI;$,%;m,vb8;dJsI>p;iuqBop1;da,n0;a,eJnI;as,of;fJlI;l0és;n0^p;[Liv4G&mid4sIuf;ap,eJimI;uE#;rpmi;co;!a,$5Z/ba,rI;ap,oI;!b8);a,<F;cs,p3v;a08b06c04d,e03f02g01lZmRpé,rPsMtJuIved;of,q)a,r;ap,sJtoDéI;ip;bo,ed;iJsIuAD%;as_,ed;uc;amIu,ét6;!a;!aOe.NiMo0G^tLuI;lJtI;ib;li;!*,#;lé,rcA;a,rH;tn0*C;cIpics9(m;~,#;aSiro;fa7n0uaep;p,rf,v;cI_f,ullah;av;!mI;al,);l,rI;!d,rH;aSiLoK<pé,upB%I;!pI;mi;c,rg;aNeMlLoJsI;!ed,n0_,éZ;lé,mIpme,s;et,ét;!a,c,uE;p,s&7;b,d,s;g1m,p77;g,mIrg3s_;!a7$,me,o2;ciFf,lp,mé,p,vH;a08es,g@h?9i01lYmTooz,rM_t/f,uKâJ%+,îI;ba,d;lb;abme,f,h,lla7ob,sI;n0_,%7B;a93eMifLofJuI;og;!$,n9KorolFs9CéI;d,r;faCn9I;fIg;!$,&7;aKoI;g5n1sI;!n0_;lf6rgoI;rp1;[,ifI;!orcI;im;a,l,m,/NrLtI;iJseI;!-7M;gél;!pI;!m92p8*,%;!r,%;lcIr,t6;!=,o2%;a1Qb1Hc1Fe17f14g11i0Xl0D/rbé,o07p05r03uLéKêm3ôrJûI;os,rb;f,&,tn0;rr0vB;aYbXcTdSeQgPmNn/,oKpiJs?c6tIvo;i?cCsop;/m,ts;as,b5cJf1Cm,rI;!+,&,#;!é9F;iIrof1uc9Z;s78ts;uj,%;m,ugI;!&;no,`;$,iJl[,oAric,sIéps;ab,(b;hév,tI;<;af,ma5;im,pé;ap1uI;h,o;iDme70uI;ep,)9K;cirb,ffa,gMiK?]*,sJvI;!&,r8;i,n0;rbIv;[,m[;ir;aZeXiI)3;aUbahTcso,eQpPrOsuNts9uI;oKqI;am,<I;+;f,m,&ga,p5rItaF;b2Ng,^v3tH;f,ob;b,dauq,g,ht;!<pé,_g;rJvI;!r8é7;ap?;!r,s5;maFrit,tIvaD;!ivG#;cIpr93^uq;s,*;!-r8b2Jts~I;!s5%;fJhin/,m35oIpm0It&v,ur;>,v3;!&,uI#;af;nJueI%;va;@>,ipé,oj;fuJig,noI(m[;g,r;os,sA;cNdMgLpKtJvI;in,(n4;ab,/m5<m,ta;!aF?7é;!n0#;`1r0;$,if,rI#;ah;^c6(b3yc4âI;b,n4;aPiOmK(I;dI];!$,#;eI);],sI;!sI;a7$;c,rc;c=,ssLt;bmiDc5ed,fLgé7h,ngis,sJ>,vI;a7eF;!sI;ed;fa;ah,ots;c10d0Xf09g08h?rg06ks,lZnXpWrOsLtKvI;nI#;e,);iAn$12ublab;aJpotua,éhtseI;/;f,t*;aNcCotKpJ<FtIés;!apG;!o3S;rJsI;ih;epB;m1pIr4Wv;!?;),é;!am1$,uIégA;mm0;!buN$,iLlaK&,pI;!$,itlIp8#;um;!p,r;cn)Imuh,sB;!$,%;o,p;otIélét;ohp,<c;ufBélivi2;iJn0éI;d,m;c00dYlVnSrPsOtI;@,c4nKon,rIsuj;eIof;c,s5;aTeI;di,htI;ua;n6Z^v9_lc;alc,bul,=s,oJrIup,év;et,oh;lg;aJgIob,u;is;lp;aJpmI;a,is;uq;ilEoIé;c,m;apJéI;ps;!o;@J&m,u>,éI;d,gn0m4p*C;!ri;ifénéb,nKoI^m4uEé2I;gén1ssI;a,id;atsno6IeI;cil,rI;éff9;cJpI;moiDo]_t[;a07i05n01oWrTuPâOéKêIôc,ûb;pIrp;!me,#;lKrJsI;!_;bé;!f;b,f,g,l1m,t;aKbéDlpé,oI;bIc5Ud,l,m,t;me,#;bme,veF;am,eJoI;+,t;.1p;cLh,lc,p,rI;cJpI;$,?7;!=7#;!ir;aJeIorb,yl;lc3Fp;lp,rI;b3t1;fIn5];!fa;c,h,rJtI;!ta7#;c,<;a0Gdirb,i0Bn05o03rTuOèMéI;iKlJrIto2;ba;la;l,p,s;isI;_;aLfirolKjJoI;b,f;!é2;[;j,tH;a.OeJoIu1B;f,g;bKmJvI;id,n0;mi,é;mIéh;ag;!-1X$,r8éI;d,lI;ét;l3mil,rI;ba,o2r4T#;aKev,is,oI;lIpé,r,s;!la,o2p;.1JlJm,rI;!<,#;ém;dBen,f,lJp,rIs2X*;id1r0é;bo,fAgI;én;rb;cMg19luEmLnJpo2r(c28siv28tIyov;rHé;!am,émI;aCme,#;i,mod24;ap,=s;@OfIr8;$g,i0oMuI;a.Jlb,oI;b,>;!éI;!r0D;>;ga;a0Hi08n00oWrNuLyxo,éIôr;cIssop;!cIn0o2*,é2;a,us;lé,oI]*;b,c,s;aKemme,oI;bIcS;!a,#;bLgJngiop,tIvab;!$,ta;!eI;r,vuas;mI#;ob;c0GmJrI;!b;m)I;=7;aNeKics,oI;ba,cIf,~,rg,s,*;es;cs1ShéIma;rpI;?;b,.<m,lg,mI;!ed1irpBm0C;aPcNlKmitA?l,r,s%JuIv;g,qil;!p;avJoI;sn07;!~;i8nï0uI#;lé;!lp,]6;cirrLlaKrJusIvé;^p,s9;g5t*;b,cse;ab;a0Be09ipé,nNrJua*,éipG;@;eKialc,oI;fIma0Vv9;!fe,n4;b,mm0p,*;aTeNiLoI;fJip,nI;$,/,o2é1Z;!&,#;),pIr;!é;cil-Mga,mmLrruKuI;lfAqI;és;cn0;)1;suE;if,lNnLtKvJéloI;dn0;a,ed;!s9;if0EnodI;ro;!abI$,é;!$I;tn0;pé;maIp5;lc;fNlLmiKnJpI]1;se;em;rg;!g,&,pI;!$,m4#;fe;ihTmPoNrIutit;eLosKuI;oIt^p;c,t;ba,%;=*,g;g,lg6rI;&,#;aKoI;cIt1;c8~;j6lf;~,*;c~av2Yd1Zgèt~Bi0Volc0Spmo0Pt04ulc02viYèI;a,bWdiVfTgRlQmuPnOpIsAvés^p;$,mLoKseIucB;!s5;#;!);etI;bo;év;né;ot,éc=;!aIg8;*;f9o2r17sIé2;/D;sn0;il;usJvI;!$,r8;!&,ruI;op;!$,nI*;i,);ia00n`,sZtS(f,âi<RèNê,îI;aKoI;lc,rcI;!=,$,#;nIp1<ps9;!$,n0;moJnI;ép;norF;.;=;abMemI;!da,$,m0oJrIs/]1uEé;ep;!rpI;!m0;!a7m0#;!r;it;n1Sp4rH;ap;!rI;!rI;etA);!&,rJéI;!d;of;a0Cc09d03f02l01oZrTuI;!c,dLl,n,rI;b,tI;snI#;i,)1;aDnMorJéI;d,r,s;p1tI;~C;!%;e,i,)1;];!cIf,uE;!sJéI;!d,%;e2nIuE;@t4i,oU;$;b,rcI;!=;!$,é;f8n0;!$MrKuJé2;rp;am;etA;~;!tn0;co,noI;crI;ic;fLlp3rIt;!b,tI;!sI*;id,uE;!$,rLsitKéI;d,puI;ts;as;ap,of;nNrK(I;c,m,sI;!ba,s9%;ep,oJuE;os;m,t;apBeYiNoI;fKpIt;!seI%;rr0;!n0rI;`;aQeLoI;!jIp;!da,$,s9;id;f,g,p1rJtI;ta,é;f6pJtsI;a,$;me;!lp,rI;c,tn0;csed1f3i,pOrKtIv1;&,ta,éI;!d,rp;!pI;!$Im0?,r8;!t6;&;!$,s8#;us;!#;!$;%;!n0;)",
-    "Person": "true¦!1:#$%&()*:in,er,an, ro, w,ss,ar;ashton kutchSbRcMdKeIgastNhG#ez,jEkDleCmBnettJoAp8r4s3t2v0;a0irg# maG;lent#o&)i,n go3;h$esa may,ig$(oods,yra b%ks;addam hu)a#,c*lett joh%)Jlobod% milosevic,uB;ay&m%o,eese(ith$spoIo1ush limbau0;gh;d stew*t,nald0;#ho,o;a0ipJ;lmIris hiltD;prah(#frFra;e)iaen,itt&mnEub*ek;bron james,e;%ye(est,ief$ suth$l%d,obe bry%t;aime,eff$s8k&wli0;ng;alle b$0itlBulk hog%;ry;ff0m$il laga)e,zekiel;ie;a0enzel(ash#gt2ick(olf;lt1nte;*1l#t0ruz;on;d#al(ols1son0;! palm2;ey;*ack obama,rock;$",
-    "City": "true¦!1:#$%&()*+-./<=>?@[]^_`~:an,en,ng,ra,la,er,ch,on,ha,in,al,ar,ta,es,ur,ba,re,lo,il,de,or,us;a2Yb28c1Yd1Te1Sf1Qg1Kh1Ci1Ajak<=,k11l0Um0Gn0Co0ApZquiYrVsLtCuBv8w3y1z0;ag[b,?i*;#g+,e0oko-ma;kat).1J[v#;<s3e2i0rocl3;ck]w,n0;nipeg,t)th?;lli%t+,xf`d;aw;a1i0;$na,lni~;l$cia,ncouv),rna;l# @t`,t[*t;a6b^isi,e5he4i3o2r+dheim,u0;nVr0;.,ku;kyo,r+Iu]uC;#j.,l15miso2Lr#a; -Jss/+iki;gucig/pa,hr#,l aviv;i0ll.n,mp)e,%i),rtu;*u%,n#,pT;a3e2h1kopje,t0ydney;ockholm,uttg<t;#g-i,$zh$;oul,v00;.t pet)s0Wl3n0pp`o; 0ti1D;jo0s/v2;se;v0z0S;adV;eykjavik,i1o0;me,s<io,t27;ga,o _ j#eiro;to;a8e6h5i4o2r0ueb(,yo%y#g;a0et`ia;gue;rt0zn#; elizabe3o;ls$,&e~;i(_lphia,nom p$h,o$ix;r0=h tikva;th;l)Kr0t&s;is;d>sa,s0t=wa;aka,];a2ew 0;_lV=ip0y`k;ei;goya,nt>,pl>,v#;a6e5i4o1u0;m@i,ni*;nt1sco0;u,w;evi_o,[/;l#,nsk,skolc;_llín,lbo?ne;drid,l5n3r0;ib1se0;^le;`;*>t0d/Xi(;);mo;a5i2o0vBy+;nd0s #gel>;+,r>;ege,ma0nz,sbZv)po1;!ss0;ol; p(=,~#ne;a5-rk4i3(ipeda,o1&k0ua( lump2;ow;be,pavog0sice;?;ev,%8;iv;b3mpa(,ndy,ohsiu%,&0unas;c0j;hi;n*eMst#b0̇zmir;ul;a5e3o0; *i mi1ms,u0;stI;nh;ls.0&kliG;ki;ifa,m0noi,v#a;b?g,^tD;/w4d#3$2h$t,iza,oth$1&z,ua0;da(j0G%zhou;b?g;eUoa,ève;sk;ay;>,r#kfu0;rt;dm+t4.dhovU;a1-ka,o-,u0;blRrb#,sh#be;e0k<,masc~,ugavpiJ;gu,je0;+;a7ebu,h2o0&ioJ?iti@;]0nst#Jp$-gNrk;gFmbo;$n3i1rist*?0;*;#g m1c0t=goL;ago;ai;i0lg<y,pe town,&c4;ro;aHeBirmi%hWogoAr5u0;*<3dap3$os air2r0sZ;g0sa;as;>;>t;a2is@1~se0;ls;ne;s^Ptis(0;va;=;i3lg&_,r0;g1l0n;.;$;ji0rut;%;ku,n3r0sel;ce]1r#qu^0;(;na;g1ja lu0;ka;/o0kok;[;aBb9hmeda@d,l7m4n2qa1sh0th$s,uckl#d;dod,ga@t;@;k0tw)p;a&;m5s0;t)d0;am;ex#dr0maty;ia;idj0u d-bi;#;lbo1rh0;~;rg",
-    "Place": "true¦aMbKcIdHeFfEgBhAi9jfk,kul,l7m5new eng4ord,p2s1the 0upJyyz;bronx,hamptons;fo,oho,under2yd;acifMek,h0;l,x;land;a0co,idDuc;libu,nhattK;a0gw,hr;s,x;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
+    "Person": "true¦c0jaime,rush limbaugh,sung,tiger woods,virgin mary;arson palmer,ruz",
+    "City": "true¦alexandria,genève,h3i̇zmir,kobe,londres,m2new york,perth,rosario,s0;a0ydney;lvador,ntiago;edellín,oscou;amil0ous0;ton",
+    "Place": "true¦ams,bcn,den,fco,i1jfk,la0ord,phl,syd;s,x;cn,st",
     "Currency": "true¦$,aud,bScQdLeurKfJgbp,hkd,inr,jpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotySł;en,uanR;af,of;h0t6;e0il6;k0q0;elM;iel,oubleLp,upeeL;e3ound0;! st0s;er0;lingH;n0soG;ceFn0;ies,y;e0i7;i,mpi6;n,r0wanzaByatB;!onaAw;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
     "Cardinal": "true¦:e4fuen3orez,qBsio9t2x0;i0ued;d,s;gniv,iuh0pes0;! xid;r8tn3z0;ie1n0ro7uod;i7o;rt,s;a1e0;rt;non,ra3t1uq0xios;nic;co,iuh,pes;ta0;uq",
     "Ordinal": "true¦:emèi0;nu,orez,rDsioCt5u8vuen,x3z0;ie1n0roCuod;iCo;rt,s;i0ued;d,s;gniv,i5n0p4;a0e5;non,ra6t1u0xios;qnic;co,i1p0;es;uh;rt;ta0;uq",
     "Unit": "true¦bIceGeEfahrenheitJgChertz,jouleJk9liHm7p4terFy2z1°0µs;c,f,n;b,e1;b,o0;ttB;e1ou0;ceDrcentD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
     "MaleNoun": "true¦:!1:#$%:at,ér,vuo;ePfir#,laOrKt2u0xu#,$ged;ae0eil;!rub,s$,tab,vin;iGn0;aru#sEem0;e1ges,om,ucIé0;lé,rga;cAdnBg9iap,l8n4p3rtsigerVs1t0%m;iart,urcA;nec9ruobm9si0;lb#é,orcca,tsevL;iuqé,polevéd;giesQno0re%g,évé;i0rivP;sivorppa,tc0;efFnS;gèr,le%n2rW;agLnahc;nanif,rofn0;er;d$c,forp,ordI;e1i0;a,neva;iss0vih;od;mina,nruoj;capse,iulparMlIriaEtn9uqi6v2é0;di,nn0s7;a,od;it0èlé;aiti1ceps0;rep;ni;s1t0;ilop,sit#s;um;a3e1i0;a2etta;t0v;ne;lp;ffa,icifénéb,las,n0tnemmoc;etr6noit0;cn0seg;of;#égév,b2i0lehcé;bom0f;!otua;#;ap",
-    "Organization": "true¦!2;!1:#$%()*+<=>?@[]^_`~:on,er,an,da,st,re,le,te,e ,ar,il,ca,ro,en,al,n ,or,de;0:42;a37b2Oc28d20e1Xf1Tg1Lh1Gi1Dj19k17l13m0Sn0Go0Dp07qu06rZsStFuBv8w3y1;amaha,m@,ou1w@;gov,tube;a3e1`ld trad=`g%izati#;lls f>go,)1;field,inghouse;l1rn$ b[s;-m11g*]s,l )*et journ^,m11;% h^N$iz#,isa,o1;(f#e,l1;kswagLvo;\\c,bs,kip,n2ps,s1;a to(y,ps;esco,i1;+v$,<d nati#s; mobi+,aco bePd bMeAgi fri(9h3im h`t#s,mz,o1witt$;shiba,y1;ota,s r Y;=1i_lizzy;b3c>p]2Z(?y ma?,guess w2holli0[lling )1Ls1w2;mashing pumpkins,up*m0;ho;ea1lack eyed peas,yrds;ch bo1tl0;ys;l2s1;co,la m12;ef#i@,us;a6e4iem]s,np,o2pic=gir5ta1ub>u;rbucks,to?;ny,undg>d1;];>s,x pi)o1;ls;feway,insbu23msung;.e.m.,adiohead,b6e3oy^ 1y%2T;b1dutch she4;%k;/max,ad$s dige),d 1vl#;bu1c1Rhot ch?i pepp$s,lob)$;ll;c,s;%tas,izno's;%5bs,e3fiz$,h?ip m`rBi2r1;emi$23oct$ & gamb+,ud]ti^;nk floyd,zza hut;psico,t[1ugeot;bras,china,nas; 2as#ic,(2C;ld navy,pec,r%g=juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,t* (me,v>t1;is;ke,n<ndo,ss%;l,s;c,)+,tflix,w1; 1sweek;kids # th=block,y`k08;a,c;ndos,s2t1;i#^ a@2Bo,we);a,cY(q;aAcd#^d9e5i3lb,o1tv,yspace;b?,ns%to,ody blu0t1;+y crue,`0M;c[soft,t1;as,subisO;di@3rce~s2t^li1;@;!-b]z;id,*;'s,s;c's m?k,t<l,z(;'o*^,a3e1g,itt+ @es>s;novo,x1;is,m>k; p*s5-z-boy,bour p>ty;atv,fc,kk,m1o(k;>t;iffy lube,o3pm`g%1sa;! cha1;se;hns# & johns#,y d1N;bm,hop,n1tv;g,<1;l,rpol; & m,asb[,ew+tt-packaRi3o1sbc,yun(i;m=~p1n(;ot;tac1zbollah;hi;]$^ 6hq,l5mb,o2*] (y,u1;cci,ns _[s0;ldm% sachs,o1;dye1g+;>;axo smith kliX]co*;e+ctric,m1;ot`s;a3bi,(,e~x,i1+etwood mac,oErito-lay;at,n%ci^1*)oT; tim0;cebook,nni=mae;bay,sa,u[sceptics,xx#1; m1m1;ob?;aiml$,e5isney,o3u1;nki_d#uts,p#t,r% dur1;%;j,w j1;#0;a,f +ppa2ll,pech=mo~,r spiegX)iny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eed]c=c+>wat$ *viv1ossra?;^;@ c5l4m1`s,)co;@2p1;aq;);dplLga<;ola;a,sco1tig[up;! sy)ems;ev2i1;ck f?-a,na (?y;r#,y;dbury,pit^ o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,*xi<eV;ei3mb>diJ)# 1;glo1pizza;be;ng;ack & ~ckFo2u=c1;[W;ckbu)$ vi~o,oming(1;+; g1g1;oodriM;cht3=ge0_& j$2rkshi* hathaw1;ay;ryG;el;n%a *publ3s1xt5y5;f,ki_[bbi1;ns;ic;bWcRdidQ$osmith,ig,lKmEnheus$-busDol,pp+9r6s3t&t,v2y1;$;is,#;hl%d1socia<d F; o1;?;by4g2m1;co;os; compu2bee1;'s;<1;rs;ch;c,d,$ic%3t1;!r1;ak; ex1;p*1;ss; 4@<l2t1;air;!-luce1;nt;jaze$a,qae1;(;as;/dc,a3$,t1;ivisi1;#;~my of sci]c0;es;ba,c",
+    "Organization": "true¦!2;!1:#$%()*: & ,johnson,s ,er,al,ck;aHbFcEfBgun%n rosDhA$#$,l8m5n3proct(#gamble,quiznoJr2sainsbuGth0u\\c,w)-mart;e 0in lizzy;gues%who,rolling stonB;.e.m.,e/max;ation) academy of scienc9ew 0;kid%on the blo*,york7;ac'%milk,cdon)d1(cedes0;!-benz;'s,s;'ore),a0;-z-boy,bour party;#m,ewlett-pa*ard;inanci)0rito-lay; tim0;es;arl'%jr,hi* fil-a;en#j(0la*#de*2;ry2;bc,lcatel-lucent,nheus(-busch,pplebee1rby1t&t,y0;(;'s",
     "FemaleNoun": "true¦:e0;cnalubma,i0luop,rutifnoc,ttul,ur;goloég,riarbil",
     "SportsTeam": "true¦!2;:!1:#$%&()*+-/<=>?@[]^_`~:na,al,ts,no,et,er,ar,ra,ti,la,ro,ni, o, s, e,ma,c ,it,el,ap,lo;$liv &%a,c1Ud(inu 1Oe1K&i1Go[nyd 1Fr1Ds6t5xos 3y0zzaj hatu;-]0x$ag $;eko%,ffidHre%e0sas#k g=t<ps;ci_,h1M;d) 17(ihw0;!>1H;aehWc`mi /)t&m;$/d cf,buc1Ec^12d0Ye0Jfeihc0Ig=k0Hk08l00m*?06nQoNpac(ihw revuoc#v,r7t2y0;a0obwoc0D;j@ulb7rF;e2~c?i~pGn0oirt`17;aig 0iasV;k1LoG;ggunJj1Jkcor 12m0Rn0; nylkoorb,<h (tol+hc;aEe2o0ups>i&t#0K;ir+w (a% ned~g,tp*0;>t&<t;\\g\\h 10\\j\\e>Abmi9c` 8d7e#ccub6g2ht#p a=~1i/vacNk0lee%0C=+mZppil]5vor nrubkc$b,w)01z$b li*9;$3c` yab ne)g;+c;dod1^E#r 0+h]0B;k+p?neeuq,saxI;! 0;s_eg#?ol; yab `[t;i*0MnuosR;a#id=;t d#lt<p;csic#rf06;eb0Rugaj@lliv&skcaj;c&rb1r%a0;! 0J; revn3;a5ev*00i3o0us xineohp,worb7;c/f Uil0%ip0; -ort0;ed;hp~d0ksd)04l+m0wtQ; i[im;cilep2id=1-t@essenn0x( 0B;(; d#lev_c;?#_< 0R;a2l0;ib>/ffub,ub 0;d)0Mo0C;gnebXn0yorE;id+]0o^anU;aAs0;iuol .0;%;c2wah0; Caes0;@lttaes;abd&[id3i1u0;b@ekuawlim;nkJrevam0;?$/d;! a0;&zi+;>tnem*cBiv3; y-c?as#k;ek#yDiAkauqht+e@soj8l6rd`4t*ip3v0;*b 1~wrebm^0; atoY;atnZ; hgrubst-p;! 0;ogeid2;gae Koi<0; )om^/b; n0;as;kco5l0;lihp0zzirg?ihpmem;! E;! kS;)2ipa1+ziw0; &tg=hsaw;r>d*oN; ^an=c=c;_hta2lec0;! 0;&%ob; d#lkao;ednuht y-]amoh$ko,upstoh [hn(t0;ot;&%uoh;nu 1tu~v)0; d#lgne G;aihpled$i0;hp;k$ t/s /),rif0;>0;gaci0;hc;.c.d,at1dleiffehs,_%ac9[h %ew,re%eh0;c#m;n2o0;senn0;im;$ta;f y-c1igam>d#l<,s w)c?ubmu0;~c; k0;<y 0;wen",
     "Possessive": "true¦leur2m1no0s1t1vo0;s,tre;a,es,on;!s",
@@ -9814,7 +9615,7 @@ designate
   const BASE = 36;
   const seq = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-  const cache = seq.split('').reduce(function (h, c, i) {
+  const cache$2 = seq.split('').reduce(function (h, c, i) {
     h[c] = i;
     return h
   }, {});
@@ -9837,8 +9638,8 @@ designate
   };
 
   const fromAlphaCode = function (s) {
-    if (cache[s] !== undefined) {
-      return cache[s]
+    if (cache$2[s] !== undefined) {
+      return cache$2[s]
     }
     let n = 0;
     let places = 1;
@@ -10053,7 +9854,7 @@ designate
   };
 
   // hand-fixes that win over the packed lexicon (this file is merged last)
-  var misc$1 = {
+  var misc$3 = {
     // ==high-frequency words the packed lists get wrong==
     // ==avoir== - person-tags let compute('root') + verbs() find the infinitive
     // (the tagset keeps Auxiliary and PresentTense exclusive, so no tense-tag here)
@@ -10176,6 +9977,1623 @@ designate
     milliards: ['Multiple', 'Cardinal'],
   };
 
+  const getWords = function (net) {
+    return Object.keys(net.hooks).filter(w => !w.startsWith('#') && !w.startsWith('%'))
+  };
+
+  const maybeMatch = function (doc, net) {
+    // must have *atleast* one of these words
+    const words = getWords(net);
+    if (words.length === 0) {
+      return doc
+    }
+    if (!doc._cache) {
+      doc.cache();
+    }
+    const cache = doc._cache;
+    // return sentences that have one of our needed words
+    return doc.filter((_m, i) => {
+      return words.some(str => cache[i].has(str))
+    })
+  };
+
+  // tokenize first, then only tag sentences required
+  const lazy = function (input, reg) {
+    let net = reg;
+    if (typeof reg === 'string') {
+      net = this.buildNet([{ match: reg }]);
+    }
+    const doc = this.tokenize(input);
+    const m = maybeMatch(doc, net);
+    if (m.found) {
+      m.compute(['index', 'tagger']);
+      return m.match(reg)
+    }
+    return doc.none()
+  };
+
+  var lazy$1 = {
+    lib: {
+      lazy,
+    },
+  };
+
+  // Preferred alias identifiers holding canonical tag names.
+  // NN is the umbrella noun tag; Sing is specifically singular.
+  const NN = 'Noun';
+  const Sing = 'Singular';
+  const Plur = 'Plural';
+  const Prop = 'ProperNoun';
+  const Pron = 'Pronoun';
+
+  const Adj = 'Adjective';
+  const Comp = 'Comparative';
+  const Adv = 'Adverb';
+  const Det = 'Determiner';
+
+  const Vb = 'Verb';
+  const Inf = 'Infinitive';
+  const Past = 'PastTense';
+  const Ger = 'Gerund';
+  const Pres = 'PresentTense';
+  const Fut = 'FutureTense';
+
+  const Cop = 'Copula';
+  const Phrasal = 'PhrasalVerb';
+  const Conj = 'Conjunction';
+  const Prep = 'Preposition';
+  const Expr = 'Expression';
+  const QW = 'QuestionWord';
+
+  const Pers = 'Person';
+  const Place = 'Place';
+  const Org = 'Organization';
+  const First = 'FirstName';
+  const Last = 'LastName';
+  const MaleName = 'MaleName';
+  const FemaleName = 'FemaleName';
+  const Uncountable = 'Uncountable';
+  const SportsTeam = 'SportsTeam';
+  const Country = 'Country';
+  const City = 'City';
+  const Region = 'Region';
+
+  const Val = 'Value';
+  const Card = 'Cardinal';
+  const Ord = 'Ordinal';
+  const TxtNum = 'TextValue';
+  const Numeric = 'NumericValue';
+  const RomanNumeral = 'RomanNumeral';
+  const Frac = 'Fraction';
+
+  const Date = 'Date';
+  const WeekDay = 'WeekDay';
+  const Year = 'Year';
+  const FinancialQuarter = 'FinancialQuarter';
+  const Season = 'Season';
+  const Time = 'Time';
+  const Timezone = 'Timezone';
+
+  const Connector = 'Connector';
+  const Abbr = 'Abbreviation';
+  const Acronym = 'Acronym';
+  const HashTag = 'HashTag';
+  const AtMention = 'AtMention';
+
+  const Emoji = 'Emoji';
+  const Emoticon = 'Emoticon';
+  const SlashedTerm = 'SlashedTerm';
+  const Email = 'Email';
+  const PhoneNumber = 'PhoneNumber';
+  const Url = 'Url';
+
+  const entity = [Pers, Place, Org];
+
+  var nouns$2 = {
+    Noun: {
+      aliases: [null, 'NN'],
+      not: [Vb, Adj, Adv, Val, Det],
+    },
+    Singular: {
+      aliases: [null, 'Sing', 'SG', 'NN1'],
+      is: NN,
+      not: [Plur, Uncountable],
+    },
+    // 'Canada'
+    ProperNoun: {
+      aliases: ['Prop', 'NNP', 'PROPN', 'NP0'],
+      is: NN,
+    },
+    Person: {
+      aliases: [null, 'Pers'],
+      is: Sing,
+      also: [Prop],
+      not: [Place, Org, Date],
+    },
+    FirstName: {
+      aliases: [null, 'First'],
+      is: Pers,
+    },
+    MaleName: {
+      is: First,
+      not: [FemaleName, Last],
+    },
+    FemaleName: {
+      is: First,
+      not: [MaleName, Last],
+    },
+    LastName: {
+      aliases: [null, 'Last'],
+      is: Pers,
+      not: [First],
+    },
+    // 'dr.'
+    Honorific: {
+      aliases: ['Hon'],
+      is: Pers,
+      not: [First, Last, Val],
+    },
+    Place: {
+      is: Sing,
+      not: [Pers, Org],
+    },
+    Country: {
+      is: Place,
+      also: [Prop],
+      not: [City],
+    },
+    City: {
+      is: Place,
+      also: [Prop],
+      not: [Country],
+    },
+    // 'california'
+    Region: {
+      is: Place,
+      also: [Prop],
+    },
+    Address: {
+      aliases: ['Addr'],
+      // is: 'Place',
+    },
+    Organization: {
+      aliases: ['Org'],
+      is: Prop,
+      not: [Pers, Place],
+    },
+    SportsTeam: {
+      aliases: [null, 'Team'],
+      is: Org,
+    },
+    School: {
+      is: Org,
+    },
+    Company: {
+      is: Org,
+    },
+    Plural: {
+      aliases: [null, 'Plur', 'NNS', 'PL', 'NN2'],
+      is: NN,
+      not: [Sing, Uncountable],
+    },
+    // 'gravity'
+    Uncountable: {
+      is: NN,
+    },
+    // 'it'
+    Pronoun: {
+      aliases: [null, 'Pron', 'PRP', 'PRON'],
+      is: NN,
+      not: entity,
+    },
+    // 'swimmer'
+    Actor: {
+      is: NN,
+      not: [Place, Org],
+    },
+    // walking
+    Activity: {
+      is: NN,
+      not: [Pers, Place],
+    },
+    // kilometres
+    Unit: {
+      is: NN,
+      not: entity,
+    },
+    // canadian
+    Demonym: {
+      aliases: [null, 'Dem'],
+      is: NN,
+      also: [Prop],
+      not: entity,
+    },
+    // [spencer's] hat
+    Possessive: {
+      aliases: ['Poss'],
+      is: NN,
+    },
+    // 'yourself'
+    Reflexive: {
+      aliases: [null, 'Refl'],
+      is: Pron,
+    },
+  };
+
+  var verbs$2 = {
+    Verb: {
+      aliases: ['Vb', 'V', 'VB'],
+      not: [NN, Adj, Adv, Val, Expr],
+    },
+    // 'he [walks]'
+    PresentTense: {
+      aliases: ['Pres', 'PRS'],
+      is: Vb,
+      not: [Past, Fut],
+    },
+    // 'will [walk]'
+    Infinitive: {
+      aliases: ['Inf', 'VVI'],
+      is: Pres,
+      not: [Ger],
+    },
+    // '[walk] now!'
+    Imperative: {
+      aliases: ['Imp'],
+      is: Vb,
+      not: [Past, Ger, Cop],
+    },
+    // walking
+    Gerund: {
+      aliases: ['Ger', 'VBG'],
+      is: Pres,
+      not: [Cop],
+    },
+    // walked
+    PastTense: {
+      aliases: ['Past', 'VBD', 'PST'],
+      is: Vb,
+      not: [Pres, Ger, Fut],
+    },
+    // will walk
+    FutureTense: {
+      aliases: ['Fut'],
+      is: Vb,
+      not: [Pres, Past],
+    },
+    // is/was
+    Copula: {
+      aliases: [null, 'Cop'],
+      is: Vb,
+    },
+    // '[could] walk'
+    Modal: {
+      aliases: [null, 'Mod', 'MD'],
+      is: Vb,
+      not: [Inf],
+    },
+    // 'awaken'
+    Participle: {
+      aliases: [null, 'VBN'],
+      is: Past,
+    },
+    // '[will have had] walked'
+    Auxiliary: {
+      aliases: ['Aux'],
+      is: Vb,
+      not: [Past, Pres, Ger, Conj],
+    },
+    // 'walk out'
+    PhrasalVerb: {
+      aliases: ['Phrasal', 'PhrV'],
+      is: Vb,
+    },
+    // 'walk [out]'
+    Particle: {
+      aliases: [null, 'RP'],
+      is: Phrasal,
+      not: [Past, Pres, Cop, Ger],
+    },
+    // 'walked by'
+    Passive: {
+      aliases: [null, 'Pass'],
+      is: Vb,
+    },
+  };
+
+  // Written format is independent of quantity types such as Fraction or Money.
+  var values$1 = {
+    Value: {
+      aliases: ['Val', 'Num'],
+      not: [Vb, Adj, Adv],
+    },
+    Ordinal: {
+      aliases: [null, 'Ord'],
+      is: Val,
+      not: [Card],
+    },
+    Cardinal: {
+      aliases: [null, 'Card', 'CD'],
+      is: Val,
+      not: [Ord],
+    },
+    Fraction: {
+      aliases: [null, 'Frac'],
+      is: Val,
+      not: [NN],
+    },
+    Multiple: {
+      aliases: [null, 'Mult'],
+      is: TxtNum,
+    },
+    RomanNumeral: {
+      aliases: [null, 'RomNum'],
+      is: Card,
+    },
+    TextValue: {
+      aliases: [null, 'TxtNum'],
+      is: Val,
+      not: [Numeric, RomanNumeral],
+    },
+    NumericValue: {
+      aliases: ['Numeric'],
+      is: Val,
+      not: [RomanNumeral],
+    },
+    Money: {
+      is: Card,
+    },
+    Percent: {
+      aliases: [null, 'Perc', 'Pct'],
+      is: Val,
+    },
+  };
+
+  // Calendar/clock components are distinct. Holiday and Duration describe spans
+  // that can overlap components or one another (for example, 'Christmas Day').
+  // Each exclusion pair is declared once; the tag compiler supplies reciprocity.
+  var dates$1 = {
+    Date: {
+      not: [Vb, Adv, Adj],
+    },
+    Month: {
+      is: Date,
+      also: [NN],
+      not: [WeekDay, Year, FinancialQuarter, Season, Time, Timezone],
+    },
+    WeekDay: {
+      is: Date,
+      also: [NN],
+      not: [Year, FinancialQuarter, Season, Time, Timezone],
+    },
+    Year: {
+      is: Date,
+      not: [RomanNumeral, FinancialQuarter, Season, Time, Timezone],
+    },
+    FinancialQuarter: {
+      is: Date,
+      aliases: [null, 'Quarter'],
+      not: [Frac, Season, Time, Timezone],
+    },
+    // 'easter'
+    Holiday: {
+      is: Date,
+      also: [NN],
+    },
+    // 'summer'
+    Season: {
+      is: Date,
+      not: [Time, Timezone],
+    },
+    Timezone: {
+      is: Date,
+      aliases: [null, 'Tz'],
+      also: [NN],
+      not: [Prop],
+    },
+    Time: {
+      is: Date,
+      not: [AtMention, Timezone],
+    },
+    // 'months'
+    Duration: {
+      aliases: [null, 'Dur'],
+      is: Date,
+      also: [NN],
+    },
+  };
+
+  const anything = [NN, Vb, Adj, Adv, Val, QW];
+
+  var misc$2 = {
+    Adjective: {
+      aliases: ['Adj', 'JJ', 'ADJ', 'AJ0'],
+      not: [NN, Vb, Adv, Val],
+    },
+    Comparable: {
+      is: Adj,
+    },
+    Comparative: {
+      aliases: [null, 'Comp', 'JJR', 'AJC'],
+      is: Adj,
+    },
+    Superlative: {
+      aliases: [null, 'Sup', 'JJS', 'AJS'],
+      is: Adj,
+      not: [Comp],
+    },
+    NumberRange: {
+      aliases: [null, 'NumRange'],
+    },
+    Adverb: {
+      aliases: ['Adv', 'RB', 'ADV'],
+      not: [NN, Vb, Adj, Val],
+    },
+
+    Determiner: {
+      aliases: ['Det', 'DT', 'DET'],
+      not: [NN, Vb, Adj, Adv, QW, Conj], //allow 'a' to be a Determiner/Value
+    },
+    Connector: {
+      not: [NN, Vb, Adj, Adv, QW, Det],
+    },
+    Conjunction: {
+      aliases: ['Conj', 'CC'],
+      is: Connector,
+      not: anything.concat([Prep]),
+    },
+    Preposition: {
+      aliases: ['Prep', 'IN', 'ADP'],
+      is: Connector,
+      not: [NN, Vb, Adj, Adv, QW, Det, Conj],
+    },
+    QuestionWord: {
+      aliases: [null, 'QW'],
+      not: [Det],
+    },
+    Currency: {
+      is: NN,
+    },
+    Expression: {
+      aliases: ['Expr'],
+      not: [NN, Adj, Vb, Adv],
+    },
+    Abbreviation: {
+      aliases: ['Abbr'],
+    },
+    Url: {
+      aliases: [null, 'URL'],
+      not: [HashTag, Vb, Adj, Val, SlashedTerm, Email, PhoneNumber, AtMention, Emoji, Emoticon],
+    },
+    PhoneNumber: {
+      not: [HashTag, Vb, Adj, Val, AtMention, Emoji, Emoticon],
+    },
+    HashTag: {},
+    AtMention: {
+      is: NN,
+      not: [HashTag, Emoji, Emoticon],
+    },
+    Emoji: {
+      not: [HashTag, Vb, Adj, Val, Emoticon],
+    },
+    Emoticon: {
+      not: [HashTag, Vb, Adj, Val, SlashedTerm],
+    },
+    SlashedTerm: {
+      not: [Emoticon, Url, Val]
+    },
+    Email: {
+      not: [HashTag, Vb, Adj, Val, PhoneNumber, AtMention, Emoji, Emoticon],
+    },
+    Acronym: {
+      not: [RomanNumeral, Pron, Date],
+    },
+    Negative: {
+      aliases: [null, 'Neg'],
+      not: [NN, Adj, Val, Expr],
+    },
+    Condition: {
+      is: Connector,
+      aliases: [null, 'Cond'],
+      not: [Vb, Adj, NN, Val],
+    },
+    // existential 'there'
+    There: {
+      aliases: [null, 'EX'],
+      not: [Vb, Adj, NN, Val, Conj, Prep],
+    },
+    // 'co-wrote'
+    Prefix: {
+      not: [Abbr, Acronym, Prop],
+    },
+    // hard-nosed, bone-headed
+    Hyphenated: {},
+  };
+
+  const allTags = { ...nouns$2, ...verbs$2, ...values$1, ...dates$1, ...misc$2 };
+
+  // Some finders retain the caller's document; others use the selected view's.
+  const select = (View, find, originalDocument = false) => function (n) {
+    const matches = typeof find === 'string' ? this.match(find) : find(this);
+    const selected = matches.getNth(n);
+    return new View(originalDocument ? this.document : selected.document, selected.pointer)
+  };
+
+  // name the View subclass, and have .update() return it, sharing the match cache
+  const keepClass = (Cls, name) => {
+    Cls.prototype.viewType = name;
+    Cls.prototype.update = function (pointer) {
+      const m = new this.constructor(this.document, pointer);
+      m._cache = this._cache;
+      m.world = this.world;
+      return m
+    };
+  };
+
+  // the json of each match, plus a parsed form under one key
+  const jsonWith = (view, n, key, fn) => {
+    const opts = typeof n === 'object' ? n : {};
+    return view.getNth(n).map(p => {
+      const json = p.toView().json(opts)[0];
+      json[key] = fn(p);
+      return json
+    }, [])
+  };
+
+  const find$5 = function (doc) {
+    let m = doc.splitAfter('@hasComma');
+    m = m.match('#Hon+? #Pers+');
+    // Spencer's King - but keep 'John Smith's' together
+    const poss = m.match('#Poss+').notIf('(his|her)'); //her majesty ...
+    m = m.splitAfter(poss);
+    return m
+  };
+
+  const parse$1 = function (m) {
+    const res = {};
+    res.firstName = m.match('#First+');
+    res.lastName = m.match('#Last+');
+    res.honorific = m.match('#Hon+');
+
+    const last = res.lastName;
+    const first = res.firstName;
+    if (!first.found || !last.found) {
+      // let p = m.clone()
+      // assume 'Mr Springer', or 'Vice President Springer' is a last-name
+      if (!first.found && !last.found && m.has('^#Hon #Hon? .$')) {
+        res.lastName = m.match('.$');
+        return res
+      }
+    }
+    return res
+  };
+
+  // gendered pronouns
+  const she = '(she|her|hers)';
+
+  /*
+    Important notice - 
+    this method makes many assumptions about gender-identity, in-order to assign grammatical gender.
+    it should not be used for any other purposes, other than resolving pronouns in english
+  */
+  const m = 'male';
+  const f = 'female';
+
+  // known gendered honorifics
+  const honorifics = {
+    mr: m,
+    mrs: f,
+    miss: f,
+    madam: f,
+
+    // british stuff
+    king: m,
+    queen: f,
+    duke: m,
+    duchess: f,
+    baron: m,
+    baroness: f,
+    count: m,
+    countess: f,
+    prince: m,
+    princess: f,
+    sire: m,
+    dame: f,
+    lady: f,
+
+    ayatullah: m, //i think?
+
+    congressman: m,
+    congresswoman: f,
+    'first lady': f,
+
+    // marked as non-binary
+    mx: null,
+  };
+
+  const predictGender = function (parsed, person) {
+    const { firstName, honorific } = parsed;
+    // use first-name as signal-signal
+    if (firstName.has('#FemaleName')) {
+      return f
+    }
+    if (firstName.has('#MaleName')) {
+      return m
+    }
+    // use honorics as gender-signal
+    if (honorific.found) {
+      let hon = honorific.text('normal');
+      hon = hon.replace(/\./g, ''); //clean it up a bit
+      if (Object.hasOwn(honorifics, hon)) {
+        return honorifics[hon]
+      }
+      // her excelency
+      if (/^her /.test(hon)) {
+        return f
+      }
+      if (/^his /.test(hon)) {
+        return m
+      }
+    }
+    // offer used-pronouns as a signal
+    const after = person.after();
+    if (!after.has('#Pers') && after.has('#Pron')) {
+      const pro = after.match('#Pron');
+      // manual use of gender-neutral
+      if (pro.has('(they|their)')) {
+        return null
+      }
+      const hasMasc = pro.has('(he|his)');
+      const hasFem = pro.has(she);
+      if (hasMasc && !hasFem) {
+        return m
+      }
+      if (hasFem && !hasMasc) {
+        return f
+      }
+    }
+    return null
+  };
+
+  const addMethod = function (View) {
+    /**
+     *
+     */
+    class People extends View {
+      parse(n) {
+        return this.getNth(n).map(parse$1, [])
+      }
+      json(n) {
+        return jsonWith(this, n, 'person', p => {
+          // read the names from a copy, without its possessive - "Biden's" → 'biden'
+          const tmp = p.clone();
+          tmp.possessives().strip();
+          const parsed = parse$1(tmp);
+          return {
+            firstName: parsed.firstName.text('normal'),
+            lastName: parsed.lastName.text('normal'),
+            honorific: parsed.honorific.text('normal'),
+            presumed_gender: predictGender(parsed, p),
+          }
+        })
+      }
+      // used for co-reference resolution only
+      presumedMale() {
+        return this.filter(m => {
+          return m.has('(#MaleName|mr|mister|sr|jr|king|pope|prince|sir)')//todo configure these in .world
+        })
+      }
+      presumedFemale() {
+        return this.filter(m => {
+          return m.has('(#FemaleName|mrs|miss|queen|princess|madam)')
+        })
+      }
+    }
+    keepClass(People, 'People');
+
+    View.prototype.people = select(People, find$5, true);
+  };
+
+  const find$4 = function (doc) {
+    let m = doc.match('(#Place|#Address)+');
+
+    // split all commas except for 'paris, france'
+    let splits = m.match('@hasComma');
+    splits = splits.filter(c => {
+      // split 'europe, china'
+      if (c.has('(asia|africa|europe|america)$')) {
+        return true
+      }
+      // don't split 'paris, france'
+      if (c.has('(#City|#Region|#Prop)$') && c.after('^(#Country|#Region)').found) {
+        return false
+      }
+      return true
+    });
+    m = m.splitAfter(splits);
+    return m
+  };
+
+  //combine them with .topics() method
+  const find$3 = function (n) {
+    // builds without the chunker have no .clauses()
+    const r = this.clauses ? this.clauses() : this;
+    // Find entities and acronyms without duplicating acronyms inside entities.
+    let m = r.people();
+    m = m.concat(r.places());
+    m = m.concat(r.organizations());
+    m = m.concat(r.match('#Acronym').ifNo(m));
+    m = m.not('(someone|man|woman|mother|brother|sister|father)');
+    //return them to normal ordering
+    m = m.sort('seq');
+    // m = m.unique()
+    m = m.getNth(n);
+    return m
+  };
+
+  const api$c = function (View) {
+    View.prototype.topics = find$3;
+  };
+
+  const api$b = function (View) {
+    addMethod(View);
+
+    View.prototype.places = function (n) {
+      const m = find$4(this);
+      return m.getNth(n)
+    };
+    View.prototype.organizations = function (n) {
+      const m = this.match('#Org+');
+      return m.getNth(n)
+    };
+    api$c(View);
+  };
+  var topics = { api: api$b };
+
+  // key order is the order they are redacted in
+  const defaults$1 = {
+    people: true,
+    places: true,
+    organizations: true,
+    emails: true,
+    money: true,
+    percentages: true,
+    fractions: true,
+    phoneNumbers: true,
+    atMentions: true,
+    acronyms: true,
+    urls: true,
+    // off by default
+    properNouns: false,
+    dates: false,
+    numbers: false,
+    pronouns: false,
+  };
+
+  // remove these specific tags when redacting, which may leak information
+  const hideTags = {
+    people: [MaleName, FemaleName, First, Last],
+    places: [City, 'State', Country, Region],
+    organizations: [SportsTeam, 'Company', 'School'],
+  };
+  hideTags.pronouns = [...hideTags.people, ...hideTags.places, ...hideTags.organizations];
+
+  // replace text with blockStr but keep tags
+  const redactMatch = function (m, blockStr, keep = true) {
+    m = m.notIf('#Redacted');
+    m.replaceWith(blockStr, keep);
+    m.tag('Redacted');
+    return m
+  };
+
+  const redact = function (opts = {}, blockStr = '██████████', keep = true) {
+    opts = { ...defaults$1, ...opts };
+    // each key is also the View method that finds them
+    Object.keys(defaults$1).forEach(k => {
+      // skip finders that this build or language does not have
+      if (opts[k] !== false && this[k]) {
+        const m = redactMatch(this[k](), blockStr, keep);
+        if (hideTags[k]) {
+          m.unTag(hideTags[k]);
+        }
+      }
+    });
+    return this
+  };
+
+  const plugin = {
+    model: {
+      one: {
+        tagSet: {
+          Redacted: true
+        }
+      }
+    },
+    api: function (View) {
+      View.prototype.redact = redact;
+    }
+  };
+
+  // remove a regex match from the text of each term
+  const stripper = reg => view => {
+    eachTerm(view.docs, term => {
+      term.text = term.text.replace(reg, '');
+      term.normal = term.normal.replace(reg, '');
+    });
+    return view
+  };
+
+  const strip$3 = stripper(/\./g);
+
+  const api$a = function (View) {
+
+    class Acronyms extends View {
+      strip() {
+        return strip$3(this)
+      }
+      addPeriods() {
+        strip$3(this);
+        eachTerm(this.docs, term => {
+          // Reuse the sentence period so strip() still preserves punctuation.
+          const ending = term.post.startsWith('.') ? '' : '.';
+          term.text = term.text.split('').join('.') + ending;
+          term.normal = term.normal.split('').join('.') + ending;
+        });
+        return this
+      }
+    }
+    Acronyms.prototype.viewType = 'Acronyms';
+
+    View.prototype.acronyms = select(Acronyms, '#Acronym');
+  };
+
+  // select spans wrapped by paired punctuation held in term.pre / term.post
+  const findPairs = (hasOpen, findEnd) => doc => {
+    const ptrs = [];
+    doc.docs.forEach(terms => {
+      for (let i = 0; i < terms.length; i += 1) {
+        const term = terms[i];
+        if (term.pre && hasOpen.test(term.pre)) {
+          const end = findEnd(terms, i);
+          if (end !== null) {
+            const [n, start] = terms[i].index;
+            // i and end are relative to this view, but start is not
+            ptrs.push([n, start, start + end - i + 1, terms[i].id]);
+            i = end;
+          }
+        }
+      }
+    });
+    return doc.update(ptrs)
+  };
+
+  // remove the opening and closing punctuation from each span
+  const stripPairs = (hasOpen, hasClosed) => m => {
+    m.docs.forEach(terms => {
+      terms[0].pre = terms[0].pre.replace(hasOpen, '');
+      const last = terms[terms.length - 1];
+      last.post = last.post.replace(hasClosed, '');
+    });
+    return m
+  };
+
+  const hasOpen$1 = /\(/;
+  const hasClosed$1 = /\)/;
+
+  const findEnd$1 = function (terms, i) {
+    for (; i < terms.length; i += 1) {
+      if (terms[i].post && hasClosed$1.test(terms[i].post)) {
+        return i
+      }
+    }
+    return null
+  };
+
+  const find$2 = findPairs(hasOpen$1, findEnd$1);
+  const strip$2 = stripPairs(hasOpen$1, hasClosed$1);
+
+  const api$9 = function (View) {
+    class Parentheses extends View {
+      strip() {
+        return strip$2(this)
+      }
+    }
+    Parentheses.prototype.viewType = 'Parentheses';
+
+    View.prototype.parentheses = select(Parentheses, find$2);
+  };
+
+  const stripS = stripper(/['’]s$/);
+  const leadApostrophe = /^['’]/;
+
+  // spencer's, spencer’s - and the flanders', whose apostrophe is in .post
+  const strip$1 = function (view) {
+    stripS(view);
+    eachTerm(view.docs, t => {
+      if (t.text.endsWith('s') && leadApostrophe.test(t.post)) {
+        t.post = t.post.replace(leadApostrophe, '');
+      }
+    });
+    return view
+  };
+
+  // #Possessive is decided upstream, in steps - the list is in 2-two/contraction-two/compute/index.js
+  const find$1 = function (doc) {
+    let m = doc.match('#Poss+');
+    // expand it to include 'john smith's'
+    if (m.has('#Pers')) {
+      m = m.growLeft('#Pers+');
+    }
+    if (m.has('#Place')) {
+      m = m.growLeft('#Place+');
+    }
+    if (m.has('#Org')) {
+      m = m.growLeft('#Org+');
+    }
+    return m
+  };
+
+
+  const api$8 = function (View) {
+
+    class Possessives extends View {
+      strip() {
+        return strip$1(this)
+      }
+    }
+    Possessives.prototype.viewType = 'Possessives';
+
+    View.prototype.possessives = select(Possessives, find$1);
+  };
+
+  /* eslint-disable regexp/no-dupe-characters-character-class */
+
+  const pairs = {
+    '\u0022': '\u0022', // 'StraightDoubleQuotes'
+    '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
+    '\u0027': '\u0027', // 'StraightSingleQuotes'
+    '\u201C': '\u201D', // 'CommaDoubleQuotes'
+    '\u2018': '\u2019', // 'CommaSingleQuotes'
+    '\u201F': '\u201D', // 'CurlyDoubleQuotesReversed'
+    '\u201B': '\u2019', // 'CurlySingleQuotesReversed'
+    '\u201E': '\u201D', // 'LowCurlyDoubleQuotes'
+    '\u2E42': '\u201D', // 'LowCurlyDoubleQuotesReversed'
+    '\u201A': '\u2019', // 'LowCurlySingleQuotes'
+    '\u00AB': '\u00BB', // 'AngleDoubleQuotes' «, »
+    '\u2039': '\u203A', // 'AngleSingleQuotes'
+    // Prime 'non quotation'
+    '\u2035': '\u2032', // 'PrimeSingleQuotes'
+    '\u2036': '\u2033', // 'PrimeDoubleQuotes'
+    '\u2037': '\u2034', // 'PrimeTripleQuotes'
+    // Prime 'quotation' variation
+    '\u301D': '\u301E', // 'PrimeDoubleQuotes'
+    '\u0060': '\u00B4', // 'PrimeSingleQuotes'
+    '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+  };
+
+  const hasOpen = RegExp('[' + Object.keys(pairs).join('') + ']');
+  const hasClosed = RegExp('[' + Object.values(pairs).join('') + ']');
+
+  const findEnd = function (terms, i) {
+    const have = terms[i].pre.match(hasOpen)[0] || '';
+    if (!have || !pairs[have]) {
+      return null
+    }
+    const want = pairs[have];
+    for (; i < terms.length; i += 1) {
+      if (terms[i].post && terms[i].post.match(want)) {
+        return i
+      }
+    }
+    return null
+  };
+
+  const find = findPairs(hasOpen, findEnd);
+  const strip = stripPairs(hasOpen, hasClosed);
+
+  const api$7 = function (View) {
+
+    class Quotations extends View {
+      text(fmt) {
+        if (!fmt || fmt === 'text') {
+          return super.text({ keepEndPunct: true })
+        }
+        if (typeof fmt === 'object') {
+          return super.text({ keepEndPunct: true, ...fmt })
+        }
+        return super.text(fmt)
+      }
+      strip() {
+        strip(this);
+      }
+    }
+    Quotations.prototype.viewType = 'Quotations';
+
+    View.prototype.quotations = select(Quotations, find);
+  };
+
+  /** return anything tagged as a phone number */
+  const phoneNumbers = function (n) {
+    let m = this.splitAfter('@hasComma');
+    m = m.match('#PhoneNumber+');
+    m = m.getNth(n);
+    return m
+  };
+
+  /** return anything tagged as an address */
+  const addresses = function (n) {
+    let m = this.match('#Address+');
+    m = m.getNth(n);
+    return m
+  };
+
+  // setup easy helper methods
+  const selections = [
+    ['hyphenated', '@hasHyphen .'],
+    ['hashTags', '#HashTag'],
+    ['emails', '#Email'],
+    ['emoji', '#Emoji'],
+    ['emoticons', '#Emoticon'],
+    ['atMentions', '#AtMention'],
+    ['urls', '#Url'],
+    // ['pronouns', '#Pronoun'],
+    ['conjunctions', '#Conj'],
+    ['prepositions', '#Prep'],
+    ['abbreviations', '#Abbr'],
+    ['honorifics', '#Hon'],
+  ];
+
+  // aliases
+  const aliases = [
+    ['emojis', 'emoji'],
+    ['atmentions', 'atMentions'],
+  ];
+
+  const addMethods = function (View) {
+    // add a list of new helper methods
+    selections.forEach(a => {
+      View.prototype[a[0]] = function (n) {
+        const m = this.match(a[1]);
+        return typeof n === 'number' ? m.get(n) : m
+      };
+    });
+    View.prototype.phoneNumbers = phoneNumbers;
+    View.prototype.addresses = addresses;
+    // add aliases
+    aliases.forEach(a => {
+      View.prototype[a[0]] = View.prototype[a[1]];
+    });
+  };
+
+  const hasSlash = /\//;
+
+  const api$6 = function (View) {
+
+    class Slashes extends View {
+      split() {
+        return this.map((m) => {
+          const str = m.text();
+          const arr = str.split(hasSlash);
+          m = m.replaceWith(arr.join(' '));
+          return m.growRight('(' + arr.join('|') + ')+')
+        })
+      }
+    }
+    Slashes.prototype.viewType = 'Slashes';
+
+    View.prototype.slashes = select(Slashes, '#SlashedTerm');
+  };
+
+  var misc$1 = {
+    api: function (View) {
+      api$a(View);
+      api$9(View);
+      api$8(View);
+      api$7(View);
+      addMethods(View);
+      api$6(View);
+    }
+  };
+
+  // a comma, but not a clause break
+  const notClause = [
+    '@hasComma @hasComma', //fun, cool...
+    '(#City && @hasComma) #Country', //'toronto, canada'
+    '(#WeekDay && @hasComma) #Date', //'tuesday, march 2nd'
+    '(#Date+ && @hasComma) #Val', //'july 6, 1992'
+    '(#Adj && @hasComma) #Adj', //nice, pretty
+  ];
+
+  const byComma = function (doc, rules) {
+    const skip = notClause.concat(rules.notClause || []);
+    let commas = doc.match('@hasComma');
+    // remove any non-clause uses
+    commas = commas.filter(m => {
+      // don't split the first word
+      if (m.growLeft('.').wordCount() === 1) {
+        return false
+      }
+      // don't split the last word
+      if (m.growRight('. .').wordCount() === 1) {
+        return false
+      }
+      const more = m.grow('.'); // grow by 1 word in either direction
+      return !skip.some(str => more.has(str))
+    });
+    return doc.splitAfter(commas)
+  };
+
+  // should we split-out a clause (in brackets)?
+  const splitParentheses = function (doc) {
+    // from the misc plugin
+    if (!doc.parentheses) {
+      return doc
+    }
+    let matches = doc.parentheses();
+    matches = matches.filter(m => {
+      return m.wordCount() >= 3 && m.has('#Verb') && m.has('#NN')
+    });
+    return doc.splitOn(matches)
+  };
+
+  // split-out a long quotion, but not 'inline quotes'.
+  const splitQuotes = function (doc) {
+    // from the misc plugin
+    if (!doc.quotations) {
+      return doc
+    }
+    let matches = doc.quotations();
+    matches = matches.filter(m => {
+      return m.wordCount() >= 3 && m.has('#Verb') && m.has('#NN')
+    });
+    return doc.splitOn(matches)
+  };
+
+  const clauses$2 = function (n) {
+    let found = this;
+    // word-rules, like 'but' and 'until', are in the model
+    const rules = this.model.three?.clauses || {};
+
+    found = splitParentheses(found);
+    found = splitQuotes(found);
+
+    found = byComma(found, rules);
+
+    found = found.splitAfter('(@hasEllipses|@hasSemicolon|@hasDash|@hasColon)');
+
+    // each language's own rules
+    const { splitAfter = [], splitBefore = [], splitBeforeGroup = [] } = rules;
+    splitAfter.forEach(str => {
+      found = found.splitAfter(str);
+    });
+    splitBefore.forEach(str => {
+      found = found.splitBefore(str);
+    });
+    splitBeforeGroup.forEach(str => {
+      const m = found.match(str, 0);
+      if (m.found) {
+        found = found.splitBefore(m);
+      }
+    });
+
+    // // misc clause partitions
+    // found = found.splitBefore('as well as .')
+    // found = found.splitBefore('such as .')
+    // found = found.splitBefore('in addition to .')
+
+    // // semicolons, dashes
+    // found = found.splitAfter('@hasSemicolon')
+    // found = found.splitAfter('@hasDash')
+
+    // //
+    // found = found.splitBefore('which (were|are|will)')
+
+    // // he said [...]
+    // found = found.splitAfter('#Noun (said|say|says)')
+
+    // passive voice verb - '.. which was robbed is empty'
+    // let passive = found.match('#Noun (which|that) (was|is) #Adverb? #PastTense #Adverb?')
+    // if (passive.found) {
+    //   found = found.splitAfter(passive)
+    // }
+    // //which the boy robbed
+    // passive = found.match('#Noun (which|that) the? #Noun+ #Adverb? #PastTense #Adverb?')
+    // if (passive.found) {
+    //   found = found.splitAfter(passive)
+    // }
+    // does there appear to have relative/subordinate clause still?
+    // let tooLong = found.filter(d => d.wordCount() > 5 && d.match('#Verb+').length >= 2)
+    // if (tooLong.found) {
+    //   // and after the ..
+    //   found = found.splitBefore('#Conjunction #Preposition')
+
+    //   // let m = tooLong.splitAfter('#Noun .* #Verb .* #Noun+')
+    //   // found = found.splitOn(m.eq(0))
+    // }
+    if (typeof n === 'number') {
+      found = found.get(n);
+    }
+    return found
+  };
+
+  const api$5 = function (View) {
+    View.prototype.clauses = clauses$2;
+  };
+
+  // .clauses() with only its punctuation rules - a language adds its own model.three.clauses
+  var clauses$1 = { api: api$5 };
+
+  // a leading '-', or the real minus-sign, or one after a symbol - '$-5'
+  const minus = /^\s*[-−]|\P{L}[-−]$/u;
+  const signs = /[-−]/g;
+  // any currency symbol - '$', '€', '₽'
+  const currency = /\p{Sc}/u;
+
+  // a decimal-comma, unless the language's model says otherwise.
+  // `ordinal` is regex-source for the ending of a numeric ordinal - '[ºª°]'
+  // `loose` reads a lone decimal-mark before three digits as thousands - '7,938'
+  // `percent` and `currencies` are the words that follow a number - 'per cento', 'euro'
+  const defaults = { decimal: ',', group: '.', ordinal: '', loose: false, percent: [], currencies: [] };
+
+  // the mark that groups thousands can't also be the decimal
+  const groupMark = function (group, decimal) {
+    if (group !== decimal) {
+      return group
+    }
+    return decimal === '.' ? ',' : '.'
+  };
+
+  // '1234567' → '1.234.567'
+  const addGroups = function (int, mark) {
+    const out = [];
+    for (let end = int.length; end > 0; end -= 3) {
+      out.unshift(int.slice(Math.max(end - 3, 0), end));
+    }
+    return out.join(mark)
+  };
+
+  // floating-point noise - 0.1 + 0.2. a whole number is already exact,
+  // and rounding it to 15 digits would corrupt a 16-digit one
+  const tidy$1 = num => (Number.isInteger(num) ? num : Number(num.toPrecision(15)));
+
+  // compile each ordinal-ending once
+  const cache$1 = {};
+  const isOrdinal = function (suffix, src) {
+    if (!src || !suffix) {
+      return false
+    }
+    cache$1[src] = cache$1[src] || new RegExp('^(?:' + src + ')$', 'iu');
+    return cache$1[src].test(suffix)
+  };
+
+  // digits, and any mark that sits between two of them - '1.234,56', '1 000', "1'000"
+  const body = /^[0-9](?:[0-9]|[.,'’\s](?=[0-9]))*/;
+  const count = (str, char) => str.split(char).length - 1;
+
+  // which mark is the decimal, and which one groups the thousands?
+  // two different marks, or a repeated one, say so themselves - '1.234,56', '1.234.567'
+  // a lone '.' or ',' is the only real guess, and the locale makes it
+  const findMarks = function (str, locale) {
+    const dots = count(str, '.');
+    const commas = count(str, ',');
+    // a space or an apostrophe is only ever a thousands-group
+    const soft = str.match(/[ ']/);
+    let decimal = null;
+    let group = soft ? soft[0] : null;
+    if (dots && commas) {
+      // the last one is the decimal
+      decimal = str.lastIndexOf(',') > str.lastIndexOf('.') ? ',' : '.';
+      group = decimal === ',' ? '.' : ',';
+      if (soft) {
+        return null
+      }
+    } else if (dots + commas > 1) {
+      group = dots ? '.' : ',';
+      if (soft) {
+        return null
+      }
+    } else if (dots + commas === 1) {
+      const mark = dots ? '.' : ',';
+      const isGroup = /^[1-9][0-9]{0,2}[.,][0-9]{3}$/.test(str);
+      const isDecimal = mark === locale.decimal && !(locale.loose && isGroup);
+      if (soft || isDecimal || !isGroup) {
+        decimal = mark; // '3,5', and '3.5' anywhere
+      } else {
+        group = mark; // '1.000' where the decimal is a comma
+      }
+    }
+    return { decimal, group }
+  };
+
+  // '1.234,56' → 1234.56, or null for something that isn't one number - '1.2.3'
+  const toNumber$1 = function (str, marks) {
+    let int = str;
+    let fraction = '';
+    if (marks.decimal) {
+      const parts = str.split(marks.decimal);
+      if (parts.length !== 2) {
+        return null
+      }
+      int = parts[0];
+      fraction = parts[1];
+    }
+    // thousands come in threes
+    if (marks.group) {
+      const groups = int.split(marks.group);
+      if (groups[0].length > 3 || groups.slice(1).some(s => s.length !== 3)) {
+        return null
+      }
+      int = groups.join('');
+    }
+    if (!/^[0-9]+$/.test(int) || !/^[0-9]*$/.test(fraction)) {
+      return null
+    }
+    return Number(fraction ? int + '.' + fraction : int)
+  };
+
+  /**
+   * pull-apart a number written in digits - '-5', '1.234,56 €', '3,5%', '2ª'
+   * `pre` is any punctuation that the tokenizer left in front of it - '(-'
+   * `locale` is model.two.europeanNumbers
+   */
+  const read = function (str, pre = '', locale = defaults) {
+    const res = {
+      num: null,
+      prefix: '',
+      suffix: '',
+      hasComma: false,
+      decimal: null,
+      group: null,
+      ordinal: null,
+      currency: null,
+      isPercent: false,
+      isFraction: false,
+    };
+    str = String(str).trim();
+    const begin = str.search(/[0-9]/);
+    if (begin === -1) {
+      return res
+    }
+    let prefix = str.slice(0, begin);
+    const raw = str.slice(begin).match(body)[0];
+    let suffix = str.slice(begin + raw.length);
+    // every kind of space, and both kinds of apostrophe
+    let digits = raw.replace(/\s/g, ' ').replace(/’/g, "'");
+    // a decimal with nothing in front of it - '.5', ',5'
+    const lead = prefix.slice(-1);
+    if ((lead === '.' || lead === ',') && /^[0-9]+$/.test(digits)) {
+      digits = '0' + lead + digits;
+      prefix = prefix.slice(0, -1);
+    }
+    const marks = findMarks(digits, locale);
+    let num = marks ? toNumber$1(digits, marks) : null;
+    if (num === null) {
+      return res
+    }
+    // a fraction - '1/2'
+    const frac = suffix.match(/^\/([0-9]+)$/);
+    if (frac && Number(frac[1]) !== 0) {
+      num /= Number(frac[1]);
+      suffix = '';
+      res.isFraction = true;
+    }
+    // the sign may be hiding in the punctuation - '(-5)'
+    // .. on either side of the currency - '-$5', '$-5' - but not 'covid-19'
+    if (minus.test(prefix) || /[-−]$/.test(pre)) {
+      num *= -1;
+    }
+    // a numeric ordinal - '2ª', '5-го', '3e'
+    if (isOrdinal(suffix, locale.ordinal)) {
+      res.ordinal = suffix;
+      suffix = '';
+    }
+    res.num = num;
+    res.prefix = prefix.replace(signs, '');
+    res.suffix = suffix;
+    res.decimal = marks.decimal;
+    res.group = marks.group;
+    res.hasComma = marks.group !== null;
+    // remember which space it was - a non-breaking one is put back as one
+    if (marks.group === ' ') {
+      res.group = raw.match(/\s/)[0];
+    }
+    const money = [res.prefix, suffix].find(s => currency.test(s));
+    res.currency = money ? money.trim() : null;
+    res.isPercent = /^\s*[%％]/.test(suffix);
+    return res
+  };
+
+  /**
+   * write a number in digits - 1234.5 → '1.234,5'
+   * `how` is the result of read(), so a number goes back the way it was found.
+   * thousands are only grouped when `how.hasComma` is set
+   */
+  const write$1 = function (num, how = {}, locale = defaults) {
+    if (typeof num !== 'number' || !isFinite(num)) {
+      return ''
+    }
+    num = tidy$1(num);
+    let str = String(Math.abs(num));
+    // leave '1e+21' alone
+    if (/^[0-9]+(?:\.[0-9]+)?$/.test(str)) {
+      let decimal = how.decimal || locale.decimal;
+      // '7,938' was grouped with a comma, so its decimal is a period
+      if (!how.decimal && how.group === decimal) {
+        decimal = groupMark(decimal, decimal);
+      }
+      const parts = str.split('.');
+      let int = parts[0];
+      const fraction = parts[1];
+      if (how.hasComma) {
+        int = addGroups(int, groupMark(how.group || locale.group, decimal));
+      }
+      str = fraction ? int + decimal + fraction : int;
+    }
+    // the sign goes ahead of any currency - '-$5'
+    const sign = num < 0 ? '-' : '';
+    return sign + (how.prefix || '') + str + (how.suffix || '')
+  };
+
+  const sign = '[-+−]?';
+  // '1.234.567,89', or '1234,5' - either mark, the reader sorts-out which is which
+  const digits = "(?:[0-9]{1,3}(?:[.,'’][0-9]{3})+(?:[.,][0-9]+)?|[0-9]+(?:[.,][0-9]+)?)";
+  // 'R$', 'US$', '€'
+  const symbol$1 = '(?:[a-z]{1,2})?\\p{Sc}';
+
+  const cardinal = ['Cardinal', 'NumericValue'];
+  const percent$1 = ['Percent', 'Cardinal', 'NumericValue'];
+  const money = ['Money', 'Value'];
+
+  // build them once per language
+  const cache = new WeakMap();
+
+  /**
+   * tagging rules for numbers written in digits, as [regex, tags, example].
+   * test them on the term's text, not its 'normal' - which has lost its commas
+   */
+  const regexes = function (locale = defaults) {
+    if (cache.has(locale)) {
+      return cache.get(locale)
+    }
+    const reg = str => new RegExp('^' + str + '$', 'iu');
+    const out = [
+      [reg(sign + symbol$1 + ' ?' + sign + digits + '(?:[kmb]|bn)?\\+?'), money, '€5,30'],
+      [reg(sign + digits + ' ?' + symbol$1 + '\\+?'), money, '5,30€'],
+      [reg(sign + digits + '\\+?'), cardinal, '1.234,56'],
+      [reg(sign + '[.,][0-9]+\\+?'), cardinal, ',5'],
+      [reg(sign + digits + ' ?[%％]\\+?'), percent$1, '3,5%'],
+      [reg(sign + '[.,][0-9]+[%％]'), percent$1, ',5%'],
+    ];
+    // '2ª', '5-го', '3e'
+    if (locale.ordinal) {
+      out.push([reg('[0-9]+(?:' + locale.ordinal + ')'), ['Ordinal', 'NumericValue'], 'ordinal']);
+    }
+    cache.set(locale, out);
+    return out
+  };
+
+  const reason$1 = 'european-number';
+  // '€', '₽', 'R$', 'US$'
+  const symbol = /^[a-z]{0,2}\p{Sc}$/iu;
+  // only in capitals - 'EUR 5', not 'eur'
+  const codes = /^(?:EUR|USD|GBP|CHF|JPY|CAD|AUD|BRL|MXN|RUB|CNY)$/;
+  const percent = /^[%％]$/;
+
+  const isValue = term => term.tags.has('Value');
+  // nothing but a space between this word and the next - not '5, euro'
+  const touches = term => /^\s*$/.test(term.post);
+
+  // do these words come next? - 'per cento'
+  const hasPhrase = function (terms, i, words) {
+    return words.every((w, o) => terms[i + o] && terms[i + o].normal === w && (o === words.length - 1 || touches(terms[i + o])))
+  };
+
+  /**
+   * a number takes its meaning from the word beside it - '5,30 €', '50 per cento', 'mille euro'.
+   * the number is tagged #Money or #Percent, and the word beside it #Currency or #Unit.
+   * the words come from the model - { percent: ['per cento'], currencies: ['euro'] }
+   */
+  const tagNeighbours$1 = function (terms, view) {
+    const { world, model, methods } = view;
+    const { setTag, unTag } = methods.one;
+    const locale = model.two.europeanNumbers;
+    const phrases = (locale.percent || []).map(str => str.split(' '));
+    const words = new Set(locale.currencies || []);
+    const isCurrency = term => term.tags.has('Currency') || symbol.test(term.text) || words.has(term.normal);
+    const isCode = term => symbol.test(term.text) || codes.test(term.text);
+
+    for (let i = 0; i < terms.length; i += 1) {
+      if (!isValue(terms[i]) || terms[i].tags.has('Ordinal')) {
+        continue
+      }
+      // the whole number - '1 000', 'trois cent'
+      let end = i;
+      while (terms[end + 1] && isValue(terms[end + 1]) && touches(terms[end])) {
+        end += 1;
+      }
+      const run = terms.slice(i, end + 1);
+      const next = touches(terms[end]) ? terms[end + 1] : null;
+      const before = terms[i - 1];
+      const phrase = next ? phrases.find(a => hasPhrase(terms, end + 1, a)) : null;
+      if (phrase) {
+        // 'cento' is not a second number
+        const unit = terms.slice(end + 1, end + 1 + phrase.length);
+        unTag(unit, 'Value', model.one.tagSet);
+        setTag(unit, 'Unit', world, false, reason$1);
+        setTag(run, 'Percent', world, false, reason$1);
+        end += phrase.length;
+      } else if (next && percent.test(next.text)) {
+        setTag(run, 'Percent', world, false, reason$1);
+        setTag([next], 'Unit', world, false, reason$1);
+      } else if (next && (isCurrency(next) || codes.test(next.text))) {
+        setTag(run, 'Money', world, false, reason$1);
+        setTag([next], 'Currency', world, false, reason$1);
+      } else if (before && isCode(before) && touches(before)) {
+        // only a symbol goes in front - '€ 5,30', 'CHF 12'
+        setTag(run, 'Money', world, false, reason$1);
+        setTag([before], 'Currency', world, false, reason$1);
+      }
+      i = end;
+    }
+  };
+
+  const reason = 'european-number';
+  // leave these to the language's own tagger - '12.05.2020', '15.30', '555-1234'
+  // .. and a german ordinal keeps its period outside of the term - '3.'
+  const skip = ['Date', 'PhoneNumber', 'NumberRange', 'Ordinal'];
+
+  // tag numbers written in digits, from their raw text - '1.234,56', '3,5%', '5,30€'
+  const tagNumbers = function (view) {
+    const { world, model, methods } = view;
+    const regs = regexes(model.two.europeanNumbers);
+    const setTag = methods.one.setTag;
+    view.docs.forEach(terms => {
+      terms.forEach(term => {
+        if (!/[0-9]/.test(term.text) || skip.some(tag => term.tags.has(tag))) {
+          return
+        }
+        const found = regs.find(a => a[0].test(term.text));
+        if (found) {
+          setTag([term], found[1], world, false, reason);
+        }
+      });
+      // '5,30 €', '50 per cento'
+      tagNeighbours$1(terms, view);
+    });
+  };
+
+  /**
+   * numbers written in digits, with a decimal-comma - '1.234,56', '3,5%', '5,30 €'
+   * shared across many languages
+   * tags them, and adds a reader and writer:
+   *   const { read, write } = doc.methods.two.europeanNumbers
+   *   const locale = doc.model.two.europeanNumbers
+   *   read('1.234,56', term.pre, locale).num // 1234.56
+   *   write(1234.56, { hasComma: true }, locale) // '1.234,56'
+   * a language sets its own marks in model.two.europeanNumbers - { group: ' ', ordinal: 'er?' }
+   * and its own words - { percent: ['per cento'], currencies: ['euro'] } - for '50 per cento', 'mille euro'
+   */
+  var europeanNumbers = {
+    model: { two: { europeanNumbers: { ...defaults, percent: [], currencies: [] } } },
+    methods: { two: { europeanNumbers: { read, write: write$1, regexes } } },
+    compute: { europeanNumbers: tagNumbers },
+    hooks: ['europeanNumbers'],
+  };
+
+  // Generated by scripts/pack/index.js; see data/README.md for source files.
+  var properNouns = {
+    "ProperNoun": "true¦aIbDc8dalhousHe7f5gosford,h4kirby,landsdowne,m2nis,r1s0wembF;herwood,paldiB;iel,othwe1;cgi0ercedes,issy;ll;intBudsB;airview,lorence,ra0;mpt9nco;lmo,uro;a1h0;arlt6es5risti;rl0talina;et4i0;ng;arb3e0;et1nt0rke0;ley;on;ie;bid,jax",
+    "Organization": "true¦0:4Q;1:3Z;a3Vb3Dc2Md2Fe2Af25g1Yh1Ri1Nj1Lk1Jl1Gm13n0Ro0Op0Equ0Dr04sStIuDvAw4xiaomi,y2;amaha,mca,ou2wca;gov,tube;a5e3iki2orld trade organization;leaRpedia;lls fargo,st2;field,inghouse;l2rner bros;greens,l street journal,m1C;an halPerizon,isa,o2;dafone,l2;kswagNvo;b5kip,n3ps,s2;a today,ps;esco,i2;lever,ted nations;er,s; mobile,aco beTd bQe8gi fridays,he 4im hortons,mz,o2witter;shiba,y2;ota,s r us;b3carpen3Mdaily ma1holli0s2who;mashing pumpkins,uprem0;ea2lack eyed peas,yrds;ch boys,tl0;l3n3Us2xas instruments;co,la m1F;efonica,us;aCcBe8iemens,mirnoff,np,o6p5quare0Dt2ubaru;a2eer02;rbuc2to1;ks;eci2Cice gir5;ny,undgard2;en;a3x pisto2;ls;g1Wrs;hool1Sientology;feway,insburys,lesforce,msung;adiohead,b9e5o2yanair;man empire,yal 2;b2dutch she5;ank;a4d 2max,vlon;bu2c2Bhot chili peppers,lobster;ll;ders digest,l madrid;c,s;antas,iznos;a9bs,e6fizer,hilip5i4r2;emier 2udential;leagTo1;nk floyd,zza hut; morrCs;psi3tro2ugeot;bras,china,nas;!co;lantir,n2ypal; 3asonic,da2Q;ld navy,pec,range juli3xf2;am;us;aAb9e8fl,h7i6o2sa,vid5wa;k4minat3tre dame,vart2;is;ing1F;ia;ke,ntendo,ssan,vV;l,s;c,stle,tflix,wsweek;a,c;ndos,s3t2;o,west;a,car,daq;aDeAi7lb,o4tv,y2;spa2;ce;b1nsanto,ody blu0t2;ley cr2or0T;ue;c3t2;as,subisM;helin,rosoft;dica3rcedes benz,talli2;ca;id,re;cs milk,ttel,zda;a presse,e2g,ittle caesars; oreal,novo,x2;is,mark,us;atv,fc,kk,lm,m2odak;art;iffy lube,oy division,pmorgan2sa;! chase;bm,hop,k4n2tv;g,te2;l,rpol;ea;a7e6i4o2sbc,yundai;me dep2nda;ot;tac2zbollah;hi;althYwlett pack1V;lliburton,sbro;eneral 6hq,ithub,l5mb,o2reen day,ucci;ldman sachs,o2;dye2gle;ar;axo smith kline,encoZ;electric,m2;otors;a5bi,c barcelo4da,edex,i3leetwood mac,o2rito lay;rd,xcon;at,fa,restone;na;cebook,nnie mae;bay,sa,u5x2;ecutiveYxon2; m2m2;ob1;!rosceptics;aimler,e6isney,o5u2;nkin donu3pont,ran dur2;an;ts;j,w jon0;a,f lepp17ll,peche mode,r spiegel,stiny's chi2;ld;aObc,entrMhIiGloudflaFnn,o4r2;aigsli8eedence clearwater reviv2ossra1;al;cAinba9l7m3n2ors,stco;ferenceJgressionI;ca4merce3p2;aq; bo0Y;st;dplVg2;ate;se;a c2o chanT;ola;re;a,sco2tigroup;! systems;ev3i2;ck fil a,na daily;r2y;on;al2; committee;d3pital o2rls jr;ne;bury,ill2;ac;aFbc,eCfAl6mw,ni,o2p,rexiteeV;ei4mbardiJston 2;glo2pizza;be;ng;o3ue c2;roW;ckbuster video,omingda2;le; g2g2;oodriM;cht3e ge0rkshire hathaw2;ay;el;cardi,idu,nana republ4s2xt6y6;f,kin robbi2;ns;ic;bYcUdidTerosmith,iSlLmFnheuser busEol,ppleBr7s5u4v3y2;er;is,on;di,todesk;hland o1sociated F;il;b4g3m2;co;os;ys; compu2be0;te2;rs;ch;c,d,erican4t2;!r2;ak; ex2;pre2;ss; 6catel3ta2;ir;! lu2;ce2;nt;jazeera,qae2;da;g,rbnb;as;/dc,ademy of scienc0er,tivision2;! blizz2;ard;es;ba",
+    "City": "true¦0:75;1:62;2:6H;3:6K;4:5T;5:5M;a6Ab55c4Kd4Ae46f3Yg3Jh3Bi33j2Yk2Gl24m1Nn1Do1Ap0Xq0Vr0Ps06tSuRvMwExiCyAz6;a8h6ibo,urich;a6e6ongsh0;ng3J;greb,nzibar;ang2e6okohama,unfu;katerin3Jrev0;a6n0R;m5n;arsCeBi7roclCu6;h0xi,zhou;c8n6;d6nipeg,terth4;hoek,sor;hita,klow;l65xford;aw;a9e7i6ladivostok,olgograd;en3lnius;nice,r6;o3sailles;lencia,ncouver,r3ughn;lan bator,rumqi,trecht;aGbilisi,eFheEiCoAr8u6;lsa,nis,r6;in,ku;i6ondh64;este,poli;kyo,msk,ronto,ulo6;n,uT;an6jua3l2Vmisoara,ra3;jin,shui; hague,ssaloniki;gucigalpa,hr0l aviv;briz,i7llinn,mpere,ng6rtu,shk2T;ier,sh0;an,chu1n0pei,yu0;aFeEh9kopje,oweto,t8u6;ra6zhou;baya,t;aten is57ockholm,rasbourg,uttgart;an9e7i6;jiazhua1llo1mla,y0;f52n6;ya1zh5;ghai,tou;attle,oul,v46;cramento,int DlCn6o paulo,pporo,rajevo; 8aa,t6;a 6o domingo;a3fe,m1O;antonio,diego,francisco,j6pedro,salvador;o6u0;se;em,t lake city,z27;louis,peters26;aAe9i7o6;me,stov,t5B;ga,o6yadh;! de janeiro;cife,ims,nnes,ykjavik;bat,ip4leigh,nchi,walpindi;ingdao,u6;ez2ito;aGeFhEiDoAr8u7yong6;ya1;ebla,ya1;a6etoria;gue,to;rt6zn0; 6land,o;au prince,elizabeth,said;ls5raeus,tts28;iladelphia,nom penh,oenix;ki1tah tikva;dua,lerZnaji,ris,t6;na,ras;ak46dessa,msk,r7s6ttawa;aka,lo;an,dos;a8ew6ingbo,ovosibirsk,yc; 6castle;delhi,orleans,taipei;g9irobi,n6ples,shv35tchez,v0;ch7ji1t6;es,o1;a1o1;a7o6p4;ya;no,saki;aFeDiAo7u6;mbai,nich,scat;gadishu,nt7s6;cow,ul;evideo,pellier,real;ami,l7nsk,s6;kolc,sissauga;an,waukee;cca,d6lbourne,mphis,ndoza,ssi3;an,ellin,i3;cau,drBkassar,lAn9r6shhad;aca7ib6rakesh,se2N;or;ibo,y;aus,chGdalay,ila;mo;id;aEeBi9o7u6vUy2;anNcknow,dhia3;n6s angeles;d2g beach;brev2Dege,ma6nz,sb2verpool;!ssol; mans,i6;c6pzig;ester; p7g6hore,n0Es vegas,usanne;os;az,lata;aJharHiDlaipeCoArakow,u8y6;iv,o6;to;ala lump4n6;mi1sh0;hima,lkata,pavog4si6wlo2;ce;da;ev,n7r6;kuk,ov;gst2sha6;sa;k6toum;iv;bIdu3llakurichi,mpala,n7ohsiu1ra6unas,waguchi;chi,j;d6o,p4;ahar,y;a8e7i6ohannesW;lin,n0;ddah,rusalem;ip4k6;arta;bad0mphal,nBrkutVs8taYz6;mir,tapala6;pa;fah0l7tanb6;ul;am30i2I;che2d6;ianap2Nore;aBe8o6yder2X; chi mi6ms,nolulu;nh;f7lsin6rakli2;ki;ei;ifa,lifax,mDn6rbin,va3;g9nover,oi;aGdanFenEhDiQlasgCoAraz,u6;a6jrat;dal7ng6yaquil;zhou;ajara,upe;ld coast,then6;burg;ow;ent;eva,oa;sk;lw8n6za;dhi6gtok;nagar;ay;aisal2Aes,o9r7ukuya6;ma;ankfu6esno;rt;rt6sh0; wor7ale6;za;th;d6indhov5l paso,ss5;in6mont2;bur6;gh;aCe9haka,isp4o8resd5u6;b6esseldorf,nkirk,rb0shanbe;ai,lin;ha,nggu0rtmund;hradTl7nv6troit;er;hi;donghJe7kar,l6mascus,r es salaam,ugavpiZ;i0lV;gu,je2;aKebu,hBleve0Wo6raiova,uritiba;lo8n7penhag5r6;doba,k;akLst0W;gVm6;bo;aCen9i7ongqi1ristchur6;ch;ang m8ca6ttago1;go;g7n6;ai;du,zho1;ng6ttogram;ch9sha,zhou;gliari,iAlga9mayenKn7pe town,r6tanP;acDdiff;berra,c6;un;ry;ro;aXeOhLirmingham,oKrAu6;chareUdapeUenos air8r6s0tu0;g6sa;as;es;aAis7usse6;ls;ba7t6;ol;ne;sil9tisla8zzav6;il6;le;va;ia;gota,st2;op7ubaneshw6;ar;al;iDlAng9r6;g5l6n;in;en;aluru,hazi;fa7grade,o horizon6;te;st;ji1rut;ghdad,kGnAot9r8s7yan n4;ur;el,rah;celo3i,ranquilla;ou;du1g7ja lu6;ka;alo7k6;ok;re;ng;ers6u;field;a06b03ccra,ddis ababa,gartala,hmedYizawl,lTmQnIqaba,rFsCt8uck6;la6;nd;he8l6;an6;ta;ns;h6unci2;dod,gab6;at;li6;ngt2;on;a9c6kaPtwerp;hora7o3;na;ge;h8p6;ol6;is;eim;aravati,m0s6;terd6;am; 8buquerq7eppo,giers,ma6;ty;ue;basrah al qadim6mawsil al jadid6;ah;ab6;ad;la;ba;ra;idj0u dha6;bi;an;lbo7rh6;us;rg",
+    "Place": "true¦0:4Y;1:50;2:4A;3:4H;4:3O;5:30;6:4Q;a4Mb3Oc31d2Oe2Ef2Cg22h1Qi1Mjapa2Sk1Il19m0Xn0Po0Lp0Br07sVtPuNvLw9y7;a7ork,yz;kutsk,ngtze;aFeEhitDiBo7upatki,ycombe;king,o7;d7l1I;b3Xs7;i4tock;c0UllowbroEn7;c2Ygh2;by,church;ed0ntw3Os2A;ke8r40t7;erf1f1; is0If43;auxhall,irgin is0Lost7;ok;laanbaatar,pto7xb3M;n,wn;aBeotihuacan,h9ive4Go8ruro,sarskoe selo,u7;lum,zigoot;nto,rquay,tt2S;am3e 7orn3N;bronx,hamptons;hiti,j mahal,u1V;aHcotts bluff,eFfo,hEoCpringBt9u7yd2O;dbury,ez,n7;der05set3K;aff1ock2Vr7;atf1oud;hill,w5;ho,uth7; 1Qam27wold;erbroKopping1G;a7ine;f30t0;int lawrence riv6khalin;ayleigh,ed9i7oc26;chmond,o gran4ver7;bend,fr0Esi4; sea,cliffe,hill;aDeAhx,i7ompeii,utn2;c8ne7tcairn; 2Wc0M;kering,t0;k,lh2mbr8n7rth;n1Pzance;oke;cif3Gpahanaumokuakea,r7;k7then0;si4w5;ak9ld t2Jr8x7;f1ley;ange county,f1inoco;mZw5;eAile,o7;r7tt2V;th7wich; 10am1H;gev,uschwanstein,w7; eng8a7h2markKport;rk;land;aAco,e8i7uc;dt26ll17;adow7kong;lands;chu picchu,gadan,iBlAn9ple8r7;kh2; 1Kw5;hattan,sf2J;ibu,t0vern;dstone,n st7;!re7;et;aBeAgw,hr,i7owlSynd06;n7ttle italy;coln memori7dley;al;asi4w3;kefr9mbeth,n7;ca2Mg7sing;f1ley,t0;ont;azan kremlin,e9itchen6o8rasnoyar7ul;sk;re0Xsrae;ns0Ks1X;ax,lf1n8ps7;wiP;d7glew5verness;ian2Aochina;aFeDi8kg,nd,ov7unti2J;d,enweep;gh8llc7;reN;bury,l7;and7;!s;r7yw5;ef1tf1;libu26mp8r7stings;f1lem,row;stead,t0;aFodavari,r7uelph;avenCe7imsW;at Aen7; 8f1Iwi7;ch;acr3valley;britain,lak3;hur7;st;ng3y village;airhavKinancial7ra; district;aCgliBnf19ppiAu9ver8x7;et6f1;glad3t0;rope,st0;ng;nt0;rls1Ms7;t 7;e7si4;nd;aEeCfw,igBo9ryd8u7xb;mfri3nstable,rh2tt0;en;nca1ArcMv6w7;nt0C;by;nh2r7vonport;ry;nuAr7;l8t7;f1moor;ingt0;be;aNdg,eLgk,hElDo7royd0;l8m7rnwall;pt0;c9lingw5osse7;um;ood;he0U;earwat6t;aBel9i7uuk;chen itza,mney rock,n7ricahua;atT;m0Zt7;enh2;mor7rlottetQth2;ro;dar 7ntervilB;grove;ldBmAr7versh2;lis8rizo pla7;in;le;bNpbellf1;weT;a01eQingley,kk,lackOoNr7uckX;aIiCo7;ckt0ok7wns cany0;lyn,s7;i4to7;ne;de;dge8gh7;am,t0;n8t7;own;or7;th;ceb8m7;lPpt0;rid7;ge;ardwalk,lt0;bu7pool,waA;rn;aconsfFdf1lCrAverly9x7;hi7;ll; hills;wi7;ck; air,l7;ingh2;am;ie7;ld;ltimore,rnsl8tters7;ea;ey;bMct0driadic,frica,ginKlHmericas,nBrcAs9tl8ylePzor3;es;!antA;hcroft,ia; de triomphe,t8;adyr,caAdov6tarct7;ic7; oce7;an;st6;er;be8dersh7hambra,list0;ot;rt0;cou7;rt;bot9i7;ngd0;on;sf1;ord",
+    "Region": "true¦0:2J;1:2G;2:2P;3:2A;a2Nb2Ac1Wd1Res1Qf1Og1Jh1Fi1Aj16k11l0Ym0Nn07o05pYqUrRsJtEuBverAw6y4zacatecas;akut0ork3u4;cat1kon;a5est 4isconsin,yoming;bengal,virgin0;rwick3shington4;! dc;acruz,mont;dmurt0t4;ah,tar4; 2Ka0X;a6e5laxcala,ripura,u4;scaDva;langa2nnessee,xas;basco,m4smOtar24;aulipas,il nadu;a8elangor,i6o5taf11u4ylhet;ffXrrey,s19;me1Bnora,uth V;ber0c4kkim,naloa;hu1ily;n5rawak,skatchew1xo4;ny; luis potosi,ta catari2;a4hode i9;j4ngpur;asth1shahi;inghai,u4;e4intana roo;bec,en4retaro;sl0E;a8e4unjab;i,n5r4;ak,nambuco;ang,nsylv4;an0;hang,ra4;!na;axaca,disha,h4klahoma,ntar4reg7ss0Ax0F;io;aIeBo6u4;evo le4navut;on;r4tt15va scot0;f6mandy,th4; 4ampton3;caroli2dakota;olk;braska,vada,w4; 6foundland4;! and labrad4;or;brunswick,hamp3jers5mexiTyork4;! state;ey;galPyarit;aAeghalaya,i6o4;nta2r4;dov0elos;ch6dlanDn5ss4zoram;issippi,ouri;as geraPnesota;ig1oac1;dhy12harashtra,ine,lacca,ni5r4ssachusetts;anhao,i el,ylG;p4toba;ur;anca3e4incoln3ouisI;e4iR;ds;a6e5h4omi;aka06ul2;dah,lant1ntucky,rala;bardino,lmyk0nsas,r4;achay,el0nataka;alis6har4iangxi;kh4;and;co;daho,llino7n4owa;d5gush4;et0;ia2;is;a6ert5i4un1;dalFm0D;ford3;mp3rya2waii;ansu,eorg0lou7oa,u4;an4izhou,jarat;ajuato,gdo4;ng;cester3;lori4uji1;da;sex;ageUe7o5uran4;go;rs4;et;lawaMrby3;aFeaEh9o4rimea,umbr0;ahui7l6nnectic5rsi4ventry;ca;ut;ima,orado;la;e5hattisgarh,i4uvash0;apRhuahua;chn5rke4;ss0;ya;ra;lGm4;bridge3peche;a9ihar,r8u4;ck4ryat0;ingham3;shi4;re;emen,itish columb0;h0ja cal8lk7s4v7;hkorto4que;st1;an;ar0;iforn0;ia;dygHguascalientes,lBndhr9r5ss4;am;izo2kans5un4;achal 7;as;na;a 4;pradesh;a6ber5t4;ai;ta;ba5s4;ka;ma;ea",
+    "FemaleName": "true¦0:I4;1:I8;2:HG;3:HY;4:HH;5:HL;6:IL;7:IP;8:G8;9:IH;A:G1;B:GZ;C:HQ;D:IE;E:AF;F:HU;G:H1;aFSbEOcCVdC4eARfA9g9Kh92i8Sj7Pk6Rl5Cm3Sn39o36p2Uqu2Tr22s11t0Bu09vZwSxi30yOzH;aLeIineb,oHsof4;e3Df4la,ra;h2iKlIna,ynH;ab,ep;da,ma;da,h2iHra;nab;aJeIing,olACu0vH;et8onCT;le0sen4;el,gmur,n,s89;aMendD6hiCNiH;lJnH;if3TniHo0;e,f3S;helmi0lHma;a,ow;ka0nB;aNeKiHusa5;ck7JkIl8oleAviH;anEenI4;ky,toriAT;da,lma,rHs0;a,nHonica;a,ice;leHnesG9;nHLrH;i1y;g9rHs7;su5te;aXeThQiMoKrHu5y2;acI4iHudy;c4na,sH;hEta;nHr0F;iEya;aJffany,nHs7;a,gtiH;ng;!nEUra;aIeHomasi0;a,lma,o7Pres1;l4ndolwethu;gan,o7NrIssH;!a,ie;eHi,ri6;sa,za;bOlMmKnIrHs7tia0wa0;a7Gyn;iHya;a,ka,s7;arEe2iHm6Nra;!ka;a,iH;a,t7;at7it7;a0Bcarlett,e07hViSkye,neza0oQri,tNuIyH;bil,lvi1;ha,niAsIzH;an39et8ie,y;anHi6;!a,e,nH;aCe;aIeH;fan3l4Wphan5U;cH6r5;fi9KnHphi1;d2ia,ja,ya;er2lv4mon1nIobhan,tH;a,i;dy;aMeIirHo0y5;a,lCU;ba,e0i5lJrH;iHr60yl;!dan;ia,lD7;imaa,ki2nJrIu0w0yH;la,na;i,le9on,ron,yn;aIda,ia,nHon;a,on;!ya;lJrIvH;da,inj;e0ife;en1i0ma;anvi,bLd57har,iBkKlJmInd2rHs7vannaC;aCi0;ant7i2;lCYma,ome;ineh,u2;in1ri0;a03eYhWiToHuthCW;bRcQl7XnPsJwIxH;anAEie,y;an,e0;aIeHie,lD;ann6ll1marCQtA;!lHnn1;iHyn;e,nH;a,dE;da,i,na;hel5Rio;bin,erAyn;a,cIkHmas,nEta,ya;ki,o;h8Bki;ea,iannon,oH;da,n1F;an0bIemEgi0i0nHta,y0;a7Oee;a,eH;cHkaC;a,ca;chIe,i0mo0nHquel,y0;di,ia;ael,elHiB;!e,le;een3ia0;aOeNhKia,oIrH;iscil3Audence;lHrt4;i0ly;iloIoebe,ylH;is,lis;me0;ggy,nelope,r5t2;ige,m0Nn59o5rvati,tIulH;a,et8in1;ricHt4F;a,e,ia;ctav4deIfCCksa0lHphCCumou;a,ga,iv4;l4t8;aTeRiLoIurHy5;!ay,ul;a,eIor,rHur;aCeFma;ll1mi;aLcJharika,kIlaHna,s7ta;!y;a,iDBki;hoGk9HolH;a,e4G;!mh;hir,lHna,rissa;!a,lBD;dLima,nKomi6rges,tH;aHhal3;lHs7;i1ya;cy,et8;e9iECya;a08ckenz3e00iMoJuriel,yH;a,rH;a,iMna,tG;i2llB2nH;a,iH;ca,ka,que;a,cSdori,kaRlMmi,nKrHtzi;aIiH;am;!nB;dy,eHh,n3;nhGrva;aKdJe0ica,lH;iHy;cent,e;red;!gros;!e5;ae5hH;ae5el3T;agan,gNi,lKrH;edith,iIon,yH;em,l;em,ssa;an3iHlisa;nHsBY;a,da;!an,han;b07cADd05e,g03ha,i02ja,l00nZrLsoumeh,tKuIvis,xB0yHz3;bell,ra,soun;d6rH;a,eF;h82ild1t3;a,cTgPiKjor3l7Gn3s7tJwa,yH;!aHbeth,ja9lou;m,nB0;a,ha,in1;!aJbel,eIja,lDna,sHtza;!a,ol,sa;!l1A;!h,m,nH;!a,e,n1;arJeIie,oHr3Yueri8;!t;!ry;et3Wi36;el4Li6Zy;dy,on,ue5;ak,en,iHlory;a,ka,nB;a,re,s3te;daHg3;!len1;alDd3elHge,ison,on0;ei9in1yn;el,le;a0Me0BiWoQuLyH;d4la,nH;!a,dIe2KnHsey;!a,e2J;a,sey;ann,cJel0Ois1lIna,pHz;e,iA;a,u;iHy;a2Oe,ja,l2JnB;is,l1QrItt1HuH;el5is1;aJeIi6na,rH;a9Vi6;lei,n1tA;!in1;aTbb95dSepa,lNnKsJvIzH;!a,beth,et8z3;!ia;a,et8;!a,dH;a,sHy;ay,ey,i,y;a,iJja,lH;iHy;a9Qe;!aH;!nE;ia,ya;!nH;!a,ne;aPda,e0iNjYla,nMoKsJtHx8Ry5;iHt3;c4t4;edi,lC6;la,nHra;a,ie,o2;a,or1;a,gh,laH;!ni;!h,nH;a,d2e,n5K;cOdon0iNkes7mija,na,rMtJurIvHxmi,y5;ern1in4;a,e4Zie,yn;as7iIoH;nya,ya;fa,s7;a,is9R;a,la;ey,ie,y;a01eWhaViNlea,oMrJyH;lHra;a,ee,ie;istHy67;a,en,iHy1E;!e,n55;nul,ri,urtney;aNerMley,mJrHzzy;a,stH;en,in;!berlH;eHi,y;e,y;a,stF;!na,ra;dij1w5;el7LiKlJnIrH;a,i,ri;d2na,za;ey,i,lB6s3y;ra,s7;cey,diatou,ede,iSlQmPrNss6EtKviAyH;!e,lH;a,eH;e,igh;!a68eIhHi4LlDri0y;ar83er83ie,leFrAVy;!lyn89ri0;a,en,iHl5Poli0yn;!ma,nEssa;a5il1;eigh,i,lH;e,ie;a,tl6F;a0AeZiWoOuH;anMdLlHst7U;es,iH;a88eHssa;!n9tH;!a,te;ith,y;a,iA;!anNcelDdMelGhan7HleLni,sIva0yH;a,ce;eHie;fHlDph7K;a,in1;en,n1;i6y;!a,e,n3X;lHng;!ian,lH;!ian;anNle0nKrJsH;ica,sH;!e,ica;i,ri;!a,elGifer,nH;a,et8iHy;!e,fer;a,eJiInH;a,eIiH;e,n1;!t8;cMda,mi,nIque27sminEvie2y9zH;min6;a6eIiH;ce,e,n1s;!lHssa,t0A;e,le;inIk68lDquelH;in1yn;da,ta;da,lPmOnNo0rMsIvaHwo0;!na;aIiHla,obel;do2;belHdo2;!a,e,l34;ati,en1i0ma;di2es,grid;a9elBoge9;a,e9ia0o0se;aQeNiIoHyacinth;da,ll3rtense;lImaH;ri;aIdHlaI;a,egard;ry;ather,iIlHnrietArmi9ster;en2Rga,mi;di;biba,iley,lNnMrJsnItHwa,yley;ice,t3;aa;iHmony,ri4Z;etH;!te;aCnaC;a,ey,l3;a01eViQlOoNrKunJwH;enHyneth;!dolD;ay,el;acieIetHiselB;a,chF;!la;ld1Aogoosh;adys,enHor4ynis;a,da,na;aKgi,lIna,ov85selHta;a,e,le;da,liH;an;!n0;mLnJorgIrH;ald5Ki,m3Btrud6;et8i4U;a,eHna;sis,vieve;ma;bHle,rnet,yG;iIrielH;a,l1;!ja;aTeQiPlorOoz4rH;anJeIiH;da,eB;da,ja;!cH;esIiHoise;n1sca;!ca;a,enc4;en,o0;lIn0rnH;anB;ec4ic4;nArKtHy6;emIiHma,oumaA;ha,ma,n;eh;ah,iBrah,za0;crin,d0Qevi,ileFk0Ol07mXnid,rUsOtNuMvHwa;aKelIiH;!e,ta;inEyn;!a;!ngel4O;geni1nice;hel,ien9ta;mLperanKtH;eIhHrel5;er;l2Zr6;za;a,eralB;iHma,ne4Eyn;cHka,n;a,ka;aPeOiLmH;aIeHie,y;li9;!li9nuH;elG;lHn1;e6iHy;a,e,ja;ly,rald;!nue5;aWeUiNlMma,no2oKsJvH;a,iH;na,ra;a,ie;iHuiH;se;a,en,ie,y;a0c4da,e,f,nMsJzaH;!betHveA;e,h;aHe,ka;!beH;th;!a,or;anor,nH;!a,i;!in1na;ate1Pta;vi;eIiHna,wi0;e,th;l,n;aYeMiLjeneKoH;lores,minique,n39rHtt3;a,eFis,la,othHthy;ea,y;ba;an09naCon9ya;anQbPde,eOiMlJmetr4nHsiree;a,iH;ce,se;a,iIla,orHphi9;es,is;a,lah;dHrdH;re;!dee,na;!b2EoraCraC;a,d2nH;!a,e;hl4i0lal,mNnLphn1rIvi1VyH;le,na;a,by,cIia,lH;a,en1;ey,ie;a,et8iH;!ca,el19ka;arHia;is;a0Qe0Mh04i02lUoJristIynH;di,th4;al,i0;lPnMrIurH;tn1C;aJd2IiHn2Iri9;!nH;a,e,n1;!l3;cepcion,n3sH;tanHuelo;ce,za;eHleF;en,t8;aJeoIotH;ilde;!pat2;ir6rJudH;et8iH;a,ne;a,e,iH;ce,sY;a2er2ndH;i,y;aQeNloe,rH;isJyH;stH;al;sy,tH;a1Men,iHy;an1e,n1;lseIrH;!i6yl;a,y;nMrH;isKlImH;ai9;a,eHot8;n1t8;!sa;d2elGtH;al,elG;cIlH;es8i41;el4ilH;e,ia,y;itlYlXmilWndVrMsKtHy5;aIeIhHri0;er1DleFrDy;ri0;a32sH;a31ie;a,iOlLmeJolIrH;ie,ol;!e,in1yn;lHn;!a,la;a,eIie,otHy;a,ta;ne,y;na,ssa;ace,ice;a,e,l1;isAl3;in,yn;arb0Je02iZlXoUrH;andi6eRiJoIyH;an0nn;nwDoke;an3BdgMgiLtH;ney,tH;!aInH;ey,i,y;ny;d,t8;etH;!t6;an0e,nH;da,na;bbi6glarInH;iAn3;ka;ancHythe;a,he;anca,lja0nH;iAtH;ou;aVcUlinBniArPssOtJulaCvH;!erlH;ey,y;hJsy,tH;e,iHy6;e,na;!anH;ie,y;!ie;nItHyl;ha,ie;adIiH;ce;et8i9;ca,ky;!triH;ce,z;a2o2ra;a2Sb2Md23g1Zi1Qj5l16m0Xn09oi,r04sVtUuOvNwa,yHz2;aKes7gJlIn,seH;!l;in;un;!nH;a,na;a,i2J;drLguJrIsteH;ja;el4;stH;in1;a,ey,y;aahua,he0;hIiya,ja,miAtrH;id;aLlHton;eIi6yH;!n;e,iHy;gh;!nH;ti;iJleIo7piA;ta;en,n1t8;aHelG;!n1J;a01dje5eZgViTjRnKtoHya;inet8nH;el5ia;te;!aKeIiHmJ;e,ka;!mHtt6;ar3;!belIliHmU;sa;!l1;a,eliH;ca;ka,sHta;a,sa;elHie;a,iH;a,ca,n1qH;ue;!tH;a,te;!bImHstasiMya;ar4;el;aLberKeliJiHy;e,l4naH;!ta;a,ja;!ly;hGiIl4nB;da;a,ra;le;aWba,ePiMlKthJyH;a,c4sH;a,on,sa;ea;iHyson;e,son;a,cIn1sHza;a,e,ha,on,sa;e,ia,ja;c4is7jaKksaKna,sJxH;aHia;!nd2;ia,saH;nd2;ra;ia;i0nIyH;ah,na;a,is,naC;la;c7da,leFmNnLsH;haClH;inHyY;g,n;!h;a,o,slH;ey;ee;en;at7g3nIusH;ti0;es;ie;aWdiTelMrH;eJiH;anMenH;a,e,ne;an0;na;!aLeKiIyH;nn;a,n1;a,e;!ne;!iH;de;e,lDsH;on;yn;!lH;i9yn;ne;aKbIiHrL;!e,gaK;ey,i6y;!e;gaH;il;dKliyJradhIs7;ha;ya;ah;a,ya",
+    "FirstName": "true¦aTblair,cQdOfrancoZgabMhinaLilya,jHkClBm6ni4quinn,re3s0;h0umit,yd;ay,e0iloh;a,lby;g9ne;co,ko0;!s;a1el0ina,org6;!okuhF;ds,naia,r1tt0xiB;i,y;ion,lo;ashawn,eif,uca;a3e1ir0rM;an;lsFn0rry;dall,yat5;i,sD;a0essIie,ude;i1m0;ie,mG;me;ta;rie0y;le;arcy,ev0;an,on;as1h0;arl8eyenne;ey,sidy;drien,kira,l4nd1ubr0vi;ey;i,r0;a,e0;a,y;ex2f1o0;is;ie;ei,is",
+    "LastName": "true¦0:96;1:8Q;2:90;3:8Y;4:8R;5:8I;6:8G;7:8L;8:6N;9:6D;a8Sb7Oc6Nd62e5Wf5Jg4Xh4Fi4Cj45k3Ml37m2Cn23o1Vp1Hquispe,r0Ys0At02vWwMxLyDzA;hAimmerm4L;aAou,u;ng,o;aEeun71iBoAun;koyama,shida;!lA;diAmaz;rim,z;maAng;da,g3Omoto,sAza9;a9hita;iao,u;aFeDiBoAright,u;jcik,lff,ng;lAmm0nkl0sniews9;ki8Hliams25s3;bAiss,lt0;b,er,st0;age,gn0lBtA;anabe,s3;k0sh,tA;ers,on;aCesel6RiAogt;dal,llalAss0valdi;ba,obos;lBn dArgas;en b4Gijk,yk;enzuela,verde;aGeix18hDi1j7oCrBsui,urA;c1n0;an,emblay,ynis9;lstoy,m5rr2th;atch0ill,oA;mArlacius;ps3s3;kah7Anaka,te,var2;aSchNeMhKiImGoEtBuAvoboda,zabo;bot5lliv1zu9;aBeAoica;ele,in1Pphe8vens1H;l7rm0;sa,to,uA;ng,sa;itAyth;!h;lva,mmo8nArbu;at6clair,gh;aAehu,imizu;la,rma;gu6infeld,oh,pulveda,rrano;evi4iltz,miBneid0roed0uAwarz;bert,lz;dBtA;!t,z;!t;h7ito,ka3AlDnAr5sa9to,unders;dBtAz;ana,e,os;b3Kers;as,o;aPeMiJoDuByA;a4oo,u;bio,iz,sA;so,u;bEcha,drigu2gers,jas,mDosevelt,sCtBux,wA;e,li4;ari,h;enb3Bsi;ano,ero;erts0Ni6Z;beiro,cBes,vAzzo;as,e6;ci,hards0K;ag1es,iBut0yA;es,nolds;s,t0;dBmAv4K;os;ic,u;aLeIhGiDoCrAut7;asad,ifti,ochazA;ka;p23rti58well;cBero,nA;as,to;asso,hl0;aAillips;k,m,n4P;a6PeteWna,rAters04;eAic,ki8;i6ra,tz;h66k,rk0tA;el,te6L;bGconnor,g1RlDneill,rBsborne,we8zA;demir,turk;ellana,tAwell;ega,iz;iAs3;vAynyk;ei6;aIrien;aFeEiDoAun2ym1;rBvAwak;ak,otn4I;odahl,ris;cholsNemi,kol5x3;ils3mec;gy,kaAray1sh,varro;jiAmu6shiA;ma;aXcUePiOoFuByeA;rs;lCnBrAssolini;ati,pTray;oz,te3R;d0l0;h1lHnGore,rBsAzart;er,s;aDeCiBrisAt3;!on;!n0C;au,i6no,tti;!l2;roe,tgomery;ina,l0;crachi,ll0;hmeti,iDjia,lBnd2rci0ssiAyer1J;!er;nAo;yk;er,j0;cartBlA;aughl7e1;hy;drigal,eda,i0jerus,kela,mani,nFrCtByA;er,r;ei,ic,su11th5C;iAqu2roqu7ti8;ani,c,nA;!o;cini,n;aNeIiFoDuByA;!nch;k5nAo;d,gu;mbarAp2vr5we;di;!nAu,yanage;coln,dA;b11holm,strom;feChm0Fitn0kaBn7rAwis;oy;!j;bvAvA;re;ine,mmy,ng,u,voie,ws3;aNeMh1iKlIoFrDuBvar1woA;k,n;ce6marA;!a;aAem0ishna,yeziu;m0sniqi,us2F;bay3Rch,vaAwals9;cAl;!ic,s;e7uiveA;rt;eff0kAl5mu6;uchi;ll0nnedy;hn,llDmins9ne,pBstrati,to,ur,yA;a,s0;l1oA;or;oe;aEenDha4oBuA;ng,r5;hnsAn2u4;on,t3;ki8nings;cAnsse8;ks3obs;glesias,keda,l07noTonBshikAto,vanou;awa;escu;aJeIiHjaltal7oCuA;!aAb0gh2ynh;m1ng;a4dz5fCjgaard,k,lBpIrAwe,xha;ak,vat;m2t;er,fm2WmA;ann;ggi8tchcock;ikkila,mingway,nde3Rrre6ss;dz5gen,qGrFsDuCwByA;ashi,es;ki8;gen,ng;ani,hiA;moto;di4p0ris,t;ue;aNeorgMheorghe,iLjonKoFrDuAw3;errAo,zm1;a,eA;ro;ayli4eene,g5iffithAub0;!s;ldCm2nBodA;e,m1;calv2zal2;bAs02;erg;aj,i;bs3l,ordaH;ieva;gnGlDmaCndhi,o,rAshi,uthi0;cAdn0za;ia;ge;eaBlA;agh0i,o;no;e,on;aLerIiFjeldsted,lEoCrBuA;chs,ent2jita,ll0;eem1iedm1;ntaArt7urni0wl0;na;emi4or2;sBtzgeraA;ld;ch0h0;nand2rA;arAei6;a,i;b0rrell;dDinsCsAva8;cobar,pAtrada;inoza,osiJ;te7;er,is3warA;ds;aQeJiHjurhuGoEriscoll,uBvorA;ak;arte,boBmitru,nn,rAtta;and,ic;is;g1he0DtA;to;us;aAcki1Wssanayake,x3;s,z; CbnaBlAmir,rvishi,vi,w1;gado,ic;th;bo0groot,jo4lBsilAvri2;va;a cruz,e3uA;ca;hl,mcevs9nBtta,viA;ds3es,s;iels,kula;ki;a03eYhLiobKlarkJoCrAunningham;awford,ivAuz;elli;hen,lEntDoCrAsta,x;byn,reA;a,ia;ke,p0;i,reras;em1li8;ns;!e;anu;aGeEiu,oAu4we;i,ng,p6uBwAy;!dB;dAng;huD;!n,onAu4;!g;kDnCpm1ttBudhA;ry;erjee,o0O;!d,g;ma,raboA;rty;bDlZng5rA;eghetBnA;a,y;ti;an,otari;cer2lder3mpbeFrCstAvadiX;iAro;llo;doBr,t0uAvalho;so;so,zo;ll;a00eOhLiKlJoHrEuCyA;rFtyA;qi;chan1rA;ke;iem,oAyant;oks,wA;ne;nFruya,su,uchaAyko,z5;rd;anco,ondal;ancLdMshwas;aZoAuiy1;umAwmA;ik;ckJethovIgu,ktGnnOrA;gCisBnascoA;ni;ha;er,mA;anA;!n;asA;hi;en;er,hA;am;b5ch,hKiley,kk0ldw7nFrBshAt2u0;ir;bCnBtlAua;ett;es,i0;ieSosa;dAik;a6yoA;padhyA;ay;ra;k,ng;ic;bbYcosXdVgSkhtTlPnJrFsl1tDyA;aBd7;in;la;chis3kiA;ns3;aCmstro4sl1;an;ng;ujo,ya;dBsaA;ri;eBrA;ews;rs3;on;meiBv2;es;da;arwBuilA;ar;al;ams,l0;er;ta;as",
+    "MaleName": "true¦0:GJ;1:FD;2:DD;3:G3;4:D0;5:G9;6:CJ;7:F5;8:EB;9:BL;A:FZ;B:FR;aEQbDMcC9dB5eACf9Lg8Lh7Wi7Kj6Ik63l5Dm40n3Mo3Dp2Zqu2Xr22s1Bt0Pu0Mv0AwRxavi2yHzC;aCor0;cChid,karia,nAC;!hDkC;!ary;!ar72ery;aIevgenBBoEuC;en,rFBsCval;if,uf;nCsef,ussef;aCg;s,tC;an,h0;nCrosDNss08;is,nC;!ick;aPeNiDoCyatt;jciech,lfgang,odrFutR;lFnC;f8IsC;lCt1;ow;bGey,frEhelm,lC;ard,iCy;am,e,s;ed5iC;d,ed;e9ur;i,ndell,rn2sC;!l8t1;lDyC;l1ne;lDtC;!er;ace,y;aKernCXiFladDoC;jtech,lodymyr;!iC;mir,sCY;cFha0ktor,nceDrgil,vC;a0ek;!nC;t,zo;!e4Mtor;lCnce,sily;!entC;in94;lCm6Qri,sm0;riCysses;ch,k;aVeQhMiKoFrDurki,yC;!l2rone,s1;avis,eCist0oy,um0;ntCFvor,y;bFdAImCny;!asDmC;aso,ie,y;!z;ias,y;mCt6;!my,othy;adEeoDiago,omC;!as;!dor8N;!de6;dFrC;ence,rC;ance,eCy;ll,nce;!dy;dgh,ha,iCnn2req,tsuki;chi,ka;aXcotVeShOiLlobod0oKpenc2tEurDvenA0yCzym1;ed,lvest2;aj,esh;anFeDuC;!a9;fan15phE6vCwa9;e6Xie;!islaCl8;v,w;lom1rBuleymane;dDgmund,lCm1yabonga;as,vio;!dhartha,n8;aEeClomo;lCrm0;d1t1;hid,ne,qu1Hun,wn,yne;aDbastiDUkou,lim,pp,rgCth,ymour;e1Bio;m6n;!tC;!ie,y;eed,lFmEnCqib,toshi,ul;dCjay,tino;eep,ro;!iAHkelo,mBQu4;!vatore;aZeUhett,iRoGuDyC;an,ou;b8WdDf6pe9ssC;!elDX;ol00y;an,bLcco,dJel,geIh0lHmGnEry,sDyC;!ce;ario,coe,s;!aCnBG;ld,n;an,eo;a72f;lio,r;e38g2n8olfo,riC;go;bB9eCZ;cCl8;ardo,c7Th4WkCo;!ey,ie,y;cFece,gDid,ubByCza;ansh,n05;gie,iC;nald,s;ep;chid,fa4hHin2jesh,lGmFndEoHpha4sDul,wiri,yC;an,mond;had,m6;alD9olph;iro,on;f,ph;ul;e90inC;cy,t1;aNeKhilIiErCyoF;akash,eC;m,st1;eDoC;tr;rre,tC;er,ro;!ipClip;!p6I;dro,rcy,tC;ar,e98rC;!o7;blo,draig,olo,scal,tri5RulCv86;!ie,o;ctavio,i2lHmGndrej,rFsDtCumAwB;is,to;ama,cAkAm0vCwald;aldo;i,vR;ar,er;aDeksandr,ivC;er,i2;f,v;atNeLguyBiFoC;aDel,l0rC;be9m0;h,m;cFels,g4ilo,kDlC;es,s;!hil,las,olaC;!i,y;hCkColas;olas;al,d,il,ls1vC;ille;e,hanC;!a4i4;aXeUiLoGuDyC;les,r1;hamDrad,staC;fa,pha;ed,mG;dibo,e,hamEises,ntDritz,sCussa;es,he;e,y;ad,ed,mC;ad,ed;cFgu4hai,kElDnato,tchC;!ell;house,o7t1;aere,eBPhail,olaj;ah,hDkC;!ey,y;aDeC;al,l;el,l;hDlv3rC;le,rill,v4M;di,met;ay0c00gn6hWjd,ksim,lTmadZnSrKsXtDuric7OxC;imilB6well;eHhEias,tCus,yas;!eo,hCia7;ew,ias;eDiC;as,eu,s;us,w;j,o;cHiGkFlEquis,shall,tCv3;iCy;!m,n;in,on;el,o7us;ano,o7us;!elCin,o7us;!l5o;fred,ish,ny,u4;acDcoCik;lm;hy;amDdi,esh,mC;oud;adCmad;ou;aulCiej;ay;aXePiNloyd,oJuDyC;le,nd1;cFdEiDkCth2uk;a7e;gi,s,z;ovic,vig,wig;!as,iC;ano,en;g0nnie,renEuCvro,well;!iC;e,s;!zo;am,n6oC;n4r;a9Kevi,land,nHoFst2thaEvC;eCi;nte;bo;nCpold;!a7Sel,id;!nC;a9y;mEnd1rDszlo,urenCwr6C;ce,t;ry,s;ar,be9ont;aMeHhalGiEla6onrad,rCu5Jyle;istCzysztof;i0oph2;er0ngsl8p,rC;il9Vk;ed,id;en0iFnCrmit,v4R;!dDnCt1;eth,y;rick;r,th;cp2mErDspAuC;ri;im,l;al,il;a03eXiVoFuC;an,lCst3;en,iC;an,en,o,us;aQeOhKnIrGsDzC;ef;eDhCiah,ue;!ua;!f,ph;dCge;i,on;!aCny;h,s,th6E;anDnC;!ath6Cie,n6U;!nC;!es;!l,sCy;ph;o,qu3;an,mC;!i,m6N;d,ffFns,rCs6;ald,emDmaine,oCry;me,nimo;iah,y;!ery,rC;ey,y;cKdBkImHrEsDvi2yC;dBs1;on,p2;ed,oDrCvis;ett,od;d,s5W;al,es5Ris1;a,e,oCub;b,v;ob,ques;aRbLgKke4Xlija,onut,rIsEtCv0;ai,suC;ki;aDha0iah,maCsac;el,il;ac,iaC;h,s;a,vinCw3;!g;nacio,or;ai,rahC;im;aReLoIuC;be9gGmFsC;eyDsC;a3e3;in,n;berto;h,o;m2raDsse3wC;ard,ie;c45tio;ath,ctor,iGnDrC;be9man07;drik,rC;iCy2I;!k,que;n0Ptor;bJlImza,nHo,rEsDyC;ato,dB;an,s0;lDold,r2DuCv8;hito,ki,to;an,ey;k,s;!im;ib;a07eZiUlenToQrMuCyorgy;iHnFsC;!taC;f,vC;!e,o;nAtC;er,h2;do,lC;herDlC;auCerP;me;aEegCov2;!g,orC;!io,y;dy,ham;dfr8nzalo,rDttfC;ried;an,d45;!n;acoFlDno,oCuseppe;rgi5vanni;be6Aes,lC;es;mo;oFrC;aDhard,rCt;it,y;ld,rd5;ffErgC;!e7iCy;!os;!r8;bElBrCv3;eCland,r4Dth,y;th;e,ri4;aXeSiQlOorrest,rCyodor;aHedFiC;edDtC;s,z;rich;!d40eri10riC;ck,k;nCs2;cEkC;ie,lC;in,yn;esLisC;!co,zek;etch2oC;ri0yd;d4lConn;ip;deriFliEng,rC;dinaCg6nando;nd5;pe,x;co;bCdi,hd;iEriC;ce,zC;io;an,en,o;benez2dYfrXit0lSmLnIo3rEsteb0th0ugenDvCzra;an,erett,geny;!e;iDnCrol,v3w3;est5ie,st;cCk;!h,k;och,riCzo;co,qC;ue;aHerGiDmC;aGett;lCrh0;!iC;ano,o,s;s1y;nu4;be9d1iEliDm2t1viCwood;n,s;ot2As;!as,jah,ot,sC;ha;a3en;!dGgAmFoDua2PwC;a2Oin;arC;do;oZuZ;ie;a04eTiOmitrNoFrag0uEwDylC;an,l0;ayne,ight;ane,dl8nc0st3;minFnDri0ugCvydGyle;!lF;!ald,nCov0;ell,ie,y;go,iDykC;as;cCk;!k;i,y;armuFetDll1mitri7neCon,rk;sh;er,mAriC;ch;id;andLepak,j0lbe9metri6nIon,rGsEvDwCxt2;ayne,ey;en,in;hawn,moC;nd;ek,riC;ck;is,nC;is,y;rt;re;an,le,mKnIrEvC;e,iC;!d;en,iEnell,rCyl;eCin,yl;l3Zn;n,o,us;!iCny;el,lo;iCon;an,en,on;a0He0Eh04iar0lSoKrFuDyrC;il,us;rtC;!is;aFistC;iaDobC;al;no;ig;dy,lInErC;ey,neliCy;s,us;nEor,rDstaC;nt3;ad;or;by,e,in,l3t1;aHeEiCyde;fCnt,ve;ford,t1;menDt6;us;s,t;rFuDyC;!t1;dCs;e,io;enC;ce;aHeGrisC;!toC;phCs;!eC;!r;st2t;d,rCs;b4leC;s,y;el;cDdrCsA;ic;il;lHmFrC;ey,lDroCy;ll;!o7t1;er1iC;lo;!eb,v3;a06eWilVjorn,laUoSrEuCyr1;ddy,rtKst2;er;aKeFiEuDyC;an,ce,on;ce,no;an,ce;nDtC;!t;dDtC;!on;an,on;dFnC;dDisC;lav;en,on;!foLl8y;bby,gd0rCyd;is;ine,ke;al,lK;nIrC;at,nEtC;!raC;m,nd;aDhaCie;rd;rd5;!iDjam3nCs1;ie,y;to;kaMlazs,nHrC;n8rDtC;!holomew;eCy;tt;ey;dCeD;ar,iC;le;ar1Hb18d11fonso,gust3hm0Xi0Ul07m05nRrGsaFugustEveDyCziz;a0kh0;ry;o,us;hi;ata,chiKiJjun,mHnEon,tCy0;em,hCie,ur5;ur;aDoC;!ld;ud,v;aCin;an,nd5;!el,ki;baCe;ld;aMdHgel5tCwA;hoFoC;iDnC;!i5y;ne;ny;er7rCy;eDzC;ej;!as,i,j,s,w;!s;s,tolC;iCy;!y;ar,iCmAos;ne,r,t;aVbSdBeJfHiGl00onFphonsEt1vC;aPin;on;e,o;so,zo;!sR;!onYrC;ed;c,jaHksFssaHxC;!andC;er,rC;e,os,u;andCei;ar,er,r;ndC;ro;en;eDrecC;ht;rt5;dd3in,n,sC;taC;ir;dDmA;ar;an,en;ad,eC;d,t;in;so;aGi,olErDvC;ik;ian5;f5ph;!o;mCn;!a;dGeFraDuC;!bakr;hCm;am;!l;allEel,oulaye,ulC;!lDrahm0;an;ah;av,on",
+    "Person": "true¦0:1Q;a21b1Tc1Hd1Ae14f11g0Zh0Ni0Mj0Jk0Gl0Dm07n04o03pYrOsItCusain bolt,v9w4xzibit,y1;anni,oko on2uji,v1;an,es;en,o;a3ednesday adams,i2o1;lfram,ode;ll ferrell,z khalifa;lt disney,r1;hol,ren;a2i1oltaire;n diesel,rginia wo12;lentino rossi,n gogh;a4h3i2ripp,u1yra banks;lXpac shakur;mba03pper gore;eresa may,or;kashi,t1ylor;um,yana;a4carlett johanss0h3i2lobodan milosevic,noop dogg,ocrates,pider1uperman,wami; man,man;egfried,nbad;akespeare,erlock holmes,ia labeouf;ddam hussain,nt1;a claus,ig8;a9e5i4o2u1za;mi,paul;bin hood,d stew12nald1thko;inho,o;hanna,ngo starr,valdo;ese witherspo0i1mbrandt;ll2nh1;old;ey,y;chmaninoff,ffi,iIshid,y romano;a4e3i2lato,o1uff daddy;cahontas,e;lar,per;le,rX;lmer,ris hilt0;leg,prah winfrey,ra;a2e1iles crane,ostradamus; yo,l5ttie,wmL;pole0s;a5e4i2o1ubarek;by,liere,net,rrissey;randa ju1tt romney;ly;rlin,ssia9;cklemore,rkov,s0ta hari,ya angelou;ady gaga,e1iberace,u;bron james,ch wale1e;sa;anye west,e2iefer suther1obe bryant;land;ats,sha;a2effers0fk,k rowling,rr tolki1;en;ck the ripper,waharlal nehru,y z;liSnez;a7e6i4u1;lk hog2mphrey1saZ;! bog03;an;l1tler;de;dwig,nry 3;ile selassFlle ber4m3rrison1;! 1;ford;id,mond;ry;ast0iannis,o1;odwNtye;ergus0lorence nightingale,r1;an1ederic chopL;s,z;ff5m2nya,ustaTzeki1;el;eril lagasse,i1;le zatop1nem;ek;ie;a5e3i1rake;ck w1ego maradoB;olf;g1mi lovaLnzel washingt0;as;l1nGrth vadO;ai lKt0;a7h4lint0o1thulhu;n1olio;an,fuci1;us;aucIop2ristian baKy1;na;in;millo,ptain beefhe4r1;dinal wols2s0;on;ey;art;a6e3hatt,ing crosby,oFro1;ck,n1;te;ck,nazir bhut2rtil,yon1;ce;to;nksy,rack ob1;ama;l 6r3shton kutch2vril lavig9yn ra1;nd;er;chimed2istot1;le;es;capo3go2paci1;no;re;ne"
+  };
+
   const tagMap = {
     first: 'FirstPerson',
     second: 'SecondPerson',
@@ -10251,7 +11669,15 @@ designate
     });
   });
 
-  const lexicon$1 = Object.assign({}, words, misc$1);
+  const lexicon$1 = Object.assign({}, words, misc$3);
+  // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
+  // console.log(lexicon['ralentir'])
+  // names of people and places, shared by every language - our own words win
+  Object.keys(properNouns).forEach(tag => {
+    Object.keys(unpack(properNouns[tag])).forEach(w => {
+      lexicon$1[w] = lexicon$1[w] || tag;
+    });
+  });
 
   const verbForm$1 = function (term) {
     const want = [
@@ -11077,7 +12503,7 @@ designate
   };
 
 
-  const tagger = function (view) {
+  const tagger$1 = function (view) {
     const world = view.world;
     view.docs.forEach(terms => {
       firstPass(terms, world);
@@ -11419,7 +12845,7 @@ designate
 
   var preTagger = {
     compute: {
-      preTagger: tagger,
+      preTagger: tagger$1,
       tagRank
     },
     methods,
@@ -11578,101 +13004,74 @@ designate
     });
   };
 
+  // the whole tagging process, for re-tagging text after a change
+  const tagger = view => view.compute(['freeze', 'lexicon', 'preTagger', 'europeanNumbers', 'postTagger', 'unfreeze']);
+
   var postTagger = {
     compute: {
-      postTagger: postTagger$1
+      postTagger: postTagger$1,
+      tagger
     },
     hooks: ['postTagger']
   };
 
-  const entity = ['Person', 'Place', 'Organization'];
-
+  // only our own tags, and what differs from the shared tagset - see ../plugin.js
   var nouns$1 = {
     Noun: {
       aliases: [null, 'Nom'],
-      not: ['Verb', 'Adjective', 'Adverb', 'Value', 'Determiner'],
     },
     Singular: {
       aliases: [null, 'Singulier'],
-      is: 'Noun',
       not: ['PluralNoun'],
     },
     ProperNoun: {
       aliases: [null, 'NomPropre'],
-      is: 'Noun',
     },
     Person: {
       aliases: [null, 'Personne'],
-      is: 'Singular',
-      also: ['ProperNoun'],
-      not: ['Place', 'Organization', 'Date'],
     },
     FirstName: {
       aliases: [null, 'Prénom'],
-      is: 'Person',
     },
     MaleName: {
       aliases: [null, 'PrénomMasculin'],
-      is: 'FirstName',
-      not: ['FemaleName', 'LastName'],
     },
     FemaleName: {
       aliases: [null, 'PrénomFéminin'],
-      is: 'FirstName',
-      not: ['MaleName', 'LastName'],
     },
     LastName: {
       aliases: [null, 'NomDeFamille'],
-      is: 'Person',
-      not: ['FirstName'],
     },
     Honorific: {
       aliases: [null, 'Titre'],
       is: 'Noun',
-      not: ['FirstName', 'LastName', 'Value'],
     },
     Place: {
       aliases: [null, 'Lieu'],
-      is: 'Singular',
-      not: ['Person', 'Organization'],
     },
     Country: {
       aliases: [null, 'Pays'],
-      is: 'Place',
-      also: ['ProperNoun'],
-      not: ['City'],
     },
     City: {
       aliases: [null, 'Ville'],
-      is: 'Place',
-      also: ['ProperNoun'],
-      not: ['Country'],
     },
     Region: {
       aliases: [null, 'Région'],
-      is: 'Place',
-      also: ['ProperNoun'],
     },
     Address: {
       aliases: [null, 'Adresse'],
-      // is: 'Place',
     },
     Organization: {
       aliases: [null, 'Organisation'],
-      is: 'ProperNoun',
-      not: ['Person', 'Place'],
     },
     SportsTeam: {
       aliases: [null, 'Équipe'],
-      is: 'Organization',
     },
     School: {
       aliases: [null, 'École'],
-      is: 'Organization',
     },
     Company: {
       aliases: [null, 'Entreprise'],
-      is: 'Organization',
     },
     PluralNoun: {
       aliases: [null, 'Pluriel', 'Plural'],
@@ -11681,38 +13080,25 @@ designate
     },
     Uncountable: {
       aliases: [null, 'Indénombrable'],
-      is: 'Noun',
     },
     Pronoun: {
       aliases: [null, 'Pronom'],
-      is: 'Noun',
-      not: entity,
     },
     Actor: {
-      is: 'Noun',
-      not: entity,
+      not: ['Person', 'Place', 'Organization'],
     },
     Activity: {
       aliases: [null, 'Activité'],
-      is: 'Noun',
-      not: ['Person', 'Place'],
     },
     Unit: {
       aliases: [null, 'Unité'],
-      is: 'Noun',
-      not: entity,
     },
     Demonym: {
       aliases: [null, 'Gentilé'],
-      is: 'Noun',
-      also: ['ProperNoun'],
-      not: entity,
     },
     Possessive: {
       aliases: [null, 'Possessif'],
-      is: 'Noun',
     },
-    // german genders
     MaleNoun: {
       aliases: [null, 'NomMasculin'],
       is: 'Noun',
@@ -11725,42 +13111,34 @@ designate
     },
   };
 
+  // only our own tags, and what differs from the shared tagset - see ../plugin.js
   var verbs$1 = {
     Verb: {
       aliases: [null, 'Verbe'],
-      not: ['Noun', 'Adjective', 'Adverb', 'Value', 'Expression'],
     },
     PresentTense: {
       aliases: [null, 'Présent'],
-      is: 'Verb',
       not: ['PastTense'],
     },
     Infinitive: {
       aliases: [null, 'Infinitif'],
-      is: 'PresentTense',
-      not: ['Gerund'],
     },
     Imperative: {
       aliases: [null, 'Impératif'],
       is: 'Infinitive',
+      not: undefined,
     },
     Gerund: {
       aliases: [null, 'Gérondif'],
-      is: 'PresentTense',
-      not: ['Copula'],
     },
     PastTense: {
       aliases: [null, 'Passé'],
-      is: 'Verb',
       not: ['PresentTense', 'Gerund'],
     },
     Copula: {
       aliases: [null, 'Copule'],
-      is: 'Verb',
     },
     Modal: {
-      is: 'Verb',
-      not: ['Infinitive'],
     },
     PerfectTense: {
       aliases: [null, 'PasséComposé'],
@@ -11773,26 +13151,18 @@ designate
     },
     Participle: {
       aliases: [null, 'Participe'],
-      is: 'PastTense',
     },
     PhrasalVerb: {
-      is: 'Verb',
     },
     Passive: {
       aliases: [null, 'Passif'],
       is: 'PastTense',
     },
     Particle: {
-      is: 'PhrasalVerb',
-      not: ['PastTense', 'PresentTense', 'Copula', 'Gerund'],
     },
     Auxiliary: {
       aliases: [null, 'Auxiliaire'],
-      is: 'Verb',
-      not: ['PastTense', 'PresentTense', 'Gerund', 'Conjunction'],
     },
-
-    // french verb forms
     PresentParticiple: {
       aliases: [null, 'ParticipePrésent'],
       is: 'PresentTense',
@@ -11803,19 +13173,16 @@ designate
       is: 'PastTense',
       not: ['PresentTense', 'FutureTense'],
     },
-    // [only formal]  parlai, parlâmes
     PastSimple: {
       aliases: [null, 'PasséSimple'],
       is: 'PastTense',
       not: ['PresentTense', 'FutureTense'],
     },
-    // imparfait - parlais, parlait
     Imperfect: {
       aliases: [null, 'Imparfait'],
       is: 'PastTense',
       not: ['PresentTense', 'FutureTense'],
     },
-    // parlerais, voudrait
     ConditionalVerb: {
       aliases: [null, 'Conditionnel'],
       is: 'Verb',
@@ -11823,91 +13190,76 @@ designate
     },
     FutureTense: {
       aliases: [null, 'Futur'],
-      is: 'Verb',
       not: ['PresentTense', 'PastTense', 'Gerund'],
     },
-
-    // 
     FirstPerson: {
       aliases: [null, 'PremièrePersonne'],
       is: 'Verb',
-      not: ['SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+      not: ['SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'],
     },
     SecondPerson: {
       aliases: [null, 'DeuxièmePersonne'],
       is: 'Verb',
-      not: ['FirstPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+      not: ['FirstPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'],
     },
     ThirdPerson: {
       aliases: [null, 'TroisièmePersonne'],
       is: 'Verb',
-      not: ['FirstPerson', 'SecondPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+      not: ['FirstPerson', 'SecondPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'],
     },
     FirstPersonPlural: {
       aliases: [null, 'PremièrePersonnePluriel'],
       is: 'Verb',
-      not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'SecondPersonPlural', 'ThirdPersonPlural']
+      not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'SecondPersonPlural', 'ThirdPersonPlural'],
     },
     SecondPersonPlural: {
       aliases: [null, 'DeuxièmePersonnePluriel'],
       is: 'Verb',
-      not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'ThirdPersonPlural']
+      not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'ThirdPersonPlural'],
     },
     ThirdPersonPlural: {
       aliases: [null, 'TroisièmePersonnePluriel'],
       is: 'Verb',
-      not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural']
+      not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural'],
     },
   };
 
+  // only our own tags, and what differs from the shared tagset - see ../plugin.js
   var values = {
     Value: {
       aliases: [null, 'Nombre'],
-      not: ['Verb', 'Adjective', 'Adverb'],
     },
     Ordinal: {
-      is: 'Value',
-      not: ['Cardinal'],
     },
     Cardinal: {
-      is: 'Value',
-      not: ['Ordinal'],
     },
     Fraction: {
-      is: 'Value',
-      not: ['Noun'],
     },
     Multiple: {
-      is: 'TextValue',
     },
     RomanNumeral: {
       aliases: [null, 'ChiffreRomain'],
-      is: 'Cardinal',
       not: ['TextValue'],
     },
     TextValue: {
       aliases: [null, 'Numéral'],
-      is: 'Value',
       not: ['NumericValue'],
     },
     NumericValue: {
       aliases: [null, 'Numérique'],
-      is: 'Value',
       not: ['TextValue'],
     },
     Money: {
       aliases: [null, 'Argent'],
-      is: 'Cardinal',
     },
     Percent: {
       aliases: [null, 'Pourcentage'],
-      is: 'Value',
     },
   };
 
+  // only our own tags, and what differs from the shared tagset - see ../plugin.js
   var dates = {
     Date: {
-      not: ['Verb', 'Adverb', 'Adjective'],
     },
     Month: {
       aliases: [null, 'Mois'],
@@ -11919,40 +13271,32 @@ designate
       aliases: [null, 'JourDeLaSemaine'],
       is: 'Noun',
       also: ['Date'],
+      not: undefined,
     },
     Year: {
       aliases: [null, 'Année'],
-      is: 'Date',
       not: ['RomanNumeral'],
     },
     FinancialQuarter: {
       aliases: [null, 'Trimestre'],
-      is: 'Date',
       not: 'Fraction',
     },
-    // 'easter'
     Holiday: {
       aliases: [null, 'JourFérié'],
-      is: 'Date',
-      also: ['Noun'],
     },
-    // 'summer'
     Season: {
       aliases: [null, 'Saison'],
-      is: 'Date',
+      not: undefined,
     },
     Timezone: {
       aliases: [null, 'FuseauHoraire'],
       is: 'Noun',
       also: ['Date'],
-      not: ['ProperNoun'],
     },
     Time: {
       aliases: [null, 'Heure'],
-      is: 'Date',
       not: ['AtMention'],
     },
-    // 'months'
     Duration: {
       aliases: [null, 'Durée'],
       is: 'Noun',
@@ -11960,24 +13304,18 @@ designate
     },
   };
 
-  const anything = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord'];
-
+  // only our own tags, and what differs from the shared tagset - see ../plugin.js
   var misc = {
     Adjective: {
       aliases: [null, 'Adjectif'],
-      not: ['Noun', 'Verb', 'Adverb', 'Value'],
     },
     Comparable: {
-      is: 'Adjective',
     },
     Comparative: {
       aliases: [null, 'Comparatif'],
-      is: 'Adjective',
     },
     Superlative: {
       aliases: [null, 'Superlatif'],
-      is: 'Adjective',
-      not: ['Comparative'],
     },
     MaleAdjective: {
       aliases: [null, 'AdjectifMasculin'],
@@ -11998,32 +13336,29 @@ designate
     },
     Adverb: {
       aliases: [null, 'Adverbe'],
-      not: ['Noun', 'Verb', 'Adjective', 'Value'],
     },
-
     Determiner: {
       aliases: [null, 'Déterminant', 'Article'],
-      not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction', 'Preposition'], //allow 'a' to be a Determiner/Value
+      not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction', 'Preposition'],
     },
     Conjunction: {
       aliases: [null, 'Conjonction'],
-      not: anything,
+      is: undefined,
+      not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord'],
     },
     Preposition: {
       aliases: [null, 'Préposition'],
+      is: undefined,
       not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord'],
     },
     QuestionWord: {
       aliases: [null, 'MotInterrogatif'],
-      not: ['Determiner'],
     },
     Currency: {
       aliases: [null, 'Devise'],
-      is: 'Noun',
     },
     Expression: {
       aliases: [null, 'Interjection'],
-      not: ['Noun', 'Adjective', 'Verb', 'Adverb'],
     },
     Abbreviation: {
       aliases: [null, 'Abréviation'],
@@ -12035,10 +13370,10 @@ designate
       aliases: [null, 'Téléphone'],
       not: ['HashTag', 'Verb', 'Adjective', 'Value', 'AtMention', 'Email'],
     },
-    HashTag: {},
+    HashTag: {
+    },
     AtMention: {
       aliases: [null, 'Mention'],
-      is: 'Noun',
       not: ['HashTag', 'Email'],
     },
     Emoji: {
@@ -12061,11 +13396,28 @@ designate
       not: ['Noun', 'Adjective', 'Value'],
     },
     Condition: {
-      not: ['Verb', 'Adjective', 'Noun', 'Value'],
+      is: undefined,
     },
   };
 
-  const tags = Object.assign({}, nouns$1, verbs$1, values, dates, misc);
+  const ours = Object.assign({}, nouns$1, verbs$1, values, dates, misc);
+
+  // english tags that we have no use for
+  const unused = ['Plural'];
+  // start from the shared tagset, then apply our own tags and changes
+  const tags = { ...allTags };
+  unused.forEach(tag => delete tags[tag]);
+
+  Object.keys(ours).forEach(tag => {
+    const en = tags[tag];
+    if (!en) {
+      tags[tag] = ours[tag];
+      return
+    }
+    // our aliases lead, so the first one stays the preferred name - then the english ones, like #NN
+    const aliases = (ours[tag].aliases || [null]).concat((en.aliases || []).filter(str => str));
+    tags[tag] = { ...en, ...ours[tag], aliases };
+  });
 
   var tagset = {
     tags
@@ -12306,57 +13658,31 @@ designate
     return sum / over
   };
 
-  // '1er', '1re', '2e', '2nd', '2nde', '2ème', '2ième', '2es'
-  // - but not the end of a unit, like '5litres'
-  const ordinal = /^([-+]?[0-9][0-9.,]*)(er|re|nde?|i?[eè]me|[eè]re|e)s?$/;
+  // floating-point noise - 0.1 + 0.2 - but a whole number is already exact
+  const tidy = num => (Number.isInteger(num) ? num : Number(num.toPrecision(15)));
 
-  const fromNumber = function (m) {
-    let str = m.text('normal').toLowerCase();
-    // '3/4' is 0.75
-    const frac = str.match(/^([0-9]+)\/([0-9]+)/);
-    if (frac && m.has('#Fraction')) {
-      const num = Number(frac[2]) ? Number(frac[1]) / Number(frac[2]) : null;
-      return { hasComma: false, hasDecimalComma: false, prefix: '', num, suffix: '' }
-    }
-    str = str.replace(ordinal, '$1');
-    // the core normalizer strips digit-commas ('3,5'->'35'), so recover a
-    // french decimal-comma from the raw text ('7,938' keeps its english
-    // thousands-group meaning)
-    const raw = m.text().toLowerCase().replace(/[.,;!?]+$/, '').trim();
-    const hasDecimalComma = /\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false;
-    if (hasDecimalComma) {
-      str = raw.replace(/ /g, '').replace(',', '.');
-    }
-    // french thousands-groups use spaces - '1 000 000'
-    if (/^[-+]?\d{1,3}( \d{3})+$/.test(str)) {
-      str = str.replace(/ /g, '');
-    }
-    let hasComma = false;
-    if (/,/.test(str)) {
-      hasComma = true;
-      str = str.replace(/,/g, '');
-    }
-    // get prefix/suffix
-    const arr = str.split(/([-0-9.,]*)/);
-    let [prefix, num] = arr;
-    let suffix = arr.slice(2).join('');
-    if (num !== '' && m.length < 2) {
-      num = Number(num || str);
-      //ensure that num is an actual number
-      if (typeof num !== 'number') {
-        num = null;
-      }
-      // strip an ordinal off the suffix
-      if (suffix === 'e' || suffix === 'er') {
-        suffix = '';
-      }
+  const isNumeric = term => /[0-9]/.test(term.text);
+
+  // read digits with the shared european-numbers plugin - '1 234,56', '-5', '3,5 %', '2e'
+  const fromNumber = function (terms, m) {
+    const { read } = m.methods.two.europeanNumbers;
+    const locale = m.model.two.europeanNumbers;
+    const pre = terms[0].pre;
+    // thousands are split-up by a space - '1 000 000'
+    let res = read(terms.map(t => t.text).join(' '), pre, locale);
+    if (res.num === null && terms.length > 1) {
+      res = read(terms[0].text, pre, locale);
     }
     return {
-      hasComma,
-      hasDecimalComma,
-      prefix,
-      num,
-      suffix,
+      hasComma: res.hasComma,
+      hasDecimalComma: res.decimal === ',',
+      // a symbol is compared in lower-case - '5 Kg'
+      prefix: res.prefix.toLowerCase(),
+      num: res.num,
+      suffix: res.suffix.toLowerCase(),
+      // how the digits were written
+      decimal: res.decimal,
+      group: res.group,
     }
   };
 
@@ -12367,16 +13693,28 @@ designate
     let suffix = '';
     let hasComma = false;
     let hasDecimalComma = false;
+    let decimal = null;
+    let group = null;
     const isText = m.has('#TextValue');
-    if (isText) {
+    // any digits come first - '2,5 millions'
+    const split = terms.findIndex(t => !isNumeric(t));
+    const digits = split === -1 ? terms : terms.slice(0, split);
+    if (isText && digits.length === 0) {
       num = parseNumbers(terms);
-    } else {
-      const res = fromNumber(m);
+    } else if (digits.length > 0) {
+      const res = fromNumber(digits, m);
       prefix = res.prefix;
       suffix = res.suffix;
       num = res.num;
       hasComma = res.hasComma;
       hasDecimalComma = res.hasDecimalComma;
+      decimal = res.decimal;
+      group = res.group;
+      // '2,5 millions' is 2.5 * 1,000,000
+      const mult = isText && split !== -1 ? parseNumbers(terms.slice(split)) : 0;
+      if (num !== null && mult) {
+        num = tidy(num * mult);
+      }
     }
     return {
       hasComma,
@@ -12384,6 +13722,8 @@ designate
       prefix,
       num,
       suffix,
+      decimal,
+      group,
       isText,
       isOrdinal: m.has('#Ordinal'),
       isFraction: m.has('#Fraction'),
@@ -12512,6 +13852,10 @@ designate
     return words
   };
 
+  const { write } = europeanNumbers.methods.two.europeanNumbers;
+  // french groups thousands with a space
+  const locale = { decimal: ',', group: ' ' };
+
   const makeSuffix = function (obj) {
     return {
       prefix: obj.prefix || '',
@@ -12575,11 +13919,11 @@ designate
       return `${prefix}${num}${suffix}`
     }
     if (fmt === 'Cardinal') {
-      let num = String(parsed.num);
-      // '2,5'
-      if (parsed.hasDecimalComma) {
-        num = num.replace('.', ',');
-      }
+      // digits go back the way they were found - '1 234,5'
+      // .. but an english-style comma is dropped - '7,938' + 1 is '7939'
+      const hasComma = parsed.hasComma && parsed.group !== ',';
+      const how = { hasComma, decimal: parsed.decimal, group: parsed.group };
+      const num = write(parsed.num, how, locale);
       return `${prefix}${num}${suffix}`
     }
     const num = String(parsed.num || '');
@@ -12829,7 +14173,7 @@ designate
     return view
   };
 
-  const api$5 = function (View) {
+  const api$4 = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -13057,46 +14401,18 @@ designate
   };
 
   var numbers = {
-    api: api$5
-  };
-
-  const findPeople = function () {
-    const m = this.match('#Honorific+? #Person+');
-    return m
-  };
-
-  const findOrgs = function () {
-    return this.match('#Organization+')
-  };
-
-  const findPlaces = function () {
-    let m = this.match('(#Place|#Address)+');
-
-    // split all commas except for 'paris, france'
-    let splits = m.match('@hasComma');
-    splits = splits.filter(c => {
-      // split 'europe, china'
-      if (c.has('(asia|africa|europe|america)$')) {
-        return true
-      }
-      // don't split 'paris, france'
-      if (c.has('(#City|#Region|#ProperNoun)$') && c.after('^(#Country|#Region)').found) {
-        return false
-      }
-      return true
-    });
-    m = m.splitAfter(splits);
-    return m
-  };
-
-  const api$4 = function (View) {
-    View.prototype.people = findPeople;
-    View.prototype.organizations = findOrgs;
-    View.prototype.places = findPlaces;
-  };
-
-  var topics = {
-    api: api$4
+    api: api$4,
+    // how the shared european-numbers plugin reads french digits - '1 234,56', '2e', '1ère'
+    // 'loose' keeps '7,938' as seven-thousand
+    model: {
+      two: {
+        europeanNumbers: {
+          group: ' ',
+          ordinal: '(?:er|re|nde?|i?[eè]me|[eè]re|e)s?',
+          loose: true,
+        },
+      },
+    },
   };
 
   const findVerbs = function (doc) {
@@ -13658,17 +14974,62 @@ designate
 
   var version = '0.3.2';
 
+  // french word-rules for .clauses() - the method itself comes from compromise/shared
+  const clauses = {
+    // a comma, but not a clause break
+    notClause: [
+      '@hasComma (et|ou) .', // grand, et fort
+    ],
+    // split a clause after these
+    splitAfter: [
+      '^#Pron (dit|disait)', // il dit
+      '^#Pron a dit',
+    ],
+    // split a clause before these
+    splitBefore: [
+      '(dit|disait) #Prop$',
+      'alors que', // while, whereas
+      'tandis que',
+      'maintenant que',
+      'depuis que',
+      'pendant que',
+      'bien que',
+      'même si',
+      'comme si',
+      '(quoique|puisque|lorsque)',
+      'dont', // whose
+    ],
+    // split a clause before the [captured] word
+    splitBeforeGroup: [
+      '#Verb .* [mais] .* #Verb', // c'est bien mais c'est ..
+      'si .{2,9} [alors] .', // si c'est ceci alors cela
+    ],
+  };
+
+  var clauseRules = {
+    model: { three: { clauses } },
+  };
+
   nlp.plugin(tokenize);
   nlp.plugin(tagset);
   nlp.plugin(lexicon);
   nlp.plugin(preTagger);
+  // tags '1.234,56' and '5,30€' from their raw text
+  nlp.plugin(europeanNumbers);
   nlp.plugin(postTagger);
   nlp.plugin(numbers);
-  nlp.plugin(topics);
   nlp.plugin(verbs);
   nlp.plugin(adjectives);
   nlp.plugin(nouns);
   nlp.plugin(contractions);
+
+  // language-neutral plugins, shared with compromise
+  nlp.plugin(lazy$1); // nlp.lazy() - only tags the sentences that may match
+  nlp.plugin(misc$1); // .parentheses(), .quotations(), .acronyms(), .emails() ...
+  nlp.plugin(clauses$1); // .clauses() - split on punctuation, and our rules below
+  nlp.plugin(clauseRules);
+  nlp.plugin(topics); // .people(), .places(), .organizations(), .topics()
+  nlp.plugin(plugin); // .redact()
 
   const fr = function (txt, lex) {
     const dok = nlp(txt, lex);

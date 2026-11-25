@@ -1,21 +1,15 @@
-const anything = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord']
-
+// only our own tags, and what differs from the shared tagset - see ../plugin.js
 export default {
   Adjective: {
     aliases: [null, 'Adjectif'],
-    not: ['Noun', 'Verb', 'Adverb', 'Value'],
   },
   Comparable: {
-    is: 'Adjective',
   },
   Comparative: {
     aliases: [null, 'Comparatif'],
-    is: 'Adjective',
   },
   Superlative: {
     aliases: [null, 'Superlatif'],
-    is: 'Adjective',
-    not: ['Comparative'],
   },
   MaleAdjective: {
     aliases: [null, 'AdjectifMasculin'],
@@ -36,32 +30,29 @@ export default {
   },
   Adverb: {
     aliases: [null, 'Adverbe'],
-    not: ['Noun', 'Verb', 'Adjective', 'Value'],
   },
-
   Determiner: {
     aliases: [null, 'Déterminant', 'Article'],
-    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction', 'Preposition'], //allow 'a' to be a Determiner/Value
+    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction', 'Preposition'],
   },
   Conjunction: {
     aliases: [null, 'Conjonction'],
-    not: anything,
+    is: undefined,
+    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord'],
   },
   Preposition: {
     aliases: [null, 'Préposition'],
+    is: undefined,
     not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord'],
   },
   QuestionWord: {
     aliases: [null, 'MotInterrogatif'],
-    not: ['Determiner'],
   },
   Currency: {
     aliases: [null, 'Devise'],
-    is: 'Noun',
   },
   Expression: {
     aliases: [null, 'Interjection'],
-    not: ['Noun', 'Adjective', 'Verb', 'Adverb'],
   },
   Abbreviation: {
     aliases: [null, 'Abréviation'],
@@ -73,10 +64,10 @@ export default {
     aliases: [null, 'Téléphone'],
     not: ['HashTag', 'Verb', 'Adjective', 'Value', 'AtMention', 'Email'],
   },
-  HashTag: {},
+  HashTag: {
+  },
   AtMention: {
     aliases: [null, 'Mention'],
-    is: 'Noun',
     not: ['HashTag', 'Email'],
   },
   Emoji: {
@@ -99,6 +90,6 @@ export default {
     not: ['Noun', 'Adjective', 'Value'],
   },
   Condition: {
-    not: ['Verb', 'Adjective', 'Noun', 'Value'],
+    is: undefined,
   },
 }

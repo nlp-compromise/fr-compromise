@@ -81,7 +81,6 @@ const secondContraction: Contractions = nlp("j'aime l'été").contractions(1)
 doc.people().text()
 doc.places().out('array')
 doc.organizations().found
-// @ts-expect-error english-only method
 doc.topics()
 
 // constructor methods
