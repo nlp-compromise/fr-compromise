@@ -48,7 +48,7 @@
     "types/"
   ],
   "dependencies": {
-    "compromise": "^14.19.0",
+    "compromise": "link:../../compromise",
     "efrt": "2.9.0",
     "rollup-plugin-filesize-check": "^2.0.1",
     "suffix-thumb": "6.1.0"

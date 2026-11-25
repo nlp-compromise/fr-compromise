@@ -32,7 +32,12 @@ const ordinalWord = function (w) {
 
 const formatNumber = function (parsed, fmt) {
   const { prefix, suffix } = makeSuffix(parsed)
+  // 'premier', '1er' - or 'première', '1re'
+  const fem = parsed.num === 1 && parsed.isFemale
   if (fmt === 'TextOrdinal') {
+    if (parsed.num === 1) {
+      return prefix + (fem ? 'première' : 'premier') + suffix
+    }
     const words = toText(parsed.num)
     // 'un million' -> 'millionième'
     if (words.length > 1 && words[0] === 'un' && /^(million|milliard)/.test(words[1])) {
@@ -44,23 +49,26 @@ const formatNumber = function (parsed, fmt) {
     return `${prefix}${num}${suffix}`
   }
   if (fmt === 'TextCardinal') {
-    const num = toText(parsed.num).join(' ')
+    const num = fem ? 'une' : toText(parsed.num).join(' ')
     return `${prefix}${num}${suffix}`
   }
   // numeric formats
   // '55e'
   if (fmt === 'Ordinal') {
-    const str = String(parsed.num)
-    const last = str.slice(str.length - 1, str.length)
-    if (last === '1') {
-      const num = str + 'er'
-      return `${prefix}${num}${suffix}`
+    // '1er' or '1re' - but '21e'
+    let end = 'e'
+    if (parsed.num === 1) {
+      end = fem ? 're' : 'er'
     }
-    const num = str + 'e'
+    const num = String(parsed.num) + end
     return `${prefix}${num}${suffix}`
   }
   if (fmt === 'Cardinal') {
-    const num = String(parsed.num)
+    let num = String(parsed.num)
+    // '2,5'
+    if (parsed.hasDecimalComma) {
+      num = num.replace('.', ',')
+    }
     return `${prefix}${num}${suffix}`
   }
   const num = String(parsed.num || '')

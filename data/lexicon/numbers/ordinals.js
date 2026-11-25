@@ -22,4 +22,9 @@ export default [
   'quarantième',
   'cinquantième',
   'soixantième',
+  // belgian + swiss
+  'septantième',
+  'huitantième',
+  'octantième',
+  'nonantième',
 ]

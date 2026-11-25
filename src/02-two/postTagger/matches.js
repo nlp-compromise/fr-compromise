@@ -99,9 +99,29 @@ const postTagger = function (doc) {
   // ==Numbers==
   // 50 euros, 50 €
   doc.match('[#Value] #Currency', 0).tag('Money', 'value-currency')
-  doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un')
+  // vingt et une pommes
+  doc.match('#Cardinal et (un|une|#Value)').tag('TextValue', 'et-un')
   doc.match('#Value un').tag('TextValue', 'quatre-vingt-un')
   doc.match('moins #Value').tag('TextValue', 'moins-value')
+  // le premier jour, premier ministre - but a lone 'premier' stays an adjective
+  doc.match('(#Determiner|#Possessive|#Preposition|#Value) [/^premi(er|[eè]re)s?$/]', 0).tag(['TextValue', 'Ordinal'], 'le-premier')
+  doc.match('[/^premi(er|[eè]re)s?$/] (#Noun|#Value)', 0).tag(['TextValue', 'Ordinal'], 'premier-noun')
+  // a lone 'un chat' is a count - anywhere else, 'un' is an article
+  doc.match('^[(un|une)] #Noun$', 0).tag(['TextValue', 'Cardinal'], 'un-noun')
+  // trois quarts, deux tiers
+  doc.match('#Cardinal [(demi|demis|tiers|quart|quarts)]', 0).tag(['TextValue', 'Fraction'], 'trois-quarts')
+  // un quart de, un tiers des - and 'un quart', but 'un tiers' is often a person
+  const frac = doc.match('(un|une) (demi|tiers|quart) (de|du|des)').concat(doc.match('(un|une) (demi|quart)$'))
+  frac.match('^.').tag(['TextValue', 'Cardinal'], 'un-quart')
+  frac.match('^. [.]', 0).tag(['TextValue', 'Fraction'], 'un-quart')
+  // un pour cent - 'un' is a count here
+  doc.match('[(un|une)] pour cent', 0).tag(['TextValue', 'Cardinal'], 'un-pour-cent')
+  // cinquante pour cent - but 'dix pour cent mille'
+  const pc = doc.match('#Value [pour cent]', 0).filter(m => !m.lookAhead('^#Value').found)
+  pc.unTag('Value').tag('Unit', 'pour-cent')
+  // the number of a percentage - '50 %' is like '50%'
+  pc.lookBehind('#Value+$').tag('Percent', 'value-pour-cent')
+  doc.match('[#Value+] /^(%|pourcents?|percent)$/', 0).tag('Percent', 'value-percent')
 
   // ==Dates==
   // 'sept' is the number 7, unless it sits in a date

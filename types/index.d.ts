@@ -79,6 +79,8 @@ export interface AdjectiveConjugation {
 /** a number, as interpreted by .numbers().parse() */
 export interface ParsedNumber {
   hasComma: boolean
+  /** is it written with a decimal-comma - '1,5' */
+  hasDecimalComma: boolean
   prefix: string
   /** numeric value - 'vingt-cinq' -> 25 */
   num: number | null
@@ -139,11 +141,11 @@ export interface Adjectives extends View {
 export interface Numbers extends View {
   /** interpret each number - 'vingt-cinq' -> { num: 25, isText: true } */
   parse(n?: number): ParsedNumber[]
-  /** get the numeric value of each number - 'vingt-cinq' -> [25] */
+  /** get the numeric value of each number - 'vingt-cinq' -> [25], 'trois quarts' -> [0.75] */
   get(n?: number): (number | null)[]
   /** json output, with a 'number' property - { num: 25 } */
   json(options?: number | object | string): any[]
-  /** return only unit-terms - 'kilos' in 'trois kilos' */
+  /** return only unit-terms - 'kilos' in 'trois kilos', 'pour cent' in 'dix pour cent' */
   units(): View
   /** return only ordinal numbers - 'cinquième' */
   isOrdinal(): Numbers

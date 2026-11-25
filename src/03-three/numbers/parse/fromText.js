@@ -1,4 +1,4 @@
-import { toCardinal, toNumber } from './_data.js'
+import { toCardinal, toNumber, fractions } from './_data.js'
 
 const multiLeft = {
   dix: true,//dix huit
@@ -43,6 +43,7 @@ const parseNumbers = function (terms = []) {
   let sum = 0
   let carry = 0
   let minus = false
+  let over = 1
   const sums = []
   for (let i = 0; i < terms.length; i += 1) {
     const { tags, normal } = terms[i]
@@ -53,6 +54,11 @@ const parseNumbers = function (terms = []) {
     }
     // ... et-un
     if (w === 'et') {
+      continue
+    }
+    // 'trois quarts'
+    if (tags.has('Fraction') && fractions.hasOwnProperty(w)) {
+      over = fractions[w]
       continue
     }
     // 'huitieme'
@@ -114,6 +120,6 @@ const parseNumbers = function (terms = []) {
   if (minus === true) {
     sum *= -1
   }
-  return sum
+  return sum / over
 }
 export default parseNumbers

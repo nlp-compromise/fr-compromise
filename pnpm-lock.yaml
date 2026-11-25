@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       compromise:
-        specifier: ^14.19.0
-        version: 14.20.0
+        specifier: link:../../compromise
+        version: link:../../compromise
       efrt:
         specifier: 2.9.0
         version: 2.9.0
@@ -549,11 +549,6 @@ packages:
   comment-parser@1.4.9:
     resolution: {integrity: sha512-+2AvZKjJaNq9GQljm3tr0utwrig5BL+jgJGvz5rDpGKNIp+ojcRXWUwBbh/sGIi1QCprR6PsKFakub+w1v+4hQ==}
     engines: {node: '>= 12.0.0'}
-
-  compromise@14.20.0:
-    resolution: {integrity: sha512-XFtjCI4hs8jde5uY/3KqlKQ12dt4h1mAYVPnss0o91ia0971VdluY4ZN9GlxbV9zI8DW2YP+NzGqpnsFFidenA==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -1703,11 +1698,6 @@ snapshots:
   commander@2.20.3: {}
 
   comment-parser@1.4.9: {}
-
-  compromise@14.20.0:
-    dependencies:
-      efrt: 2.9.0
-      suffix-thumb: 6.1.0
 
   concat-map@0.0.1: {}
 

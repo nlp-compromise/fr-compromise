@@ -1,13 +1,24 @@
 import fromText from './fromText.js'
 
+// '1er', '1re', '2e', '2nd', '2nde', '2ème', '2ième', '2es'
+// - but not the end of a unit, like '5litres'
+const ordinal = /^([-+]?[0-9][0-9.,]*)(er|re|nde?|i?[eè]me|[eè]re|e)s?$/
+
 const fromNumber = function (m) {
   let str = m.text('normal').toLowerCase()
-  str = str.replace(/(e|er)$/, '')
+  // '3/4' is 0.75
+  const frac = str.match(/^([0-9]+)\/([0-9]+)/)
+  if (frac && m.has('#Fraction')) {
+    const num = Number(frac[2]) ? Number(frac[1]) / Number(frac[2]) : null
+    return { hasComma: false, hasDecimalComma: false, prefix: '', num, suffix: '' }
+  }
+  str = str.replace(ordinal, '$1')
   // the core normalizer strips digit-commas ('3,5'->'35'), so recover a
   // french decimal-comma from the raw text ('7,938' keeps its english
   // thousands-group meaning)
   const raw = m.text().toLowerCase().replace(/[.,;!?]+$/, '').trim()
-  if (/\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false) {
+  const hasDecimalComma = /\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false
+  if (hasDecimalComma) {
     str = raw.replace(/ /g, '').replace(',', '.')
   }
   // french thousands-groups use spaces - '1 000 000'
@@ -36,6 +47,7 @@ const fromNumber = function (m) {
   }
   return {
     hasComma,
+    hasDecimalComma,
     prefix,
     num,
     suffix,
@@ -48,6 +60,7 @@ const parseNumber = function (m) {
   let prefix = ''
   let suffix = ''
   let hasComma = false
+  let hasDecimalComma = false
   const isText = m.has('#TextValue')
   if (isText) {
     num = fromText(terms)
@@ -57,9 +70,11 @@ const parseNumber = function (m) {
     suffix = res.suffix
     num = res.num
     hasComma = res.hasComma
+    hasDecimalComma = res.hasDecimalComma
   }
   return {
     hasComma,
+    hasDecimalComma,
     prefix,
     num,
     suffix,

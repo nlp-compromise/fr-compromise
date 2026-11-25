@@ -2,59 +2,34 @@ import test from 'tape'
 import nlp from '../_lib.js'
 const here = '[numbers-hmm] '
 
-// belgian + swiss number-words are not supported - 'nonante-neuf' parses as 9
-test('regional numbers:', function (t) {
-  const arr = [
-    ['septante', 70],
-    ['huitante', 80],
-    ['octante', 80],
-    ['nonante', 90],
-    ['nonante-neuf', 99],
-  ]
-  arr.forEach(function (a) {
-    const [str, want] = a
-    t.deepEqual(nlp(str).numbers().get(), [want], here + str)
-  })
+// (the regional, premier, ordinal-suffix, pour-cent, fraction and decimal-comma tests
+// now pass, and live in tests/unit/numbers/number-forms.test.js)
+// (the '50%' toText test now passes, and lives in tests/unit/numbers/number-symbols.test.js)
+
+// a lone 'premier' is an Adjective, so that .adjectives().conjugate() works - it is only a number beside a noun or determiner
+test('lone premier:', function (t) {
+  t.deepEqual(nlp('premier').numbers().get(), [1], here + 'premier')
+  t.deepEqual(nlp('il est premier').numbers().get(), [1], here + 'est premier')
   t.end()
 })
 
-// 'premier' is not found as a number, and 1 becomes 'unième'
-test('premier:', function (t) {
-  t.deepEqual(nlp('le premier jour').numbers().get(), [1], here + 'premier')
-  t.deepEqual(nlp('la première fois').numbers().get(), [1], here + 'première')
-  let doc = nlp('1er')
+// only demi, tiers and quart are known as the bottom of a fraction - an ordinal is not
+test('ordinal fractions:', function (t) {
+  t.deepEqual(nlp('deux cinquièmes').numbers().get(), [0.4], here + 'deux cinquièmes')
+  t.end()
+})
+
+// two numerals beside an 'et' are joined into one number, like 'vingt et un' is
+test('numerals around et:', function (t) {
+  t.deepEqual(nlp('5 et 10').numbers().get(), [5, 10], here + '5 et 10')
+  t.deepEqual(nlp('il a 5€ et 50%').numbers().get(), [5, 50], here + '5€ et 50%')
+  t.end()
+})
+
+// 'million' and 'milliard' are nouns, and need a 'de' before their unit
+test('million de:', function (t) {
+  const doc = nlp('1000000€')
   doc.numbers().toText()
-  t.equal(doc.text(), 'premier', here + '1er toText')
-  doc = nlp('un chat')
-  doc.numbers().toOrdinal()
-  t.equal(doc.text(), 'premier chat', here + 'un toOrdinal')
-  t.end()
-})
-
-test('numeric ordinal suffixes:', function (t) {
-  t.deepEqual(nlp('2ème').numbers().get(), [2], here + '2ème')
-  t.end()
-})
-
-// 'cinquante pour cent' is two numbers - 50 and 100
-test('pour cent:', function (t) {
-  const m = nlp('cinquante pour cent').numbers()
-  t.equal(m.length, 1, here + 'one number')
-  t.equal(m.get()[0], 50, here + 'value')
-  t.end()
-})
-
-// fractions come back as their numerator
-test('fractions:', function (t) {
-  t.deepEqual(nlp('1/2').numbers().get(), [0.5], here + '1/2')
-  t.deepEqual(nlp('trois quarts').numbers().get(), [0.75], here + 'trois quarts')
-  t.end()
-})
-
-// math on a decimal-comma number writes it back with a decimal-point
-test('decimal-comma is kept:', function (t) {
-  const doc = nlp('1,5 litre')
-  doc.numbers().add(1)
-  t.equal(doc.text(), '2,5 litre', here + 'add')
+  t.equal(doc.text(), "un million d'euros", here + '1000000€ toText')
   t.end()
 })

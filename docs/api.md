@@ -190,16 +190,16 @@ Elles sont écrites pour chaque langue : celles qui sont disponibles ici ne sont
 
 ### `.numbers()`
 
-- **`.numbers()`** — renvoie les nombres, écrits en chiffres ou en lettres
+- **`.numbers()`** — renvoie les nombres, écrits en chiffres ou en lettres (y compris `premier`, `2ème`, `septante` ou `nonante`)
 - **`.values()`** — alias de .numbers()
-- **`.numbers().get()`** — renvoie la valeur numérique de chaque nombre
-- **`.numbers().parse()`** — renvoie le détail de chaque nombre (valeur, préfixe, suffixe)
+- **`.numbers().get()`** — renvoie la valeur numérique de chaque nombre (`trois quarts` et `3/4` valent 0,75)
+- **`.numbers().parse()`** — renvoie le détail de chaque nombre (valeur, préfixe, suffixe, virgule décimale)
 - **`.numbers().json(n?)`** — renvoie les métadonnées de chaque nombre, ou seulement du n-ième ; accepte aussi les options de `.json()`
-- **`.numbers().units()`** — renvoie l'unité qui suit chaque nombre
-- **`.numbers().toNumber()`** — écrit les nombres en chiffres (`40`)
-- **`.numbers().toText()`** — écrit les nombres en lettres (`quarante`)
+- **`.numbers().units()`** — renvoie l'unité qui suit chaque nombre (`kilos`, `%`, `pour cent`)
+- **`.numbers().toNumber()`** — écrit les nombres en chiffres (`40`) ; `cinquante pour cent` devient `50 %`, et les autres unités écrites en lettres sont conservées (`cinq euros` devient `5 euros`)
+- **`.numbers().toText()`** — écrit les nombres en lettres (`quarante`, et `1er` devient `premier`) ; un symbole collé au nombre est écrit en toutes lettres (`50%` devient `cinquante pour cent`, `5€` ou `€5` devient `cinq euros`, `20°` devient `vingt degrés`), et une unité sans forme longue est séparée par une espace (`5km` devient `cinq km`)
 - **`.numbers().toCardinal()`** — transforme en nombre cardinal (`quarante`)
-- **`.numbers().toOrdinal()`** — transforme en nombre ordinal (`quarantième`)
+- **`.numbers().toOrdinal()`** — transforme en nombre ordinal (`quarantième`) ; un pourcentage, un montant ou un nombre collé à son unité (`50%`, `5€`, `5km`) reste tel quel
 - **`.numbers().isCardinal()`** — ne renvoie que les nombres cardinaux
 - **`.numbers().isOrdinal()`** — ne renvoie que les nombres ordinaux
 - **`.numbers().isEqual(n)`** — ne renvoie que les nombres égaux à n
@@ -207,7 +207,7 @@ Elles sont écrites pour chaque langue : celles qui sont disponibles ici ne sont
 - **`.numbers().lessThan(n)`** — ne renvoie que les nombres inférieurs à n
 - **`.numbers().between(min, max)`** — ne renvoie que les nombres compris entre min et max
 - **`.numbers().set(n)`** — remplace chaque nombre par n (un nombre, ou une chaîne comme `'dix'` ou `'10'`)
-- **`.numbers().add(n)`** — ajoute n à chaque nombre (nombre ou chaîne, comme `'deux'`)
+- **`.numbers().add(n)`** — ajoute n à chaque nombre (nombre ou chaîne, comme `'deux'`) ; la virgule décimale est conservée (`1,5` devient `2,5`), tout comme le symbole ou l'unité (`50%` devient `51%`, `€5` devient `€6`)
 - **`.numbers().subtract(n)`** — soustrait n de chaque nombre (nombre ou chaîne)
 - **`.numbers().increment()`** — ajoute 1 à chaque nombre
 - **`.numbers().decrement()`** — soustrait 1 de chaque nombre

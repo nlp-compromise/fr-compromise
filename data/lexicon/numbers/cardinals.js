@@ -25,6 +25,11 @@ export default [
   'quarante',
   'cinquante',
   'soixante',
+  // belgian + swiss
+  'septante',
+  'huitante',
+  'octante',
+  'nonante',
   // 'quatre vingt',
   // 'quatre vingt dix huit',
 

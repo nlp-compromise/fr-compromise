@@ -53,15 +53,15 @@
   // wrappers for loops in javascript arrays
 
   // call the callback with a one-match view
-  const wrap$2 = (view, cb) => (ptr, i) => cb(view.update([ptr]), i);
+  const wrap$3 = (view, cb) => (ptr, i) => cb(view.update([ptr]), i);
 
   const forEach = function (cb) {
-    this.fullPointer.forEach(wrap$2(this, cb));
+    this.fullPointer.forEach(wrap$3(this, cb));
     return this
   };
 
   const map = function (cb, empty) {
-    const run = wrap$2(this, cb);
+    const run = wrap$3(this, cb);
     const res = this.fullPointer.map((ptr, i) => {
       const out = run(ptr, i);
       // if we returned nothing, return a view
@@ -94,11 +94,11 @@
   };
 
   const filter = function (cb) {
-    return this.update(this.fullPointer.filter(wrap$2(this, cb)))
+    return this.update(this.fullPointer.filter(wrap$3(this, cb)))
   };
 
   const find = function (cb) {
-    const found = this.fullPointer.find(wrap$2(this, cb));
+    const found = this.fullPointer.find(wrap$3(this, cb));
     if (found === undefined) {
       return this.update([])
     }
@@ -106,7 +106,7 @@
   };
 
   const some$1 = function (cb) {
-    return this.fullPointer.some(wrap$2(this, cb))
+    return this.fullPointer.some(wrap$3(this, cb))
   };
 
   const random = function (n = 1) {
@@ -543,6 +543,8 @@
   const blue = color(34);
   const cyan = color(36);
   const yellow = color(33);
+  // used by name, from the tagset colors
+  const magenta = color(35);
   const dim = color(2);
   const i$1 = color(3);
   const b = color(1);
@@ -558,6 +560,7 @@
     green: green,
     grey: grey,
     i: i$1,
+    magenta: magenta,
     red: red,
     ul: ul,
     yellow: yellow
@@ -980,6 +983,70 @@
   const toTitleCase$1 = str => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
   const toLowerCase = str => str.replace(/^\p{Lu}/u, x => x.toLowerCase());
 
+  // give a new word the case of the one it replaced: 'Danes' -> 'Dane', 'DANES' -> 'DANE'
+  const matchCase = (original, str) => {
+    if (original.length > 1 && original === original.toUpperCase() && original !== original.toLowerCase()) {
+      return str.toUpperCase()
+    }
+    return /^\p{Lu}/u.test(original) ? toTitleCase$1(str) : str
+  };
+
+  // Heal the edges of a sentence, when its first or last words change.
+  // Shared by insert and remove, and by the noun and verb conversions.
+
+  // a capital of its own, not the sentence's - 'Spencer', 'NASA', 'I', or 'Plan B'
+  const ownsCapital = function (term) {
+    if (term.tags.has('ProperNoun') || term.tags.has('Acronym')) {
+      return true
+    }
+    return term.text.length === 1 || !isTitleCase$1(term.text)
+  };
+
+  // the first word of a sentence lends its capital to a new first word
+  const passCapital = function (from, to, drop) {
+    if (!/^\p{Lu}/u.test(from.text)) {
+      return
+    }
+    to.text = toTitleCase$1(to.text);
+    if (drop && !ownsCapital(from)) {
+      from.text = toLowerCase(from.text);
+    }
+  };
+
+  // quotes, brackets and newlines open a phrase, so they stay in front of it
+  const passOpening = function (from, to) {
+    to.pre = from.pre + to.pre;
+    from.pre = '';
+  };
+
+  // a bare hyphen joins two words - 'well-fed'
+  const isJoiner = post => /^[-–]$/.test(post);
+
+  // "dogs' bowls" - with no opening quote before it, an apostrophe belongs to its word
+  const isPossessive = function (terms, i) {
+    if (!/^['’]/.test(terms[i].post)) {
+      return false
+    }
+    return !terms.slice(0, i + 1).some(term => /['‘]/.test(term.pre))
+  };
+
+  // periods, commas, closing quotes and brackets end a phrase, so they stay behind it
+  const passClosing = function (terms, i, to) {
+    const from = terms[i];
+    // nothing to move, or it is part of the word
+    if (!from.post || isJoiner(from.post) || isPossessive(terms, i)) {
+      return false
+    }
+    let post = from.post;
+    // the new words may bring their own ending - 'loudly!'
+    if (/[.?!…]/.test(to.post)) {
+      post = post.replace(/^[.?!…]+/, '');
+    }
+    to.post = to.post.trimEnd() + post;
+    from.post = ' ';
+    return true
+  };
+
   // splice an array into an array
   const spliceArr = (parent, index, child) => {
     // tag them as dirty
@@ -1000,44 +1067,8 @@
     }
   };
 
-  // sentence-ending punctuation should move in append
-  const movePunct = (source, end, needle) => {
-    const juicy = /[-.?!,;:)–—'"]/g;
-    const wasLast = source[end - 1];
-    if (!wasLast) {
-      return
-    }
-    const post = wasLast.post;
-    if (juicy.test(post)) {
-      const punct = post.match(juicy).join(''); //not perfect
-      const last = needle.at(-1);
-      last.post = punct + last.post;
-      // remove it, from source
-      wasLast.post = wasLast.post.replace(juicy, '');
-    }
-  };
-
-
-  const moveTitleCase = function (home, start, needle) {
-    const from = home[start];
-    // should we bother?
-    if (start !== 0 || !isTitleCase$1(from.text)) {
-      return
-    }
-    // titlecase new first term
-    needle[0].text = toTitleCase$1(needle[0].text);
-    // should we un-titlecase the old word?
-    const old = home[start];
-    if (old.tags.has('ProperNoun') || old.tags.has('Acronym')) {
-      return
-    }
-    if (isTitleCase$1(old.text) && old.text.length > 1) {
-      old.text = toLowerCase(old.text);
-    }
-  };
-
   // put these words before the others
-  const cleanPrepend = function (home, ptr, needle, document) {
+  const cleanPrepend = function (home, ptr, needle, document, agree) {
     const [n, start, end] = ptr;
     // introduce spaces appropriately
     if (start === 0) {
@@ -1051,25 +1082,28 @@
       endSpace(needle);
       endSpace([home[ptr[1]]]);
     }
-    moveTitleCase(home, start, needle);
-    // movePunct(home, end, needle)
+    if (agree) {
+      // '"dogs' -> '"the dogs'
+      passOpening(home[start], needle[0]);
+      // 'Dogs' -> 'The dogs'
+      if (start === 0) {
+        passCapital(home[start], needle[0], true);
+      }
+    }
     spliceArr(home, start, needle);
   };
 
-  const cleanAppend = function (home, ptr, needle, document) {
+  const cleanAppend = function (home, ptr, needle, document, agree) {
     const [n, , end] = ptr;
     const total = (document[n] || []).length;
-    if (end < total) {
-      // are we in the middle?
-      // add trailing space on self
-      movePunct(home, end, needle);
+    // 'bark.' -> 'bark loudly.'
+    const moved = agree && home[end - 1] && passClosing(home, end - 1, needle.at(-1));
+    if (!moved && end < total) {
+      // in the middle - add trailing space on self
       endSpace(needle);
-    } else if (total === end) {
-      // are we at the end?
-      // add a space to predecessor
+    } else if (!moved) {
+      // at the end - add a space to predecessor
       endSpace(home);
-      // very end, move period
-      movePunct(home, end, needle);
       // is there another sentence after?
       if (document[n + 1]) {
         needle.at(-1).post += ' ';
@@ -1175,7 +1209,9 @@
     return []
   };
 
-  const insert = function (input, view, prepend) {
+  // {agree: false} skips moving any capitals or punctuation
+  const insert = function (input, view, prepend, opts = {}) {
+    const agree = opts.agree !== false;
     const { document, world } = view;
     view.uncache();
     // insert words at end of each doc
@@ -1194,10 +1230,10 @@
       terms = addIds$2(terms);
       if (prepend) {
         expandContraction(view.update([ptr]).firstTerm());
-        cleanPrepend(home, ptr, terms, document);
+        cleanPrepend(home, ptr, terms, document, agree);
       } else {
         expandContraction(view.update([ptr]).lastTerm());
-        cleanAppend(home, ptr, terms, document);
+        cleanAppend(home, ptr, terms, document, agree);
       }
       // harden the pointer
       if (document[n]?.[ptr[1]]) {
@@ -1217,11 +1253,11 @@
   };
 
   const fns$3 = {
-    insertAfter: function (input) {
-      return insert(input, this, false)
+    insertAfter: function (input, opts) {
+      return insert(input, this, false, opts)
     },
-    insertBefore: function (input) {
-      return insert(input, this, true)
+    insertBefore: function (input, opts) {
+      return insert(input, this, true, opts)
     },
   };
   fns$3.append = fns$3.insertAfter;
@@ -1267,6 +1303,7 @@
       pre: terms[0].pre,
       post: last.post,
       isTitleCase: isTitleCase$1(terms[0].text),
+      text: terms[0].text,
       isPossessive: last.tags.has('Possessive'),
       tags: terms.map(term => Array.from(term.tags)),
     }
@@ -1330,7 +1367,9 @@
     if (typeof input === 'string') {
       input = this.fromText(input).compute('id');
     }
-    main.insertAfter(input);
+    // {agree: false} swaps the words, and nothing else
+    const agree = keep.agree !== false;
+    main.insertAfter(input, { agree });
     // New terms follow each old match; stop at an existing term to separate nearby matches.
     if (replacements) {
       replacements.forEach(group => {
@@ -1347,10 +1386,15 @@
       more.contractions().expand();
     }
     // delete the original terms
-    main.delete(original); //science.
+    // (we restore the start of the phrase ourselves, below)
+    // the new words take the sentence's capital, unless {case: false}
+    // (we restore the punctuation ourselves, below)
+    main.delete(original, { agree, start: keep.case !== false, end: false }); //science.
 
     // main now points at only the new terms
-    main.docs.forEach((terms, i) => restoreOriginal(terms, originals[i], keep));
+    if (agree) {
+      main.docs.forEach((terms, i) => restoreOriginal(terms, originals[i], keep));
+    }
 
     // what should we return?
     const m = retag(main.toView(), ['index']);
@@ -1364,7 +1408,8 @@
     if (keep.case) {
       m.docs.forEach((terms, i) => {
         const transformCase = originals[i].isTitleCase ? toTitleCase$1 : toLowerCase;
-        terms[0].text = transformCase(terms[0].text);
+        // 'DOGS' -> 'CATS'
+        terms[0].text = matchCase(originals[i].text, transformCase(terms[0].text));
       });
     }
     // Transfer plugin metadata after replacement text, punctuation, and case are finalized.
@@ -1377,7 +1422,7 @@
   };
 
   fns$2.replace = function (match, input, keep) {
-    if (match && !input) {
+    if (match && input === undefined) {
       return this.replaceWith(match, keep)
     }
     const m = this.match(match);
@@ -1412,22 +1457,68 @@
     const to = terms[last - len];
     if (to && from) {
       to.post += from.post; //this isn't perfect.
-      to.post = removeRunBefore(to.post, ' ', '.?!,;:');
+      to.post = removeRunBefore(to.post, ' ', '.?!,;:"”)]');
       // don't allow any silly punctuation outcomes like ',!'
       to.post = removeRunBefore(to.post, ',;:', '.?!');
     }
   };
 
+  const pairs$1 = { '(': ')', '[': ']', '"': '"', '“': '”', '‘': '’' };
+
+  // a quote or bracket that opens and closes on the removed words leaves with them - '(loudly)'
+  const dropPairs = function (terms, start, end) {
+    const first = terms[start];
+    const last = terms[end - 1];
+    Object.keys(pairs$1).forEach(open => {
+      if (first.pre.includes(open) && last.post.includes(pairs$1[open])) {
+        first.pre = first.pre.replace(open, '');
+        last.post = last.post.replace(pairs$1[open], '');
+      }
+    });
+  };
+
+  // the word before us becomes the end of the phrase - 'bark loudly, and' -> 'bark, and'
+  const repairEnd = function (terms, start, end) {
+    const prev = terms[start - 1];
+    const post = terms[end - 1].post;
+    // is there anything to keep, and room to keep it?
+    if (prev && /\S/.test(post) && !/\S/.test(prev.post)) {
+      prev.post = post;
+    }
+  };
+
+  // the words after us become the start of the phrase
+  const repairStart = function (terms, start, end) {
+    const next = terms[end];
+    if (!next) {
+      return
+    }
+    // '"the dogs' -> '"dogs'
+    passOpening(terms[start], next);
+    // 'The dogs' -> 'Dogs'
+    if (start === 0) {
+      passCapital(terms[start], next);
+    }
+  };
+
   // remove terms from document json
-  const pluckOut = function (document, nots) {
+  const pluckOut = function (document, nots, opts = {}) {
     nots.forEach(ptr => {
       const [n, start, end] = ptr;
       const len = end - start;
       if (!document[n]) {
         return // weird!
       }
-      if (end === document[n].length && end > 1) {
-        repairPunct(document[n], len);
+      if (opts.agree !== false) {
+        dropPairs(document[n], start, end);
+        if (end === document[n].length && end > 1) {
+          repairPunct(document[n], len);
+        } else if (opts.end !== false) {
+          repairEnd(document[n], start, end);
+        }
+        if (opts.start !== false) {
+          repairStart(document[n], start, end);
+        }
       }
       document[n].splice(start, len); // replaces len terms at index start
     });
@@ -1489,9 +1580,14 @@
   };
 
   const methods$k = {
-    /** */
-    remove: function (reg) {
+    // {agree: false} skips moving any capitals or punctuation
+    remove: function (reg, opts) {
       const { indexN } = this.methods.one.pointer;
+      // allow .remove({agree: false})
+      if (reg && Object.hasOwn(reg, 'agree')) {
+        opts = reg;
+        reg = undefined;
+      }
       this.uncache();
       // two modes:
       //  - a. remove self, from full parent
@@ -1511,7 +1607,7 @@
       const gonePtrs = indexN(nots);
       const emptied = getEmptied(gonePtrs, this.document);
       // remove them from the actual document)
-      const document = pluckOut(this.document, nots);
+      const document = pluckOut(this.document, nots, opts);
       // repair our pointers
       ptrs = fixPointers$1(ptrs, gonePtrs, emptied);
       // clean up our original inputs
@@ -1548,7 +1644,7 @@
   };
 
   // put these characters around each match
-  const wrap$1 = function (view, start, end) {
+  const wrap$2 = function (view, start, end) {
     view.docs.forEach(terms => {
       terms[0].pre = start + terms[0].pre;
       const last = terms.at(-1);
@@ -1617,12 +1713,12 @@
 
     /** add quotations around these matches */
     toQuotations: function (start, end) {
-      return wrap$1(this, start || '"', end || '"')
+      return wrap$2(this, start || '"', end || '"')
     },
 
     /** add brackets around these matches */
     toParentheses: function (start, end) {
-      return wrap$1(this, start || '(', end || ')')
+      return wrap$2(this, start || '(', end || ')')
     },
   };
 
@@ -1647,8 +1743,8 @@
   /** count the # of terms in each match - most first */
   const wordCount$1 = (a, b) => b.words - a.words;
 
-  /** count the # of terms in each match */
-  const sequential = (a, b) => b[0] - a[0] || (a[1] > b[1] ? 1 : -1);
+  /** document order - sentence, then start, then end of each match */
+  const sequential = (a, b) => a.pointer[0] - b.pointer[0] || a.pointer[1] - b.pointer[1] || a.pointer[2] - b.pointer[2];
 
   /** sort by # of duplicates in the document*/
   const byFreq = function (arr) {
@@ -1843,7 +1939,7 @@
   };
 
   // one 'word:out words' per line - decoded once into { [key]: word, out: [...] }
-  const parse$2 = (str, key) =>
+  const parse$3 = (str, key) =>
     str
       .trim()
       .split('\n')
@@ -1856,7 +1952,7 @@
     // that's and let's are decided here, before any tagging
     // (step 1 of the 's decision - the list is in 2-two/contraction-two/compute/index.js)
     // simple mappings
-    ...parse$2(
+    ...parse$3(
       `
 @:at
 arent:are not
@@ -1900,7 +1996,7 @@ o'er:over
       'word'
     ),
     // contraction-part mappings
-    ...parse$2(
+    ...parse$3(
       `
 ll:will
 ve:have
@@ -1910,7 +2006,7 @@ m:am
       'after'
     ),
     // french contractions - t'aime
-    ...parse$2(
+    ...parse$3(
       `
 c:ce
 m:me
@@ -1922,7 +2018,7 @@ t:tu
       'before'
     ),
     // missing apostrophes, apostrophe-d
-    ...parse$2(
+    ...parse$3(
       `
 shouldnt:should not
 couldnt:could not
@@ -3983,7 +4079,7 @@ er
   const endQuote = /([\u0022\uFF02\u0027\u201D\u2019\u00BB\u203A\u2032\u2033\u2034\u301E\u00B4])/;
 
   const hasHyphen = /^[-–—]$/;
-  const hasDash$2 = / [-–—]{1,3} /;
+  const hasDash$3 = / [-–—]{1,3} /;
 
   /** search the term's 'post' punctuation  */
   const hasPost = (term, punct) => term.post.indexOf(punct) !== -1;
@@ -4012,7 +4108,7 @@ er
     /** a hyphen connects two words like-term */
     hasHyphen: term => hasHyphen.test(term.post) || hasHyphen.test(term.pre),
     /** a dash separates words - like that */
-    hasDash: term => hasDash$2.test(term.post) || hasDash$2.test(term.pre),
+    hasDash: term => hasDash$3.test(term.post) || hasDash$3.test(term.pre),
     /** is it multiple words combinded */
     hasContraction: term => Boolean(term.implicit),
     /** is it an acronym */
@@ -5325,7 +5421,7 @@ er
     return starts
   };
 
-  const wrap = function (doc, obj) {
+  const wrap$1 = function (doc, obj) {
     // index ids to highlight
     const starts = findStarts(doc, obj);
     let text = '';
@@ -5466,7 +5562,7 @@ er
   const out = function (method) {
     // support custom outputs
     if (isObject(method)) {
-      return wrap(this, method)
+      return wrap$1(this, method)
     }
     if (Object.hasOwn(outputs, method)) {
       return outputs[method](this)
@@ -5481,7 +5577,7 @@ er
     out,
     /** */
     wrap: function (obj) {
-      return wrap(this, obj)
+      return wrap$1(this, obj)
     },
   };
 
@@ -5536,8 +5632,9 @@ er
         if (!Object.hasOwn(model.one.tagSet, tag)) {
           return tag
         }
-        const c = model.one.tagSet[tag].color || 'blue';
-        return cli[c](tag)
+        // an unknown color should not break the output
+        const paint = cli[model.one.tagSet[tag].color] || blue;
+        return paint(tag)
       });
     }
     return tags.join(', ')
@@ -5677,9 +5774,86 @@ er
     highlight: showHighlight,
   };
 
+  const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
+  const comment = /\}[ \t]*#(.*)$/s; // an optional '# comment' after the last {tags} block
+
+
+  // parse the spec output
+  const parseLine = function (line = '') {
+    let [text, tags] = line.split(lastBrace); // eslint-disable-line prefer-const
+    if (tags === undefined) {
+      const note = text.match(/\s#(.*)$/s)?.[1] || '';
+      // no {tags} block on this line
+      return { text: text.replace(/\s#.*$/s, '').trim(), tags: null, comment: note.trim() }
+    }
+    const note = (tags.match(comment)?.[1] || '').trim();
+    tags = tags.replace(comment, '}'); // drop the comment - only ever one, always last
+    tags = tags.split(',').map(tag => tag.trim());
+    const lastTag = tags[tags.length - 1];
+    tags[tags.length - 1] = lastTag.replace(/\}$/, '');
+    tags = tags.map(tag => tag.split('|').map(t => t.trim()));
+    if (tags.length === 1 && tags[0].length === 1 && tags[0][0] === '') {
+      tags = []; // empty '{}'; retain empty slots in nonempty lists
+    }
+    return { text: text.trim(), tags, comment: note }
+  };
+
+  // parse a whole spec into [{ line, text, tags, comment }], skipping blank and comment lines
+  const parseSpec = function (spec = '') {
+    const list = [];
+    spec.split('\n').forEach((str, i) => {
+      if (str.trim() && !/^\s*#/.test(str)) {
+        list.push({ line: i + 1, ...parseLine(str) });
+      }
+    });
+    return list
+  };
+
+  // make a match syntax looping through the arrays of tags
+  const toMatchString = function (tags, aliases) {
+    // Slots accept tags and '.', never match-syntax quantifiers or groups.
+    if (tags.some(slot => slot.some(tag => tag !== '.' && !/^!?#?[a-z][a-z0-9]*$/i.test(tag)))) {
+      return null
+    }
+    return tags.map(arr => {
+      arr = arr.map(str => {
+        if (str === '.') {
+          return '.'
+        }
+        const negative = str.startsWith('!');
+        const tag = str.replace(/^!?#?/, '');
+        const prefix = negative ? '!#' : '#';
+        return prefix + (aliases[tag] || tag)
+      });
+      if (arr.length > 1) {
+        return `(${arr.join(' && ')})`
+      }
+      return arr[0]
+    }).join(' ')
+  };
+
+  // Apply only positive constraints; negatives remain assertions.
+  const applyTags = (doc, slots, aliases) => {
+    const terms = doc.terms();
+    // Tokenization can supply structural tags; literal slots replace them.
+    doc.docs.flat().forEach(term => term.tags.clear());
+    slots?.forEach((slot, i) => {
+      const tags = slot.filter(tag => tag !== '.' && !tag.startsWith('!')).map(tag => {
+        tag = tag.replace(/^#/, '');
+        return aliases[tag] || tag
+      });
+      terms.eq(i).tag(tags, 'fromSpec');
+    });
+  };
+
   // Diagnostics describe the original parse, before the returned View is mutated.
-  const specFailures = (doc, slots, patterns, aliases) => {
+  const specFailures = (doc, slots, aliases) => {
     const terms = doc.docs.flat();
+    const patterns = slots.map(slot => toMatchString([slot], aliases));
+    const pattern = toMatchString(slots, aliases);
+    if (terms.length === slots.length && pattern !== null && doc.has(pattern)) {
+      return [] // valid
+    }
     const failures = [];
     if (terms.length !== slots.length) {
       failures.push({
@@ -5774,64 +5948,6 @@ er
     return `${green('✓')} ${green(dim(text))}${dim(block)}`
   };
 
-  const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
-  const comment = /\}[ \t]*#.*$/s; // an optional '# comment' after the last {tags} block
-
-
-  // parse the spec output
-  const parseLine = function (line = '') {
-    let [text, tags] = line.split(lastBrace); // eslint-disable-line prefer-const
-    if (tags === undefined) {
-      return { text: text.replace(/\s#.*$/s, '').trimEnd(), tags: null } // no {tags} block on this line
-    }
-    tags = tags.replace(comment, '}'); // drop the comment - only ever one, always last
-    tags = tags.split(',').map(tag => tag.trim());
-    const lastTag = tags[tags.length - 1];
-    tags[tags.length - 1] = lastTag.replace(/\}$/, '');
-    tags = tags.map(tag => tag.split('|').map(t => t.trim()));
-    if (tags.length === 1 && tags[0].length === 1 && tags[0][0] === '') {
-      tags = []; // empty '{}'; retain empty slots in nonempty lists
-    }
-    return { text, tags }
-  };
-
-  // make a match syntax looping through the arrays of tags
-  const toMatchString = function (tags, aliases) {
-    // Slots accept tags and '.', never match-syntax quantifiers or groups.
-    if (tags.some(slot => slot.some(tag => tag !== '.' && !/^!?#?[a-z][a-z0-9]*$/i.test(tag)))) {
-      return null
-    }
-    return tags.map(arr => {
-      arr = arr.map(str => {
-        if (str === '.') {
-          return '.'
-        }
-        const negative = str.startsWith('!');
-        const tag = str.replace(/^!?#?/, '');
-        const prefix = negative ? '!#' : '#';
-        return prefix + (aliases[tag] || tag)
-      });
-      if (arr.length > 1) {
-        return `(${arr.join(' && ')})`
-      }
-      return arr[0]
-    }).join(' ')
-  };
-
-  // Apply only positive constraints; negatives remain assertions.
-  const applyTags = (doc, slots, aliases) => {
-    const terms = doc.terms();
-    // Tokenization can supply structural tags; literal slots replace them.
-    doc.docs.flat().forEach(term => term.tags.clear());
-    slots?.forEach((slot, i) => {
-      const tags = slot.filter(tag => tag !== '.' && !tag.startsWith('!')).map(tag => {
-        tag = tag.replace(/^#/, '');
-        return aliases[tag] || tag
-      });
-      terms.eq(i).tag(tags, 'fromSpec');
-    });
-  };
-
   const fromSpec = function (spec, { tags: tagMode = 'ignore', failures: failureMode = 'ignore', verbose = false } = {}) {
     if (!['ignore', 'use'].includes(tagMode) || !['ignore', 'throw', 'retain', 'log'].includes(failureMode)) {
       throw new Error('Invalid fromSpec options')
@@ -5839,29 +5955,24 @@ er
     const aliases = this.world().model.one.tagAliases;
     const result = this('');
     result.failures = [];
-    spec.split('\n').forEach((line, index) => {
-      if (!line.trim() || /^\s*#/.test(line)) {
-        return
-      }
-      const { text, tags } = parseLine(line);
+    parseSpec(spec).forEach(({ line, text, tags }) => {
       const doc = tagMode === 'use' ? this.tokenize(text) : this(text);
       let failures = [];
       if (tags !== null && (tagMode === 'use' || failureMode !== 'ignore')) {
         const count = doc.docs.reduce((sum, terms) => sum + terms.length, 0);
-        const patterns = tags.map(slot => toMatchString([slot], aliases));
         const pattern = toMatchString(tags, aliases);
         // Assigning slots is unsafe when the shape or syntax is invalid.
         const canApply = count === tags.length && pattern !== null;
         if (tagMode === 'use' && !canApply && failureMode !== 'log') {
-          const invalid = specFailures(doc, tags, patterns, aliases);
-          throw new Error(`${text.trim()} - ${invalid.map(failure => failure.message).join('; ')}`)
+          const invalid = specFailures(doc, tags, aliases);
+          throw new Error(`${text} - ${invalid.map(failure => failure.message).join('; ')}`)
         }
         if (tagMode === 'use') {
           applyTags(doc, canApply ? tags : null, aliases);
         }
-        if (failureMode !== 'ignore' && (count !== tags.length || pattern === null || !doc.has(pattern))) {
-          failures = specFailures(doc, tags, patterns, aliases)
-            .map(failure => ({ line: index + 1, text: text.trim(), ...failure }));
+        if (failureMode !== 'ignore') {
+          failures = specFailures(doc, tags, aliases)
+            .map(failure => ({ line, text, ...failure }));
           result.failures.push(...failures);
         }
       } else if (tagMode === 'use') {
@@ -5874,7 +5985,7 @@ er
         console.log(logLine(text, tags, detail)); //eslint-disable-line no-console
       }
       if (failures.length > 0 && failureMode === 'throw') {
-        throw new Error(`${text.trim()} - ${detail}`)
+        throw new Error(`${text} - ${detail}`)
       }
       if (failureMode === 'retain' && tags !== null && failures.length === 0) {
         return
@@ -5911,6 +6022,7 @@ er
       one: {
         hash: md5,
         debug,
+        parseSpec,
       },
     },
   };
@@ -6249,7 +6361,7 @@ er
           o.pointer = [
             term.index[0],
             term.index[1],
-            ptr[1] + len
+            term.index[1] + len
           ];
         }
         return o
@@ -6413,7 +6525,7 @@ er
     return { wants, count }
   };
 
-  const parse$1 = function (matches, world) {
+  const parse$2 = function (matches, world) {
     const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
       resolveAliases(obj, world.model.one.tagAliases);
@@ -6490,7 +6602,7 @@ er
   // do some indexing on the list of matches
   const buildNet = function (matches, world) {
     // turn match-syntax into json
-    matches = parse$1(matches, world);
+    matches = parse$2(matches, world);
 
     // collect by wants and needs
     const hooks = {};
@@ -7549,7 +7661,7 @@ er
   };
 
   // a letter, number, or symbol/emoji in any script - otherwise it's only punctuation
-  const hasLetter$2 = /[\p{L}\p{N}\p{So}]/u;
+  const hasLetter$3 = /[\p{L}\p{N}\p{So}]/u;
   const hasSomething$1 = /\S/;
 
   const notEmpty = function (splits) {
@@ -7561,7 +7673,7 @@ er
         continue
       }
       //this is meaningful whitespace
-      if (!hasSomething$1.test(s) || !hasLetter$2.test(s)) {
+      if (!hasSomething$1.test(s) || !hasLetter$3.test(s)) {
         //add it to the last one
         if (chunks[chunks.length - 1]) {
           chunks[chunks.length - 1] += s;
@@ -7579,7 +7691,7 @@ er
     return chunks
   };
 
-  const hasLetter$1 = /\p{L}/u;
+  const hasLetter$2 = /\p{L}/u;
 
   const hasNewline = function (c) {
     return Boolean(/\n$/.test(c))
@@ -7599,7 +7711,7 @@ er
       const c = chunks[i];
       sentence += c;
       tail = (tail + c).slice(-64);
-      foundLetter ||= hasLetter$1.test(c);
+      foundLetter ||= hasLetter$2.test(c);
       //should this chunk be combined with the next one?
       if (chunks[i + 1] && !isSentence(tail, abbrevs, foundLetter) && !hasNewline(c)) {
         continue
@@ -7619,7 +7731,7 @@ er
 
   // merge embedded quotes into 1 sentence
   // like - 'he said "no!" and left.'
-  const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
+  const MAX_QUOTE$1 = 280;// ¯\_(ツ)_/¯
 
   // don't support single-quotes for multi-sentences
   const pairs = {
@@ -7675,7 +7787,7 @@ er
         }
 
         // look at the next sentence for a closing quote,
-        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
+        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE$1) {
           splits[i] += splits[i + 1];// merge them
           arr.push(splits[i]);
           splits[i + 1] = '';
@@ -7686,7 +7798,7 @@ er
         if (closesQuote(splits[i + 2])) {
           const toAdd = splits[i + 1] + splits[i + 2];// merge them all
           //make sure it's not too-long
-          if (toAdd.length < MAX_QUOTE) {
+          if (toAdd.length < MAX_QUOTE$1) {
             splits[i] += toAdd;
             arr.push(splits[i]);
             splits[i + 1] = '';
@@ -7884,13 +7996,13 @@ er
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
 
   //we have slightly different rules for start/end - like #hashtags.
-  const isLetter = /\p{Letter}/u;
+  const isLetter$1 = /\p{Letter}/u;
   const isMark = /\p{Mark}/u;
   const isNumber = /[\p{Number}\p{Currency_Symbol}]/u;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const chillin = /[sn]['’]$/;
   // a leading apostrophe that stands for letters - 'tis, 'em, 'cause
-  const elision = /^['’](tis|twas|em|cause|til|bout|round)\b/i;
+  const elision$1 = /^['’](tis|twas|em|cause|til|bout|round)\b/i;
   const isFullNumber = /^[(+\-]?\d+(th|st|nd|rd)?[)+\-]?$/;
   const openers = { ')': '(', ']': '[', '}': '{' };
 
@@ -7936,11 +8048,11 @@ er
         break//done
       }
       // start of word
-      if (isLetter.test(c) || isNumber.test(c)) {
+      if (isLetter$1.test(c) || isNumber.test(c)) {
         break //done
       }
       // keep an elided apostrophe - 'tis
-      if ((c === "'" || c === '’') && elision.test(chars.slice(start).join(''))) {
+      if ((c === "'" || c === '’') && elision$1.test(chars.slice(start).join(''))) {
         break//keep it
       }
       // punctuation
@@ -7955,7 +8067,7 @@ er
         break//keep it
       }
       // start of word
-      if (isLetter.test(c) || isNumber.test(c)) {
+      if (isLetter$1.test(c) || isNumber.test(c)) {
         break //done
       }
       // Keep marks attached to letters, but not variation selectors after symbols.
@@ -7964,7 +8076,7 @@ er
         while (base >= start && isMark.test(chars[base])) {
           base--;
         }
-        if (base >= start && isLetter.test(chars[base])) {
+        if (base >= start && isLetter$1.test(chars[base])) {
           break
         }
         end = base + 1;
@@ -8094,7 +8206,7 @@ er
   };
 
   // turn a string input into a 'document' json format
-  const parse = function (input, world) {
+  const parse$1 = function (input, world) {
     const { methods, model } = world;
     const { splitSentences, splitTerms, splitWhitespace } = methods.one.tokenize;
     input ||= '';
@@ -8115,13 +8227,13 @@ er
   };
 
   const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
-  const hasEllipse = /(?:\u2026|\.{2}) *$/; // '...'
-  const hasLetter = /\p{L}/u;
-  const hasPeriod = /\. *$/;
+  const hasEllipse$1 = /(?:\u2026|\.{2}) *$/; // '...'
+  const hasLetter$1 = /\p{L}/u;
+  const hasPeriod$1 = /\. *$/;
   const leadInit = /^[A-Z]\. $/; // "W. Kensington"
 
   /** does this look like a sentence? - str can be the end of it, if foundLetter is given */
-  const isSentence = function (str, abbrevs, foundLetter = hasLetter.test(str)) {
+  const isSentence$1 = function (str, abbrevs, foundLetter = hasLetter$1.test(str)) {
     // must have a letter
     if (foundLetter === false) {
       return false
@@ -8135,14 +8247,14 @@ er
       return false
     }
     //check for '...'
-    if (hasEllipse.test(str)) {
+    if (hasEllipse$1.test(str)) {
       return false
     }
     const txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
     const words = txt.split(' ');
     const lastWord = words[words.length - 1].toLowerCase();
     // check for 'Mr.' (and not mr?)
-    if (Object.hasOwn(abbrevs, lastWord) && hasPeriod.test(str)) {
+    if (Object.hasOwn(abbrevs, lastWord) && hasPeriod$1.test(str)) {
       return false
     }
     // //check for jeopardy!
@@ -8157,10 +8269,10 @@ er
       killUnicode,
       tokenize: {
         splitSentences,
-        isSentence,
+        isSentence: isSentence$1,
         splitTerms: splitWords,
         splitWhitespace: parseTerm,
-        fromString: parse,
+        fromString: parse$1,
       },
     },
   };
@@ -8600,7 +8712,7 @@ designate
     return term
   };
 
-  const hasDash$1 = /^\p{Letter}+-\p{Letter}+$/u;
+  const hasDash$2 = /^\p{Letter}+-\p{Letter}+$/u;
   // 'machine' is a normalized form that looses human-readability
   const doMachine$1 = function (term) {
     let str = term.implicit || term.normal || term.text;
@@ -8610,7 +8722,7 @@ designate
     //lookin'->looking (make it easier for conjugation)
     str = str.replace(/([aeiou][ktrp])in'$/, '$1ing');
     //turn re-enactment to reenactment
-    if (hasDash$1.test(str)) {
+    if (hasDash$2.test(str)) {
       str = str.replace(/-/g, '');
     }
     //#tags, @mentions
@@ -8958,12 +9070,12 @@ designate
     { word: 'desquelles', out: ['de', 'lesquelles'] },
   ];
 
-  const hasDash = /^\p{Letter}+-\p{Letter}+$/u;
+  const hasDash$1 = /^\p{Letter}+-\p{Letter}+$/u;
   // 'machine' is a normalized form that looses human-readability
   const doMachine = function (term) {
     let str = term.implicit || term.normal || term.text;
     //turn re-enactment to reenactment
-    if (hasDash.test(str)) {
+    if (hasDash$1.test(str)) {
       str = str.replace(/-/g, '');
     }
     // remove accented chars
@@ -8988,11 +9100,232 @@ designate
     machine: (view) => termLoop(view, doMachine),
   };
 
+  // sentence-splitting rules that the english parser doesn't have.
+  // - isSentence() replaces the english one, and only sees the end of a chunk
+  // - wrap() runs after the english splitter, so it can see the next sentence too
+  // all of the language-specific parts are in ./abbreviations.js
+  const MAX_QUOTE = 500;
+  const MAX_MERGE = 6;
+
+  const hasLetter = /\p{L}/u;
+  const hasUpper = /\p{Lu}/u;
+  const hasPeriod = /\. *$/;
+  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
+  // an uppercase initial - 'A. S. Pushkin', or a dotted letter - 'F.B.I.', 'u.a.'
+  const isInitial = /(?:(?:^|[\s([«»„“"'-])\p{Lu}|\.\p{L})\. *$/u;
+  // one lowercase letter - 'z. B.', 'i. d. R.'
+  const isLetter = /(?:^|[\s([«»„“"'])\p{Ll}\. *$/u;
+  // '3.' or '102.', and 'VIII.'
+  const isOrdinal = /(?:\d|(?<!\p{L})[IVX]{2,})\. *$/u;
+  const trailing = /[.!?\u203D\u2E18\u203C\u2047\u2048\u2049]+ *$/;
+  const leading = /^[([{«»„“”"'‚‘¿¡—–-]+/;
+  const elision = /^\p{L}+['’]/u; // l'avv.
+  const endsNewline = /\n\s*$/;
+  // 'Who's there? — he asked.'
+  const endsAsk = /[?!\u2026]["»“”«]*[ \t\u00A0\u202F]*$/;
+  const startsLower = /^\p{Ll}/u;
+  const startsDash = /^[—–]\s*\p{Ll}/u;
+
+  const escape = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  const count = (str, char) => str.split(char).length - 1;
+
+  const build = function (config) {
+    const { quotes = [], enders = [], starters = [] } = config;
+
+    // the last word of a chunk - 'dr', 'pág', 'avv'
+    const lastWord = function (str) {
+      let w = str.replace(trailing, '').split(/\s/).pop() || '';
+      w = w.replace(leading, '').replace(elision, '');
+      return w.toLowerCase()
+    };
+
+    /** does this look like the end of a sentence? */
+    const isSentence = function (str, abbrevs, foundLetter = hasLetter.test(str)) {
+      // must have a letter
+      if (foundLetter === false) {
+        return false
+      }
+      // 'F.B.I.' or 'A. S. Pushkin'
+      if (isInitial.test(str)) {
+        return false
+      }
+      if (config.singleLetters && isLetter.test(str)) {
+        return false
+      }
+      // 'am 3. Mai'
+      if (config.ordinals && isOrdinal.test(str)) {
+        return false
+      }
+      // '...' - may get split again, below
+      if (hasEllipse.test(str)) {
+        return false
+      }
+      if (hasPeriod.test(str)) {
+        // 'Dr.' but not 'Dr?'
+        const w = lastWord(str);
+        if (Object.hasOwn(abbrevs, w) || Object.hasOwn(abbrevs, w.split('.').pop())) {
+          return false
+        }
+        // 'Hauptstr.'
+        if (config.suffix && config.suffix.test(w)) {
+          return false
+        }
+        // words that are only sometimes abbreviations - 'em set.'
+        if (config.conditional && config.conditional.test(str)) {
+          return false
+        }
+      }
+      return true
+    };
+
+    // are we inside a quotation, or some brackets?
+    const isOpen = function (str) {
+      return quotes.some(([open, close]) => {
+        if (open === close) {
+          return count(str, open) % 2 === 1
+        }
+        return count(str, open) > count(str, close)
+      })
+    };
+
+    // put a quotation back together, when it has many sentences in it
+    const quoteMerge = function (arr) {
+      const out = [];
+      for (let i = 0; i < arr.length; i += 1) {
+        let str = arr[i];
+        if (isOpen(str)) {
+          let merged = str;
+          for (let n = i + 1; n < arr.length && n - i < MAX_MERGE; n += 1) {
+            if (endsNewline.test(merged)) {
+              break
+            }
+            merged += arr[n];
+            if (merged.length > MAX_QUOTE) {
+              break
+            }
+            if (!isOpen(merged)) {
+              // the quotation closes here
+              str = merged;
+              i = n;
+              break
+            }
+          }
+        }
+        out.push(str);
+      }
+      return out
+    };
+
+    // places where a sentence ends, that are only clear from the word after it
+    const opens = escape(quotes.map(a => a[0]).join(''));
+    const closes = escape(quotes.map(a => a[1]).join(''));
+    const upper = `(?=(?:[—–-]\\s?)?[${opens}¿¡]*\\p{Lu})`;
+    const rules = [];
+    if (closes) {
+      // 'he said "no." Then he left'
+      rules.push(`[.!?\u2026][ \u00A0\u202F]?[${closes}]+\\s+${upper}`);
+    }
+    {
+      // 'I don't know... Maybe tomorrow'
+      rules.push(`(?:\u2026|\\.{2,})\\s+${upper}`);
+    }
+    if (enders.length > 0) {
+      // 'bread, milk, etc. Then he left'
+      rules.push(`(?<![\\p{L}\\p{N}])(?:${enders.join('|')})\\.\\s+${upper}`);
+    }
+    if (starters.length > 0) {
+      // 'Ich habe 5. Du hast 3.'
+      rules.push(`\\d\\.\\s+(?=(?:${starters.join('|')})(?!\\p{L}))`);
+    }
+    const boundary = rules.length > 0 ? new RegExp(rules.join('|'), 'gu') : null;
+
+    const resplit = function (str) {
+      if (boundary === null) {
+        return [str]
+      }
+      const out = [];
+      let start = 0;
+      for (const m of str.matchAll(boundary)) {
+        const end = m.index + m[0].length;
+        const before = str.slice(start, end);
+        // don't split inside a quotation, or leave a piece with no words in it
+        if (!hasLetter.test(before) || isOpen(before)) {
+          continue
+        }
+        out.push(before);
+        start = end;
+      }
+      out.push(str.slice(start));
+      return out
+    };
+
+    // '— Come here! — she said.' is one sentence
+    const dialogueMerge = function (arr) {
+      const out = [];
+      arr.forEach(str => {
+        const last = out[out.length - 1];
+        if (last !== undefined && endsAsk.test(last)) {
+          // lowercase text gives us no clues, so only trust it after a capital
+          if (startsDash.test(str) || (startsLower.test(str) && hasUpper.test(last))) {
+            out[out.length - 1] += str;
+            return
+          }
+        }
+        out.push(str);
+      });
+      return out
+    };
+
+    /** add our own passes to the end of the english sentence-splitter */
+    const wrap = function (splitSentences) {
+      return function (text, world) {
+        let arr = splitSentences(text, world);
+        arr = quoteMerge(arr);
+        arr = arr.flatMap(resplit);
+        arr = dialogueMerge(arr);
+        return arr
+      }
+    };
+
+    return { isSentence, wrap }
+  };
+
+  // abbreviations, and the other language-specific parts of the sentence-parser
+  // (these replace the english abbreviations, which collide with real words here)
+  const toObj = str => Object.fromEntries(str.trim().split(/\s+/).map(w => [w, true]));
+
+  var sentenceRules = {
+    // words that never end a sentence, when they have a period
+    abbreviations: toObj(`
+    mm mme mmes mlle mlles dr drs pr prof mgr st ste
+    p ex cf env éd éds chap fig art tél tel t réf
+    av apr boul bd cie hab vs min etc
+    c.-à-d
+    janv févr fév avr juil oct nov déc
+  `),
+    // abbreviations that end a sentence, when a capital comes next
+    enders: ['etc', 'J\\.-C'],
+    quotes: [['«', '»'], ['“', '”'], ['"', '"'], ['(', ')']]};
+
+  const { isSentence, wrap } = build(sentenceRules);
+
+
   var tokenize = {
     mutate: (world) => {
       world.model.one.unicode = unicode;
 
       world.model.one.contractions = contractions$1;
+
+      // our own abbreviations, and sentence-boundary rules
+      world.model.one.abbreviations = { ...sentenceRules.abbreviations };
+      world.methods.one.tokenize.isSentence = isSentence;
+      world.methods.one.tokenize.splitSentences = wrap(world.methods.one.tokenize.splitSentences);
+      // ordinal endings are not units - don't split '1re' or '2nde' like '5km'
+      const notUnit = world.model.one.numberSuffixes || {};
+      world.model.one.numberSuffixes = notUnit;
+      'ers,re,res,ere,eres,es,eme,emes,ieme,iemes,nde,nds,ndes'.split(',').forEach(str => {
+        notUnit[str] = true;
+      });
     },
     compute
   };
@@ -9464,9 +9797,9 @@ designate
     "City": "true¦!1:#$%&()*+-./<=>?@[]^_`~:an,en,ng,ra,la,er,ch,on,ha,in,al,ar,ta,es,ur,ba,re,lo,il,de,or,us;a2Yb28c1Yd1Te1Sf1Qg1Kh1Ci1Ajak<=,k11l0Um0Gn0Co0ApZquiYrVsLtCuBv8w3y1z0;ag[b,?i*;#g+,e0oko-ma;kat).1J[v#;<s3e2i0rocl3;ck]w,n0;nipeg,t)th?;lli%t+,xf`d;aw;a1i0;$na,lni~;l$cia,ncouv),rna;l# @t`,t[*t;a6b^isi,e5he4i3o2r+dheim,u0;nVr0;.,ku;kyo,r+Iu]uC;#j.,l15miso2Lr#a; -Jss/+iki;gucig/pa,hr#,l aviv;i0ll.n,mp)e,%i),rtu;*u%,n#,pT;a3e2h1kopje,t0ydney;ockholm,uttg<t;#g-i,$zh$;oul,v00;.t pet)s0Wl3n0pp`o; 0ti1D;jo0s/v2;se;v0z0S;adV;eykjavik,i1o0;me,s<io,t27;ga,o _ j#eiro;to;a8e6h5i4o2r0ueb(,yo%y#g;a0et`ia;gue;rt0zn#; elizabe3o;ls$,&e~;i(_lphia,nom p$h,o$ix;r0=h tikva;th;l)Kr0t&s;is;d>sa,s0t=wa;aka,];a2ew 0;_lV=ip0y`k;ei;goya,nt>,pl>,v#;a6e5i4o1u0;m@i,ni*;nt1sco0;u,w;evi_o,[/;l#,nsk,skolc;_llín,lbo?ne;drid,l5n3r0;ib1se0;^le;`;*>t0d/Xi(;);mo;a5i2o0vBy+;nd0s #gel>;+,r>;ege,ma0nz,sbZv)po1;!ss0;ol; p(=,~#ne;a5-rk4i3(ipeda,o1&k0ua( lump2;ow;be,pavog0sice;?;ev,%8;iv;b3mpa(,ndy,ohsiu%,&0unas;c0j;hi;n*eMst#b0̇zmir;ul;a5e3o0; *i mi1ms,u0;stI;nh;ls.0&kliG;ki;ifa,m0noi,v#a;b?g,^tD;/w4d#3$2h$t,iza,oth$1&z,ua0;da(j0G%zhou;b?g;eUoa,ève;sk;ay;>,r#kfu0;rt;dm+t4.dhovU;a1-ka,o-,u0;blRrb#,sh#be;e0k<,masc~,ugavpiJ;gu,je0;+;a7ebu,h2o0&ioJ?iti@;]0nst#Jp$-gNrk;gFmbo;$n3i1rist*?0;*;#g m1c0t=goL;ago;ai;i0lg<y,pe town,&c4;ro;aHeBirmi%hWogoAr5u0;*<3dap3$os air2r0sZ;g0sa;as;>;>t;a2is@1~se0;ls;ne;s^Ptis(0;va;=;i3lg&_,r0;g1l0n;.;$;ji0rut;%;ku,n3r0sel;ce]1r#qu^0;(;na;g1ja lu0;ka;/o0kok;[;aBb9hmeda@d,l7m4n2qa1sh0th$s,uckl#d;dod,ga@t;@;k0tw)p;a&;m5s0;t)d0;am;ex#dr0maty;ia;idj0u d-bi;#;lbo1rh0;~;rg",
     "Place": "true¦aMbKcIdHeFfEgBhAi9jfk,kul,l7m5new eng4ord,p2s1the 0upJyyz;bronx,hamptons;fo,oho,under2yd;acifMek,h0;l,x;land;a0co,idDuc;libu,nhattK;a0gw,hr;s,x;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
     "Currency": "true¦$,aud,bScQdLeurKfJgbp,hkd,inr,jpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotySł;en,uanR;af,of;h0t6;e0il6;k0q0;elM;iel,oubleLp,upeeL;e3ound0;! st0s;er0;lingH;n0soG;ceFn0;ies,y;e0i7;i,mpi6;n,r0wanzaByatB;!onaAw;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
-    "Cardinal": "true¦:e4fuen3orez,qBsio9t2x0;i0ued;d,s;gniv,iuh0pes0;! xid;r7tn3z0;ie1n0ro6uod;i6o;rt,s;a1e0;rt;ra2uq0xios;nic;ta0;uq",
-    "Ordinal": "true¦:emèi0;nu,orez,rAsio9t5u8vuen,x3z0;ie1n0ro9uod;i9o;rt,s;i0ued;d,s;gniv,iuh,n0pes;a0e2;ra3u0xios;qnic;rt;ta0;uq",
-    "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
+    "Cardinal": "true¦:e4fuen3orez,qBsio9t2x0;i0ued;d,s;gniv,iuh0pes0;! xid;r8tn3z0;ie1n0ro7uod;i7o;rt,s;a1e0;rt;non,ra3t1uq0xios;nic;co,iuh,pes;ta0;uq",
+    "Ordinal": "true¦:emèi0;nu,orez,rDsioCt5u8vuen,x3z0;ie1n0roCuod;iCo;rt,s;i0ued;d,s;gniv,i5n0p4;a0e5;non,ra6t1u0xios;qnic;co,i1p0;es;uh;rt;ta0;uq",
+    "Unit": "true¦bIceGeEfahrenheitJgChertz,jouleJk9liHm7p4terFy2z1°0µs;c,f,n;b,e1;b,o0;ttB;e1ou0;ceDrcentD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
     "MaleNoun": "true¦:!1:#$%:at,ér,vuo;ePfir#,laOrKt2u0xu#,$ged;ae0eil;!rub,s$,tab,vin;iGn0;aru#sEem0;e1ges,om,ucIé0;lé,rga;cAdnBg9iap,l8n4p3rtsigerVs1t0%m;iart,urcA;nec9ruobm9si0;lb#é,orcca,tsevL;iuqé,polevéd;giesQno0re%g,évé;i0rivP;sivorppa,tc0;efFnS;gèr,le%n2rW;agLnahc;nanif,rofn0;er;d$c,forp,ordI;e1i0;a,neva;iss0vih;od;mina,nruoj;capse,iulparMlIriaEtn9uqi6v2é0;di,nn0s7;a,od;it0èlé;aiti1ceps0;rep;ni;s1t0;ilop,sit#s;um;a3e1i0;a2etta;t0v;ne;lp;ffa,icifénéb,las,n0tnemmoc;etr6noit0;cn0seg;of;#égév,b2i0lehcé;bom0f;!otua;#;ap",
     "Organization": "true¦!2;!1:#$%()*+<=>?@[]^_`~:on,er,an,da,st,re,le,te,e ,ar,il,ca,ro,en,al,n ,or,de;0:42;a37b2Oc28d20e1Xf1Tg1Lh1Gi1Dj19k17l13m0Sn0Go0Dp07qu06rZsStFuBv8w3y1;amaha,m@,ou1w@;gov,tube;a3e1`ld trad=`g%izati#;lls f>go,)1;field,inghouse;l1rn$ b[s;-m11g*]s,l )*et journ^,m11;% h^N$iz#,isa,o1;(f#e,l1;kswagLvo;\\c,bs,kip,n2ps,s1;a to(y,ps;esco,i1;+v$,<d nati#s; mobi+,aco bePd bMeAgi fri(9h3im h`t#s,mz,o1witt$;shiba,y1;ota,s r Y;=1i_lizzy;b3c>p]2Z(?y ma?,guess w2holli0[lling )1Ls1w2;mashing pumpkins,up*m0;ho;ea1lack eyed peas,yrds;ch bo1tl0;ys;l2s1;co,la m12;ef#i@,us;a6e4iem]s,np,o2pic=gir5ta1ub>u;rbucks,to?;ny,undg>d1;];>s,x pi)o1;ls;feway,insbu23msung;.e.m.,adiohead,b6e3oy^ 1y%2T;b1dutch she4;%k;/max,ad$s dige),d 1vl#;bu1c1Rhot ch?i pepp$s,lob)$;ll;c,s;%tas,izno's;%5bs,e3fiz$,h?ip m`rBi2r1;emi$23oct$ & gamb+,ud]ti^;nk floyd,zza hut;psico,t[1ugeot;bras,china,nas; 2as#ic,(2C;ld navy,pec,r%g=juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,t* (me,v>t1;is;ke,n<ndo,ss%;l,s;c,)+,tflix,w1; 1sweek;kids # th=block,y`k08;a,c;ndos,s2t1;i#^ a@2Bo,we);a,cY(q;aAcd#^d9e5i3lb,o1tv,yspace;b?,ns%to,ody blu0t1;+y crue,`0M;c[soft,t1;as,subisO;di@3rce~s2t^li1;@;!-b]z;id,*;'s,s;c's m?k,t<l,z(;'o*^,a3e1g,itt+ @es>s;novo,x1;is,m>k; p*s5-z-boy,bour p>ty;atv,fc,kk,m1o(k;>t;iffy lube,o3pm`g%1sa;! cha1;se;hns# & johns#,y d1N;bm,hop,n1tv;g,<1;l,rpol; & m,asb[,ew+tt-packaRi3o1sbc,yun(i;m=~p1n(;ot;tac1zbollah;hi;]$^ 6hq,l5mb,o2*] (y,u1;cci,ns _[s0;ldm% sachs,o1;dye1g+;>;axo smith kliX]co*;e+ctric,m1;ot`s;a3bi,(,e~x,i1+etwood mac,oErito-lay;at,n%ci^1*)oT; tim0;cebook,nni=mae;bay,sa,u[sceptics,xx#1; m1m1;ob?;aiml$,e5isney,o3u1;nki_d#uts,p#t,r% dur1;%;j,w j1;#0;a,f +ppa2ll,pech=mo~,r spiegX)iny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eed]c=c+>wat$ *viv1ossra?;^;@ c5l4m1`s,)co;@2p1;aq;);dplLga<;ola;a,sco1tig[up;! sy)ems;ev2i1;ck f?-a,na (?y;r#,y;dbury,pit^ o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,*xi<eV;ei3mb>diJ)# 1;glo1pizza;be;ng;ack & ~ckFo2u=c1;[W;ckbu)$ vi~o,oming(1;+; g1g1;oodriM;cht3=ge0_& j$2rkshi* hathaw1;ay;ryG;el;n%a *publ3s1xt5y5;f,ki_[bbi1;ns;ic;bWcRdidQ$osmith,ig,lKmEnheus$-busDol,pp+9r6s3t&t,v2y1;$;is,#;hl%d1socia<d F; o1;?;by4g2m1;co;os; compu2bee1;'s;<1;rs;ch;c,d,$ic%3t1;!r1;ak; ex1;p*1;ss; 4@<l2t1;air;!-luce1;nt;jaze$a,qae1;(;as;/dc,a3$,t1;ivisi1;#;~my of sci]c0;es;ba,c",
     "FemaleNoun": "true¦:e0;cnalubma,i0luop,rutifnoc,ttul,ur;goloég,riarbil",
@@ -9527,7 +9860,7 @@ designate
     fromAlphaCode
   };
 
-  const symbols = function (t) {
+  const symbols$1 = function (t) {
     const reSymbol = /^([0-9A-Z]+):([0-9A-Z]+)$/;
     for (let i = 0; i < t.nodes.length; i++) {
       if (!t.nodes[i].includes(':')) {
@@ -9659,7 +9992,7 @@ designate
     dictionary(trie);
     //process symbols, if they have them
     if (str.match(':')) {
-      symbols(trie);
+      symbols$1(trie);
     }
     return toArray$1(trie)
   };
@@ -10855,12 +11188,14 @@ designate
     //numbers
     // 50 | -50 | 3.23  | 5,999.0  | 10+
     [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?\+?$/, ['Cardinal', 'NumericValue'], '5,999'],
-    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(e|er)$/, ['Ordinal', 'NumericValue'], '53rd'],
+    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(e|er|re|nde?|i?[eè]me|[eè]re)s?$/, ['Ordinal', 'NumericValue'], '2ème'],
     // .73th
     [/^\.[0-9]+\+?$/, ['Cardinal', 'NumericValue'], '.73th'],
     //percent
     [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?%\+?$/, ['Percent', 'Cardinal', 'NumericValue'], '-4%'],
     [/^\.[0-9]+%$/, ['Percent', 'Cardinal', 'NumericValue'], '.3%'],
+    //degrees
+    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?°[cf]?$/i, ['Cardinal', 'NumericValue'], '20°'],
     //fraction
     [/^[0-9]{1,4}\/[0-9]{1,4}(e|er)?s?$/, ['Fraction', 'NumericValue'], '2/3rds'],
     //range
@@ -11188,9 +11523,29 @@ designate
     // ==Numbers==
     // 50 euros, 50 €
     doc.match('[#Value] #Currency', 0).tag('Money', 'value-currency');
-    doc.match('#Value et (un|#Value)').tag('TextValue', 'et-un');
+    // vingt et une pommes
+    doc.match('#Cardinal et (un|une|#Value)').tag('TextValue', 'et-un');
     doc.match('#Value un').tag('TextValue', 'quatre-vingt-un');
     doc.match('moins #Value').tag('TextValue', 'moins-value');
+    // le premier jour, premier ministre - but a lone 'premier' stays an adjective
+    doc.match('(#Determiner|#Possessive|#Preposition|#Value) [/^premi(er|[eè]re)s?$/]', 0).tag(['TextValue', 'Ordinal'], 'le-premier');
+    doc.match('[/^premi(er|[eè]re)s?$/] (#Noun|#Value)', 0).tag(['TextValue', 'Ordinal'], 'premier-noun');
+    // a lone 'un chat' is a count - anywhere else, 'un' is an article
+    doc.match('^[(un|une)] #Noun$', 0).tag(['TextValue', 'Cardinal'], 'un-noun');
+    // trois quarts, deux tiers
+    doc.match('#Cardinal [(demi|demis|tiers|quart|quarts)]', 0).tag(['TextValue', 'Fraction'], 'trois-quarts');
+    // un quart de, un tiers des - and 'un quart', but 'un tiers' is often a person
+    const frac = doc.match('(un|une) (demi|tiers|quart) (de|du|des)').concat(doc.match('(un|une) (demi|quart)$'));
+    frac.match('^.').tag(['TextValue', 'Cardinal'], 'un-quart');
+    frac.match('^. [.]', 0).tag(['TextValue', 'Fraction'], 'un-quart');
+    // un pour cent - 'un' is a count here
+    doc.match('[(un|une)] pour cent', 0).tag(['TextValue', 'Cardinal'], 'un-pour-cent');
+    // cinquante pour cent - but 'dix pour cent mille'
+    const pc = doc.match('#Value [pour cent]', 0).filter(m => !m.lookAhead('^#Value').found);
+    pc.unTag('Value').tag('Unit', 'pour-cent');
+    // the number of a percentage - '50 %' is like '50%'
+    pc.lookBehind('#Value+$').tag('Percent', 'value-pour-cent');
+    doc.match('[#Value+] /^(%|pourcents?|percent)$/', 0).tag('Percent', 'value-percent');
 
     // ==Dates==
     // 'sept' is the number 7, unless it sits in a date
@@ -11718,6 +12073,10 @@ designate
 
   const findNumbers = function (view) {
     let m = view.match('#Value+');
+    // 'premier' is never part of a longer number - 'les deux premiers'
+    if (m.has('#Ordinal')) {
+      m = m.splitOn('/^premi(er|[eè]re)s?$/');
+    }
 
     //seventh fifth
     if (m.match('#Ordinal #Ordinal').match('#TextValue').found && !m.has('#Multiple')) {
@@ -11809,7 +12168,22 @@ designate
     milliards: 1000000000,
     'quatre vingts': 80,//with the final s
     zero: 0,//unaccented
+    une: 1,
   });
+  // 'premier' is the ordinal of 'un' - 'unième' is only used in 'vingt et unième'
+  'premier,première,premiere'.split(',').forEach(w => {
+    toNumber[w] = 1;
+    toNumber[w + 's'] = 1;
+  });
+  // belgian + swiss forms are parsed, but never written
+  const regional = { septant: 70, huitant: 80, octant: 80, nonant: 90 };
+  Object.keys(regional).forEach(w => {
+    toNumber[w + 'e'] = regional[w];
+    toNumber[w + 'ième'] = regional[w];
+    toNumber[w + 'ieme'] = regional[w];
+  });
+  // the bottom-half of a written fraction - 'trois quarts'
+  const fractions = { demi: 2, demis: 2, tiers: 3, quart: 4, quarts: 4 };
 
   const multiLeft = {
     dix: true,//dix huit
@@ -11854,6 +12228,7 @@ designate
     let sum = 0;
     let carry = 0;
     let minus = false;
+    let over = 1;
     const sums = [];
     for (let i = 0; i < terms.length; i += 1) {
       const { tags, normal } = terms[i];
@@ -11864,6 +12239,11 @@ designate
       }
       // ... et-un
       if (w === 'et') {
+        continue
+      }
+      // 'trois quarts'
+      if (tags.has('Fraction') && fractions.hasOwnProperty(w)) {
+        over = fractions[w];
         continue
       }
       // 'huitieme'
@@ -11923,17 +12303,28 @@ designate
     if (minus === true) {
       sum *= -1;
     }
-    return sum
+    return sum / over
   };
+
+  // '1er', '1re', '2e', '2nd', '2nde', '2ème', '2ième', '2es'
+  // - but not the end of a unit, like '5litres'
+  const ordinal = /^([-+]?[0-9][0-9.,]*)(er|re|nde?|i?[eè]me|[eè]re|e)s?$/;
 
   const fromNumber = function (m) {
     let str = m.text('normal').toLowerCase();
-    str = str.replace(/(e|er)$/, '');
+    // '3/4' is 0.75
+    const frac = str.match(/^([0-9]+)\/([0-9]+)/);
+    if (frac && m.has('#Fraction')) {
+      const num = Number(frac[2]) ? Number(frac[1]) / Number(frac[2]) : null;
+      return { hasComma: false, hasDecimalComma: false, prefix: '', num, suffix: '' }
+    }
+    str = str.replace(ordinal, '$1');
     // the core normalizer strips digit-commas ('3,5'->'35'), so recover a
     // french decimal-comma from the raw text ('7,938' keeps its english
     // thousands-group meaning)
     const raw = m.text().toLowerCase().replace(/[.,;!?]+$/, '').trim();
-    if (/\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false) {
+    const hasDecimalComma = /\d,\d/.test(raw) && /,\d{3}([^0-9]|$)/.test(raw) === false;
+    if (hasDecimalComma) {
       str = raw.replace(/ /g, '').replace(',', '.');
     }
     // french thousands-groups use spaces - '1 000 000'
@@ -11962,6 +12353,7 @@ designate
     }
     return {
       hasComma,
+      hasDecimalComma,
       prefix,
       num,
       suffix,
@@ -11974,6 +12366,7 @@ designate
     let prefix = '';
     let suffix = '';
     let hasComma = false;
+    let hasDecimalComma = false;
     const isText = m.has('#TextValue');
     if (isText) {
       num = parseNumbers(terms);
@@ -11983,9 +12376,11 @@ designate
       suffix = res.suffix;
       num = res.num;
       hasComma = res.hasComma;
+      hasDecimalComma = res.hasDecimalComma;
     }
     return {
       hasComma,
+      hasDecimalComma,
       prefix,
       num,
       suffix,
@@ -12148,7 +12543,12 @@ designate
 
   const formatNumber = function (parsed, fmt) {
     const { prefix, suffix } = makeSuffix(parsed);
+    // 'premier', '1er' - or 'première', '1re'
+    const fem = parsed.num === 1 && parsed.isFemale;
     if (fmt === 'TextOrdinal') {
+      if (parsed.num === 1) {
+        return prefix + (fem ? 'première' : 'premier') + suffix
+      }
       const words = toText$1(parsed.num);
       // 'un million' -> 'millionième'
       if (words.length > 1 && words[0] === 'un' && /^(million|milliard)/.test(words[1])) {
@@ -12160,27 +12560,74 @@ designate
       return `${prefix}${num}${suffix}`
     }
     if (fmt === 'TextCardinal') {
-      const num = toText$1(parsed.num).join(' ');
+      const num = fem ? 'une' : toText$1(parsed.num).join(' ');
       return `${prefix}${num}${suffix}`
     }
     // numeric formats
     // '55e'
     if (fmt === 'Ordinal') {
-      const str = String(parsed.num);
-      const last = str.slice(str.length - 1, str.length);
-      if (last === '1') {
-        const num = str + 'er';
-        return `${prefix}${num}${suffix}`
+      // '1er' or '1re' - but '21e'
+      let end = 'e';
+      if (parsed.num === 1) {
+        end = fem ? 're' : 'er';
       }
-      const num = str + 'e';
+      const num = String(parsed.num) + end;
       return `${prefix}${num}${suffix}`
     }
     if (fmt === 'Cardinal') {
-      const num = String(parsed.num);
+      let num = String(parsed.num);
+      // '2,5'
+      if (parsed.hasDecimalComma) {
+        num = num.replace('.', ',');
+      }
       return `${prefix}${num}${suffix}`
     }
     const num = String(parsed.num || '');
     return `${prefix}${num}${suffix}`
+  };
+
+  // the words for a symbol that is written on a number - '50%', '5€', '$5', '20°'
+  // [singular, plural, tag, isFemale]
+  const symbols = {
+    '%': ['pour cent', 'pour cent', 'Unit'],
+    '€': ['euro', 'euros', 'Currency'],
+    $: ['dollar', 'dollars', 'Currency'],
+    '£': ['livre', 'livres', 'Currency', true],
+    '¥': ['yen', 'yens', 'Currency'],
+    '°': ['degré', 'degrés', 'Unit'],
+    '°c': ['degré Celsius', 'degrés Celsius', 'Unit'],
+    '°f': ['degré Fahrenheit', 'degrés Fahrenheit', 'Unit'],
+  };
+
+  // 'euros' -> '€' - to find a unit that is already written out
+  const fromWord = {};
+  Object.keys(symbols).forEach(k => {
+    const [single, plural] = symbols[k];
+    if (/ /.test(single) === false) {
+      fromWord[single] = k;
+      fromWord[plural] = k;
+    }
+  });
+
+  // a unit that can stand as its own word - 'km', 'kg', 'm²'
+  const isWord = /^[a-z\u00e0-\u00ffµ]+[²³]?$/i;
+
+  // 'cinq euros', but 'un euro' and 'zéro euro'
+  const unitWords = function (key, num) {
+    const [single, plural] = symbols[key];
+    return Math.abs(num) < 2 ? single : plural
+  };
+
+  // parse a number, and remember the gender of 'première', '1re' or 'une'
+  // - so that it can be written back in the same gender
+  const isFemale = /^(1[eè]?re|premi[eè]re)s?$|^une$/;
+  const hasDash = /[-−–]$/;
+  const parse = function (val) {
+    const obj = parseNumber(val);
+    obj.isFemale = isFemale.test(val.text('normal'));
+    // the tokenizer keeps the sign of '-5%' apart from the term, as punctuation
+    obj.hasDash = !obj.isText && obj.num < 0 && hasDash.test(val.docs[0][0].pre);
+    return obj
   };
 
   // return the nth elem of a doc
@@ -12206,20 +12653,157 @@ designate
   // tags that describe the form of a number - these are set again for each new number
   const formTags = new Set(['Value', 'TextValue', 'NumericValue', 'Cardinal', 'Ordinal', 'Multiple', 'Determiner', 'Year']);
 
+  // find the symbol or unit of a number, and the terms that it is written in.
+  // - it may be attached - '50%', '€5', '5km' - or be the next word - '5 €', 'cinquante pour cent'
+  const findUnit = function (val, obj) {
+    const [n, start, end] = val.fullPointer[0];
+    const terms = val.document[n];
+    const last = terms[end - 1];
+    const next = terms[end];
+    // a sign is not a symbol - '+5%', '10+'
+    const lead = /^\+/.test(obj.prefix) ? '+' : '';
+    const trail = /\+$/.test(obj.suffix) ? '+' : '';
+    const prefix = obj.prefix.slice(lead.length);
+    const suffix = obj.suffix.slice(0, obj.suffix.length - trail.length);
+    if (!obj.isText && (prefix || suffix)) {
+      // '5km' is a contraction of two terms - '5km' and an empty 'km'
+      const isSplit = Boolean(next && next.text === '' && next.implicit && last.implicit);
+      const unit = { attached: true, isSplit, lead, trail, view: isSplit ? val.update([[n, start, end + 1]]) : val };
+      // the symbol, in its original case - '20°C', '5 Kg'
+      const before = terms[start].text.slice(lead.length, lead.length + prefix.length);
+      const behind = last.text.slice(last.text.length - trail.length - suffix.length, last.text.length - trail.length);
+      unit.prefix = lead + (before.toLowerCase() === prefix ? before : prefix);
+      unit.suffix = (behind.toLowerCase() === suffix ? behind : suffix) + trail;
+      if (prefix && suffix) {
+        return unit
+      }
+      if (symbols.hasOwnProperty(prefix || suffix)) {
+        unit.key = prefix || suffix;
+      } else if (suffix && isWord.test(suffix)) {
+        unit.word = unit.suffix.slice(0, suffix.length);
+        unit.tag = isSplit ? Array.from(next.tags) : [];
+      }
+      return unit
+    }
+    // look at the next word, unless there is some punctuation in the way
+    if (!next || !next.text || /\S/.test(last.post + next.pre)) {
+      return null
+    }
+    const unit = { attached: false, view: val.update([[n, start, end + 1]]) };
+    // '5 €'
+    if (symbols.hasOwnProperty(next.normal)) {
+      unit.key = next.normal;
+      return unit
+    }
+    // 'cinq pour cent'
+    const after = terms[end + 1];
+    if (next.normal === 'pour' && next.tags.has('Unit') && after && after.normal === 'cent' && after.tags.has('Unit')) {
+      unit.key = '%';
+      unit.isWord = true;
+      unit.view = val.update([[n, start, end + 2]]);
+      return unit
+    }
+    // 'cinq euros', 'cinq degrés'
+    if (fromWord.hasOwnProperty(next.normal)) {
+      unit.key = fromWord[next.normal];
+      if (next.tags.has(symbols[unit.key][2]) || unit.key === '°') {
+        unit.isWord = true;
+        return unit
+      }
+    }
+    return null
+  };
+
+  // choose the new text for a number, and for its symbol or unit.
+  // a symbol is never left stuck to a word - '50%' is 'cinquante pour cent', and not 'cinquante%'
+  // - returns null if this number can't be written like that
+  const getPlan = function (val, obj, fmt, toSymbol) {
+    const unit = fmt === 'TextCardinal' || fmt === 'Cardinal' ? findUnit(val, obj) : null;
+    const plan = { view: val, str: formatNumber(obj, fmt), unitTerms: 0, unitTag: null, inPlace: false };
+    if (!unit) {
+      return plan
+    }
+    const bare = Object.assign({}, obj, { prefix: '', suffix: '' });
+    if (fmt === 'Cardinal') {
+      if (unit.attached) {
+        // '5km' -> '6km' - keep both halves of the contraction
+        plan.inPlace = unit.isSplit;
+        plan.num = formatNumber(bare, fmt);
+        plan.str = unit.prefix + plan.num + unit.suffix;
+      } else if (toSymbol && unit.isWord && unit.key === '%') {
+        // 'cinquante pour cent' -> '50 %'
+        plan.view = unit.view;
+        plan.str = formatNumber(bare, fmt) + ' %';
+        plan.unitTerms = 1;
+        plan.unitTag = 'Unit';
+      }
+      return plan
+    }
+    // written-out
+    let words = null;
+    let num = formatNumber(bare, fmt);
+    if (unit.key) {
+      words = unitWords(unit.key, obj.num);
+      plan.unitTag = symbols[unit.key][2];
+      // 'une livre', 'vingt et une livres'
+      if (symbols[unit.key][3]) {
+        num = num.replace(/un$/, 'une');
+      }
+    } else if (unit.word) {
+      words = unit.word;
+      plan.unitTag = unit.tag;
+    }
+    // '#5' or '10+' have no words
+    if (!words) {
+      return null
+    }
+    plan.view = unit.view;
+    plan.str = (unit.lead || '') + num + ' ' + words + (unit.trail || '');
+    plan.unitTerms = words.split(' ').length;
+    return plan
+  };
+
   // swap-in the new form of this number, and tag it as the tagger would have.
   // - the terms made by .replaceWith() only get the lexicon + preTagger, and are tagged
   // without their neighbours - so 'un' is a Determiner, the 'et' in 'vingt et un' is a
   // Conjunction, and '.numbers()' can't find them again.
   // (copying the old tags over by position is no better - 'dix septième' is not two ordinals)
-  const replace = function (val, str, fmt) {
+  // returns the new number, without its unit
+  const replace = function (val, obj, fmt, toSymbol) {
+    const plan = getPlan(val, obj, fmt, toSymbol);
+    if (!plan || !plan.str) {
+      return val
+    }
+    const first = val.docs[0][0];
+    // the sign is written by the number, now
+    if (obj.hasDash) {
+      first.pre = first.pre.replace(hasDash, '');
+    }
+    // re-write the first half of '5km', beside its silent 'km'
+    if (plan.inPlace) {
+      first.text = plan.str;
+      first.normal = plan.str.toLowerCase().replace(/,/g, '');
+      first.implicit = plan.num;
+      first.machine = plan.num;
+      return val
+    }
     // remember any tags about the role of the number - #Money, #Date
-    const keep = Array.from(val.docs[0][0].tags).filter(tag => !formTags.has(tag));
-    val.replaceWith(str);
+    const keep = Array.from(first.tags).filter(tag => !formTags.has(tag));
+    let m = plan.view;
+    m.replaceWith(plan.str);
+    // split the number from its unit
+    if (plan.unitTerms > 0) {
+      const [n, start, end] = m.fullPointer[0];
+      const unit = m.update([[n, end - plan.unitTerms, end]]);
+      unit.unTag('Value');
+      unit.tag(plan.unitTag);
+      m = m.update([[n, start, end - plan.unitTerms]]);
+    }
     const isText = fmt === 'TextCardinal' || fmt === 'TextOrdinal';
     const isOrdinal = fmt === 'Ordinal' || fmt === 'TextOrdinal';
-    val.tag(isText ? 'TextValue' : 'NumericValue');
+    m.tag(isText ? 'TextValue' : 'NumericValue');
     // only the last word is an ordinal - 'cent vingt et unième'
-    const terms = val.terms();
+    const terms = m.terms();
     terms.forEach((term, i) => {
       if (i === terms.length - 1) {
         term.tag(isOrdinal ? 'Ordinal' : 'Cardinal');
@@ -12228,8 +12812,9 @@ designate
       }
     });
     if (keep.length > 0) {
-      val.tag(keep);
+      m.tag(keep);
     }
+    return m
   };
 
   // run a change on each number, and keep this view pointing at the new terms
@@ -12266,7 +12851,7 @@ designate
         const doc = getNth$3(this, n);
         return doc.map(p => {
           const json = p.toView().json(opts)[0] || {};
-          const parsed = parseNumber(p);
+          const parsed = parse(p);
           json.number = {
             prefix: parsed.prefix,
             num: parsed.num,
@@ -12278,7 +12863,7 @@ designate
       }
       /** any known measurement unit, for the number */
       units() {
-        return this.growRight('#Unit').match('#Unit$')
+        return this.growRight('#Unit+').match('#Unit+$')
       }
       /** return only ordinal numbers */
       isOrdinal() {
@@ -12292,19 +12877,17 @@ designate
       /** convert to numeric form like '8' or '8th' */
       toNumber() {
         return mutate(this, val => {
-          if (!val.has('#TextValue')) {
+          // leave 'trois quarts' alone
+          if (!val.has('#TextValue') || val.has('#Fraction')) {
             return val
           }
-          const obj = parseNumber(val);
+          const obj = parse(val);
           if (obj.num === null) {
             return val
           }
           const fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
-          const str = formatNumber(obj, fmt);
-          if (str) {
-            replace(val, str, fmt);
-          }
-          return val
+          // 'cinquante pour cent' becomes '50 %'
+          return replace(val, obj, fmt, true)
         })
       }
       /** convert to numeric form like 'eight' or 'eighth' */
@@ -12313,16 +12896,13 @@ designate
           if (val.has('#TextValue')) {
             return val
           }
-          const obj = parseNumber(val);
-          if (obj.num === null) {
+          const obj = parse(val);
+          // there are no words for '1,5' or '1/2'
+          if (!Number.isInteger(obj.num)) {
             return val
           }
           const fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
-          const str = formatNumber(obj, fmt);
-          if (str) {
-            replace(val, str, fmt);
-          }
-          return val
+          return replace(val, obj, fmt)
         })
       }
       /** convert ordinal to cardinal form, like 'eight', or '8' */
@@ -12331,16 +12911,12 @@ designate
           if (!val.has('#Ordinal')) {
             return val
           }
-          const obj = parseNumber(val);
+          const obj = parse(val);
           if (obj.num === null) {
             return val
           }
           const fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal';
-          const str = formatNumber(obj, fmt);
-          if (str) {
-            replace(val, str, fmt);
-          }
-          return val
+          return replace(val, obj, fmt)
         })
       }
       /** convert cardinal to ordinal form, like 'eighth', or '8th' */
@@ -12349,44 +12925,45 @@ designate
           if (val.has('#Ordinal')) {
             return val
           }
-          const obj = parseNumber(val);
-          if (obj.num === null) {
+          const obj = parse(val);
+          // there is no ordinal for '1,5' or 'trois quarts'
+          if (!Number.isInteger(obj.num)) {
+            return val
+          }
+          // ... or for an amount - '50%', '5€', '5km', 'cinq euros'
+          if (obj.prefix || obj.suffix || val.has('(#Percent|#Money)')) {
             return val
           }
           const fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal';
-          const str = formatNumber(obj, fmt);
-          if (str) {
-            replace(val, str, fmt);
-          }
-          return val
+          return replace(val, obj, fmt)
         })
       }
 
       /** return only numbers that are == n */
       isEqual(n) {
         return this.filter((val) => {
-          const num = parseNumber(val).num;
+          const num = parse(val).num;
           return num === n
         })
       }
       /** return only numbers that are > n*/
       greaterThan(n) {
         return this.filter((val) => {
-          const num = parseNumber(val).num;
+          const num = parse(val).num;
           return num > n
         })
       }
       /** return only numbers that are < n*/
       lessThan(n) {
         return this.filter((val) => {
-          const num = parseNumber(val).num;
+          const num = parse(val).num;
           return num < n
         })
       }
       /** return only numbers > min and < max */
       between(min, max) {
         return this.filter((val) => {
-          const num = parseNumber(val).num;
+          const num = parse(val).num;
           return num > min && num < max
         })
       }
@@ -12401,7 +12978,7 @@ designate
           return this // not a number
         }
         return mutate(this, val => {
-          const obj = parseNumber(val);
+          const obj = parse(val);
           obj.num = n;
           if (obj.num === null) {
             return val
@@ -12410,18 +12987,7 @@ designate
           if (val.has('#TextValue')) {
             fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
           }
-          let str = formatNumber(obj, fmt);
-          // add commas to number
-          if (obj.hasComma && fmt === 'Cardinal') {
-            str = Number(str).toLocaleString();
-          }
-          if (str) {
-            val = val.not('#Currency');
-            replace(val, str, fmt);
-            // handle plural/singular unit
-            // agreeUnits(agree, val, obj)
-          }
-          return val
+          return replace(val, obj, fmt)
         })
       }
       add(n) {
@@ -12434,22 +13000,22 @@ designate
           return this // not a number
         }
         return mutate(this, val => {
-          const obj = parseNumber(val);
+          const obj = parse(val);
           if (obj.num === null) {
             return val
           }
-          obj.num += n;
+          // avoid float noise - 0.1 + 0.2
+          const sum = obj.num + n;
+          obj.num = Number.isInteger(sum) ? sum : Number(sum.toFixed(10));
           let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
           if (obj.isText) {
+            // there are no words for 'trois quarts' + 1
+            if (!Number.isInteger(sum)) {
+              return val
+            }
             fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
           }
-          const str = formatNumber(obj, fmt);
-          if (str) {
-            replace(val, str, fmt);
-            // handle plural/singular unit
-            // agreeUnits(agree, val, obj)
-          }
-          return val
+          return replace(val, obj, fmt)
         })
       }
       /** decrease each number by n*/

@@ -9,6 +9,27 @@
 - **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers
 - **[fix]** - `.numbers().add()`, `.set()`, `.toText()` and friends can be chained - `.add(2).get()` - the view follows the number it re-wrote, and the new words are tagged as a number
 - **[fix]** - 'sept' is the number 7 - 'sept chats' - and only a Month inside a date - 'le 5 sept', 'sept 2020'
+- **[fix]** - 'premier' and 'première' are the ordinal of 1, next to a noun or a determiner - 'le premier jour' - and '1er' is written 'premier', not 'unième'. The gender is kept - '1re' ↔ 'première'
+- **[fix]** - a lone 'un chat' or 'une pomme' is the number 1 - `.toOrdinal()` gives 'premier chat'. In a longer sentence, 'un' is still an article
+- **[fix]** - numeric ordinals '2ème', '2ième', '2nd', '2nde', '1re', '1ère' and their plurals are found, and no longer split like '5km'
+- **[fix]** - only 1 is written '1er' - 21 is '21e', not '21er'
+- **[fix]** - 'cinquante pour cent' is one number - 'pour cent' is its unit, like the % in '50 %' - and all three forms are tagged #Percent
+- **[fix]** - fractions have their real value - '1/2' is 0.5, 'trois quarts' is 0.75 - also 'deux tiers', 'un quart de', 'un demi'
+- **[fix]** - math on a decimal-comma number keeps the comma - '1,5' + 1 is '2,5' - and has no float noise
+- **[fix]** - `.toText()` and `.toOrdinal()` leave a number with no written form alone - '1,5', '1/2'
+- **[fix]** - 'vingt et une' is 21
+- **[fix]** - a number with a symbol on it is written out in words, and no longer glued to it - '50%' is 'cinquante pour cent', not 'cinquante%'. Also '5€', '€5' and '5 €' ('cinq euros', 'un euro'), '$5', '£5', '20°', '20°C'. A unit with no words keeps a space - '5km' is 'cinq km'
+- **[fix]** - `.toNumber()` writes 'cinquante pour cent' as '50 %'
+- **[fix]** - math on '5km', '-5%' or '20°C' keeps the unit, its case, and the sign - '5km' + 1 is '6km', not '6km km'
+- **[fix]** - `.toOrdinal()` leaves an amount alone - '50%', '5€', '5km', 'cinq euros'
+- **[fix]** - `.toText()` leaves a number alone when its prefix has no words - '#5'
+- **[fix]** - a unit is agreed with its new number - 'un euro' + 1 is 'deux euros'
+- **[fix]** - '20°' and '20°C' are numbers
+- **[fix]** - 'un pour cent' is 1 %
+- **[fix]** - the suffix of '5litres' is 'litres', not 'lit'
+- **[new]** - parse belgian and swiss numbers - 'septante', 'huitante', 'octante', 'nonante-neuf' - they are still written as 'soixante-dix'
+- **[new]** - `.numbers().units()` returns a unit of several words - 'pour cent'
+- **[new]** - `hasDecimalComma` in `.numbers().parse()`
 - **[fix]** - `.verbs().parse()` returns `[]` when there are no verbs
 - **[fix]** - `.contractions()` returns each contraction as its own match - "j'aime l'été" is two - and `.contractions(n)` returns the nth
 - **[change]** - minimum node version is 18

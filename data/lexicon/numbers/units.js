@@ -42,6 +42,8 @@ export default [
   'µs',
 
   'percent',
+  'pourcent',
+  'pourcents',
 
 
   'gramme',
