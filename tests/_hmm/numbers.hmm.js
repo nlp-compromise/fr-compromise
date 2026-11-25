@@ -58,11 +58,3 @@ test('decimal-comma is kept:', function (t) {
   t.equal(doc.text(), '2,5 litre', here + 'add')
   t.end()
 })
-
-// the view returned by .add() has lost its number - .get() gives ['']
-test('get after add:', function (t) {
-  t.deepEqual(nlp('cinq').numbers().add(2).get(), [7], here + 'text')
-  t.deepEqual(nlp('5').numbers().add(2).get(), [7], here + 'digits')
-  t.deepEqual(nlp('cinq').numbers().set(7).get(), [7], here + 'set')
-  t.end()
-})

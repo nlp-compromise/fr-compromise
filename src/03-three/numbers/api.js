@@ -22,6 +22,47 @@ const toNum = function (view, n) {
   return null
 }
 
+// tags that describe the form of a number - these are set again for each new number
+const formTags = new Set(['Value', 'TextValue', 'NumericValue', 'Cardinal', 'Ordinal', 'Multiple', 'Determiner', 'Year'])
+
+// swap-in the new form of this number, and tag it as the tagger would have.
+// - the terms made by .replaceWith() only get the lexicon + preTagger, and are tagged
+// without their neighbours - so 'un' is a Determiner, the 'et' in 'vingt et un' is a
+// Conjunction, and '.numbers()' can't find them again.
+// (copying the old tags over by position is no better - 'dix septième' is not two ordinals)
+const replace = function (val, str, fmt) {
+  // remember any tags about the role of the number - #Money, #Date
+  const keep = Array.from(val.docs[0][0].tags).filter(tag => !formTags.has(tag))
+  val.replaceWith(str)
+  const isText = fmt === 'TextCardinal' || fmt === 'TextOrdinal'
+  const isOrdinal = fmt === 'Ordinal' || fmt === 'TextOrdinal'
+  val.tag(isText ? 'TextValue' : 'NumericValue')
+  // only the last word is an ordinal - 'cent vingt et unième'
+  const terms = val.terms()
+  terms.forEach((term, i) => {
+    if (i === terms.length - 1) {
+      term.tag(isOrdinal ? 'Ordinal' : 'Cardinal')
+    } else if (term.has('#Ordinal')) {
+      term.tag('Cardinal')
+    }
+  })
+  if (keep.length > 0) {
+    val.tag(keep)
+  }
+}
+
+// run a change on each number, and keep this view pointing at the new terms
+// - .replaceWith() only repairs the one-match view that it is called on. Without this,
+// the view that the user holds keeps the ids of the deleted terms, and core 'repairs'
+// each of its matches by stretching it out to the end of the sentence.
+// returns the same view, so that every link of a chain stays in sync
+const mutate = function (view, fn) {
+  const res = view.map(val => fn(val) || val)
+  view.ptrs = res.fullPointer
+  view.uncache()
+  return view
+}
+
 const api = function (View) {
   /**   */
   class Numbers extends View {
@@ -69,25 +110,25 @@ const api = function (View) {
 
     /** convert to numeric form like '8' or '8th' */
     toNumber() {
-      const m = this.if('#TextValue')
-      m.forEach(val => {
+      return mutate(this, val => {
+        if (!val.has('#TextValue')) {
+          return val
+        }
         const obj = parse(val)
         if (obj.num === null) {
-          return
+          return val
         }
         const fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
         const str = format(obj, fmt)
         if (str) {
-          val.replaceWith(str, { tags: true })
-          val.tag('NumericValue')
+          replace(val, str, fmt)
         }
+        return val
       })
-      return this
     }
     /** convert to numeric form like 'eight' or 'eighth' */
     toText() {
-      const m = this
-      const res = m.map(val => {
+      return mutate(this, val => {
         if (val.has('#TextValue')) {
           return val
         }
@@ -98,17 +139,14 @@ const api = function (View) {
         const fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
         const str = format(obj, fmt)
         if (str) {
-          val.replaceWith(str, { tags: true })
-          val.tag('TextValue')
+          replace(val, str, fmt)
         }
         return val
       })
-      return new Numbers(res.document, res.pointer)
     }
     /** convert ordinal to cardinal form, like 'eight', or '8' */
     toCardinal() {
-      const m = this
-      const res = m.map(val => {
+      return mutate(this, val => {
         if (!val.has('#Ordinal')) {
           return val
         }
@@ -119,17 +157,14 @@ const api = function (View) {
         const fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal'
         const str = format(obj, fmt)
         if (str) {
-          val.replaceWith(str, { tags: true })
-          val.tag('Cardinal')
+          replace(val, str, fmt)
         }
         return val
       })
-      return new Numbers(res.document, res.pointer)
     }
     /** convert cardinal to ordinal form, like 'eighth', or '8th' */
     toOrdinal() {
-      const m = this
-      const res = m.map(val => {
+      return mutate(this, val => {
         if (val.has('#Ordinal')) {
           return val
         }
@@ -140,12 +175,10 @@ const api = function (View) {
         const fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal'
         const str = format(obj, fmt)
         if (str) {
-          val.replaceWith(str, { tags: true })
-          val.tag('Ordinal')
+          replace(val, str, fmt)
         }
         return val
       })
-      return new Numbers(res.document, res.pointer)
     }
 
     /** return only numbers that are == n */
@@ -186,8 +219,7 @@ const api = function (View) {
       if (n === null) {
         return this // not a number
       }
-      const m = this
-      const res = m.map((val) => {
+      return mutate(this, val => {
         const obj = parse(val)
         obj.num = n
         if (obj.num === null) {
@@ -204,13 +236,12 @@ const api = function (View) {
         }
         if (str) {
           val = val.not('#Currency')
-          val.replaceWith(str, { tags: true })
+          replace(val, str, fmt)
           // handle plural/singular unit
           // agreeUnits(agree, val, obj)
         }
         return val
       })
-      return new Numbers(res.document, res.pointer)
     }
     add(n) {
       if (!n) {
@@ -221,8 +252,7 @@ const api = function (View) {
       if (!n) {
         return this // not a number
       }
-      const m = this
-      const res = m.map((val) => {
+      return mutate(this, val => {
         const obj = parse(val)
         if (obj.num === null) {
           return val
@@ -234,13 +264,12 @@ const api = function (View) {
         }
         const str = format(obj, fmt)
         if (str) {
-          val.replaceWith(str, { tags: true })
+          replace(val, str, fmt)
           // handle plural/singular unit
           // agreeUnits(agree, val, obj)
         }
         return val
       })
-      return new Numbers(res.document, res.pointer)
     }
     /** decrease each number by n*/
     subtract(n) {

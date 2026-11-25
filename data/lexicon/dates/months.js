@@ -27,7 +27,7 @@ export default [
   'juil',
   'juill',
   'aout',
-  'sept',
+  // 'sept' is the number 7, unless the postTagger finds it in a date
   'oct',
   'nov',
   'déc',

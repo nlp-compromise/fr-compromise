@@ -56,7 +56,7 @@ const parseNumbers = function (terms = []) {
       continue
     }
     // 'huitieme'
-    if (tags.has('Ordinal')) {
+    if (tags.has('Ordinal') && toCardinal.hasOwnProperty(w)) {
       w = toCardinal[w]
     }
     // add thousand, million

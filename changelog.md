@@ -7,6 +7,8 @@
 - **[fix]** - `.numbers().set()`, `.add()` and `.subtract()` accept a written number - `.add('deux')` - and ignore a string that isn't one
 - **[fix]** - `.numbers().json(n)` returns the nth number, instead of throwing
 - **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers
+- **[fix]** - `.numbers().add()`, `.set()`, `.toText()` and friends can be chained - `.add(2).get()` - the view follows the number it re-wrote, and the new words are tagged as a number
+- **[fix]** - 'sept' is the number 7 - 'sept chats' - and only a Month inside a date - 'le 5 sept', 'sept 2020'
 - **[fix]** - `.verbs().parse()` returns `[]` when there are no verbs
 - **[fix]** - `.contractions()` returns each contraction as its own match - "j'aime l'été" is two - and `.contractions(n)` returns the nth
 - **[change]** - minimum node version is 18
